@@ -1,0 +1,29 @@
+
+  <div class="form-group">
+    <label for="sh_url" class="col-md-2 control-label">URL:</label>
+    <div class="col-md-10">
+    <input type="text" class="form-control" name="url" id="sh_url" autocomplete="off" value="{{$vle.url|escape:html}}" placeholder="/menu/23/-/48/" />
+<span class="help-block">С начальным и конечным слэшами, часть без hostname. /pp/key/start/ss/sd/sk/sm/sx/sy/, где start всегда '-'</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="sh_title" class="col-md-2 control-label">Title:</label>
+    <div class="col-md-10">    
+    <input type="text" class="form-control" name="title" value="{{$vle.title|escape:html}}" id="sh_title" 
+    placeholder=""/>
+    </div>
+  </div>  
+  <div class="form-group">
+    <label for="sh_descr" class="col-md-2 control-label">Description:</label>
+    <div class="col-md-10">    
+    <input type="text" class="form-control" name="descr" value="{{$vle.descr|escape:html}}" id="sh_descr" 
+    placeholder=""/>
+    </div>
+  </div>  
+  <div class="form-group">
+    <label for="sh_kw" class="col-md-2 control-label">Keywords:</label>
+    <div class="col-md-10">    
+    <input type="text" class="form-control" name="keywords" value="{{$vle.keywords|escape:html}}" id="sh_kw" 
+    placeholder=""/>
+    </div>
+  </div>    

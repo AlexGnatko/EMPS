@@ -1,0 +1,9 @@
+{{include file="db:msg/sendhead"}}
+<h4>Сообщение с сайта {{include file="db:msg/sitename"}}</h4>
+<div style="border:1px solid #999999;background-color:#F0F0F0;padding:6px">
+<p><strong>Имя</strong>: {{$msg.name}}</p>
+<p><strong>E-mail</strong>: {{$msg.email}}</p>
+<p><strong>Телефон</strong>: {{$msg.phone}}</p>
+<p>{{$msg.msg}}</p>
+</div>
+{{include file="db:msg/sendfoot"}}

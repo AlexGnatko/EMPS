@@ -1,0 +1,28 @@
+{{if $AdminNeeded}}
+
+<div class="page-header">
+<h1>Необходимы права администратора</h1>
+</div>
+<p class="alert alert-danger">Извините, но данная страница предназначена исключительно для администраторов сайта.</p>
+<p>Если Вы администратор, тогда милости просим:</p>
+
+{{include file="db:inc/inlinelogin"}}
+{{elseif $WebsiteNeeded}}
+<h1>Перейдите на другой сайт</h1>
+<p>Данная функция недоступна с корневого сайта. Перейдите на один из зависимых сайтов:</p>
+<ul>
+{{section name=i loop=$wlst}}
+<li><a href="http://{{$wlst[i].hostname}}{{$current_url}}"><strong>{{$wlst[i].name}}</strong> (http://{{$wlst[i].hostname}})</li>
+{{/section}}
+</ul>
+{{elseif $UserNeeded}}
+
+<h1>Только для зарегистрированных пользователей</h1>
+<div class="read">
+<p>Извините, но данная страница предназначена только для зарегистрированных пользователей.</p>
+</div>
+{{include file="db:inc/inlinelogin"}}
+
+{{else}}
+{{include file=$main_body}}
+{{/if}}

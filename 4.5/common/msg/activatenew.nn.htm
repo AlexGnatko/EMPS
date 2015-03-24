@@ -1,0 +1,11 @@
+{{include file="db:msg/sendhead"}}
+<h4>Активация нового e-mail адреса на сайте {{include file="db:msg/sitename"}}</h4>
+<p>{{if $udata.firstname eq ""}}Уважаемый клиент{{else}}
+{{$udata.firstname}}{{if $udata.surname}} {{$udata.surname}}{{/if}}{{/if}}!
+<p class="n">Данное сообщение направлено Вам автоматически.</p>
+<p class="n">Ваш новый адрес электронной почты должен быть потвержден.</p>
+<p class="n">Чтобы новый e-mail адрес вступил в действие, пройдите по этой ссылке:</p>
+<p><a href="{{$url}}">{{$url}}</a></p>
+{{include file="db:msg/sendfoot"}}
+
+

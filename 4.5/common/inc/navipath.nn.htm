@@ -1,0 +1,4 @@
+<a href="/">Главная</a> &raquo;
+{{section name=i loop=$spath step=-1}}
+{{if !$smarty.section.i.last}}<a href="{{$spath[i].link}}">{{$spath[i].dname}}</a>{{else}}{{$spath[i].dname}}{{/if}}{{if !$smarty.section.i.last}} &raquo; {{/if}}
+{{/section}}

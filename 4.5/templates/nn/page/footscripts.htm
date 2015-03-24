@@ -1,0 +1,18 @@
+{{if !$page.noscripts}}
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/tools.js"></script>
+<script>
+{{if $login.status}}
+var logged_on = true;
+{{else}}
+var logged_on = false;
+{{/if}}
+</script>
+{{/if}}
+
+
+{{if $page.blueimp_uploader}}
+{{include file="db:photos/blueimp/headscripts"}}
+{{/if}}
+
+{{include file="db:site/footscripts"}}

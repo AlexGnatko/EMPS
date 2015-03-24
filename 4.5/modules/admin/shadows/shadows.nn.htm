@@ -1,0 +1,28 @@
+<div class="page-header">
+<h1>Свойства сгенерированных модулями страниц</h1>
+</div>
+
+{{include file="db:page/paginator"}}
+<table class="table table-striped table-condensed">
+<tr valign="top">
+<th class="lt" width="40">Id</th>
+<th class="lt" width="120">Действия</th>
+<th class="lt" width="500">URL</th>
+<th class="lt" width="250">Создатель</th>
+
+</tr>
+{{section name=i loop=$lst}}
+<tr valign="center">
+<td class="le">{{$lst[i].id}}</td>
+<td class="le">{{include file="db:ted/rowactions"}}</td>
+<td class="le"><a href="{{$lst[i].ilink}}">{{$lst[i].url}}</a></td>
+<td class="le">{{if $lst[i].user}}<a target="_blank" href="/admin-siteusers/{{$lst[i].user.id}}/">{{$lst[i].id}}: <strong>{{$lst[i].user.username}}</strong> ({{$lst[i].user.fullname}})</a>
+{{else}}Никто{{/if}}
+</td>
+</tr>
+
+{{/section}}
+</table>
+{{include file="db:page/paginator"}}
+{{assign var="form" value="db:_admin/shadows,form"}}
+{{include file="db:ted/actions"}}

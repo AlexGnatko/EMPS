@@ -1,0 +1,93 @@
+{{if $Zoom}}
+<div class="page-header">
+
+{{include file="db:ited/iactions" mode="inner"}}
+
+<h1><small>Пункт меню:</small>
+<small>{{$row.id}}:</small> {{$row.uri}}</h1>
+</div>
+{{include file="db:ited/subted"}}
+
+
+<div id="id_context" style="display:none">{{$row.context_id}}</div>
+{{else}}
+<div class="page-header">
+<h1>Редактор меню</h1>
+</div>
+
+<ul class="nav nav-pills">
+{{section name=i loop=$grp}}
+	<li {{if $grp[i].sel}}class="active"{{/if}}><a href="{{$grp[i].link}}">
+{{if $grp[i].name == "_nocode"}}
+Без кода
+{{elseif $grp[i].name == "_all"}}    
+Все
+{{else}}
+{{$grp[i].name}}
+{{/if}}
+    </a></li>
+{{/section}}
+</ul>
+
+<ol class="breadcrumb upspace">
+<li><a href="{{$totop}}">
+<i class="glyphicon glyphicon-arrow-up"></i>
+На самый верх</a></li>
+{{function parents row=$parent level=0}}
+{{if $row.parent_data}}
+{{parents row=$row.parent_data level=$level+1}}
+{{/if}}
+{{if $level == 0}}
+<li class="active">
+{{$row.name}}
+</li>
+{{else}}
+<li>
+<a href="{{$row.clink}}">{{$row.name}}</a>
+</li>
+{{/if}}
+{{/function}}
+{{parents row=$parent level=0}}
+</ol>
+
+<div class="">
+{{include file="db:ited/iactions" mode="top"}}
+
+<div class="pull-right">{{include file="db:page/paginator"}}</div>
+</div>
+
+<table class="table table-striped table-condensed">
+<tr valign="center">
+<th width="100">Id</th>
+<th width="80">Ниже</th>
+<th width="150">Группа</th>
+<th width="220">URI страницы</th>
+<th width="360">Название</th>
+<th width="150">Права</th>
+<th width="140">Действия</th>
+</tr>
+{{section name=i loop=$lst}}
+<tr>
+<td>{{$lst[i].id}}
+<span class="badge">{{$lst[i].ord}}</span></td>
+<td><a href="{{$lst[i].clink}}" class="btn btn-xs btn-primary">{{$lst[i].children|hyp}} &nbsp; <i class="glyphicon glyphicon-arrow-down"></i></a></td>
+<td><span class="label label-default">{{$lst[i].grp}}</span></td>
+
+<td><a href="{{$lst[i].nlink}}">{{$lst[i].uri}}</a>
+</td>
+<td>{{$lst[i].name}}&nbsp;</td>
+<td>{{$lst[i].grant}}</td>
+<td>
+{{capture name="extra_actions"}}
+<li class="divider"></li>
+<li><a href="{{$lst[i].clink}}"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp; Подменю</a>   
+{{/capture}}
+{{include file="db:ited/rowactions" extra_actions=$smarty.capture.extra_actions}}
+</td>
+</tr>
+{{/section}}
+</table>
+<div class="pull-right">{{include file="db:page/paginator"}}</div>
+
+{{include file="db:ited/iactions" mode="bottom"}}
+{{/if}}

@@ -1,0 +1,264 @@
+<div class="move-modal modal fade" id="links_file">
+</div>
+
+<div class="move-modal modal fade" id="enter_descr">
+<form action="." method="post" class="form" role="form">
+<input type="hidden" name="post_descr" value="1"/>
+<input type="hidden" name="id" id="id_descr" value="0"/>
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Введите описание файла №<span id="descr_id"></span></h4>
+      </div>
+      <div class="modal-body">
+        <p><textarea name="descr" id="descr_input" rows="5" class="form-control"></textarea></p>
+
+        <p>
+        <label class="control-label" for="file_name_input">Имя файла: <small>(сохраняйте расширение имени файла!)</small></label>
+        <input class="form-control" id="file_name_input" type="text" name="file_name"/></p>
+        <p>
+        <label class="control-label" for="file_comment_input">Управляющий код: <small>(только для продвинутых пользователей)</small></label>
+        <input class="form-control" id="file_comment_input" name="comment" type="text" /></p>
+        
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="submit" class="btn btn-primary">Сохранить описание</button>
+      </div>
+    </div>
+  </div>
+</form>        
+</div>
+
+<div class="move-modal modal fade" id="reupload_file">
+<form action="." method="post" class="form" role="form" enctype="multipart/form-data">
+<input type="hidden" name="post_reupload" value="1"/>
+<input type="hidden" name="id" id="id_file" value="0"/>
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Сменить файл №<span id="upload_id"></span></h4>
+      </div>
+      <div class="modal-body">
+      	<p>Смена файла позволяет изменить содержимое файла, не меняя его ID и MD5 &mdash; существующие ссылки на него останутся прежними.</p>
+        <p><input type="file" name="file"/></p>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="submit" class="btn btn-primary">Загрузить новый файл</button>
+      </div>
+    </div>
+  </div>
+</form>        
+</div>
+
+
+<form id="fileupload" action=".?upload=1" method="POST" enctype="multipart/form-data">
+<input type="hidden" name="upload" value="1"/>
+     <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+        <div class="row fileupload-buttonbar col-md-12">
+            <div class="col-lg-7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Выбрать файлы...</span>
+                    <input type="file" name="files[]" multiple>
+                </span>
+                <button type="submit" class="btn btn-primary start">
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Начать отправку</span>
+                </button>
+                <button type="reset" class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Отменить отправку</span>
+                </button>
+
+                <!-- The loading indicator is shown during file processing -->
+                <span class="fileupload-loading"></span>
+            </div>
+            <!-- The global progress information -->
+            <div class="col-lg-3 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress information -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+            <div class="col-lg-2">
+                <button type="button" class="btn btn-danger delete">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Удалить</span>
+                </button>
+                <input type="checkbox" class="toggle">            
+            </div>
+        </div>
+        <!-- The table listing the files available for upload/download -->
+		<div class="files uploader-list col-md-12"></div>
+</form>
+
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+
+    <div class="row template-upload fade sortable">
+        <div class="col-md-7">
+            <p class="name">{%=file.name%}</p>
+            {% if (file.error) { %}
+                <div><span class="label label-danger">Ошибка</span> {%=file.error%}</div>
+            {% } %}
+            {% if (!o.files.error && !i && !o.options.autoUpload) { %}
+                <button class="btn btn-primary start">
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Начать</span>
+                </button>
+            {% } %}			
+        </div>
+        <div class="col-md-3">
+            <p class="size">{%=o.formatFileSize(file.size)%}</p>
+            {% if (!o.files.error) { %}
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+            {% } %}
+        </div>
+        <div class="col-md-2">
+
+            {% if (!i) { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Отмена</span>
+                </button>
+            {% } %}
+        </div>
+    </div>
+
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <div class="row sortable template-download fade" data-id="{%=file.fileId%}">
+        <div class="col-md-7">
+            <p class="name">
+                {% if (file.url) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}">{%=file.name%}</a>
+                {% } else { %}
+                    <span>{%=file.name%}</span>
+                {% } %}
+				<span class="label label-default">{%=file.fileId%}</span>
+            </p>
+			<p>
+			<span class="hidden" id="file_name_{%=file.fileId%}" >{%=file.name%}</span>			
+			<span class="hidden" id="file_comment_{%=file.fileId%}" >{%=file.comment%}</span>						
+			{% if (file.descr) { %}
+			<span id="file_descr_{%=file.fileId%}" >{%=file.descr%}</span>
+			{% } else { %}
+			<span>(нет описания)</span>			
+			{% } %}</p>
+			<p>
+			<a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> Описание и имя файла</a>
+			<a href="javascript:reupload_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-transfer"></i> Сменить файл</a>
+			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> Ссылки на файл</a>			
+			</p>
+            {% if (file.error) { %}
+                <div><span class="label label-danger">Ошибка</span> {%=file.error%}</div>
+            {% } %}
+        </div>
+        <div class="col-md-3">
+            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+        </div>
+        <div class="col-md-2">
+            {% if (file.deleteUrl) { %}
+                <button class="btn btn-danger delete delete-button" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Удалить</span>
+                </button>
+                <input type="checkbox" name="delete" value="1" class="toggle">
+            {% } else { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Отмена</span>
+                </button>
+            {% } %}
+        </div>
+    </div>
+	
+{% } %}
+</script>
+
+<script>
+var ajax_wait;
+$(function(){
+	ajax_wait = $('#ajax-wait');
+	ajax_wait.css({ width: $(window).width(), height: $(window).height() });
+	$('.files').sortable({
+		items: '.sortable',
+		update: function(e,ui) {
+			var ids = [];
+			$('.files').find('.sortable').each(function(){
+				var file_id = $(this).data('id');
+				if(file_id != undefined)
+					ids.push(file_id);
+			});
+			$.ajax({
+				beforeSend: function() { ajax_wait.fadeIn(); },
+				complete: function() { ajax_wait.fadeOut(); },
+				url: './?reorder_files=true',
+				data: {p: ids}
+			});
+		}
+	});
+});
+
+
+function reset_delete(){
+	$(".delete-button").on("click",function(e){
+		if ( (typeof e.originalEvent) != "undefined" ){
+			if(confirm("Удалить фотографию?")){
+				return true;
+			}
+			return false;			
+		}
+	});
+	
+	$(".fileupload-buttonbar .delete").off("click");
+	
+	$(".fileupload-buttonbar .delete").on("click",function(e){
+		if(confirm("Удалить выбранные фотографии?")){
+			$(".files").find('.toggle:checked')
+				.closest('.template-download')
+				.find('.delete').click();
+			$(".fileupload-buttonbar").find('.toggle')
+				.prop('checked', false);
+		}
+	});
+}
+
+setTimeout("reset_delete()",200);
+
+function enter_descr(id){
+	$("#descr_id").html(id);
+	$("#id_descr").val(id);	
+	$("#descr_input").html($("#file_descr_"+id).html() || "");
+	$("#file_name_input").val($("#file_name_"+id).html() || "");	
+	$("#file_comment_input").val($("#file_comment_"+id).html() || "");		
+	$("#enter_descr").modal();
+}
+
+function reupload_file(id){
+	$("#upload_id").html(id);
+	$("#id_file").val(id);	
+	$("#reupload_file").modal();
+}
+
+function links_file(id){
+	$("#links_file").load("./?links="+id);
+	$("#links_file").modal();	
+}
+</script>

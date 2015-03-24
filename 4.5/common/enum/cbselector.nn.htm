@@ -1,0 +1,13 @@
+{{assign var="elst" value=$enum.$xenum}}
+<input type="hidden" name="{{$name}}[0]" value="0" />
+{{section name=i loop=$elst}}
+{{if !$elst[i].null}}
+<input class="chbx" type="checkbox" name="{{$name}}[{{$elst[i].code}}]"
+{{assign var="vidx" value=$elst[i].code}}
+{{if $value.$vidx}}checked{{/if}}
+{{if $elst[i].def && ($value eq "")}}checked{{/if}}
+> {{$elst[i].value}}{{if $spacer}}{{$spacer}}{{else}}<br />{{/if}}
+{{/if}}
+
+{{/section}}
+{{$addtext}}

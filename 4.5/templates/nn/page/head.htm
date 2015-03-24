@@ -1,0 +1,12 @@
+{{include file="db:page/headtags"}}
+
+{{if $page.adminpage }}
+<body class="adminbg">
+{{include file="db:page/navbar"}}
+<div class="container main-part">
+
+{{else}}
+
+{{include file="db:site/head"}}
+
+{{/if}}

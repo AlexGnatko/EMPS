@@ -1,0 +1,93 @@
+/* CSS Document */
+
+#popup_area {
+	float:left;
+	min-width:500px;
+	min-height:400px;
+	max-width:100%;
+	max-height:100%;
+	padding:0;
+	margin:-8px 0 0 0;
+	overflow:hidden;
+	width:400px;
+}
+
+@media (min-width: 768px) {
+	#popup_area {	
+		width:600px;
+	}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	#popup_area {	
+		width:800px;
+	}
+}
+
+#popup_area h4, #info_area h4 {
+	marign:0;
+	padding:0;
+	font-family:"Segoe UI","Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-weight:normal;
+	text-shadow:0 0 1px #888888;
+	color:#333;
+	float:left;
+	width:100%;
+	background-color:#F8F8F8;
+	font-size:16px;
+	height:30px;
+	line-height:30px;
+	vertical-align:central;
+	padding:0 10px 0 10px;
+	border-bottom:1px solid #E8E8E8;
+}
+
+#popup_data {
+	margin: 6px;
+	height:300px;
+	overflow:auto;
+}
+
+.listitem {
+	background-color:#F8F8F8;
+	border-bottom:1px solid #E8E8E8;
+}
+
+.listitem a {
+	display:block;
+	padding:4px;
+	background-color:#F0F4FF;
+	font-size:14px;
+}
+
+.listextra {
+	margin-bottom:8px;
+	float:left;
+	font-size:10px;
+}
+
+.itemdescr {
+	padding:2px 2px 2px 10px;
+	font-size:11px;
+}
+
+#saved_fancybox_content {
+	display:none;
+	position:absolute;
+	top:-9999px;
+	left:-9999px;
+}
+
+.listpages {
+	width:100%;
+	padding:15px 5px 5px 5px;
+	text-align:center;
+}
+
+.popup-fg {
+	margin-top:0px;
+}
+
+.popup-inner {
+	padding:0 8px 0 8px;
+}

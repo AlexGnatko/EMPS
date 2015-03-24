@@ -1,0 +1,8 @@
+<select name="{{$name}}" style="width:auto">
+{{assign var="elst" value=$enum.$xenum}}
+{{section name=i loop=$elst}}
+<option value="{{$elst[i].code}}" {{if $elst[i].code eq $value}}selected{{/if}}
+{{if $elst[i].def && (!isset($value))}}selected{{/if}}>{{$elst[i].value}}</option>
+{{/section}}
+</select>
+{{$addtext}}

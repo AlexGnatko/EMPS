@@ -1,0 +1,6 @@
+{{assign var="elst" value=$enum.$xenum}}
+{{assign var="elstarted" value=0}}
+{{section name=ei loop=$elst}}
+{{assign var="id" value=$elst[ei].code}}
+{{if $value.$id}}{{if !$smarty.section.ei.first}}{{if $elstarted eq 1}}, {{/if}}{{/if}}{{$elst[ei].value}}{{assign var="elstarted" value=1}}{{/if}}
+{{/section}}

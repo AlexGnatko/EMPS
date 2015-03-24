@@ -1,0 +1,30 @@
+<div class="page-header">
+<h1>Websites</h1>
+</div>
+{{include file="db:page/paginator"}}
+<table class="table table-striped table-condensed">
+<tr >
+<th width="40">Id</th>
+<th width="200">Website Name (Language)</th>
+<th width="200">Hostname</th>
+<th width="200">Hostname Regex Filter</th>
+<th width="200">Status / Published</th>
+<th width="140">Actions</th>
+</tr>
+{{section name=i loop=$lst}}
+<tr >
+<td>{{$lst[i].id}}</td>
+<td>{{$lst[i].name}} ({{$lst[i].lang}})</td>
+<td>{{$lst[i].hostname}}</td>
+<td>{{$lst[i].hostname_filter}}</td>
+<td><small>{{include file="db:enum/enumval" e=$enum.websitestatus value=$lst[i].status}} / {{include file="db:enum/enumval" e=$enum.publish value=$lst[i].pub}}</small></td>
+<td>
+{{include file="db:ted/rowactions"}}
+</td>
+</tr>
+
+{{/section}}
+</table>
+{{include file="db:page/paginator"}}
+{{assign var="form" value="db:_admin/websites,form"}}
+{{include file="db:ted/actions"}}

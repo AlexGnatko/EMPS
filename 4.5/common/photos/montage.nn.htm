@@ -1,0 +1,16 @@
+<div class="ip-photoreport">
+<div class="ip-pr-shade"></div>
+<div class="ip-pr-tag">Фоторепортаж</div>
+<div class="ip-pr-bg">
+<a href="javascript:sink()" class="ip-pr-click ip-prc-left"></a>
+<a href="javascript:sink()" class="ip-pr-click ip-prc-right"></a>
+<div class="ip-pr-scroller">
+<div class="ip-pr-scroller-in">
+{{section name=k loop=$pset}}
+<a href="/pic/{{$pset[k].md5}}.jpg" class="fancybox" rel="{{$rel}}" title="{{$pset[k].descr|escape:html}}"><img src="/freepic/{{$pset[k].md5}}.jpg?size=150x150" width="150" height="150" border="0" /></a>
+{{/section}}
+</div>
+</div>
+</div>
+</div>
+

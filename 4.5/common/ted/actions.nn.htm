@@ -1,0 +1,64 @@
+{{if $KillForm eq 1}}
+<form action="." method="post">
+<div class="panel panel-danger">
+<div class="panel-heading"><b>Вы действительно хотите удалить #{{$vle.id}}?</b></div>
+<div class="panel-body">
+<p><input class="btn btn-danger btn-lg" type="submit" name="confkill" value="Да, действительно!">
+&nbsp;
+<a href="." class="btn btn-lg btn-primary">Ой, нет!</a></p>
+</div>
+</div>
+</form>
+{{/if}}
+{{if $EditMode eq 1}}
+<form action="." method="post" class="form-horizontal" role="form">
+<input type="hidden" name="sedit" value="1" />
+<div class="panel panel-primary">
+<div class="panel-heading">Редактировать №{{$vle.id}}</div>
+<div class="panel-body">
+{{include file=$form}}
+</div>
+<div class="panel-footer">
+<div class="row">
+<div class="col-md-3">
+
+</div>
+<div class="col-md-6">
+<div class="btn-group">
+  <a href="{{$DeselectLink}}" class="btn btn-default">Отменить выбор</a>
+{{if !$nokill}}  
+  <a href="{{$RemoveLink}}" class="btn btn-danger">Удалить запись</a>
+{{/if}}  
+</div>
+</div>
+<div class="col-md-3">
+<p><button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="Ждите..." >Сохранить изменения</button></p>
+</div>
+</div>
+
+</div>
+</div>
+
+</form>
+
+
+{{else}}
+<form action="." method="post" class="form-horizontal" role="form">
+<div class="panel panel-primary">
+<div class="panel-heading">Добавить новую запись</div>
+<div class="panel-body">
+<input type="hidden" name="sadd" value="1" />
+{{include file=$form}}
+</div>
+<div class="panel-footer">
+<div class="row">
+<div class="col-md-9">
+</div>
+<div class="col-md-3">
+<p><button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="Ждите..." >Добавить запись</button></p>
+</div>
+</div>
+</div>
+</form>
+
+{{/if}}

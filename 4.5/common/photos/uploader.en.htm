@@ -1,0 +1,74 @@
+<form action="." method="post" id="mform">
+<input type="hidden" name="postkill" value="1" />
+<p>{{$PrintPages}}</p>
+<table cellspacing="0" cellpading="0" border="0" />
+<tr valign="top">
+<th width="20" class="lt">&nbsp;</th>
+<th width="104" rowspan="2" class="lt">Tnail</th>
+<th width="330" class="lt">File Name</th>
+<th width="120" class="lt">Size</th>
+</tr>
+<tr valign="top">
+<th class="lt">Id</th>
+<th class="lt">Description</th>
+<th class="lt">time</th>
+</tr>
+{{section name=i loop=$ilst}}
+<tr valign="top">
+<td class="le"><input type="checkbox" name="sel[{{$ilst[i].id}}]" class="chbx" /></td>
+<td class="le" rowspan="2"><a target="_blank" href="/pic/{{$ilst[i].md5}}/"><img src="/thumb/{{$ilst[i].md5}}/" width="100" height="100" border="0"/></a></td>
+<td class="le">{{$ilst[i].filename}}</td>
+<td class="le" align="right">{{$ilst[i].size}}</td>
+
+</tr>
+<tr valign="top">
+<td class="le" align="center">{{$ilst[i].id}}<br/>
+<a href="?up={{$ilst[i].id}}"><img src="/i/up.gif" width="20" height="20" border="0" style="margin-bottom:2px"/></a><br/>
+<a href="?down={{$ilst[i].id}}"><img src="/i/down.gif" width="20" height="20" border="0" /></a><br/>
+<input type="text" name="ord[{{$ilst[i].id}}]" value="{{$ilst[i].ord}}" style="margin-top:2px;width:24px;text-align:center;font-size:12px"/>
+</td>
+<td class="le"><textarea name="descr[{{$ilst[i].id}}]" style="width:300px;height:50px" class="tinyta">{{$ilst[i].descr|escape:html}}</textarea></td>
+<td class="le" align="right">{{$ilst[i].time}}<br/>
+<a href="javascript:make_freepic(this,'{{$ilst[i].md5}}')">Links</a></td>
+</tr>
+{{/section}}
+</table>
+<div style="width:600px">
+<p>{{$PrintPages}}</p>
+<div style="padding-top:20px">
+<div style="float:left"><input name="postkill" type="button" value="  Delete  " class="input button" onclick="ask_form('Delete selected images?','mform')" /></div>
+<div style="float:right;padding-right:24px"><input name="postsave" type="submit" value="  Save Changes  " class="input button" /></div>
+</div>
+</form>
+<div class="cb">
+<div class="fl">
+<form action="." method="post" enctype="multipart/form-data">
+<input type="hidden" name="upload" value="1" />
+<p class="bigger"><b>Upload new images:</b></p>
+<p>
+{{section name=i loop=$fl}}
+<input type="file" name="file_{{$fl[i].id}}" class="input file" style="width:280px"/><br/>
+{{/section}}
+</p>
+<p><input type="submit" value=" Upload " class="input button" /></p>
+</form>
+</div>
+<div class="fl">
+<form action="." method="post" enctype="multipart/form-data">
+<input type="hidden" name="reupload" value="1" />
+<p class="bigger"><b>Replace image:</b></p>
+<p>ID: <input type="text" name="file_id" class="input"/></p>
+<p>
+<input type="file" name="rfile" class="input"/></p>
+
+<p><input type="submit" value=" Replace " class="input button" /></p>
+</form>
+</div>
+</div>
+<div class="bfl cb">Context: {{$context_id}}</div>
+<script>
+function make_freepic(obj,md5){
+	window.open("/piclinks/"+md5+"/","piclink","scrollbars=yes,left=300,top=200,width=600,height=400");
+}
+</script>
+</div>

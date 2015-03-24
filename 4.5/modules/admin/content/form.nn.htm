@@ -1,0 +1,10 @@
+  <div class="form-group">
+    <label for="content_uri" class="col-md-2 control-label">URI:</label>
+    <div class="col-md-10">
+    <input type="text" class="form-control" name="uri" id="content_uri" value="{{if $row}}{{$row.uri|escape:html}}{{/if}}" placeholder="/some-page/, or /somepage.html" />
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-10"><small>(with slashes)</small></div>
+  </div>
+
+

@@ -1,0 +1,240 @@
+<div class="move-modal modal fade" id="tmce_query">
+</div>
+
+{{if !$html_varname}}
+{{assign var="html_varname" value="html"}}
+{{/if}}
+
+<h5 class="subhead">HTML-текст объекта</h5>
+{{if $Differences}}
+<p class="alert alert-danger"><strong>Внимание!</strong> Кто-то другой уже изменил текст после того, как вы начали его редактировать!</p>
+<table class="table">
+<tr>
+<th width="33%">Первоначальный вариант</th>
+<th width="33%">Нынешний сохранённый вариант</th>
+<th width="33%">Ваш текущий вариант</th>
+</tr>
+<tr style="font-size:12px">
+<td width="33%">
+{{$row.html|escape:html|nl2br}}
+</td>
+<td width="33%">
+{{**$row.other.html|escape:html|nl2br**}}
+{{$row.cur_old.html|nl2br}}
+</td>
+<td width="33%">
+{{**$row.new.html|escape:html|nl2br**}}
+{{$row.new_cur.html|nl2br}}
+</td>
+</tr>
+</table>
+<p class="text-right">
+<button class="btn btn-default">Загрузить совмещённый вариант в редактор</button>
+<button class="btn btn-success">Принять мой вариант</button>
+</p>
+{{/if}}
+<div class="row">
+<div class="col-md-9">
+<form action="." method="post" id="main_form" class="form" role="form">
+<textarea name="orig[{{$html_varname}}]" style="display:none">{{$row.$html_varname|escape:html}}</textarea>
+<input type="hidden" name="post_save" value="1" />
+<input type="hidden" name="body" value="" />
+<textarea id="id_html" class="form-control" rows="24" name="{{$html_varname}}">{{if $row.new.$html_varname}}{{$row.new.$html_varname|escape:html}}{{else}}{{$row.$html_varname|escape:html}}{{/if}}</textarea>
+
+{{*submit*}}
+</form>
+</div>
+<div class="col-md-3">
+<p><button type="button" onclick="submit_form(this,'main_form')" class="form-control btn btn-primary" {{if !$CanSave}}disabled="disabled"{{/if}}>Сохранить изменения</button></p>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><small>Вставка иллюстраций и ссылок</small></div>
+  <div class="panel-body">
+<a href="javascript:tmce_query('imgbyid')" class="btn btn-info btn-flow">Фото</a>
+<a href="javascript:tmce_query('montage')" class="btn btn-info btn-flow">Фото-полоска</a>
+<a href="javascript:tmce_query('photoreport')" class="btn btn-info btn-flow">Фото-мозаика</a>
+<a href="javascript:tmce_query('vidbyid')" class="btn btn-info btn-flow">Видео</a>
+<a href="javascript:tmce_query('audiobyid')" class="btn btn-info btn-flow">Аудио</a>
+<a href="javascript:tmce_query('cut')" class="btn btn-warning btn-flow">Конец</a>
+  
+
+
+  </div>  
+  <div class="panel-divider"></div>
+  <div class="panel-body">
+<small>
+<p>Установите курсор в том месте текста, куда хотите вставить код иллюстрации или другой шаблон.</p>
+<p>Прежде чем добавлять иллюстрации, загрузите их через вкладку &laquo;Изображения&raquo;.</p>
+</small>
+  </div>
+</div>
+
+
+</div>
+</div>
+
+<script>
+
+{{include file="db:ited/tinymce"}}
+
+function tmce_add_text(txt){
+	tinyMCE.execCommand("mceInsertContent",false,txt);
+}
+
+function tmce_answer(){
+	var tmce_class = $("#tmce_class_name").val();	
+	var i = $("#tmce_value img");
+	
+	i.attr("class",tmce_class);	
+	if(tmce_class.indexOf('fancybox')!=-1){
+		var full_url = $("#tmce_value").attr("data-full");
+		var title = i.attr("title");
+		i.wrap("<a href=\""+full_url+"\" title=\""+title+"\"class=\"fancybox\"></a>");
+		i.removeClass("fancybox");
+	}
+		
+	var value = $('#tmce_value').html();
+	$('#tmce_query').modal('hide');
+	tmce_add_text(value);
+}
+
+function tmce_montage_answer(mode){
+	$('#tmce_query').modal('hide');
+		
+	if(mode=='all'){
+		tmce_add_text('{'+'{emps plugin=montage context={{$context_id}}'+'}'+'}');
+	}
+	if(mode=='selected'){
+		var list = tmce_selected.join(',');
+		tmce_add_text('{'+'{emps plugin=montage list=\''+list+'\''+'}'+'}');		
+	}
+}
+
+function tmce_photoreport_answer(mode){
+	$('#tmce_query').modal('hide');
+		
+	if(mode=='all'){
+		tmce_add_text('{'+'{emps plugin=photoreport context={{$context_id}}'+'}'+'}');
+	}
+	if(mode=='selected'){
+		var list = tmce_selected.join(',');
+		tmce_add_text('{'+'{emps plugin=photoreport list=\''+list+'\''+'}'+'}');		
+	}
+}
+
+function tmce_video_answer(id){
+	$('#tmce_query').modal('hide');	
+
+	tmce_add_text('{'+'{emps plugin=video id=\''+id+'\''+'}'+'}');			
+}
+
+function tmce_audio_answer(id){
+	$('#tmce_query').modal('hide');	
+
+	tmce_add_text('{'+'{emps plugin=audio id=\''+id+'\''+'}'+'}');			
+}
+
+function tmce_query(val){
+	tmce_selected = [];
+	if(val == 'cut'){
+		tmce_add_text('{'+'{*cut*'+'}'+'}');	
+	}else{
+		$("#tmce_query").load("/mcequery/{{$context_id}}/"+val+"/", function(){
+			$("#tmce_query").modal('show');
+		});	
+	}
+}
+
+function tmce_load(tmce_body,tmce_title,tmce_footer){
+	if(tmce_body!=""){
+		$("#tmce_body").load(tmce_body);	
+	}
+	if(tmce_title!=""){
+		$("#tmce_title").load(tmce_title);	
+	}	
+	if(tmce_footer!=""){
+		$("#tmce_footer").load(tmce_footer);	
+	}		
+}
+
+function tmce_set_class(tmce_class){
+	$("#tmce_class_name").val(tmce_class);
+}
+
+function tmce_auto(mode){
+	var dw = $("#tmce_width").attr("data-default");
+	var dh = $("#tmce_height").attr("data-default");
+	var ratio = dw / dh;
+	
+	var cw,ch;
+
+	if(mode=='width'){
+		ch = $("#tmce_height").val();
+		cw = ch * ratio;
+		$("#tmce_width").val(Math.round(cw));
+	}
+	if(mode=='height'){
+		cw = $("#tmce_width").val();
+		ch = cw / ratio;
+		$("#tmce_height").val(Math.round(ch));
+	}	
+	tmce_set_size();
+}
+
+function tmce_set_size(){
+	var cw, ch;
+	ch = $("#tmce_height").val();
+	cw = $("#tmce_width").val();
+	
+	$("#tmce_height").attr('data-current',ch);
+	$("#tmce_width").attr('data-current',cw);	
+	
+	var temp = $("#tmce_value").attr("data-default");
+	var url = temp+"?size="+cw+"x"+ch;
+	
+	$("#tmce_freepic").attr("src",url);
+	var img = $("#tmce_value img");
+	img.attr("src",url);	
+/*	img.attr("width",cw);
+	img.attr("height",ch);	*/
+}
+
+var tmce_selected = [];
+
+function tmce_toggle_image(o){
+	var l = $(o).data('link');
+	var s = $(o).data('selected');
+
+	var i;
+	var g = tmce_selected.length;
+
+	var f = false;
+		
+	if(!s){
+	// add to array	
+		for(i=0;i<g;i++){
+			if(tmce_selected[i]==l){
+				f = true;
+			}
+		}
+		if(!f){
+			tmce_selected.push(l);
+		}
+		$(o).data('selected', true);
+		$(o).addClass("pic-selected");
+	}else{
+	// remove from array
+		$(o).data('selected', false);
+		$(o).removeClass("pic-selected");		
+		for(i=0;i<g;i++){
+			if(tmce_selected[i]==l){
+				tmce_selected.splice(i, 1);
+			}
+		}
+		
+	}
+	
+}
+
+</script>
+

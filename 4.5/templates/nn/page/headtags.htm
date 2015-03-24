@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="{{if $html_lang}}{{$html_lang}}{{else}}ru{{/if}}">
+<head>
+<title>{{if $page.title}}{{$page.title|escape:html}}{{else}}{{include file="db:page/mainhead"}}{{/if}}{{include file="db:page/everytitle"}}</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="keywords" content="{{$page.keywords|escape:html}}" />
+<meta name="description" content="{{$page.descr|escape:html}}" />
+<meta name="rating" content="general" />
+<meta name="distribution" content="global" />
+<meta name="objecttype" content="document" />
+
+{{if $page.robots}}
+<meta name="robots" content="{{$page.robots}}" />
+{{else}}
+<meta name="robots" content="index,follow" />
+{{/if}}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+{{if $page.canonical}}
+<link rel="canonical" href="{{$page.canonical}}" />
+<meta property="og:url" content="{{$page.canonical}}" />
+{{/if}}
+
+{{if $page.image_src}}
+<link rel="image_src" href="{{$page.image_src}}" />
+<meta property="og:image" content="{{$page.image_src}}" />
+{{/if}}
+
+{{include file="db:page/extraheadtags"}}
+{{include file="db:page/headscripts"}}
+</head>

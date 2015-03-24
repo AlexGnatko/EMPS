@@ -1,0 +1,125 @@
+<div class="modal fade" id="enter_descr">
+</div>
+
+<div class="modal fade" id="links_video">
+</div>
+
+<div class="videos col-md-12">
+{{section name=i loop=$lst}}
+
+    <div class="row sortable" data-id="{{$lst[i].id}}">
+        <div class="col-md-2" align="center">
+            <span class="preview">
+                    <a href="{{$lst[i].vslink}}" rel="uploaded" title="{{$lst[i].name}}" target="_blank"><img src="/thumb/{{$lst[i].pic.md5}}.jpg"></a>
+            </span>
+        </div>
+        <div class="col-md-8">
+            <p class="name">
+                <a href="{{$lst[i].vslink}}" title="{{$lst[i].name}}" target="_blank"><strong>{{$lst[i].name}}</strong></a>
+				<span class="label label-default">{{$lst[i].id}}</span>
+            </p>
+			<p>
+{{if $lst[i].description}}
+			<span id="video_descr_{{$lst[i].id}}" >{{$lst[i].description|escape:html|nl2br}}</span>
+{{else}}
+			<span>(нет описания)</span>			
+{{/if}}</p>
+			<p>
+
+			<a href="javascript:enter_descr('{{$lst[i].id}}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> Описание</a>
+			<a href="javascript:ask_do('Переработать? (заново загрузить информацию о ролике с видеосервиса)','?process={{$lst[i].id}}')" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-repeat"></i> Переработать</a>            
+			<a href="javascript:links_video('{{$lst[i].id}}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> Ссылки и код для вставки</a>
+
+			</p>
+        </div>
+        <div class="col-md-2 video-sorting" >
+            <p><span class="size"><strong>{{$lst[i].dur}}</strong></span><br />
+{{$lst[i].time}}</p>
+<p>                <a class="btn btn-danger" href="javascript:ask_do('Удалить ссылку видео с сайта?','./?delete={{$lst[i].id}}')">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Удалить</span>
+                </a></p>
+        </div>
+    </div>
+
+
+{{/section}}
+</div>
+
+<form action="." method="post" class="form" role="form">
+<div class="panel panel-primary cb">
+<div class="panel-heading">Добавить новый видеоролик</div>
+<div class="panel-body">
+<input type="hidden" name="post_new" value="1" /> 
+
+<p>
+<label for="video_name">Название:</label>
+<input type="text" class="form-control" id="video_name" name="name" placeholder="Поросёнок Пётр заводит свой трактор" />
+<div class="help-block">(оставьте это поле пустым, чтобы взять название ролика из сервиса видеохостинга)</div>
+</p>
+
+<p>
+<label for="video_descr">Описание:</label>
+<textarea class="form-control" rows="4" id="video_descr" name="descr"></textarea>
+<div class="help-block">(аналогично названию, вы можете оставить это поле пустым)</div>
+</p>
+
+<p>
+<label for="video_link">Страница видеоролика на видеохостинге с идентификатором ролика:</label>
+<input type="text" class="form-control" id="video_link" name="url" placeholder="http://www.youtube.com/watch?v=Код видеоролика" />
+<div class="help-block">Вы можете ввести полный адрес страницы на сайте видеосервиса, на которой расположен добавляемый видеоролик.<br />
+Для <strong>YouTube</strong> это адрес вида: <strong>http://www.youtube.com/watch?v=<span style="color:#333366">КодВидеоролика</span></strong><span style="color:#CCCCCC">&дополнительные параметры</span><br />
+Наш сайт самостоятельно определит источник видеоролика и его код, если Вы введете правильный адрес страницы.<br />
+Не вводите идентификатор без адреса: иначе сайт не поймет, к какому из видеосервисов этот код относится.
+</div>
+</p>
+
+</div>
+<div class="panel-footer">
+<div class="row">
+<div class="col-md-9">
+</div>
+<div class="col-md-3">
+<p><button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="Ждите..." >Добавить видеоролик</button></p>
+</div>
+</div>
+</div>
+</form>
+
+
+<script>
+var ajax_wait;
+$(function(){
+	ajax_wait = $('#ajax-wait');
+	ajax_wait.css({ width: $(window).width(), height: $(window).height() });
+	$('.videos').sortable({
+        handle: '.video-sorting',		
+		items: '.sortable',
+		update: function(e,ui) {
+			var ids = [];
+			$('.videos').find('.sortable').each(function(){
+				var file_id = $(this).data('id');
+				if(file_id != undefined)
+					ids.push(file_id);
+			});
+			$.ajax({
+				beforeSend: function() { ajax_wait.fadeIn(); },
+				complete: function() { ajax_wait.fadeOut(); },
+				url: './?reorder_videos=true',
+				data: {p: ids}
+			});
+		}
+	});
+});
+
+function links_video(id){
+	$("#links_video").load("./?links="+id);
+	$("#links_video").modal();	
+}
+
+function enter_descr(id){
+	$("#enter_descr").load("./?descr="+id);	
+	$("#enter_descr").modal();
+}
+</script>
+

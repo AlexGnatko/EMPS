@@ -1,0 +1,16 @@
+<input size="14" {{if $noedit}}readonly="true"{{/if}} 
+value="{{if $value}}{{$value}}{{else}}{{$defdate}}{{/if}}" name="{{$name}}" id="f_date_{{$id}}" />
+<a href="#" id="f_trigger_{{$id}}"><IMG 
+                  src="/i/calendar.gif" 
+                  border="0" style="position:relative;top:0px;"></A>
+<script type="text/javascript">
+    Calendar.setup({
+        inputField     :    "f_date_{{$id}}",      // id of the input field
+        ifFormat       :    "{{$df_format}}",       // format of the input field
+        showsTime      :    {{if $sdtime}}true{{else}}false{{/if}},            // will display a time selector
+        button         :    "f_trigger_{{$id}}",   // trigger for the calendar (button ID)
+        singleClick    :    false,           // double-click mode
+        step           :    1,               // show all years in drop-down boxes (instead of every other year as default)
+		firstDay :	0
+    });
+</script>

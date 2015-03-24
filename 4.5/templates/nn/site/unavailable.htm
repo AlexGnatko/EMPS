@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="{{if $html_lang}}{{$html_lang}}{{else}}ru{{/if}}">
+<head>
+<title>{{if $page.title}}{{$page.title|escape:html}}{{else}}{{include file="db:page/mainhead"}}{{/if}}</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+<link href="/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+<link href="/css/bootstrap-theme.min.css" rel="stylesheet" media="screen" />
+
+<link href="/css/default.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/css/engine.css" rel="stylesheet" type="text/css" media="screen" />
+
+<link href="/fonts/fonts.css" rel="stylesheet" type="text/css" media="screen" />
+
+<link href="/css/design.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/css/media.css" rel="stylesheet" type="text/css" media="screen" />
+
+</head>
+
+<body id="pagebg">
+
+
+<div class="container">
+{{if $show_page}}
+{{include file=$show_page}}
+{{else}}
+<h1>Скоро будем!</h1>
+<p>Сейчас маленько приберёмся на сервере и вернёмся к вам!</p>
+{{/if}}
+</div>
+
+</body>
+
+</html>

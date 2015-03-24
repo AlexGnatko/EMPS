@@ -1,0 +1,379 @@
+<div class="move-modal modal fade" id="links_file">
+</div>
+
+<div class="move-modal modal fade" id="enter_descr">
+<form action="." method="post" class="form" role="form">
+<input type="hidden" name="post_descr" value="1"/>
+<input type="hidden" name="id" id="id_descr" value="0"/>
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Введите описание фотографии №<span id="descr_id"></span></h4>
+      </div>
+      <div class="modal-body">
+        <p><textarea name="descr" id="descr_input" rows="5" class="form-control"></textarea></p>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="submit" class="btn btn-primary">Сохранить описание</button>
+      </div>
+    </div>
+  </div>
+</form>        
+</div>
+
+<div class="move-modal modal fade" id="download_by_link">
+<form action="." method="post" class="form" role="form">
+<input type="hidden" name="post_by_url" value="1"/>
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Загрузить с другого сайта<span id="descr_id"></span></h4>
+      </div>
+      <div class="modal-body">
+        <p><textarea name="links" id="descr_input" rows="5" class="form-control" placeholder="Можно несколько URL в отдельных строках"></textarea></p>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="submit" class="btn btn-primary">Загрузить</button>
+      </div>
+    </div>
+  </div>
+</form>        
+</div>
+
+<div class="modal fade" id="reupload_file">
+<form action="." method="post" class="form" role="form" enctype="multipart/form-data">
+<input type="hidden" name="post_reupload" value="1"/>
+<input type="hidden" name="id" id="id_file" value="0"/>
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Сменить файл для фотографии №<span id="upload_id"></span></h4>
+      </div>
+      <div class="modal-body">
+      	<p>Смена файла позволяет изменить фотографию, не меняя её ID и MD5 &mdash; существующие ссылки на фотографию останутся прежними.</p>
+        <p><input type="file" name="file"/></p>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="submit" class="btn btn-primary">Загрузить новый файл</button>
+      </div>
+    </div>
+  </div>
+</form>        
+</div>
+
+{{if $CanSave}}
+<form id="fileupload" action=".?upload=1" method="POST" enctype="multipart/form-data">
+<input type="hidden" name="upload" value="1"/>
+     <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+        <div class="row fileupload-buttonbar col-md-12">
+            <div class="col-lg-7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Выбрать файлы...</span>
+                    <input type="file" name="files[]" multiple>
+                </span>
+                <button type="button" class="btn btn-primary link" onclick="image_by_url()">
+                    <i class="glyphicon glyphicon-cloud-download"></i>
+                    <span>По ссылке</span>
+                </button>                
+                <button type="submit" class="btn btn-primary start">
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Начать отправку</span>
+                </button>
+                <button type="reset" class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Отменить отправку</span>
+                </button>
+
+                <!-- The loading indicator is shown during file processing -->
+                <span class="fileupload-loading"></span>
+            </div>
+            <!-- The global progress information -->
+            <div class="col-lg-3 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress information -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+            <div class="col-lg-2">
+                <button type="button" class="btn btn-danger delete">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Удалить</span>
+                </button>
+                <input type="checkbox" class="toggle">            
+            </div>
+        </div>
+        <!-- The table listing the files available for upload/download -->
+		<div class="files uploader-list col-md-12"></div>
+</form>
+{{/if}}
+
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+
+    <div class="row template-upload fade sortable">
+        <div class="col-md-2" align="center">
+            <span class="preview"></span>
+        </div>
+        <div class="col-md-6">
+            <p class="name">{%=file.name%}</p>
+            {% if (file.error) { %}
+                <div><span class="label label-danger">Ошибка</span> {%=file.error%}</div>
+            {% } %}
+            {% if (!o.files.error && !i && !o.options.autoUpload) { %}
+                <button class="btn btn-primary start">
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Начать</span>
+                </button>
+            {% } %}			
+        </div>
+        <div class="col-md-2">
+            <p class="size">{%=o.formatFileSize(file.size)%}</p>
+            {% if (!o.files.error) { %}
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+            {% } %}
+        </div>
+        <div class="col-md-2">
+
+            {% if (!i) { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Отмена</span>
+                </button>
+            {% } %}
+        </div>
+    </div>
+
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <div class="row sortable template-download fade" data-id="{%=file.fileId%}">
+        <div class="col-md-2" align="center">
+            <span class="preview">
+                {% if (file.thumbnailUrl) { %}
+                    <a href="{%=file.url%}" rel="uploaded" title="{%=file.name%}" target="_blank"><img src="{%=file.thumbnailUrl%}"></a>
+                {% } %}
+            </span>
+        </div>
+        <div class="col-md-6">
+            <p class="name">
+                {% if (file.url) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}" target="_blank">{%=file.name%}</a>
+                {% } else { %}
+                    <span>{%=file.name%}</span>
+                {% } %}
+				<span class="label label-default">{%=file.fileId%}</span>
+            </p>
+			<p>
+			{% if (file.descr) { %}
+			<span id="file_descr_{%=file.fileId%}" >{%=file.descr%}</span>
+			{% } else { %}
+			<span>(нет описания)</span>			
+			{% } %}</p>
+			
+			<p>
+
+{{if $CanSave}}
+			<a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> Описание</a>
+			<a href="javascript:reupload_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-transfer"></i> Сменить файл</a>
+{{/if}}
+			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> Ссылки на файл</a>
+			<a href="javascript:watermark_file('{%=file.fileId%}')" id="wm_{%=file.fileId%}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-tint"></i> Watermark</a>	
+			
+
+
+
+			</p>
+            {% if (file.error) { %}
+                <div><span class="label label-danger">Ошибка</span> {%=file.error%}</div>
+            {% } %}
+        </div>
+        <div class="col-md-2">
+            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+			
+{{if $CanSave}}
+<p style="margin-bottom:20px">Качество: {%=file.qual%}%</p>
+	<div  class="btn-group pull-right">
+  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+    <i class="glyphicon glyphicon-facetime-video"></i> 16x9 <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+		<li><a href="javascript:resize_file('{%=file.fileId%}', 'top')" >Отрезать 16 на 9 сверху</a></li>
+		<li><a href="javascript:resize_file('{%=file.fileId%}', 'center')" >Вырезать 16 на 9 из центра</a></li>		
+		<li><a href="javascript:resize_file('{%=file.fileId%}', 'optimal')" >Вырезать 16 на 9 из 3/4</a></li>				
+		<li><a href="javascript:resize_file('{%=file.fileId%}', 'bottom')" >Отрезать 16 на 9 снизу</a></li>		
+	</ul>
+	</div>
+	<div  class="btn-group pull-right">
+  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+    <i class="glyphicon glyphicon-camera"></i> Качество <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+		<li><a href="javascript:qual_file('{%=file.fileId%}', 100)" >100%</a></li>
+		<li><a href="javascript:qual_file('{%=file.fileId%}', 90)" >90%</a></li>
+		<li><a href="javascript:qual_file('{%=file.fileId%}', 80)" >80%</a></li>		
+		<li><a href="javascript:qual_file('{%=file.fileId%}', 60)" >60%</a></li>				
+		<li><a href="javascript:qual_file('{%=file.fileId%}', 40)" >40%</a></li>		
+	</ul>
+	</div>
+{{/if}}
+        </div>
+        <div class="col-md-2">
+            {% if (file.deleteUrl) { %}
+{{if $CanSave}}
+                <button class="btn btn-danger delete delete-button" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Удалить</span>
+                </button>
+                <input type="checkbox" name="delete" value="1" class="toggle">
+{{/if}}
+            {% } else { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Отмена</span>
+                </button>
+            {% } %}
+        </div>
+    </div>
+	
+{% } %}
+</script>
+
+<script>
+var ajax_wait;
+$(function(){
+	ajax_wait = $('#ajax-wait');
+	ajax_wait.css({ width: $(window).width(), height: $(window).height() });
+	$('.files').sortable({
+		items: '.sortable',
+		update: function(e,ui) {
+			var ids = [];
+			$('.files').find('.sortable').each(function(){
+				var file_id = $(this).data('id');
+				if(file_id != undefined)
+					ids.push(file_id);
+			});
+			$.ajax({
+				beforeSend: function() { ajax_wait.fadeIn(); },
+				complete: function() { ajax_wait.fadeOut(); },
+				url: './?reorder_files=true',
+				data: {p: ids}
+			});
+		}
+	});
+});
+
+
+function reset_delete(){
+	$(".delete-button").on("click",function(e){
+		if ( (typeof e.originalEvent) != "undefined" ){
+			if(confirm("Удалить фотографию?")){
+				return true;
+			}
+			return false;			
+		}
+	});
+	
+	$(".fileupload-buttonbar .delete").off("click");
+	
+	$(".fileupload-buttonbar .delete").on("click",function(e){
+		if(confirm("Удалить выбранные фотографии?")){
+			$(".files").find('.toggle:checked')
+				.closest('.template-download')
+				.find('.delete').click();
+			$(".fileupload-buttonbar").find('.toggle')
+				.prop('checked', false);
+		}
+	});
+}
+
+setTimeout("reset_delete()",200);
+
+function enter_descr(id){
+	$("#descr_id").html(id);
+	$("#id_descr").val(id);	
+	$("#descr_input").html($("#file_descr_"+id).html() || "");
+	$("#enter_descr").modal();
+}
+
+function reupload_file(id){
+	$("#upload_id").html(id);
+	$("#id_file").val(id);	
+	$("#reupload_file").modal();
+}
+
+function watermark_file(id){
+	var o = $("#wm_"+id);
+	o.attr("disabled", true);
+	if(o.hasClass("btn-danger")){
+		$.ajax({
+			type: "GET",
+			url: "./?remove_watermark="+id,
+			error: function(){
+				o.attr("disabled", false);				
+			},
+			success: function(data, status){
+				if(data == "OK"){
+					o.removeClass("btn-danger");
+					o.addClass("btn-default");	
+				}
+				o.attr("disabled", false);						
+			}
+		});		
+	}else{
+		$.ajax({
+			type: "GET",
+			url: "./?add_watermark="+id,
+			error: function(){
+				o.attr("disabled", false);				
+			},
+			success: function(data, status){
+				if(data == "OK"){
+					o.removeClass("btn-default");
+					o.addClass("btn-danger");	
+				}
+				o.attr("disabled", false);						
+			}
+		});			
+	}
+}
+
+function resize_file(id, mode){
+	_navigate("./?resize16x9="+id+"&mode="+mode);
+}
+
+function qual_file(id, mode){
+	_navigate("./?qual="+id+"&mode="+mode);
+}
+
+function image_by_url(){
+	$("#download_by_link").modal();
+}
+
+function links_file(id){
+	$("#links_file").load("./?links="+id);
+	$("#links_file").modal();	
+}
+
+</script>

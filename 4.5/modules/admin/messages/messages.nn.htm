@@ -1,0 +1,24 @@
+<div class="page-header">
+<h1>Входящие сообщения с формы на странице Контакты</h1>
+</div>
+{{include file="db:page/paginator"}}
+<table class="table table-condensed">
+<tr valign="top">
+<th width="60">ID</th>
+<th width="340">От кого</th>
+<th width="200">Получено</th>
+</tr>
+{{section name=i loop=$lst}}
+<tr valign="top" class="success">
+<td >{{$lst[i].id}}</td>
+<td ><a href="mailto:{{$lst[i].email}}">{{$lst[i].email}}</a></td>
+<td >{{$lst[i].time}}&nbsp;</td>
+</tr>
+<tr valign="top">
+<td></td>
+<td colspan="2" style="padding:12px;padding-bottom:30px;">{{$lst[i].msg}}</td>
+</tr>
+
+{{/section}}
+</table>
+{{include file="db:page/paginator"}}

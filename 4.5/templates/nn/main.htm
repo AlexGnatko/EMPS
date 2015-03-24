@@ -1,0 +1,18 @@
+{{if $page.print}}
+{{include file="db:print/head"}}
+{{include file="db:print/pagehead"}}
+{{include file="db:page/section"}}
+{{include file="db:print/pagefoot"}}
+{{include file="db:print/foot"}}
+{{else}}
+
+{{if $page.plain}}
+{{include file="db:page/section"}}
+{{else}}
+{{include file="db:page/head"}}
+{{$ob_out}}
+{{include file="db:page/section"}}
+{{include file="db:page/foot"}}
+{{/if}}
+
+{{/if}}

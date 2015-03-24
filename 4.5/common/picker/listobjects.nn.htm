@@ -1,0 +1,10 @@
+{{section name=i loop=$lst}}
+<a class="pulink puitem" href="javascript:select_object('{{$name}}',{{$lst[i].id}})" >
+<b>{{$lst[i].name}}</b>
+{{if $lst[i].parents}}
+{{$lst[i].parents}}{{/if}}
+{{if $lst[i].extra}}
+{{$lst[i].extra}}
+{{/if}}
+</a>
+{{/section}}

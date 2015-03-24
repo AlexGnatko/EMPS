@@ -1,0 +1,35 @@
+{{if $mode == 'title'}}
+Вставка фотогалереи из иллюстраций (полоска)
+{{elseif $mode == 'footer'}}
+{{if $back}}
+        <button type="button" class="btn btn-primary" onclick="{{$onclick}}" id="tmce_action"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp; Назад</button>
+{{/if}}        
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+
+{{elseif $mode == 'body'}}
+
+
+{{section name=i loop=$lst}}<div class="picpick">
+<a href="javascript:voidClick()" class="piclick" title="{{$lst[i].descr|escape:html}}" data-link="{{$lst[i].id}}"><img src="/freepic/{{$lst[i].md5}}.{{$lst[i].ext}}?size=130x95" width="130" height="95"/></a>
+</div>{{/section}}
+
+<script>
+$(".piclick").click(function(e){
+	tmce_toggle_image(e.currentTarget);
+});
+
+tmce_selected = [];
+</script>
+
+<div class="row upspace">
+<div class="col-md-6">
+<p align="right"><a href="javascript:tmce_montage_answer('all')" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>&nbsp; Вставить все изображения в блок</a></p>
+</div>
+<div class="col-md-6">
+<p align="right"><a href="javascript:tmce_montage_answer('selected')" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>
+&nbsp; Вставить выбранные</a></p>
+</div>
+</div>
+
+{{else}}
+{{/if}}

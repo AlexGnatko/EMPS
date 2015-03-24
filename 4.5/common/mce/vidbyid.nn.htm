@@ -1,0 +1,33 @@
+{{if $mode == 'title'}}
+Вставка клипов из вкладки «Видео»
+{{elseif $mode == 'footer'}}
+{{if $back}}
+        <button type="button" class="btn btn-primary" onclick="{{$onclick}}" id="tmce_action"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp; Назад</button>
+{{/if}}        
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+
+{{elseif $mode == 'vid'}}
+<p>
+<div class="picviewer">
+<img src="/pic/{{$video.pic.md5}}.{{$video.pic.ext}}" />
+</div>
+</p>
+
+
+<div class="row">
+<div class="col-md-6">
+<p><a href="javascript:tmce_answer()" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>&nbsp; Вставить</a></p>
+</div>
+</div>
+
+{{elseif $mode == 'body'}}
+
+<p>Выберите видео для вставки:</p>
+
+{{section name=i loop=$lst}}<div class="picpick">
+<a href="javascript:tmce_video_answer({{$lst[i].id}})"><img src="/freepic/{{$lst[i].pic.md5}}.{{$lst[i].pic.ext}}?size=130x95" width="130" height="95"/></a>
+</div>{{/section}}
+
+
+{{else}}
+{{/if}}

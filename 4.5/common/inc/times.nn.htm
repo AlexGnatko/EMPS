@@ -1,0 +1,40 @@
+<table class="table table-bordered">
+<tr class="timesline">
+{{section name=i loop=$enum.wdays}}
+<td class="timescol {{if $enum.wdays[i].code >= 6}}tscred{{/if}}" ><strong>{{$enum.wdays[i].value}}</strong><br />
+{{assign var="day" value=$enum.wdays[i].code}}
+{{assign var="show_value" value=$def_from}}
+{{if $schvalfrom.$sch_idx.$day}}
+{{assign var="show_value" value=$schvalfrom.$sch_idx.$day}}
+{{/if}}
+{{include file="db:enum/pickenum" xenum=times class="form-control input-sm time-from" style="margin-bottom:5px;margin-top:5px" name="`$schvarfrom`[`$sch_idx`][`$day`]" value=$show_value }}
+{{assign var="show_value" value=$def_to}}
+{{if $schvalto.$sch_idx.$day}}
+{{assign var="show_value" value=$schvalto.$sch_idx.$day}}
+{{/if}}
+{{include file="db:enum/pickenum" xenum=times class="form-control input-sm time-to" name="`$schvarto`[`$sch_idx`][`$day`]" value=$show_value}}
+<div style="margin-top:5px;font-weight:bold">Обед:</div>
+
+{{assign var="show_value" value=$def_l_from}}
+{{if $schvalfrom_o.$sch_idx.$day}}
+{{assign var="show_value" value=$schvalfrom_o.$sch_idx.$day}}
+{{/if}}
+{{include file="db:enum/pickenum" xenum=times class="form-control input-sm lunch-from" style="margin-bottom:5px;margin-top:5px" name="`$schvarfrom_o`[`$sch_idx`][`$day`]" value=$show_value }}
+{{assign var="show_value" value=$def_l_to}}
+{{if $schvalto_o.$sch_idx.$day}}
+{{assign var="show_value" value=$schvalto_o.$sch_idx.$day}}
+{{/if}}
+{{include file="db:enum/pickenum" xenum=times class="form-control input-sm lunch-to" name="`$schvarto_o`[`$sch_idx`][`$day`]" value=$show_value}}
+
+<div class="btn-group-vertical" style="margin-top:6px;width:100%">
+<a href="javascript:sink()" class="btn btn-success btn-sm times-like">На все дни</a>
+<a href="javascript:sink()" class="btn btn-warning btn-sm times-out">Выходной</a>
+</div>
+</td>
+{{/section}}
+</tr>
+</table>
+
+
+
+<script type="text/javascript" src="/js/times.js"></script>

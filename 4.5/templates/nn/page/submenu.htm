@@ -1,0 +1,6 @@
+{{assign var="menu" value=$page.curtop.sub}}
+<ul class="nav nav-pills" style="margin-bottom:15px;margin-top:15px;">
+{{section name=i loop=$menu}}
+  <li {{if $menu[i].sel}}class="active"{{/if}}><a href="{{$menu[i].link}}">{{$menu[i].dname|escape:html}}</a></li>
+{{/section}}
+</ul>

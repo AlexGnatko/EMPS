@@ -1,0 +1,38 @@
+<input type="hidden" name="ref_type[{{$id}}]" value="{{$type}}" id="pl_type_{{$id}}"/>
+<input type="hidden" name="{{$name}}" value="{{$value}}" id="pl_id_{{$id}}" />
+<div style="display:none" id="pl_url_{{$id}}"></div>
+<input type="text" readonly="true" id="pl_txt_{{$id}}" style="width:450px"/>
+<a href="javascript:pick_link('{{$id}}')"><img src="/i/button.gif" width="16" height="16" border="0" style="position:relative;top:2px;z-index:0"/></a>
+<a href="javascript:empty_link('{{$id}}')"><img src="/i/close.gif" width="16" height="16" border="0" style="position:relative;top:2px;z-index:0"/></a>
+<a href="javascript:view_link('{{$id}}')"><img src="/i/go.gif" width="16" height="16" border="0" style="position:relative;top:2px;z-index:0"/></a>
+<div style="position:relative;z-index:10">
+<div id="pl_sel_{{$id}}" class="pusel" style="display:none;width:600px;">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr valign="center"><td class="puseltop">
+<div style="float:right">
+<a href="javascript:pl_close('{{$id}}')">
+<img src="/i/close.gif" width="16" height="16" border="0" style="position:relative;top:1px"/>
+</a>
+</div>
+{{$typename}} &mdash; Select Item</td></tr>
+<tr valign="center"><td class="pusearch">
+<input type="text" id="pl_search_{{$id}}" class="pusf" style="width:530px" onkeypress="pl_de_search('{{$id}}')"/>
+<a href="javascript:pl_search('{{$id}}')">
+<img src="/i/search.gif" width="48" height="16" border="0" class="pusb" />
+</a>
+</td>
+</tr>
+<tr valign="center">
+<td>
+<div class="pumain" id="pl_main_{{$id}}">
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div><script>
+setTimeout("pl_load_data('{{$id}}')",200);
+{{if $value}}
+setTimeout("describe_object('{{$id}}','{{$value}}')",200);
+{{/if}}
+</script>

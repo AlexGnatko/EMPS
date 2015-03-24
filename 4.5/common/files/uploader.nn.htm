@@ -1,0 +1,65 @@
+<form action="." method="post" id="mform">
+<input type="hidden" name="postkill" value="1" />
+<p>{{$PrintPages}}</p>
+<table cellspacing="0" cellpading="0" border="0" />
+<tr valign="top">
+<th width="60" class="lt">Order</th>
+<th width="340" class="lt">File name</th>
+<th width="80" class="lt">Size</th>
+<th width="120" class="lt">Time</th>
+</tr>
+{{section name=i loop=$ilst}}
+<tr valign="top">
+<input type="hidden" name="item[{{$ilst[i].id}}]" value="1" />
+<td class="le"><input type="checkbox" name="sel[{{$ilst[i].id}}]" class="chbx" {{if ($ilst[i].user_id != $user_id) && !$Admin}}disabled="yes"{{/if}} /> <input type="text" name="ord[{{$ilst[i].id}}]" value="{{$ilst[i].ord}}" style="margin-top:2px;width:24px;text-align:center;font-size:12px" {{if ($ilst[i].user_id != $user_id) && !$Admin}}disabled="yes"{{/if}}/></td>
+<td class="le">{{$ilst[i].id}}: <a href="/retrieve/{{$ilst[i].md5}}/{{$ilst[i].file_name}}">{{$ilst[i].file_name}}</a> ({{$ilst[i].content_type}})</td>
+<td class="le" align="right">{{$ilst[i].size}}</td>
+<td class="le">
+{{$ilst[i].time}}
+</td>
+</tr>
+<tr valign="top">
+<td class="le" colspan="1">Name:</td>
+<td class="le" colspan="3"><input type="text" name="comment[{{$ilst[i].id}}]" style="width:500px" value="{{$ilst[i].comment}}" /></td>
+</tr>
+
+<tr valign="top">
+<td class="le" colspan="1">Link:</td>
+<td class="le" colspan="3"><input type="text" style="width:500px" readonly="readonly" value="{{$ilst[i].dlink}}" /></td>
+</tr>
+{{/section}}
+</table>
+<div style="width:600px">
+<p>{{$PrintPages}}</p>
+<div style="padding-top:20px">
+<div style="float:left"><input name="postkill" type="button" value="  Delete  " class="input button" onclick="ask_form('Delete selected files?','mform')" /></div>
+
+<div style="float:right;padding-right:24px"><input name="postsave" type="submit" value="  Save changes  " class="input button" /></div>
+<div class="cb" style="width:600px">
+</div>
+</div>
+</form>
+<div class="fl">
+<form action="." method="post" enctype="multipart/form-data">
+<input type="hidden" name="upload" value="1" />
+<p><b>Upload new files:</b></p>
+<p>
+{{section name=i loop=$fl}}
+<input type="file" name="file_{{$fl[i].id}}" class="input file" style="width:280px"/><br/>
+{{/section}}
+</p>
+<p><input type="submit" value=" Upload " class="input button" /></p>
+</form>
+</div>
+<div class="fl">
+<form action="." method="post" enctype="multipart/form-data">
+<input type="hidden" name="reupload" value="1" />
+<p><b>Replace file:</b></p>
+<p>ID: <input type="text" name="file_id" class="input" style="width:80px"/></p>
+<p>
+<input type="file" name="rfile" class="input file" style="width:280px"/></p>
+
+<p><input type="submit" value=" Replace " class="input button" /></p>
+</form>
+</div>
+</div>

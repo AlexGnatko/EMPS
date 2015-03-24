@@ -1,0 +1,93 @@
+<div id="popup_area">
+
+<h4>Выбор: {{$what}}:</h4>
+
+<div class="popup-inner">
+
+<div class="row">
+<div class="col-md-12">
+<div class="form-group popup-fg">
+<input type="text" name="search_name" value="{{$value|escape:html}}" placeholder="Начните вводить название для поиска" class="popup_search form-control"/>
+</div>
+</div>
+</div>
+
+<script>
+	var default_value = $("input[name=search_name]").val();
+	var updateTimeout=0;
+	var request=0;
+	var start=0;
+	
+	function EMPSHideSelector(){
+		$("#{{$object_id}}").EMPSObjectSelector("hide");
+	}
+	
+	function abortRequest(){
+		try{
+			request.abort();
+		}catch(e){
+		}
+	}
+	function updateData(){
+		clearTimeout(updateTimeout);
+		abortRequest();
+		var o=$("input[name=search_name]");
+		var s=o.val();
+		if(s.length>-1){
+			request=$.ajax({url	:	('{{$lister}}?start='+start+'&text='+escape(o.val())+'&default_text='+escape(default_value)),
+				success	:	function(data,status){
+					if(updateTimeout){
+						return;
+					}
+					$("#popup_data").html(data);
+					}});
+		}
+		updateTimeout=0;
+	}
+	
+	function list_start(sv){
+		start = sv;
+		updateData();
+	}
+	
+	function select_item(id){
+		$("#{{$object_id}}").EMPSObjectSelector("setvalue",{'id':id});
+	}
+
+	var o=$("input[name=search_name]");	
+//	o.EMPSHint({text:'Начните вводить название для поиска',width:480,top:-19,left:10}); 
+	o.bind('keypress.search',function(){
+		clearTimeout(updateTimeout);
+		abortRequest();		
+		start = 0;
+		updateTimeout=setTimeout('updateData()',500);
+	});
+	o.bind('click.search',function(e){
+		var o = $(e.currentTarget);
+		if(o.val() == default_value){
+			o.val('');
+			start = 0;			
+			o.focus();
+		}
+	});
+	o.bind('blur.search',function(e){
+		clearTimeout(updateTimeout);
+		abortRequest();
+		var o = $(e.currentTarget);
+		if(o.val() == ''){
+			o.val(default_value);
+			start = 0;			
+			o.EMPSHint('hide');
+		}
+		updateTimeout=setTimeout('updateData()',500);		
+	});	
+	
+	o.focus();
+	updateData();
+</script>
+
+<div id="popup_data">
+</div>
+
+</div>
+</div>

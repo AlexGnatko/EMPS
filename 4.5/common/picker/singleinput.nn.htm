@@ -1,0 +1,72 @@
+{{if !$selector}}
+{{assign var="selector" value="/objsel-select/"}}
+{{/if}}
+{{if !$descriptor}}
+{{assign var="selector" value="/objsel-describe/"}}
+{{/if}}
+
+<div class="input-group">
+
+<input type="text" style="width:{{$width}}px;{{$addstyle}}" id="pick_input_{{$id}}" {{if $placeholder}}placeholder="{{$placeholder}}"{{/if}} class="form-control pick_input" readonly="readonly" value="" />
+<input type="hidden" id="pick_value_{{$id}}" class="pick_value" name="{{$name}}" value="{{$value}}"/>
+<span class="input-group-btn">
+{{if $textmode}}
+<a href="javascript:voidClick()" class="btn btn-default" id="pick_button_{{$id}}">выбрать...</a>
+{{if !$noclear}}
+<a href="javascript:voidClick()" class="btn btn-default" id="pick_clear_{{$id}}">очистить</a>
+{{/if}}
+{{else}}
+<a href="javascript:voidClick()" class="btn btn-default" id="pick_button_{{$id}}"><i class="glyphicon glyphicon-hand-left"></i></a>
+{{if !$nolink}}
+<a href="javascript:voidClick()" class="btn btn-default" id="pick_link_{{$id}}"><i class="glyphicon glyphicon-arrow-right"></i></a>
+{{/if}}
+{{if !$noclear}}
+<a href="javascript:voidClick()" class="btn btn-default" id="pick_clear_{{$id}}"><i class="glyphicon glyphicon-remove"></i></a>
+{{/if}}
+
+{{/if}}
+{{if $submit}}
+<button tyle="submit" class="btn btn-primary {{$submitclass}}" id="submitform_{{$id}}">{{$submit}}</button>
+{{/if}}
+</span>
+</div>
+
+<script>
+settings_{{$id}}={
+	'selector' : '{{$selector}}?',
+	'descriptor' : '{{$descriptor}}?',
+	'value_holder' : 'pick_value_{{$id}}',
+	'selector_type' : '{{$type}}',
+	'selector_name' : '{{$typename}}',
+	'onNewSelection' : function(){
+{{if $auto}}
+$("#{{$auto}}").submit();
+{{/if}}
+	}};
+	
+
+var o=$("#pick_input_{{$id}}");
+o.EMPSObjectSelector(settings_{{$id}});
+o.EMPSObjectSelector('describe');
+
+var id="{{$id}}";
+
+$("#pick_button_"+id).bind('click',function(ev){
+	var o=$(ev.currentTarget);
+	o.blur();
+	o.parent().prevAll('.pick_input').first().EMPSObjectSelector('show');
+});	
+$("#pick_link_"+id).bind('click',function(ev){
+	var o=$(ev.currentTarget);
+	o.blur();
+	o.parent().prevAll('.pick_input').first().EMPSObjectSelector('golink');
+});	
+$("#pick_clear_"+id).bind('click',function(ev){
+	var o=$(ev.currentTarget);
+	o.parent().prevAll('.pick_value').first().val(0);
+	var i=o.parent().prevAll('.pick_input').first();
+	i.val('');
+	i.EMPSObjectSelector('describe');
+	o.blur();
+});	
+</script>

@@ -1,0 +1,23 @@
+{{if $page.adminpage }}
+</div>
+{{else}}
+
+{{include file="db:site/foot"}}
+
+{{/if}}  
+
+{{include file="db:page/commonfoot"}}
+{{include file="db:page/footscripts"}}
+
+{{if !$page.noscripts}}
+{{include file="db:inc/google"}}
+{{/if}}
+
+<div class="bottom-page">
+{{$smarty.capture.bottomPage}}
+</div>
+{{emps method="display_log"}}
+<div id='ajax-wait' style='display:none;'></div>
+
+<iframe name="emps_sink" id="emps_sink" frameborder="0"></iframe>
+</body></html>

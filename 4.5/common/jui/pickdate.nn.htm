@@ -1,0 +1,7 @@
+{{if !$width}}
+{{assign var="width" value=112}}
+{{/if}}
+<input type="text" name="{{$name}}" value="{{$value}}" id="date_{{$name}}" style="width:{{$width}}px"/>
+<script language="javascript">
+$("#date_{{$name}}").datetimepicker();
+</script>

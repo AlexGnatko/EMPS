@@ -1,0 +1,35 @@
+<?php
+$emps->no_smarty = true;
+
+require_once 'HTTP/Download.php';
+
+if($key){
+	$file = $emps->db->get_row("e_files", "md5='$key'");
+	
+	require_once $emps->common_module('uploads/uploads.class.php');
+	$up = new EMPS_Uploads;
+
+	$fname = $up->upload_filename($file['id'], DT_FILE);	
+
+	$fh = fopen($fname, "rb");
+	if($fh){
+		ob_end_clean();
+		
+		$size = filesize($fname);
+		
+		$body = new http\Message\Body($fh);
+		$resp = new http\Env\Response;
+		$resp->setContentType($file['content_type']);
+		$resp->setHeader("Content-Length", $size);
+		$resp->setHeader("Last-Modified", date("r", $file['dt']));
+		$resp->setHeader("Expires", date("r",time()+60*60*24*7));
+		$resp->setCacheControl("Cache-Control: max-age=".(60*60*24*7));
+		$resp->setHeader("Pragma", "");
+		$resp->setBody($body);
+//			$resp->setThrottleRate(50000, 1);
+		$resp->send();			
+		fclose($fh);
+	}
+}
+
+?>

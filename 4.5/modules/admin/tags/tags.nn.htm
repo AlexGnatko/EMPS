@@ -1,0 +1,39 @@
+<div class="page-heading">
+<h1>Редактор тэгов</h1>
+</div>
+
+<form action="." method="post" class="form" role="form" style="clear:both">
+<input type="hidden" name="post_values" value="1" />
+<div class="pull-right">{{include file="db:page/paginator"}}</div>
+
+<table class="table table-striped table-condensed" style="clear:both">
+<tr valign="center">
+<th width="70">Id</th>
+<th width="700">Тэг</th>
+<th width="100">Используется</th>
+<th width="60">Удалить</th>
+</tr>
+{{section name=i loop=$lst}}
+<input type="hidden" name="item[{{$lst[i].id}}]" value="1"/>
+<tr>
+<td>
+{{$lst[i].id}}
+</td>
+<td>
+<input type="text" class="form-control" name="name[{{$lst[i].id}}]" id="id_name_{{$lst[i].id}}" value="{{$lst[i].name|escape:html}}"/>
+</td>
+<td align="center">
+{{$lst[i].count}}
+</td>
+<td>
+<a href="javascript:ask_do('Удалить?', './?kill={{$lst[i].id}}')" class="btn btn-sm btn-danger">Удалить</a>
+</td>
+</tr>
+{{/section}}
+</table>
+
+<div class="pull-right">{{include file="db:page/paginator"}}</div>
+
+<p><button type="submit" class="btn btn-primary btn-lg">Сохранить изменения</button></p>
+
+</form>

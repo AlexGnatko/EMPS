@@ -1,0 +1,85 @@
+/* CSS Document */
+
+.img, .rimg, .limg {
+	border:2px solid #CCDDFF;
+}
+
+.rimg {
+	float:right;
+	margin:0 0 10px 10px;
+}
+
+.limg {
+	float:left;
+	margin:0 10px 10px 0;
+}
+
+h1, h2, h3, h4, h5 {
+}
+
+h1 {
+	font-size:36px;
+}
+
+.pic-full {
+	width:100%;
+	margin-bottom:15px;
+}
+
+.pic-3-right {
+	float:right;
+	width:25%;
+	margin:0 0 15px 15px;
+}
+
+.pic-3-left {
+	width:25%;
+	float:left;	
+	margin:0 15px 15px 0;
+}
+
+.pic-4-right {
+	float:right;
+	width:35%;
+	margin:0 0 15px 15px;
+}
+
+.pic-4-left {
+	width:35%;
+	float:left;	
+	margin:0 15px 15px 0;
+}
+
+.pic-6-right {
+	width:45%;
+	float:right;
+	margin:0 0 15px 15px;
+}
+
+.pic-6-left {
+	width:45%;
+	float:left;
+	margin:0 15px 15px 0;
+}
+
+.pic-6-center {
+	width:55%;
+	display:block;
+	margin:0 auto 15px auto;
+	
+}
+
+.pic-descr {
+	color:#6c6c6c;
+	margin-top:-7px;
+	font-size:13px;
+}
+
+.bigger {
+	font-size:28px;
+}
+
+.strike {
+	text-decoration:line-through;
+	opacity:0.25;
+}

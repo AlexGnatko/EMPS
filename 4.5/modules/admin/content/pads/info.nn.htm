@@ -1,0 +1,33 @@
+<div class="row">  
+<div class="col-md-8">
+<form action="." method="post" class="form" role="form" id="main_form">
+<input type="hidden" name="post_save" value="1" />
+
+  <div class="form-group col-md-12">
+    <label for="edit_uri">URI:</label> (полный, со слэшами)
+    <input type="text" class="form-control" name="uri" id="edit_uri" value="{{$row.uri|escape:html}}" placeholder="/some-page/, or /somepage.html" />
+  </div>
+  
+
+<div class="form-group col-md-12">
+<label for="edit_title" class="upspace">Заголовок страницы:</label> &lt;TITLE&gt;
+<input class="form-control" size="60" type="text" name="title" id="edit_title" value="{{$row.title|escape:html}}" placeholder="Page heading">
+</div>
+
+
+<div class="form-group col-md-12">
+<label for="edit_descr">Описание:</label> meta-description
+<textarea class="form-control" rows="2" cols="25" name="descr">{{$row.descr|escape:html}}</textarea>
+</div>
+
+<div class="form-group col-md-12">
+<label for="edit_keywords" class="upspace">Ключевые слова:</label> meta-keywords
+<input class="form-control" size="60" type="text" name="keywords" id="edit_keywords" value="{{$row.keywords|escape:html}}" placeholder="goods, services">
+</div>
+
+<div class="form-group col-md-12">
+<button type="submit" class="btn btn-primary btn-lg">{{if $nexttitle}}{{$nexttitle}}{{else}}Сохранить изменения{{/if}}</button>
+</div>
+</form>
+</div>
+</div>

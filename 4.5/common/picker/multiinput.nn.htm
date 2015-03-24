@@ -1,0 +1,46 @@
+{{if !$width}}
+{{assign var="width" value=400}}
+{{/if}}
+{{if !$selector}}
+{{assign var="selector" value="/objsel-select/"}}
+{{/if}}
+{{if !$descriptor}}
+{{assign var="selector" value="/objsel-describe/"}}
+{{/if}}
+<span class="pick_sample" id="pick_sample_{{$id}}">
+<span class="pick_part">
+<input type="text" style="width:{{$width}}px" id="pick_input_{{$id}}" class="pick_input" readonly="readonly" value="" />
+<input type="hidden" id="pick_value_{{$id}}" class="pick_value" name="{{$name}}" />
+<a href="javascript:voidClick()" id="pick_button_{{$id}}"><img src="/i/select.png" class="pickbutton"/></a>
+{{if !$noclear}}
+<a href="javascript:voidClick()" id="pick_clear_{{$id}}"><img src="/i/close.png" class="pickbutton"/></a>
+{{/if}}
+{{if $viewlink}}
+<a href="javascript:voidClick()"><img src="/i/go.gif" class="pickbutton"/></a>
+{{/if}}
+<br/>
+</span>
+</span>
+<span class="pick_span" id="pick_span_{{$id}}">
+</span>
+<script>
+settings_{{$id}}={
+	'selector' : '{{$selector}}?',
+	'descriptor' : '{{$descriptor}}?',
+	'value_holder' : 'pick_value_{{$id}}',
+	'selector_type' : '{{$type}}',
+	'selector_name' : '{{$typename}}',
+	'onNewSelection' : function(){
+		EMPSSelector_ensure_line('{{$id}}',settings_{{$id}});
+	}};
+	
+{{assign var="itemlist" value="`$name`_idx"}}
+{{section name=ti loop=$row.$itemlist}}
+{{if $row.$itemlist[ti] != ""}}
+EMPSSelector_newline("{{$id}}",{{$row.$itemlist[ti]}},settings_{{$id}});
+{{/if}}
+{{/section}}	
+	
+EMPSSelector_ensure_line('{{$id}}',settings_{{$id}});
+
+</script>

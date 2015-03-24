@@ -1,0 +1,62 @@
+<script>
+    function date_parse(string) {
+        var parts = string.split('.');
+        return new Date(parseInt(parts[2]), parseInt(parts[1])-1, parseInt(parts[0]));
+    }
+jQuery(function() {
+	var dates = jQuery( "#{{$from}}, #{{$to}}" ).date{{$istime}}picker({
+		defaultDate: "+1w",
+		changeMonth: false,
+		numberOfMonths: 1,
+		onClose: function(dateText, inst) {
+			if(this.id=="{{$from}}"){
+				var endDateTextBox = jQuery('#{{$to}}');
+				if (endDateTextBox.val() != '') {
+					/*var testStartDate = new Date(dateText);
+					var testEndDate = new Date(endDateTextBox.val());*/
+                    var testStartDate = date_parse(dateText),
+                        testEndDate = date_parse(endDateTextBox.val());
+					if (testStartDate > testEndDate)
+						endDateTextBox.val(dateText);
+				}
+				else {
+					endDateTextBox.val(dateText);
+				}
+			}else if(this.id=="{{$to}}"){
+				var startDateTextBox = jQuery('#{{$from}}');
+				if (startDateTextBox.val() != '') {
+					/*var testStartDate = new Date(startDateTextBox.val()),
+                        testEndDate = new Date(dateText);*/
+                    var testStartDate = date_parse(startDateTextBox.val()),
+                            testEndDate = date_parse(dateText);
+					if (testStartDate > testEndDate)
+						startDateTextBox.val(dateText);
+				}
+				else {
+					startDateTextBox.val(dateText);
+				}				
+			}
+		},		
+		onSelect: function( selectedDate ) {
+			var option = this.id == "{{$from}}" ? "minDate" : "maxDate",			
+				instance = jQuery( this ).data( "datepicker" ),
+{{if $istime == 'time'}}			
+				start = jQuery(this).datetimepicker('getDate'),
+				date = new Date(start.getTime());
+			dates.not( this ).datepicker( "option", option, date ).datepicker( "setTime", date );
+			
+{{else}}
+				date = jQuery.datepicker.parseDate(
+					instance.settings.dateFormat ||
+					jQuery.datepicker._defaults.dateFormat,
+					selectedDate, instance.settings );
+			dates.not( this ).date{{$istime}}picker( "option", option, date );
+	
+{{/if}}			
+			if(typeof window.on_date_change == 'function'){
+				on_date_change(this);
+			}
+		}
+	});
+});
+</script>

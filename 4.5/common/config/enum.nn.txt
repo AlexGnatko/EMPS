@@ -1,0 +1,5 @@
+userstatus:1=Active;10=Disabled
+publish:0=Not Published;10=Published;50=Ready;70=Arm
+pub_simple:0=Not Published;10=Published
+websitestatus:0=Unused Website;10=Website Group;50=Regular Website;100=Default Website
+pubtype:10=Новости

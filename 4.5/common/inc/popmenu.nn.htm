@@ -1,0 +1,12 @@
+{{section name=i loop=$menu}}
+{{if $menu[i].sub}}
+<div class="psm" id="pmenu_{{$menu[i].id}}">
+{{section name=k loop=$menu[i].sub}}
+<a class="psme" href="{{$menu[i].sub[k].link}}">{{$menu[i].sub[k].dname}}</a>
+{{/section}}
+</div>
+{{/if}}
+{{/section}}
+<script type="application/javascript">
+init_popmenu();
+</script>

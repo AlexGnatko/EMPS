@@ -1,0 +1,15 @@
+{{if $pages.count > 1}}
+<ul class="pagination">
+  <li><a href="{{$pages.first.link}}"><i class="glyphicon glyphicon-fast-backward"></i></a></li>
+{{if $pmode != "short"}}  
+  <li><a href="{{$pages.prev.link}}"><i class="glyphicon glyphicon-backward"></i></a></li>
+{{/if}}
+{{section name=pg loop=$pages.pl}}  
+  <li {{if $pages.pl[pg].sel}}class="active"{{/if}}><a href="{{$pages.pl[pg].link}}">{{$pages.pl[pg].page}}</a></li>
+{{/section}}  
+{{if $pmode != "short"}}  
+  <li><a href="{{$pages.next.link}}"><i class="glyphicon glyphicon-forward"></i></a></li>
+  <li><a href="{{$pages.last.link}}"><i class="glyphicon glyphicon-fast-forward"></i></a></li>
+{{/if}}  
+</ul>
+{{/if}}

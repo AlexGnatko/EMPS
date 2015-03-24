@@ -1,0 +1,9 @@
+{{include file="db:msg/sendhead"}}
+<h4>Восстановлние доступа к сайту {{include file="db:msg/sitename"}}</h4>
+<p>{{if $udata.firstname eq ""}}Уважаемый клиент{{else}}
+{{$udata.firstname}}{{if $udata.surname}} {{$udata.surname}}{{/if}}{{/if}}!
+<p>Для того, чтобы получить доступ к Вашей учетной записи без пароля, нажмите на эту ссылку:</p>
+<p><a class="blue" href="{{$link}}">{{$link}}</a></p>
+<p>Ссылка подействует только один раз, поэтому как только получите доступ, смените пароль.</p>
+{{include file="db:msg/sendfoot"}}
+

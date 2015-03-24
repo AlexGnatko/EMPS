@@ -1,0 +1,6 @@
+{{assign var="elst" value=$enum.$xenum}}
+{{section name=i loop=$elst}}
+{{assign var="id" value=$elst[i].code}}
+<input type="checkbox" name="{{$name}}[{{$id}}]"
+{{if $value.$id}}checked{{/if}}> {{$elst[i].value}}<br />
+{{/section}}

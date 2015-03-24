@@ -1,0 +1,145 @@
+/* CSS Document */
+
+#ipb-wrapper {
+	position:fixed;
+	z-index:3000;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-color:rgba(0,0,0,0.9);
+	display:none;
+}
+
+.ipb-container {
+	xborder:1px solid white;
+	
+	position:fixed;
+	top:2%;
+	left:5%;
+	height:80%;
+	width:90%;
+	background-color:none;
+}
+
+.ipb-text {
+	position:fixed;
+	width:90%;
+	height:auto;
+	left:5%;
+	bottom:2%;
+	top:auto;
+	text-align:center;
+	z-index:5000;
+}
+
+.ipb-textvalue {
+	display:inline-block;
+	color:white;
+	font-size:18px;
+	background-color:rgba(0,0,0,0.3);
+	padding:8px 20px 6px 20px;
+	border-radius:3px;
+	box-shadow:0 0 10px rgba(0,0,0,0.5);
+	text-align:center;
+	max-width:90%;
+}
+
+.ipb-galleft, .ipb-galright, .ipb-galclose {
+	position:fixed;
+	right:auto;
+	left:1%;
+	width:3.5%;
+	height:80%;
+	top:0;
+	background-image:url("/js/ipbox/i/galleft.svg");
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position:center;
+	cursor:pointer;
+	z-index:3500;
+}
+
+.ipb-galright {
+	right:1%;
+	left:auto;
+	width:3.5%;
+	height:80%;
+	top:0;
+	background-image:url("/js/ipbox/i/galright.svg");
+}
+
+.ipb-galclose {
+	right:1%;
+	left:auto;
+	width:3.5%;
+	height:5%;
+	top:2%;
+	background-position:top;
+	background-image:url("/js/ipbox/i/galclose.svg");
+	z-index:4000;
+}
+
+
+.emps-swipe-grid-container {
+	overflow: hidden;	
+}
+
+.emps-swipe-grid-col {
+	z-index:0;
+}
+
+.emps-swipe-grid-col {
+	position: absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-repeat:no-repeat;
+	background-position:center;
+	background-size:contain;
+	background-color:none;
+	overflow:hidden;
+	z-index:0;	
+}
+
+/* vertical */
+@media screen and (max-aspect-ratio: 1/1) {
+	.ipb-container {
+		top:5%;
+		width:100%;
+		left:0;
+		right:auto;
+		height:70%;
+	}
+	
+	.ipb-galright {	
+		top:auto;
+		bottom:5%;
+		height:10%;
+		width:10%;	
+	}
+	
+	.ipb-galclose {
+		width:10%;
+		height:10%;
+	}
+	
+	.ipb-text { 
+		width:70%;
+		left:15%;
+	}
+	
+	.ipb-galleft {	
+		top:auto;
+		width:10%;	
+		height:10%;			
+		bottom:5%;
+	}	
+}
+
+@media (max-width: 991px) {
+	.ipb-textvalue {
+		font-size:14px;
+	}
+}

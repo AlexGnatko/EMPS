@@ -1,0 +1,21 @@
+<table cellspacing="0" cellpadding="0" border="0" style="display:none"><tr 
+id="samplerow_{{$name}}"><td 
+align="left"><input 
+type="text" style="width:{{$width}}px" name="" value="{{$default}}" {{$extraparams}} /></td></tr></table>
+<table cellspacing="0" cellpadding="0" border="0" id="id_lines_{{$name}}"><tr 
+valign="top"><td 
+width="{{$width}}">{{$head}}</td>
+</tr></table>
+<div id="id_lines_idx_{{$name}}" style="display:none">0</div>
+<script>
+
+{{assign var="itemlist" value="`$name`_idx"}}
+{{section name=ti loop=$row.$itemlist}}
+{{if $row.$itemlist[ti] != ""}}
+add_itemline("{{$name}}","{{$row.$itemlist[ti]}}");
+{{/if}}
+{{/section}}
+init_lines("{{$name}}");
+var itemline_default="{{$default}}";
+</script>
+<div style="display:none" id="id_type_{{$name}}">{{$source}}</div>

@@ -1,0 +1,54 @@
+{{include file="db:page/headtags"}}
+<body style="padding:4px">
+
+<h2>Ссылки на фотографию:</h2>
+<img src="{{$tlink}}" width="100" height="100" border="0" />
+<h4>Полное изображение:</h4>
+<p>URL ссылки внутри сайта:<br/>
+<input type="text" style="width:560px" value="{{$flink}}" /><br/>
+Полный URL ссылки:
+<input type="text" style="width:560px" value="{{$web}}{{$flink}}" /></p>
+
+
+
+<h4>Картинка 100х100:</h4>
+<p>URL ссылки внутри сайта:<br/>
+<input type="text" style="width:560px" value="{{$tlink}}" /><br/>
+Полный URL ссылки:
+<input type="text" style="width:560px" value="{{$web}}{{$tlink}}" /></p>
+
+
+<h4>Произвольная картинка:</h4>
+<p><b>Введите размер: (ширина, высота в пикселях):</b><br/>
+<input type="text" style="width:50px" name="x" id="id_x" value="200"/> x
+<input type="text" style="width:50px" name="y" id="id_y" value="100"/> &nbsp;
+<input type="button" value=" Обновить коды " class="input button" onClick="refresh_pic()"/>
+</p>
+<p>URL ссылки внутри сайта:<br/>
+<input id="id_rurl" type="text" style="width:560px" value="{{$rlink}}?size=200x100" /><br/>
+Код для редактора контента (с lightbox-ом)<br>
+(Поменяйте числа 200 и 100 на нужную ширину и высоту):
+<input id="id_rcode" type="text" style="width:560px" value="{{ldelim}}include file=photo:single/{{$row.id}},200,100{{rdelim}}" /><br/>
+Полный URL ссылки:
+<input id="id_rfurl" type="text" style="width:560px" value="{{$web}}{{$rlink}}?size=200x100" /></p>
+<p>Пример картинки с заданным размером:<br/>
+<img src="{{$rlink}}?size=200x100" id="id_pic" border="0"/>
+</p>
+
+<script>
+function refresh_pic(){
+	var d,x,y;
+	d=document.getElementById("id_x");
+	x=d.value;
+	d=document.getElementById("id_y");
+	y=d.value;	
+	d=document.getElementById("id_rurl");
+	d.value="{{$rlink}}?size="+x+"x"+y;
+	d=document.getElementById("id_rfurl");
+	d.value="{{$web}}{{$rlink}}?size="+x+"x"+y;
+	d=document.getElementById("id_pic");
+	d.src="{{$rlink}}?size="+x+"x"+y;
+}
+</script>
+
+</body>

@@ -1,0 +1,10 @@
+{{include file="db:msg/sendhead"}}
+<h4>Активация учетной записи</h4>
+<p>{{if $udata.firstname eq ""}}Уважаемый клиент{{else}}
+{{$udata.firstname}}{{if $udata.surname}} {{$udata.surname}}{{/if}}{{/if}}!
+<p class="n">Данное сообщение направлено Вам автоматически.</p>
+<p class="n">Ваш адрес электронной почты должен быть потвержден.</p>
+<p class="n">Чтобы активировать Вашу учетную запись, пройдите по этой ссылке:</p>
+<p><a href="{{$url}}">{{$url}}</a></p>
+{{include file="db:msg/sendfoot"}}
+

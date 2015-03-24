@@ -1,0 +1,4 @@
+<a href="{{$corelink}}">/</a>: 
+{{section name=i loop=$parents}}
+<a href="{{$parents[i].viewlink}}">{{$parents[i].name}}</a> <a href="{{$parents[i].editlink}}"><img src="/i/editpen.gif" width="10" height="16" border="0" /></a>{{if !$smarty.section.i.last}} / {{/if}}
+{{/section}}

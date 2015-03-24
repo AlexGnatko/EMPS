@@ -1,0 +1,23 @@
+{{section name=i loop=$lst}}
+<div class="listitem">
+<a href="javascript:select_item('{{$lst[i].id}}')"><strong>{{$lst[i].name}}</strong> {{if $lst[i].parents}}
+{{$lst[i].parents}}
+{{/if}}</a>
+</div>
+{{if $lst[i].extrainfo}}
+<div class="listextra">
+{{$lst[i].extrainfo}}
+</div>
+{{/if}}
+{{/section}}
+<div class="listpages">
+{{if $prev.start < $cur.start}}
+<a href="javascript:list_start({{$prev.start}})">&laquo; Предыдущие {{$prev.count}}</a>
+&nbsp; 
+{{/if}}
+{{$cur.fi}}-{{$cur.li}}
+{{if $next.start > $cur.start}}
+ &nbsp;
+<a href="javascript:list_start({{$next.start}})">Следующие {{$next.count}} &raquo;</a>
+{{/if}}
+</div>

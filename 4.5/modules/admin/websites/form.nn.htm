@@ -1,0 +1,72 @@
+
+  <div class="form-group">
+    <label for="website_name" class="col-lg-3 control-label">Website Name:</label>
+    <div class="col-md-7">
+    <input type="text" class="form-control" name="name" id="website_name" value="{{$vle.name}}" placeholder="General name of the website, not URL" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="website_hostname" class="col-lg-3 control-label">Hostname:</label>
+    <div class="col-md-7">    
+    <input type="text" class="form-control" name="hostname" id="website_hostname"  value="{{$vle.hostname}}" placeholder="Ony the hostname part of the URL, e.g. example.com" />
+    </div>
+  </div>  
+  <div class="form-group">
+    <label for="website_hostname_regex" class="col-lg-3 control-label">Hostname Regex Filter:</label>
+    <div class="col-md-7">    
+    <input type="text" class="form-control" name="hostname_filter" id="website_hostname_regex"  value="{{$vle.hostname_filter}}" placeholder="The regular expression to evaluate when detecting if hostname belongs to website" />
+    </div>
+  </div> 
+  <div class="form-group">
+    <label for="website_parent" class="col-lg-3 control-label">Parent Website:</label>
+    <div class="col-md-7">  
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Website" id="website_parent" type="e_websites" name="parent" value=$vle.parent}}  
+	</div>
+  </div>
+
+  <div class="form-group">
+    <label for="website_language" class="col-lg-3 control-label">Language Code:</label>
+    <div class="col-md-1">    
+    <input type="text" class="form-control" name="lang" id="website_language" value="{{$vle.lang}}" placeholder="nn" />
+    </div>
+    <div class="col-md-5">  
+    <p class="help-block">&mdash; code ('<strong>en</strong>', '<strong>ru</strong>'). <strong>nn</strong> for default</p>
+    </div>
+  </div> 
+  <div class="form-group">
+    <label for="website_status" class="col-lg-3 control-label">Status:</label>
+    <div class="col-md-4">    
+	{{include file="db:enum/pickenum" xenum="websitestatus" name="status" id="website_status" class="form-control" value=$vle.status}}    
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="website_publish" class="col-lg-3 control-label">Publish:</label>
+    <div class="col-md-2">    
+	{{include file="db:enum/pickenum" xenum="publish" id="website_publish" class="form-control" name="pub" value=$vle.pub}}    
+    </div>
+  </div>  
+
+{{*
+<table cellspacing="0" cellpadding="0" border="0">
+
+<tr valign="center">
+<td>
+<b>Parent Website:</b>
+</td>
+<td>
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Website" id="website" type="e_websites|id<>`$vle.id`" name="parent" value=$vle.parent width=340}}
+</td>
+</tr>
+
+<tr valign="center">
+<td>
+<b>Owner:</b>
+</td>
+<td>
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="User" id="user" type="e_users" name="user_id" value=$vle.user_id width=340}}
+</td>
+</tr>
+
+</table>
+*}}

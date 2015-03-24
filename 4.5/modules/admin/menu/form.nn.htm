@@ -1,0 +1,17 @@
+  <div class="form-group">
+    <label for="content_uri" class="col-md-2 control-label">URI:</label>
+    <div class="col-md-10">
+    <input type="text" class="form-control" name="uri" id="content_uri" value="{{if $row}}{{$row.uri|escape:html}}{{/if}}" placeholder="/some-page/, or /somepage.html" />
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-10"><small>(со слэшами)</small></div>
+  </div>
+  
+  <div class="form-group">
+    <label for="content_name" class="col-md-2 control-label">Название:</label>
+    <div class="col-md-10">
+    <input type="text" class="form-control" name="name" id="content_name" value="{{if $row}}{{$row.name|escape:html}}{{/if}}" placeholder="О компании" />
+    </div>
+  </div>  
+
+

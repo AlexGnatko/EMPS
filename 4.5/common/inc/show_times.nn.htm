@@ -1,0 +1,68 @@
+<table class="table table-bordered" >
+<tr valign="top">
+<td class="showtimescol showtimescolleft">
+<i class="glyphicon glyphicon-time"></i>
+</td>
+{{assign var="lunches" value=0}}
+{{section name=i loop=$enum.wdays}}
+<td class="showtimescol {{if $enum.wdays[i].code >= 6}}tscred{{/if}}" ><strong>{{$enum.wdays[i].value}}</strong><br />
+{{assign var="day" value=$enum.wdays[i].code}}
+{{if $schvalfrom.$sch_idx.$day}}
+{{assign var="show_value" value= $schvalfrom.$sch_idx.$day}}
+{{/if}}
+{{if $schvalfrom_o.$sch_idx.$day != '00'}}
+{{assign var="lunches" value=1}}
+{{/if}}
+{{if $show_value eq '00'}}
+-
+{{else}}
+{{include file="db:enum/enumval" e=$enum.times value=$show_value}}
+{{/if}}<br />
+{{if $schvalto.$sch_idx.$day}}
+{{assign var="show_value" value= $schvalto.$sch_idx.$day}}
+{{/if}}
+{{if $show_value eq '00'}}
+-
+{{else}}
+{{include file="db:enum/enumval" e=$enum.times value=$show_value}}
+{{/if}}
+</td>
+{{/section}}
+</tr>
+<tr>
+<td class="showtimescol showtimescolleft">
+<i class="glyphicon glyphicon-cutlery"></i>
+</td>
+{{if !$lunches}}
+<td class="showtimescol" colspan="7">
+Без обеда
+</td>
+{{else}}
+
+
+{{section name=i loop=$enum.wdays}}
+<td class="showtimescol {{if $enum.wdays[i].code >= 6}}tscred{{/if}}" >
+{{assign var="day" value=$enum.wdays[i].code}}
+{{if $schvalfrom_o.$sch_idx.$day}}
+{{assign var="show_value" value= $schvalfrom_o.$sch_idx.$day}}
+{{/if}}
+{{if $show_value eq '00'}}
+-
+{{else}}
+{{include file="db:enum/enumval" e=$enum.times value=$show_value}}
+{{/if}}<br />
+{{if $schvalto_o.$sch_idx.$day}}
+{{assign var="show_value" value= $schvalto_o.$sch_idx.$day}}
+{{/if}}
+{{if $show_value eq '00'}}
+-
+{{else}}
+{{include file="db:enum/enumval" e=$enum.times value=$show_value}}
+{{/if}}
+</td>
+{{/section}}
+
+
+{{/if}}
+</tr>
+</table>
