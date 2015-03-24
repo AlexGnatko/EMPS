@@ -10,7 +10,7 @@ The PHP controllers are regular plain PHP procedure scripts. The scripts can acc
 
 EMPS supports multiple websites on a single set of modules (one engine - many websites) and several languages across websites or even on a single website.
 
-The core of the EMPS framework is supposed to be loaded though "require_once" from somewhere on the "include_path". This will enable several websites on the same server to share the EMPS code (which will enable updates, bugfixing, etc.).
+The core of the EMPS framework is supposed to be loaded through "require_once" from somewhere on the "include_path". This will enable several websites on the same server to share the EMPS code (which will enable updates, bugfixing, etc.).
 
 EMPS is Git-friendly. No data, no HTML templates, and no code vital to the website being developed is never stored in the database, all code and templates is stored in the module folders as files.
 
