@@ -12,7 +12,7 @@ EMPS supports multiple websites on a single set of modules (one engine - many we
 
 The core of the EMPS framework is supposed to be loaded through "require_once" from somewhere on the "include_path". This will enable several websites on the same server to share the EMPS code (which will enable updates, bugfixing, etc.).
 
-EMPS is Git-friendly. No data, no HTML templates, and no code vital to the website being developed is never stored in the database, all code and templates is stored in the module folders as files.
+EMPS is Git-friendly. No data, no HTML templates, and no code vital to the website being developed is ever stored in the database, all code and templates are stored in the module folders as files.
 
 The SQL database structure is stored in a specially-cooked SQL file that enables "sqlsync" - automatic synchronization of the actual database structure with the SQL file. Update the SQL file, call /sqlsync/ on the website, and your website's SQL (MySQL) database gets updated automatically (no manual adding of new fields in phpMyAdmin).
 
