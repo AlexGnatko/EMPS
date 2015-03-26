@@ -9,10 +9,12 @@
 {{if $page.plain}}
 {{include file="db:page/section"}}
 {{else}}
+{{strip}}
 {{include file="db:page/head"}}
 {{$ob_out}}
 {{include file="db:page/section"}}
 {{include file="db:page/foot"}}
+{{/strip}}
 {{/if}}
 
 {{/if}}
