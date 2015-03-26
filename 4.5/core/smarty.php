@@ -162,4 +162,14 @@ function smarty_modifier_hyp($v){
 }
 
 $smarty->registerPlugin("modifier", "hyp", "smarty_modifier_hyp");
+
+if(defined('EMPS_PRE_MINIFY')){
+	if(EMPS_PRE_MINIFY){
+		/* Minify the html */
+		function smarty_pre_minify($tpl_source, Smarty_Internal_Template $template) {
+			return preg_replace('/[\r\n]+/s', "\r\n", preg_replace('/[ \t]+/s', ' ', $tpl_source));
+		}
+		$smarty->registerFilter('pre', 'smarty_pre_minify');
+	}
+}	
 ?>
