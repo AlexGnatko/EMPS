@@ -3,7 +3,7 @@
         var parts = string.split('.');
         return new Date(parseInt(parts[2]), parseInt(parts[1])-1, parseInt(parts[0]));
     }
-jQuery(function() {
+emps_scripts.push(function() {
 	var dates = jQuery( "#{{$from}}, #{{$to}}" ).date{{$istime}}picker({
 		defaultDate: "+1w",
 		changeMonth: false,

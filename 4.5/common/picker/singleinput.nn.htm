@@ -32,6 +32,7 @@
 </div>
 
 <script>
+
 settings_{{$id}}={
 	'selector' : '{{$selector}}?',
 	'descriptor' : '{{$descriptor}}?',
@@ -44,7 +45,7 @@ $("#{{$auto}}").submit();
 {{/if}}
 	}};
 	
-
+emps_scripts.push(function(){
 var o=$("#pick_input_{{$id}}");
 o.EMPSObjectSelector(settings_{{$id}});
 o.EMPSObjectSelector('describe');
@@ -69,4 +70,5 @@ $("#pick_clear_"+id).bind('click',function(ev){
 	i.EMPSObjectSelector('describe');
 	o.blur();
 });	
+});
 </script>
