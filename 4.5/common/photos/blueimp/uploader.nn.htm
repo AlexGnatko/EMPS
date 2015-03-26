@@ -262,7 +262,9 @@
 
 <script>
 var ajax_wait;
-$(function(){
+
+emps_scripts.push(
+function(){
 	ajax_wait = $('#ajax-wait');
 	ajax_wait.css({ width: $(window).width(), height: $(window).height() });
 	$('.files').sortable({
@@ -283,7 +285,6 @@ $(function(){
 		}
 	});
 });
-
 
 function reset_delete(){
 	$(".delete-button").on("click",function(e){
@@ -308,7 +309,10 @@ function reset_delete(){
 	});
 }
 
-setTimeout("reset_delete()",200);
+emps_scripts.push(
+function(){
+	setTimeout("reset_delete()",200);
+});
 
 function enter_descr(id){
 	$("#descr_id").html(id);
