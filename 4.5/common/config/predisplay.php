@@ -12,5 +12,8 @@ $URI = $emps->elink();
 
 $emps->shadow_properties_link($URI);	
 
-
+$file_name = $emps->common_module('config/project/predisplay.php');
+if(file_exists($file_name)){
+	require_once $file_name;
+}
 ?>
