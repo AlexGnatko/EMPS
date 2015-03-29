@@ -61,4 +61,10 @@ $.datepicker.setDefaults( $.datepicker.regional[ "ru" ] );
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 {{/if}}
 
+{{if $page.treeview}}
+<link href="/css/tree.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/treeView.js"></script>
+{{/if}}
+
+
 {{include file="db:site/headscripts"}}

@@ -5,6 +5,7 @@ require_once $emps->common_module('uploads/uploads.class.php');
 
 class EMPS_Photos {
 	public $up;
+	public $ord = 10;
 	
 	public function __construct(){
 		global $emps;
@@ -473,7 +474,7 @@ class EMPS_Photos {
 		$SET['type'] = $type;
 		$SET['thumb'] = "1600x1600|100x100|inner";
 		$SET['context_id'] = $context_id;
-		$SET['ord'] = 10;
+		$SET['ord'] = $this->ord;
 		$emps->db->sql_insert("e_uploads");
 		$file_id=$emps->db->last_insert();	
 		
