@@ -1047,10 +1047,10 @@ class EMPS {
 	
 	public function count_pages($total){
 	// New pagination function 
-		global $perpage,$start;
+		global $perpage;
 		
-		if($total<$start && !$this->no_autopage && $total>0){
-			$start=0;
+		if($total<$GLOBALS[$this->page_var] && !$this->no_autopage && $total>0){
+			$GLOBALS[$this->page_var] = 0;
 			$this->redirect_elink();
 		}
 		
