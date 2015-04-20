@@ -97,8 +97,6 @@ if($_POST['post_import']){
 		
 		$ited->v->p->import_photos($context_id, $v['pics']);
 	}
-	echo "done";
-	exit();
 }
 
 $_REQUEST['type']='p';
