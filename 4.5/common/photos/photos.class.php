@@ -307,22 +307,20 @@ class EMPS_Photos {
 		return $psize;
 	}
 	
-	public function import_photos($context_id,$data){
-		global $SET,$emps;
+	public function import_photos($context_id, $data){
+		global $SET, $emps;
 		$this->up->delete_files_context($context_id);
 		$this->delete_photos_context($context_id);	
 		
-		$SET=array();
-		$x=explode("\n",$data);
-		while(list($n,$v)=each($x)){
-			$v=trim($v);
-			$xx=explode("\t",$v);
-			$ord=$xx[0];
-			$type=$xx[1];
-			$name=$xx[2];
-			$md5=$xx[3];
-			$size=$xx[4];		
-			$url=$xx[5];
+		$SET = array();
+		foreach($data as $pic){
+			$ord = $pic['ord'];
+			$type = $pic['type'];
+			$name = $pic['filename'];
+			$descr = $pic['descr'];
+			$md5 = $pic['md5'];
+			$size = $pic['size'];
+			$url = $pic['url'];
 			
 			if(!$url) continue;
 			
@@ -330,9 +328,10 @@ class EMPS_Photos {
 			if($row){
 				$_REQUEST=array();		
 				$_REQUEST['filename']=$name;
+				$_REQUEST['descr']=$descr;
 				$_REQUEST['type']=$type;
 				$_REQUEST['size']=$size;
-				$_REQUEST['thumb']="600x400|100x100|auto,max";
+				$_REQUEST['thumb']=EMPS_PHOTO_SIZE;
 				$_REQUEST['ord']=$ord;
 				$emps->db->sql_update(TP."e_uploads","id=".$row['id']);
 				
@@ -341,9 +340,10 @@ class EMPS_Photos {
 				$_REQUEST=array();		
 				$_REQUEST['md5']=$md5;
 				$_REQUEST['filename']=$name;
+				$_REQUEST['descr']=$descr;
 				$_REQUEST['type']=$type;
 				$_REQUEST['size']=$size;
-				$_REQUEST['thumb']="600x400|100x100|auto,max";
+				$_REQUEST['thumb']=EMPS_PHOTO_SIZE;
 				$_REQUEST['context_id']=$context_id;
 				$_REQUEST['ord']=$ord;
 				$emps->db->sql_insert(TP."e_uploads");
