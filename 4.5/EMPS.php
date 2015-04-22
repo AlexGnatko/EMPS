@@ -766,7 +766,9 @@ class EMPS {
 	
 	public function get_content_data($page){
 	// Read the properties of a content item (effectively page_properties)
-		$ra=$this->p->read_properties(array(),$this->p->get_context(DT_CONTENT,1,$page['id']));
+		$context_id = $this->p->get_context(DT_CONTENT,1,$page['id']);
+		$ra=$this->p->read_properties(array(), $context_id);
+		$ra['context_id'] = $context_id;
 		return $ra;
 	}
 	

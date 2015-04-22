@@ -6,6 +6,7 @@ global $pp,$key,$smarty;
 $ctx=$emps->website_ctx;
 
 if($emps->auth->credentials("admin,oper")){
+	$emps->page_property("adminpage", 1);
 	if(isset($smarty)){
 		$smarty->assign("AdminMode", 1);
 	}

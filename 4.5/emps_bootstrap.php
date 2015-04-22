@@ -37,7 +37,7 @@ if(!isset($_COOKIE['EMPS'])){
 // Initialize data constants
 
 // Local data constants
-$emps_require_file = "modules/_common/config/data.php";
+$emps_require_file = EMPS_SCRIPT_PATH."/modules/_common/config/data.php";
 if(file_exists($emps_require_file)){
 	require $emps_require_file;
 }
@@ -46,7 +46,7 @@ require_once "EMPS/4.5/common/config/data.php";		// Common data constants. Not d
 // The main script
 require_once "EMPS/4.5/EMPS.php";					// EMPS Class
 
-$emps_require_file = "modules/_common/config/customizer.php";
+$emps_require_file = EMPS_SCRIPT_PATH."/modules/_common/config/customizer.php";
 
 if(file_exists($emps_require_file)){
 	require $emps_require_file;

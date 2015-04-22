@@ -1,4 +1,5 @@
 <?php
+
 $this->handle_view_row();
 
 $emps->page_property("blueimp_uploader",1);
