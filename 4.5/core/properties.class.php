@@ -400,5 +400,32 @@ class EMPS_Properties {
 		return $ra;
 	}
 	
+	public function save_cache($context_id, $code, $data){
+		global $emps, $SET;
+		
+		$SET = array();
+		$SET['data'] = serialize($data);
+		$SET['dt'] = time();
+		$ex = $emps->db->get_row("e_cache", "context_id = $context_id and code = '$code'");
+		if($ex){
+			$emps->db->sql_update("e_cache", "id = ".$ex['id']);
+		}else{
+			$SET['code'] = $code;
+			$SET['context_id'] = $context_id;
+			$emps->db->sql_insert("e_cache");
+		}
+	}
+	
+	public function read_cache($context_id, $code){
+		global $emps;
+		
+		$ex = $emps->db->get_row("e_cache", "context_id = $context_id and code = '$code'");
+		if($ex){
+			$ex['data'] = unserialize($ex['data']);
+			return $ex;
+		}
+		return false;
+	}
+	
 }
 ?>
