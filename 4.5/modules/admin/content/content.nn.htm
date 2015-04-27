@@ -1,9 +1,34 @@
+{{if $lang eq "en"}}
+{{assign var="str_pages" value="Pages"}}
+{{assign var="str_editor" value="Website Pages Editor"}}
+{{assign var="str_uri_page" value="Page URI"}}
+{{assign var="str_name" value="Title"}}
+{{assign var="str_actions" value="Actions"}}
+{{assign var="str_exim" value="Export/Import Pages"}}
+{{assign var="str_ex_sel" value="Export Selected"}}
+{{assign var="str_json_code" value="JSON-code"}}
+{{assign var="str_copy" value="Copy the JSON code from this field into such field on another website in order to import pages."}}
+{{assign var="str_import" value="Import JSON"}}
+{{else}}
+{{assign var="str_pages" value="Страницы"}}
+{{assign var="str_editor" value="Редактор страниц сайта"}}
+{{assign var="str_uri_page" value="URI страницы"}}
+{{assign var="str_name" value="Название"}}
+{{assign var="str_actions" value="Действия"}}
+{{assign var="str_exim" value="Экспорт/импорт страниц"}}
+{{assign var="str_ex_sel" value="Экспортировать выделенные"}}
+{{assign var="str_json_code" value="JSON-код"}}
+{{assign var="str_copy" value="Копируйте JSON-код из этого поля в такое же поле на другом сайте для импортирования информации"}}
+{{assign var="str_import" value="Импортировать JSON"}}
+{{/if}}
+
+
 {{if $Zoom}}
 <div class="page-header">
 
 {{include file="db:ited/iactions" mode="inner"}}
 
-<h1><small>Страницы:</small>
+<h1><small>{{$str_pages}}:</small>
 <small>{{$row.id}}:</small> {{$row.uri}}</h1>
 </div>
 {{include file="db:ited/subted"}}
@@ -12,7 +37,7 @@
 <div id="id_context" style="display:none">{{$row.context_id}}</div>
 {{else}}
 <div class="page-header">
-<h1>Редактор страниц сайта</h1>
+<h1>{{$str_editor}}</h1>
 </div>
 
 
@@ -29,9 +54,9 @@
 <table class="table table-striped table-condensed">
 <tr valign="center">
 <th width="70">Id</th>
-<th width="220">URI страницы</th>
-<th width="560">Название</th>
-<th width="140">Действия</th>
+<th width="220">{{$str_uri_page}}</th>
+<th width="560">{{$str_name}}</th>
+<th width="140">{{$str_actions}}</th>
 </tr>
 {{section name=i loop=$lst}}
 <tr>
@@ -51,17 +76,17 @@
 {{include file="db:ited/iactions" mode="bottom"}}
 
 
-<h4>Экспорт/импорт страниц</h4>
+<h4>{{$str_exim}}</h4>
 
-<p><button type="button" id="export_button" class="btn btn-info">Экспортировать выделенные</button></p>
+<p><button type="button" id="export_button" class="btn btn-info">{{$str_ex_sel}}</button></p>
 <form action="." method="post" class="form">
 <input type="hidden" name="post_import" value="1" />
 <div class="form-group">
-<label>JSON-код:</label>
+<label>{{$str_json_code}}:</label>
 <textarea rows="5" class="form-control" id="data_ta" name="json"></textarea>
-<div class="help-block">Копируйте JSON-код из этого поля в такое же поле на другом сайте для импортирования информации</div>
+<div class="help-block">{{$str_copy}}</div>
 </div>
-<p class="text-right"><button type="submit" class="btn btn-primary">Импортировать JSON</button></p>
+<p class="text-right"><button type="submit" class="btn btn-primary">{{$str_import}}</button></p>
 
 </form>
 

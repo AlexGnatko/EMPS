@@ -1,3 +1,41 @@
+{{if $lang eq "en"}}
+{{assign var="str_title" value="Object's HTML"}}
+{{assign var="str_warning" value="<strong>Warning!</strong> Someone else has edited the text since you started editing it!"}}
+{{assign var="str_orig" value="Original"}}
+{{assign var="str_current" value="Current Saved"}}
+{{assign var="str_your" value="Your Current"}}
+{{assign var="str_load" value="Load the merged version into the editor"}}
+{{assign var="str_accept" value="Accept my version"}}
+{{assign var="str_save" value="Save Changes"}}
+{{assign var="str_insert" value="Insert pictures and videos"}}
+{{assign var="str_photo" value="Photo"}}
+{{assign var="str_strip" value="Photo-strip"}}
+{{assign var="str_mos" value="Photo-tiles"}}
+{{assign var="str_video" value="Video"}}
+{{assign var="str_audio" value="Audio"}}
+{{assign var="str_cut" value="Cut"}}
+{{assign var="str_descr" value="<p>Place the cursor where you intent to insert the picture or other media.</p>
+Before trying to insert pictures, upload them through &laquo;Images&raquo;.</p>"}}
+{{else}}
+{{assign var="str_title" value="HTML-текст объекта"}}
+{{assign var="str_warning" value="<strong>Внимание!</strong> Кто-то другой уже изменил текст после того, как вы начали его редактировать!"}}
+{{assign var="str_orig" value="Первоначальный вариант"}}
+{{assign var="str_current" value="Нынешний сохранённый вариант"}}
+{{assign var="str_your" value="Ваш текущий вариант"}}
+{{assign var="str_load" value="Загрузить совмещённый вариант в редактор"}}
+{{assign var="str_accept" value="Принять мой вариант"}}
+{{assign var="str_save" value="Сохранить изменения"}}
+{{assign var="str_insert" value="Вставка иллюстраций и ссылок"}}
+{{assign var="str_photo" value="Фото"}}
+{{assign var="str_strip" value="Фото-полоска"}}
+{{assign var="str_mos" value="Фото-мозаика"}}
+{{assign var="str_video" value="Видео"}}
+{{assign var="str_audio" value="Аудио"}}
+{{assign var="str_cut" value="Конец"}}
+{{assign var="str_descr" value="<p>Установите курсор в том месте текста, куда хотите вставить код иллюстрации или другой шаблон.</p>
+<p>Прежде чем добавлять иллюстрации, загрузите их через вкладку &laquo;Изображения&raquo;.</p>"}}
+{{/if}}
+
 <div class="move-modal modal fade" id="tmce_query">
 </div>
 
@@ -5,14 +43,14 @@
 {{assign var="html_varname" value="html"}}
 {{/if}}
 
-<h5 class="subhead">HTML-текст объекта</h5>
+<h5 class="subhead">{{$str_title}}</h5>
 {{if $Differences}}
-<p class="alert alert-danger"><strong>Внимание!</strong> Кто-то другой уже изменил текст после того, как вы начали его редактировать!</p>
+<p class="alert alert-danger">{{$str_warning}}</p>
 <table class="table">
 <tr>
-<th width="33%">Первоначальный вариант</th>
-<th width="33%">Нынешний сохранённый вариант</th>
-<th width="33%">Ваш текущий вариант</th>
+<th width="33%">{{$str_orig}}</th>
+<th width="33%">{{$str_current}}</th>
+<th width="33%">{{$str_your}}</th>
 </tr>
 <tr style="font-size:12px">
 <td width="33%">
@@ -29,8 +67,8 @@
 </tr>
 </table>
 <p class="text-right">
-<button class="btn btn-default">Загрузить совмещённый вариант в редактор</button>
-<button class="btn btn-success">Принять мой вариант</button>
+<button class="btn btn-default">{{$str_load}}</button>
+<button class="btn btn-success">{{$str_accept}}</button>
 </p>
 {{/if}}
 <div class="row">
@@ -45,17 +83,17 @@
 </form>
 </div>
 <div class="col-md-3">
-<p><button type="button" onclick="submit_form(this,'main_form')" class="form-control btn btn-primary" {{if !$CanSave}}disabled="disabled"{{/if}}>Сохранить изменения</button></p>
+<p><button type="button" onclick="submit_form(this,'main_form')" class="form-control btn btn-primary" {{if !$CanSave}}disabled="disabled"{{/if}}>{{$str_save}}</button></p>
 
 <div class="panel panel-default">
-  <div class="panel-heading"><small>Вставка иллюстраций и ссылок</small></div>
+  <div class="panel-heading"><small>{{$str_insert}}</small></div>
   <div class="panel-body">
-<a href="javascript:tmce_query('imgbyid')" class="btn btn-info btn-flow">Фото</a>
-<a href="javascript:tmce_query('montage')" class="btn btn-info btn-flow">Фото-полоска</a>
-<a href="javascript:tmce_query('photoreport')" class="btn btn-info btn-flow">Фото-мозаика</a>
-<a href="javascript:tmce_query('vidbyid')" class="btn btn-info btn-flow">Видео</a>
-<a href="javascript:tmce_query('audiobyid')" class="btn btn-info btn-flow">Аудио</a>
-<a href="javascript:tmce_query('cut')" class="btn btn-warning btn-flow">Конец</a>
+<a href="javascript:tmce_query('imgbyid')" class="btn btn-info btn-flow">{{$str_photo}}</a>
+<a href="javascript:tmce_query('montage')" class="btn btn-info btn-flow">{{$str_strip}}</a>
+<a href="javascript:tmce_query('photoreport')" class="btn btn-info btn-flow">{{$str_mos}}</a>
+<a href="javascript:tmce_query('vidbyid')" class="btn btn-info btn-flow">{{$str_video}}</a>
+<a href="javascript:tmce_query('audiobyid')" class="btn btn-info btn-flow">{{$str_audio}}</a>
+<a href="javascript:tmce_query('cut')" class="btn btn-warning btn-flow">{{$str_cut}}</a>
   
 
 
@@ -63,8 +101,7 @@
   <div class="panel-divider"></div>
   <div class="panel-body">
 <small>
-<p>Установите курсор в том месте текста, куда хотите вставить код иллюстрации или другой шаблон.</p>
-<p>Прежде чем добавлять иллюстрации, загрузите их через вкладку &laquo;Изображения&raquo;.</p>
+{{$str_descr}}
 </small>
   </div>
 </div>

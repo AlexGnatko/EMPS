@@ -1,0 +1,58 @@
+emps_scripts.push(function(){
+tinymce.init({
+    selector: "{{if $tinymce_selector}}{{$tinymce_selector}}{{else}}#id_html{{/if}}",
+	content_css: "/editor.css",
+
+	style_formats_merge: true,
+
+    style_formats: [
+		{title: "Website - block", items: [
+	        {title: 'Page header', block: 'div', classes: "page-header", wrapper: true},
+	        {title: 'Alert danger', block: 'p', classes: "alert alert-danger"},
+	        {title: 'Alert success', block: 'p', classes: "alert alert-success"},
+	        {title: 'Well', block: 'div', classes: "well"},
+	        {title: 'Shallow well', block: 'div', classes: "well well-sm"}
+			
+		]},
+
+		{title: "Website - inline", items: [
+	        {title: 'Small', inline: 'small', classes: ""},
+	        {title: 'Bigger', inline: 'span', classes: "bigger"},			
+		]}
+
+    ],
+	
+	convert_urls: true,
+	relative_urls: false,
+	document_base_url: "",	
+	plugins : ["code image charmap paste anchor searchreplace visualblocks visualchars link","table emoticons textcolor"],
+{{if $tinymce_short}}
+	toolbar1: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent "+
+	"| link image charmap emoticons | code ",
+{{else}}
+	toolbar1: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent "+
+	"| link image charmap emoticons | code ",
+	toolbar2: "forecolor backcolor | paste | table",
+{{/if}}
+	image_advtab: true,
+    table_class_list: [
+        {title: 'None', value: ''},
+        {title: 'Regular', value: 'table'},
+        {title: 'Striped', value: 'table table-striped'},		
+        {title: 'Bordered', value: 'table table-bordered'}
+    ],
+    image_class_list: [
+        {title: 'None', value: ''},
+        {title: '100% width', value: 'pic-full'},
+        {title: '1/4 → right', value: 'pic-3-right'},
+        {title: '1/4 ← left', value: 'pic-3-left'},
+        {title: '1/3 → right', value: 'pic-4-right'},
+        {title: '1/3 ← left', value: 'pic-4-left'},
+        {title: '1/2 → right', value: 'pic-6-right'},
+        {title: '1/2 ← left', value: 'pic-6-left'},
+        {title: '1/2 centered', value: 'pic-6-center'}
+    ],
+	
+	image_dimensions: false
+ });
+});

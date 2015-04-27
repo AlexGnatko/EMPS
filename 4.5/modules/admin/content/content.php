@@ -103,5 +103,16 @@ $_REQUEST['type']='p';
 
 $ited->add_pad_template("admin/content/pads,%s");
 
+if($emps->lang == "en"){
+	$ited->pads = array(
+		'info'=>'General',
+		'html'=>'HTML',
+		'props'=>'Properties',
+		'photos'=>'Images',
+		'files'=>'Files',
+		'videos'=>'Videos'
+		);
+}
+
 $ited->handle_request();
 ?>

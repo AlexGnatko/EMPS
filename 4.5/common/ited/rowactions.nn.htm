@@ -1,5 +1,17 @@
+{{if $lang eq "en"}}
+{{assign var="str_edit" value="Edit"}}
+{{assign var="str_props" value="Properties"}}
+{{assign var="str_photos" value="Photos"}}
+{{assign var="str_del" value="Delete"}}
+{{else}}
+{{assign var="str_edit" value="Правка"}}
+{{assign var="str_props" value="Свойства"}}
+{{assign var="str_photos" value="Фотографии"}}
+{{assign var="str_del" value="Удалить"}}
+{{/if}}
+
 <div class="btn-group">
-  <a href="{{$lst[i].nlink}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp; Правка</a>
+  <a href="{{$lst[i].nlink}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp; {{$str_edit}}</a>
   <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
   </button>
@@ -7,12 +19,12 @@
 {{if $row_html}}  
     <li><a href="{{$lst[i].ilink}}"><span class="glyphicon glyphicon-header"></span>&nbsp; HTML</a>  
 {{/if}}    
-    <li><a href="{{$lst[i].plink}}"><span class="glyphicon glyphicon-list"></span>&nbsp; Свойства</a>      
-    <li><a href="{{$lst[i].hlink}}"><span class="glyphicon glyphicon-camera"></span>&nbsp; Фотографии</a>      
+    <li><a href="{{$lst[i].plink}}"><span class="glyphicon glyphicon-list"></span>&nbsp; {{$str_props}}</a>      
+    <li><a href="{{$lst[i].hlink}}"><span class="glyphicon glyphicon-camera"></span>&nbsp; {{$str_photos}}</a>      
 {{$extra_actions}}
 	<li class="divider"></li>
 {{if !$no_delete}}
-    <li><a href="javascript:delete_modal('{{$lst[i].klink}}')">&times; &nbsp; Удалить</a></li>
+    <li><a href="javascript:delete_modal('{{$lst[i].klink}}')">&times; &nbsp; {{$str_del}}</a></li>
 {{/if}}
   </ul>
 </div>

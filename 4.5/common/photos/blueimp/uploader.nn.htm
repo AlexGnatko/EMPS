@@ -1,3 +1,63 @@
+{{if $lang eq "en"}}
+{{assign var="str_pic_descr" value="Enter the description for #"}}
+{{assign var="str_cancel" value="Cancel"}}
+{{assign var="str_save_descr" value="Save description"}}
+{{assign var="str_download" value="Download from another website"}}
+{{assign var="str_many" value="Several URLs can be entered in separate lines"}}
+{{assign var="str_upload" value="Upload"}}
+{{assign var="str_replace" value="Replace image file for #"}}
+{{assign var="str_replace_descr" value="Replacing the image file lets you change the picture without changing its current ID."}}
+{{assign var="str_upload_new" value="Upload new file"}}
+{{assign var="str_select_f" value="Select files..."}}
+{{assign var="str_bylink" value="By Link"}}
+{{assign var="str_start_upload" value="Start Uploading"}}
+{{assign var="str_delete" value="Delete"}}
+{{assign var="str_error" value="Error"}}
+{{assign var="str_start" value="Start"}}
+{{assign var="str_no_descr" value="(no description)"}}
+{{assign var="str_qual" value="Quality"}}
+{{assign var="str_cut_top" value="Cut 16x9 from top"}}
+{{assign var="str_cut_center" value="Cut 16x9 from center"}}
+{{assign var="str_cut_3" value="Cut 16x9 from 3/4"}}
+{{assign var="str_cut_bottom" value="Cut 16x9 from bottom"}}
+{{assign var="str_qual" value="Qual."}}
+{{assign var="str_del_pic" value="Delete photo?"}}
+{{assign var="str_del_pics" value="Delete selected photos?"}}
+{{assign var="str_b_descr" value="Description"}}
+{{assign var="str_b_replace" value="Replace file"}}
+{{assign var="str_b_links" value="Links"}}
+{{assign var="str_b_wm" value="Watermark"}}
+{{else}}
+{{assign var="str_pic_descr" value="Введите описание фотографии №"}}
+{{assign var="str_cancel" value="Отмена"}}
+{{assign var="str_save_descr" value="Сохранить описание"}}
+{{assign var="str_download" value="Загрузить с другого сайта"}}
+{{assign var="str_many" value="Можно несколько URL в отдельных строках"}}
+{{assign var="str_upload" value="Загрузить"}}
+{{assign var="str_replace" value="Сменить файл для фотографии №"}}
+{{assign var="str_replace_descr" value="Смена файла позволяет изменить фотографию, не меняя её ID и MD5 &mdash; существующие ссылки на фотографию останутся прежними."}}
+{{assign var="str_upload_new" value="Загрузить новый файл"}}
+{{assign var="str_select_f" value="Выбрать файлы..."}}
+{{assign var="str_bylink" value="По ссылке"}}
+{{assign var="str_start_upload" value="Начать отправку"}}
+{{assign var="str_delete" value="Удалить"}}
+{{assign var="str_error" value="Ошибка"}}
+{{assign var="str_start" value="Начать"}}
+{{assign var="str_no_descr" value="(нет описания)"}}
+{{assign var="str_qual" value="Качество"}}
+{{assign var="str_cut_top" value="Отрезать 16 на 9 сверху"}}
+{{assign var="str_cut_center" value="Вырезать 16 на 9 из центра"}}
+{{assign var="str_cut_3" value="Вырезать 16 на 9 из 3/4"}}
+{{assign var="str_cut_bottom" value="Отрезать 16 на 9 снизу"}}
+{{assign var="str_qual" value="Кач."}}
+{{assign var="str_del_pic" value="Удалить фотографию?"}}
+{{assign var="str_del_pics" value="Удалить выбранные фотографии?"}}
+{{assign var="str_b_descr" value="Описание"}}
+{{assign var="str_b_replace" value="Сменить файл"}}
+{{assign var="str_b_links" value="Ссылки на файл"}}
+{{assign var="str_b_wm" value="Watermark"}}
+{{/if}}
+
 <div class="move-modal modal fade" id="links_file">
 </div>
 
@@ -10,7 +70,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Введите описание фотографии №<span id="descr_id"></span></h4>
+        <h4 class="modal-title">{{$str_pic_descr}}<span id="descr_id"></span></h4>
       </div>
       <div class="modal-body">
         <p><textarea name="descr" id="descr_input" rows="5" class="form-control"></textarea></p>
@@ -18,8 +78,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-        <button type="submit" class="btn btn-primary">Сохранить описание</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
+        <button type="submit" class="btn btn-primary">{{$str_save_descr}}</button>
       </div>
     </div>
   </div>
@@ -34,16 +94,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Загрузить с другого сайта<span id="descr_id"></span></h4>
+        <h4 class="modal-title">{{$str_download}}<span id="descr_id"></span></h4>
       </div>
       <div class="modal-body">
-        <p><textarea name="links" id="descr_input" rows="5" class="form-control" placeholder="Можно несколько URL в отдельных строках"></textarea></p>
+        <p><textarea name="links" id="descr_input" rows="5" class="form-control" placeholder="{{$str_many}}"></textarea></p>
 
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-        <button type="submit" class="btn btn-primary">Загрузить</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
+        <button type="submit" class="btn btn-primary">{{$str_upload}}</button>
       </div>
     </div>
   </div>
@@ -59,17 +119,17 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Сменить файл для фотографии №<span id="upload_id"></span></h4>
+        <h4 class="modal-title">{{$str_replace}}<span id="upload_id"></span></h4>
       </div>
       <div class="modal-body">
-      	<p>Смена файла позволяет изменить фотографию, не меняя её ID и MD5 &mdash; существующие ссылки на фотографию останутся прежними.</p>
+      	<p>{{$str_replace_descr}}</p>
         <p><input type="file" name="file"/></p>
 
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-        <button type="submit" class="btn btn-primary">Загрузить новый файл</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
+        <button type="submit" class="btn btn-primary">{{$str_upload_new}}</button>
       </div>
     </div>
   </div>
@@ -85,20 +145,20 @@
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
-                    <span>Выбрать файлы...</span>
+                    <span>{{$str_select_f}}</span>
                     <input type="file" name="files[]" multiple>
                 </span>
                 <button type="button" class="btn btn-primary link" onclick="image_by_url()">
                     <i class="glyphicon glyphicon-cloud-download"></i>
-                    <span>По ссылке</span>
+                    <span>{{$str_bylink}}</span>
                 </button>                
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
-                    <span>Начать отправку</span>
+                    <span>{{$str_start_upload}}</span>
                 </button>
                 <button type="reset" class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Отменить</span>
+                    <span>{{$str_cancel}}</span>
                 </button>
 
                 <!-- The loading indicator is shown during file processing -->
@@ -116,7 +176,7 @@
             <div class="col-lg-2">
                 <button type="button" class="btn btn-danger delete">
                     <i class="glyphicon glyphicon-trash"></i>
-                    <span>Удалить</span>
+                    <span>{{$str_delete}}</span>
                 </button>
                 <input type="checkbox" class="toggle">            
             </div>
@@ -137,12 +197,12 @@
         <div class="col-md-6">
             <p class="name">{%=file.name%}</p>
             {% if (file.error) { %}
-                <div><span class="label label-danger">Ошибка</span> {%=file.error%}</div>
+                <div><span class="label label-danger">{{$str_error}}</span> {%=file.error%}</div>
             {% } %}
             {% if (!o.files.error && !i && !o.options.autoUpload) { %}
                 <button class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
-                    <span>Начать</span>
+                    <span>{{$str_start}}</span>
                 </button>
             {% } %}			
         </div>
@@ -157,7 +217,7 @@
             {% if (!i) { %}
                 <button class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Отмена</span>
+                    <span>{{$str_cancel}}</span>
                 </button>
             {% } %}
         </div>
@@ -189,45 +249,46 @@
 			{% if (file.descr) { %}
 			<span id="file_descr_{%=file.fileId%}" >{%=file.descr%}</span>
 			{% } else { %}
-			<span>(нет описания)</span>			
+			<span>{{$str_no_descr}}</span>			
 			{% } %}</p>
 			
 			<p>
 
 {{if $CanSave}}
-			<a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> Описание</a>
-			<a href="javascript:reupload_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-transfer"></i> Сменить файл</a>
+			<a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> {{$str_b_descr}}</a>
+			<a href="javascript:reupload_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-transfer"></i> {{$str_b_replace}}</a>
 {{/if}}
-			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> Ссылки на файл</a>
-			<a href="javascript:watermark_file('{%=file.fileId%}')" id="wm_{%=file.fileId%}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-tint"></i> Watermark</a>	
+			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> {{$str_b_links}}</a>
+			<a href="javascript:watermark_file('{%=file.fileId%}')" id="wm_{%=file.fileId%}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-tint"></i>
+			{{$str_b_wm}}</a>	
 			
 
 
 
 			</p>
             {% if (file.error) { %}
-                <div><span class="label label-danger">Ошибка</span> {%=file.error%}</div>
+                <div><span class="label label-danger">{{$str_error}}</span> {%=file.error%}</div>
             {% } %}
         </div>
         <div class="col-md-2">
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
-			
+
 {{if $CanSave}}
-<p style="margin-bottom:20px">Качество: {%=file.qual%}%</p>
+<p style="margin-bottom:20px">{{$str_qual}}: {%=file.qual%}%</p>
 	<div  class="btn-group pull-right">
   <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
     <i class="glyphicon glyphicon-facetime-video"></i> 16x9 <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
-		<li><a href="javascript:resize_file('{%=file.fileId%}', 'top')" >Отрезать 16 на 9 сверху</a></li>
-		<li><a href="javascript:resize_file('{%=file.fileId%}', 'center')" >Вырезать 16 на 9 из центра</a></li>		
-		<li><a href="javascript:resize_file('{%=file.fileId%}', 'optimal')" >Вырезать 16 на 9 из 3/4</a></li>				
-		<li><a href="javascript:resize_file('{%=file.fileId%}', 'bottom')" >Отрезать 16 на 9 снизу</a></li>		
+		<li><a href="javascript:resize_file('{%=file.fileId%}', 'top')" >{{$str_cut_top}}</a></li>
+		<li><a href="javascript:resize_file('{%=file.fileId%}', 'center')" >{{$str_cut_center}}</a></li>		
+		<li><a href="javascript:resize_file('{%=file.fileId%}', 'optimal')" >{{$str_cut_3}}</a></li>				
+		<li><a href="javascript:resize_file('{%=file.fileId%}', 'bottom')" >{{$str_cut_bottom}}</a></li>		
 	</ul>
 	</div>
 	<div  class="btn-group pull-right">
   <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-    <i class="glyphicon glyphicon-camera"></i> Кач. <span class="caret"></span>
+    <i class="glyphicon glyphicon-camera"></i> {{$str_qual}} <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
 		<li><a href="javascript:qual_file('{%=file.fileId%}', 100)" >100%</a></li>
@@ -244,14 +305,14 @@
 {{if $CanSave}}
                 <button class="btn btn-danger delete delete-button" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                     <i class="glyphicon glyphicon-trash"></i>
-                    <span>Удалить</span>
+                    <span>{{$str_delete}}</span>
                 </button>
                 <input type="checkbox" name="delete" value="1" class="toggle">
 {{/if}}
             {% } else { %}
                 <button class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Отмена</span>
+                    <span>{{$str_cancel}}</span>
                 </button>
             {% } %}
         </div>
@@ -286,10 +347,12 @@ function(){
 	});
 });
 
+
+
 function reset_delete(){
 	$(".delete-button").on("click",function(e){
 		if ( (typeof e.originalEvent) != "undefined" ){
-			if(confirm("Удалить фотографию?")){
+			if(confirm("{{$str_del_pic}}")){
 				return true;
 			}
 			return false;			
@@ -299,7 +362,7 @@ function reset_delete(){
 	$(".fileupload-buttonbar .delete").off("click");
 	
 	$(".fileupload-buttonbar .delete").on("click",function(e){
-		if(confirm("Удалить выбранные фотографии?")){
+		if(confirm("{{$str_del_pics}}")){
 			$(".files").find('.toggle:checked')
 				.closest('.template-download')
 				.find('.delete').click();
@@ -372,12 +435,14 @@ function qual_file(id, mode){
 }
 
 function image_by_url(){
-	$("#download_by_link").modal();
+	$("#download_by_link").modal('show');
 }
 
 function links_file(id){
-	$("#links_file").load("./?links="+id);
-	$("#links_file").modal();	
+	$("#links_file").load("./?links="+id, function(){
+		$("#links_file").modal('show');	
+	});
+
 }
 
 </script>
