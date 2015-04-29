@@ -9,7 +9,8 @@
 				'selector'			: '/objsel-select/?',
 				'descriptor'		: '/objsel-describe/?',
 				'value_holder'		: '',
-				'onNewSelection'	: 0
+				'onSetValue'	: function(){},
+				'onNewSelection'	: function(){},
 			};
 			
 			return this.each(function() {        
@@ -145,7 +146,12 @@
 			$(this).data('new_selection', true);
 			var data = $(this).data('selector_data');
 			if(data.value_holder){
+				var o = $("#"+data.value_holder);
 				$("#"+data.value_holder).val(value.id);
+				if(o.data("ng")){
+					var idata = $(this).data('selector_data');
+					idata.onSetValue.call($(this), value.id);
+				}
 			}
 			methods.hide();
 			$(this).EMPSObjectSelector('describe');
