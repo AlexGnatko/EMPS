@@ -21,7 +21,7 @@ $(function () {
             '/cors/result.html?%s'
         )
     );
-
+	
 	// Load existing files:
 	$('#fileupload').addClass('fileupload-processing');
 	$.ajax({
@@ -33,7 +33,8 @@ $(function () {
 	}).always(function () {
 		$(this).removeClass('fileupload-processing');
 	}).done(function (result) {
-		$(this).fileupload('option', 'done').call(this, null, {result: result});
+		$(this).fileupload('option', 'done').call(this, $.Event('done'), {result: result});
+		setTimeout("reset_delete()",200);
 	});
 
 });

@@ -230,6 +230,8 @@ class EMPS_BlueimpUploader {
 		if($this->can_save){
 			if($_GET['delete']){
 				$this->p->delete_photo($_GET['delete']+0);
+				$r = array("status"=>"OK");
+				echo json_encode($r);
 				exit();
 			}
 		}

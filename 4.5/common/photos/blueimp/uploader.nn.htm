@@ -178,7 +178,7 @@
                     <i class="glyphicon glyphicon-trash"></i>
                     <span>{{$str_delete}}</span>
                 </button>
-                <input type="checkbox" class="toggle">            
+                <input type="checkbox" class="toggle" name="delete" value="1">            
             </div>
         </div>
         <!-- The table listing the files available for upload/download -->
@@ -324,31 +324,6 @@
 <script>
 var ajax_wait;
 
-emps_scripts.push(
-function(){
-	ajax_wait = $('#ajax-wait');
-	ajax_wait.css({ width: $(window).width(), height: $(window).height() });
-	$('.files').sortable({
-		items: '.sortable',
-		update: function(e,ui) {
-			var ids = [];
-			$('.files').find('.sortable').each(function(){
-				var file_id = $(this).data('id');
-				if(file_id != undefined)
-					ids.push(file_id);
-			});
-			$.ajax({
-				beforeSend: function() { ajax_wait.fadeIn(); },
-				complete: function() { ajax_wait.fadeOut(); },
-				url: './?reorder_files=true',
-				data: {p: ids}
-			});
-		}
-	});
-});
-
-
-
 function reset_delete(){
 	$(".delete-button").on("click",function(e){
 		if ( (typeof e.originalEvent) != "undefined" ){
@@ -374,7 +349,25 @@ function reset_delete(){
 
 emps_scripts.push(
 function(){
-	setTimeout("reset_delete()",200);
+	ajax_wait = $('#ajax-wait');
+	ajax_wait.css({ width: $(window).width(), height: $(window).height() });
+	$('.files').sortable({
+		items: '.sortable',
+		update: function(e,ui) {
+			var ids = [];
+			$('.files').find('.sortable').each(function(){
+				var file_id = $(this).data('id');
+				if(file_id != undefined)
+					ids.push(file_id);
+			});
+			$.ajax({
+				beforeSend: function() { ajax_wait.fadeIn(); },
+				complete: function() { ajax_wait.fadeOut(); },
+				url: './?reorder_files=true',
+				data: {p: ids}
+			});
+		}
+	});
 });
 
 function enter_descr(id){

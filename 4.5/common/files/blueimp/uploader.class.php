@@ -164,6 +164,8 @@ class EMPS_BlueimpUploader {
 		
 		if($_GET['delete']){
 			$this->up->delete_file(intval($_GET['delete']), DT_FILE);
+			$r = array("status"=>"OK");
+			echo json_encode($r);
 			exit();
 		}
 		
