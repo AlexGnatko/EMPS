@@ -80,6 +80,13 @@ class EMPS_Mail {
 		return $rv;
 	}
 	
+	public function check_email($email){
+		$pattern = "/^[a-zа-яA-ZА-Я0-9_.+-]+@[a-zа-яA-ZА-Я0-9-]+\.[a-zа-яA-ZА-Я0-9-.]+$/u";
+		$match = preg_match($pattern, $email);
+		echo "match: ".$match." ".$email;
+		return $match;
+	}
+	
 	public function send_message_ex($user_id,$template,$title,$mode){
 		global $emps,$emps_smtp_data,$emps_smtp_params,$smarty;
 		
