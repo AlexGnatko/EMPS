@@ -83,7 +83,7 @@ class EMPS_Mail {
 	public function check_email($email){
 		$pattern = "/^[a-zа-яA-ZА-Я0-9_.+-]+@[a-zа-яA-ZА-Я0-9-]+\.[a-zа-яA-ZА-Я0-9-.]+$/u";
 		$match = preg_match($pattern, $email);
-		echo "match: ".$match." ".$email;
+//		echo "match: ".$match." ".$email;
 		return $match;
 	}
 	
