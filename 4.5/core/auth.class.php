@@ -321,10 +321,13 @@ class EMPS_Auth {
 					
 					if(strlen($client->access_token))
 					{
-						$token_data = array();
-						$client->GetAccessToken($token_data);
-						error_log("TOKEN DATA");
-						error_log($token_data['response']['id_token']);
+						if($target == "google"){
+							$token_data = $_SESSION['OAUTH_ACCESS_TOKEN']['https://www.googleapis.com/oauth2/v3/token'];
+							error_log("TOKEN DATA");
+							error_log($token_data['response']['id_token']);
+
+						}
+						
 						$data = $this->oauth_user_data($client, $target);
 						
 						if($data['user_id']){
