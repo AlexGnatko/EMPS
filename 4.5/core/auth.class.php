@@ -329,7 +329,7 @@ class EMPS_Auth {
 							require_once 'php-jwt/Exceptions/ExpiredException.php';
 							require_once 'php-jwt/Exceptions/SignatureInvalidException.php';
 							
-							$decoded = JWT::decode($jwt, OAUTH_GOOGLE_SECRET, array('HS256', 'HS256', 'HS384'));
+							$decoded = JWT::decode($jwt, OAUTH_GOOGLE_SECRET, array('HS256'));
 							error_log(json_encode($decoded));
 
 						}
