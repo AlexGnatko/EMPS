@@ -314,6 +314,9 @@ class EMPS_Auth {
 					
 					if(strlen($client->access_token))
 					{
+						$token_data = $client->GetAccessToken();
+						error_log("TOKEN DATA");
+						error_log(json_encode($token_data));
 						$data = $this->oauth_user_data($client, $target);
 						
 						if($data['user_id']){
@@ -531,8 +534,8 @@ class EMPS_Auth {
 			}
 			if($target == 'google'){
 				$data['user_id'] = $user->id;
-				$data['firstname'] = $user->given_name;
-				$data['lastname'] = $user->family_name;	
+				$data['firstname'] = $user->firstname;
+				$data['lastname'] = $user->lastname;	
 				error_log("Google RETURNED:");
 				error_log(json_encode($data));
 			}
