@@ -209,8 +209,14 @@ class EMPS_Auth {
 		$client = new oauth_client_class;
 //		$client->debug = 1;
 //		$client->debug_http = 1;
-		$client->configuration_file = EMPS_SCRIPT_PATH.'/modules/oauth/oauth_configuration.json';
+		$config_file = EMPS_SCRIPT_PATH.'/modules/oauth/oauth_configuration.json';
+		if(!file_exists($config_file)){
+			$config_file = $emps->common_module("oauth/oauth_configuration.json");
+		}
 		
+		$client->configuration_file = $config_file;
+		
+		$proto = "http";
 		
 		switch($target){
 			case 'twitter':
@@ -246,8 +252,9 @@ class EMPS_Auth {
 				$client->client_id = OAUTH_GOOGLE_ID;
 				$client->client_secret = OAUTH_GOOGLE_SECRET;				
 				$client->server = 'Google2';
-				$client->scope = '';		
+				$client->scope = 'openid profile';		
 				$client->debug = true;		
+				$proto = "https";
 				break;								
 			default:
 				return false;
@@ -256,11 +263,11 @@ class EMPS_Auth {
 		$host = $_SERVER['SERVER_NAME'];
 		$x = explode("?", $_SERVER['REQUEST_URI'], 2);
 		$path = $x[0];
-		$url = "http://".$host.$path."?provider=".$target;
+		$url = $proto."://".$host.$path."?provider=".$target;
 		
 		if($target == 'ok' && $mode == 'start'){
 			$_SESSION['ok_back_redirect'] = $path;
-			$url = "http://".$host."/"."?provider=".$target;
+			$url = $proto."://".$host."/"."?provider=".$target;
 		}
 //		echo $url;exit();
 		
