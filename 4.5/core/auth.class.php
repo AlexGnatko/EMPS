@@ -323,8 +323,14 @@ class EMPS_Auth {
 					{
 						if($target == "google"){
 							$token_data = $_SESSION['OAUTH_ACCESS_TOKEN']['https://www.googleapis.com/oauth2/v3/token'];
-							error_log("TOKEN DATA");
-							error_log($token_data['response']['id_token']);
+							$jwt = $token_data['response']['id_token'];
+							require_once 'php-jwt/Authentication/JWT.php';
+							require_once 'php-jwt/Exceptions/BeforeValidException.php';
+							require_once 'php-jwt/Exceptions/ExpiredException.php';
+							require_once 'php-jwt/Exceptions/SignatureInvalidException.php';
+							
+							$decoded = JWT::decode($jwt, OAUTH_GOOGLE_SECRET, array('HS256', 'HS256', 'HS384'));
+							error_log(json_encode($decoded));
 
 						}
 						
