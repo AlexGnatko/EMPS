@@ -254,6 +254,7 @@ class EMPS_Auth {
 				$client->server = 'Google2';
 				$client->scope = 'openid profile';		
 				$client->debug = true;		
+				$client->store_access_token_response = true;
 				$proto = "https";
 				break;								
 			default:
