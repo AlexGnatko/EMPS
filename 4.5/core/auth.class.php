@@ -199,6 +199,12 @@ class EMPS_Auth {
 		}
 	}
 	
+	public function base64Decode_jwt($string)
+	{
+		$decoded = str_pad($data,4 - (strlen($data) % 4),'=');
+		return base64_decode(strtr($decoded, '-_', '+/'));
+	}
+
 	public function do_oauth_login($target, $mode){
 		global $emps;
 		
@@ -323,15 +329,11 @@ class EMPS_Auth {
 					{
 						if($target == "google"){
 							$token_data = $_SESSION['OAUTH_ACCESS_TOKEN']['https://www.googleapis.com/oauth2/v3/token'];
-							$jwt = $token_data['response']['id_token'];
-							require_once 'php-jwt/Authentication/JWT.php';
-							require_once 'php-jwt/Exceptions/BeforeValidException.php';
-							require_once 'php-jwt/Exceptions/ExpiredException.php';
-							require_once 'php-jwt/Exceptions/SignatureInvalidException.php';
-							
-							$decoded = JWT::decode($jwt, OAUTH_GOOGLE_ID, false);
-							error_log(json_encode($decoded));
 
+							$parts = explode('.', $token_data['response']['id_token']);
+							
+							$body = $this->base64Decode_jwt($parts[1]);
+							error_log($body);
 						}
 						
 						$data = $this->oauth_user_data($client, $target);
