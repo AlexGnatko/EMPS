@@ -252,7 +252,7 @@ class EMPS_Auth {
 				$client->client_id = OAUTH_GOOGLE_ID;
 				$client->client_secret = OAUTH_GOOGLE_SECRET;				
 				$client->server = 'Google2';
-				$client->scope = 'openid userinfo.profile';		
+				$client->scope = 'openid profile';		
 				$client->debug = true;		
 				$proto = "https";
 				break;								
