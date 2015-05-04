@@ -246,7 +246,7 @@ class EMPS_Auth {
 				$client->client_secret = OAUTH_OK_SECRET;				
 				$client->server = 'OK';
 				$client->scope = '';		
-				$client->debug = true;		
+//				$client->debug = true;		
 				break;				
 			case 'facebook':
 				$client->client_id = OAUTH_FB_ID;
@@ -259,7 +259,7 @@ class EMPS_Auth {
 				$client->client_secret = OAUTH_GOOGLE_SECRET;				
 				$client->server = 'Google2';
 				$client->scope = 'openid profile';		
-				$client->debug = true;		
+//				$client->debug = true;		
 				$client->store_access_token_response = true;
 				$proto = "https";
 				break;								
@@ -296,9 +296,6 @@ class EMPS_Auth {
 						
 			if(($success = $client->Initialize()))
 			{
-				if($target == "google"){
-					$client->store_access_token_response = true;
-				}
 				if(($success = $client->Process())){
 					$success = $client->Finalize($success);				
 				}
@@ -320,22 +317,10 @@ class EMPS_Auth {
 //			if($target == 'ok'){
 //				echo "MODE FINISH - Initialized";exit();
 //			}				
-				if($target == "google"){
-					$client->store_access_token_response = true;
-				}
 				if(($success = $client->Process())){
 					
 					if(strlen($client->access_token))
 					{
-						if($target == "google"){
-							$token_data = $_SESSION['OAUTH_ACCESS_TOKEN']['https://www.googleapis.com/oauth2/v3/token'];
-
-							$parts = explode('.', $token_data['response']['id_token']);
-							
-							$body = $this->base64Decode_jwt($parts[1]);
-							error_log($body);
-						}
-						
 						$data = $this->oauth_user_data($client, $target);
 						
 						if($data['user_id']){
@@ -552,11 +537,9 @@ class EMPS_Auth {
 				$data['link'] = "https://www.facebook.com/profile.php?id=".$user->id;
 			}
 			if($target == 'google'){
-				$data['user_id'] = $user->id;
-				$data['firstname'] = $user->firstname;
-				$data['lastname'] = $user->lastname;	
-				error_log("Google RETURNED:");
-				file_put_contents(EMPS_SCRIPT_PATH."/local/lastuser.txt", json_encode($user));
+				$data['user_id'] = $user->sub;
+				$data['firstname'] = $user->given_name;
+				$data['lastname'] = $user->family_name;	
 			}
 			
 			return $data;
