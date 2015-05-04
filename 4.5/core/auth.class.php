@@ -533,6 +533,8 @@ class EMPS_Auth {
 				$data['user_id'] = $user->id;
 				$data['firstname'] = $user->given_name;
 				$data['lastname'] = $user->family_name;	
+				error_log("Google RETURNED:");
+				error_log(json_encode($data));
 			}
 			
 			return $data;
