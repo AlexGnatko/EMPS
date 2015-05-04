@@ -245,7 +245,7 @@ class EMPS_Auth {
 			case 'google':
 				$client->client_id = OAUTH_GOOGLE_ID;
 				$client->client_secret = OAUTH_GOOGLE_SECRET;				
-				$client->server = 'Google1';
+				$client->server = 'Google2';
 				$client->scope = '';		
 				$client->debug = true;		
 				break;								
