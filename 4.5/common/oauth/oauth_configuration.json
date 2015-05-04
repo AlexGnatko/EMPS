@@ -163,6 +163,13 @@
 			"access_token_url": "https://www.google.com/accounts/OAuthGetAccessToken",
 			"request_token_url": "https://www.google.com/accounts/OAuthGetRequestToken?scope={SCOPE}"
 		},
+		
+		"Google2":
+		{
+			"oauth_version": "2.0",
+			"dialog_url": "https://accounts.google.com/o/oauth2/auth?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&scope={SCOPE}&response_type=code&state={STATE}",
+			"access_token_url": "https://www.googleapis.com/oauth2/v3/token"
+		},
 
 		"Instagram":
 		{

@@ -241,6 +241,13 @@ class EMPS_Auth {
 				$client->client_secret = OAUTH_FB_SECRET;				
 				$client->server = 'Facebook';
 				$client->scope = '';				
+				break;	
+			case 'google':
+				$client->client_id = OAUTH_GOOGLE_ID;
+				$client->client_secret = OAUTH_GOOGLE_SECRET;				
+				$client->server = 'Google1';
+				$client->scope = '';		
+				$client->debug = true;		
 				break;								
 			default:
 				return false;
@@ -440,6 +447,12 @@ class EMPS_Auth {
 				'GET', array(), array('FailOnAccessError'=>true), $user);
 		}
 		
+		if($target == 'google'){		
+			$success = $client->CallAPI(
+				'https://www.googleapis.com/oauth2/v3/userinfo', 
+				'GET', array(), array('FailOnAccessError'=>true), $user);
+		}
+		
 		if($target == 'ok'){		
 /*			$success = $client->CallAPI(
 				'http://api.odnoklassniki.ru/fb.do', 
@@ -508,6 +521,11 @@ class EMPS_Auth {
 				$data['firstname'] = $user->first_name;
 				$data['lastname'] = $user->last_name;	
 				$data['link'] = "https://www.facebook.com/profile.php?id=".$user->id;
+			}
+			if($target == 'google'){
+				$data['user_id'] = $user->id;
+				$data['firstname'] = $user->given_name;
+				$data['lastname'] = $user->family_name;	
 			}
 			
 			return $data;
