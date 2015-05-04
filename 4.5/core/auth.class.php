@@ -604,8 +604,9 @@ class EMPS_Auth {
 	
 	public function pick_activation_key($uid){
 		global $emps;
-		$bt = md5(uniqid(rand(), true));
+		$bt = md5(uniqid(rand().time(), true));
 		$dt = time();
+		$emps->db->query("delete from ".TP."e_actkeys where pin = '".$bt."'");
 		$emps->db->query("insert into ".TP."e_actkeys values ('$bt',$uid,$dt)");
 		return $bt;
 	}
