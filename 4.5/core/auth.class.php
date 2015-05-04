@@ -290,6 +290,9 @@ class EMPS_Auth {
 						
 			if(($success = $client->Initialize()))
 			{
+				if($target == "google"){
+					$client->store_access_token_response = true;
+				}
 				if(($success = $client->Process())){
 					$success = $client->Finalize($success);				
 				}
@@ -311,6 +314,9 @@ class EMPS_Auth {
 //			if($target == 'ok'){
 //				echo "MODE FINISH - Initialized";exit();
 //			}				
+				if($target == "google"){
+					$client->store_access_token_response = true;
+				}
 				if(($success = $client->Process())){
 					
 					if(strlen($client->access_token))
