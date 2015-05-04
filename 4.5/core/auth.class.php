@@ -307,6 +307,10 @@ class EMPS_Auth {
 			
 		}
 		
+		if($_GET['debug_oauth']){
+			dump($_SESSION['OAUTH_ACCESS_TOKEN']['https://www.googleapis.com/oauth2/v3/token']);
+		}
+		
 		if($mode == 'finish'){
 
 			if(($success = $client->Initialize()))

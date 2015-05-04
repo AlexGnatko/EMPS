@@ -52,12 +52,12 @@ class EMPS_SessionHandler implements SessionHandlerInterface
 				$emps->db->query("update ".TP."e_php_sessions set dt = ".time().$browser." where id = ".$ra['id']);
 			}
 			$this->last_result = $ra;
-			$rv = (string)$ra['data'];
+			$rv = $ra['data'];
 		}
 		
 		$this->last_data = $rv;
 		
-		return @$rv;
+		return $rv;
     }
 
     public function write($id, $data)
