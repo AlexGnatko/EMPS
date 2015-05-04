@@ -556,7 +556,7 @@ class EMPS_Auth {
 				$data['firstname'] = $user->firstname;
 				$data['lastname'] = $user->lastname;	
 				error_log("Google RETURNED:");
-				error_log(json_encode($user));
+				file_put_contents(EMPS_SCRIPT_PATH."/local/lastuser.txt", json_encode($user));
 			}
 			
 			return $data;
