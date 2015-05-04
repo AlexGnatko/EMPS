@@ -314,7 +314,8 @@ class EMPS_Auth {
 					
 					if(strlen($client->access_token))
 					{
-						$token_data = $client->GetAccessToken();
+						$token_data = array();
+						$client->GetAccessToken($token_data);
 						error_log("TOKEN DATA");
 						error_log(json_encode($token_data));
 						$data = $this->oauth_user_data($client, $target);
