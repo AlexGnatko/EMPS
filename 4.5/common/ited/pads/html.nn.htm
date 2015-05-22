@@ -68,13 +68,13 @@ Before trying to insert pictures, upload them through &laquo;Images&raquo;.</p>"
 </table>
 <p class="text-right">
 <button class="btn btn-default">{{$str_load}}</button>
-<button class="btn btn-success">{{$str_accept}}</button>
+<button class="btn btn-success" onclick="ited_accept()">{{$str_accept}}</button>
 </p>
 {{/if}}
 <div class="row">
 <div class="col-md-9">
 <form action="." method="post" id="main_form" class="form" role="form">
-<textarea name="orig[{{$html_varname}}]" style="display:none">{{$row.$html_varname|escape:html}}</textarea>
+<textarea name="orig[{{$html_varname}}]" id="id_orig" style="display:none">{{$row.$html_varname|escape:html}}</textarea>
 <input type="hidden" name="post_save" value="1" />
 <input type="hidden" name="body" value="" />
 <textarea id="id_html" class="form-control" rows="24" name="{{$html_varname}}">{{if $row.new.$html_varname}}{{$row.new.$html_varname|escape:html}}{{else}}{{$row.$html_varname|escape:html}}{{/if}}</textarea>
@@ -271,6 +271,11 @@ function tmce_toggle_image(o){
 		
 	}
 	
+}
+
+function ited_accept(){
+	$("#id_orig").remove();
+	$("#main_form").submit();
 }
 
 </script>

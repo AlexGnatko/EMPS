@@ -55,13 +55,16 @@
 	}
 
 	var o=$("input[name=search_name]");	
-	o.bind('keypress.search',function(){
+	o.attr("disabled", false);
+	o.attr("readonly", false);
+
+	o.on('keypress.search',function(){
 		clearTimeout(updateTimeout);
 		abortRequest();		
 		start = 0;
 		updateTimeout=setTimeout('updateData()',500);
 	});
-	o.bind('click.search',function(e){
+	o.on('click.search',function(e){
 		var o = $(e.currentTarget);
 		if(o.val() == default_value){
 			o.val('');
@@ -69,7 +72,7 @@
 			o.focus();
 		}
 	});
-	o.bind('blur.search',function(e){
+	o.on('blur.search',function(e){
 		clearTimeout(updateTimeout);
 		abortRequest();
 		var o = $(e.currentTarget);

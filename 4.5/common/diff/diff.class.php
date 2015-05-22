@@ -65,6 +65,7 @@ class EMPS_Diff_Renderer extends Text_Diff_Renderer {
 
 
 class EMPS_Diff {
+	public $lines = 50000;
 	public function diff_result($text1, $text2){
 
 		$hlines1 = explode("\n", $text1);
@@ -76,7 +77,7 @@ class EMPS_Diff {
 		// get the diff in unified format
 		// you can add 4 other parameters, which will be the ins/del prefix/suffix tags
 //		$renderer = &new EMPS_Diff_Renderer(50000);
-		$renderer = &new Text_Diff_Renderer_inline(50000);
+		$renderer = &new Text_Diff_Renderer_inline($this->lines);
 		return $renderer->render($diff);
 	
 	}
