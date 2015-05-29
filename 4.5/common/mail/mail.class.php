@@ -2,6 +2,8 @@
 require_once 'PHPMailer/PHPMailerAutoload.php';
 
 class EMPS_Mail {
+	public $attachments = array();
+	
 	public function mail_smtp($to, $subject, $body, $smtp_data, $params){
 		global $smarty;
 		
@@ -66,6 +68,12 @@ class EMPS_Mail {
 			$mail->Subject = $subject;
 			
 			$mail->Body = $body;
+			
+			// Attachments, if any
+			foreach($this->attachments as $att){
+				$mail->AddAttachment($att['path'], $att['filename']);
+			}
+			
 			//send the message
 			//Note that we don't need check the response from this because it will throw an exception if it has trouble
 			$mail->send();
