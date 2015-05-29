@@ -8,6 +8,10 @@ class EMPS_Mail {
 		global $smarty;
 		
 		$rv = false;
+		
+		if(isset($smtp_data['attachments'])){
+			$this->attachments = $smtp_data['attachments'];
+		}
 
 		$mail = new PHPMailer(true);
 		try {
@@ -148,7 +152,9 @@ class EMPS_Mail {
 			$_REQUEST['title']=$title;
 			$_REQUEST['message']=$k_message;
 			$_REQUEST['params']=serialize($emps_smtp_params);
-			$_REQUEST['smtpdata']=serialize($emps_smtp_data);		
+			$data = $emps_smtp_data;
+			$data['attachments'] = $this->attachments;
+			$_REQUEST['smtpdata']=serialize($data);		
 			$_REQUEST['dt']=time();
 			$_REQUEST['sdt']=0;
 			$emps->db->sql_insert("e_msgcache");
