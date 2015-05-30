@@ -57,7 +57,7 @@ class EMPS_Uploads {
 	
 	public function upload_filename($file_id,$mode){
 		$folder=$this->pick_folder($file_id,$mode);
-		
+
 		if(!$folder) return false;
 		
 		switch($mode){

@@ -43,6 +43,11 @@ settings_{{$id}}={
 	'onSetValue' : function(id){
 		ng_set_value_{{$id}}.call(this, id);
 	},
+{{if $ng_custom_show}}
+	'beforeShow' : function(){
+		return ng_before_show_{{$id}}.call(this);
+	},
+{{/if}}
 {{/if}}
 	'onNewSelection' : function(){
 {{if $auto}}

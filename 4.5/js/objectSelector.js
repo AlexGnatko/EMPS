@@ -9,6 +9,7 @@
 				'selector'			: '/objsel-select/?',
 				'descriptor'		: '/objsel-describe/?',
 				'value_holder'		: '',
+				'beforeShow'	: function(){ return true; },
 				'onSetValue'	: function(){},
 				'onNewSelection'	: function(){},
 			};
@@ -27,6 +28,11 @@
 		},
 		show : function( ) {
 			var data = $(this).data('selector_data');
+
+			var r = data.beforeShow.call(this);
+			if(!r){
+				return;
+			}
 			
 			var href=data.selector+"id="+$(this).attr('id')+"&value="+escape($(this).val())+"&selector_type="+data.selector_type+"&selector_name="+escape(data.selector_name);
 			
