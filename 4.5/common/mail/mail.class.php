@@ -99,13 +99,13 @@ class EMPS_Mail {
 		return $match;
 	}
 	
-	public function send_message_ex($user_id,$template,$title,$mode){
-		global $emps,$emps_smtp_data,$emps_smtp_params,$smarty;
+	public function send_message_ex($user_id, $template, $title, $mode){
+		global $emps, $emps_smtp_data, $emps_smtp_params, $smarty, $SET;
 		
 		if(!$user_id) return -50;
 	
 		if($mode==2 || $mode==3){
-			$email=$user_id;
+			$email = $user_id;
 		}else{
 			$user=$emps->auth->load_user($user_id);
 			if($user['email']){
@@ -115,7 +115,7 @@ class EMPS_Mail {
 			}
 		}
 	
-		$smarty->assign("BaseURL",$emps->base_url_by_ctx($emps->website_ctx));
+		$smarty->assign("BaseURL", $emps->base_url_by_ctx($emps->website_ctx));
 	
 		if(!$email){
 			return -1;		
@@ -144,26 +144,29 @@ class EMPS_Mail {
 		}
 	
 		if($mode==0 || $mode==3){
-			$r=$this->mail_smtp($to,$title,$k_message,$emps_smtp_data,$emps_smtp_params);
+			$r = $this->mail_smtp($to,$title,$k_message,$emps_smtp_data,$emps_smtp_params);
 		}elseif($mode==1 || $mode==2){
-			$_REQUEST['id']="";
-			$_REQUEST['status']=0;
-			$_REQUEST['to']=$to;
-			$_REQUEST['title']=$title;
-			$_REQUEST['message']=$k_message;
-			$_REQUEST['params']=serialize($emps_smtp_params);
+			$SET = array();
+			$SET['id'] = "";
+			$SET['status'] = 0;
+			$SET['to'] = $to;
+			$SET['title'] = $title;
+			$SET['message'] = $k_message;
+			$SET['params'] = serialize($emps_smtp_params);
 			$data = $emps_smtp_data;
 			$data['attachments'] = $this->attachments;
-			$_REQUEST['smtpdata']=serialize($data);		
-			$_REQUEST['dt']=time();
-			$_REQUEST['sdt']=0;
+			$SET['smtpdata'] = serialize($data);		
+			$SET['dt'] = time();
+			$SET['sdt'] = 0;
 			$emps->db->sql_insert("e_msgcache");
 			if($emps->db->last_insert()){
-				$r=true;
-			}else $r=false;
+				$r = true;
+			}else{
+				$r = false;
+			}
 		}
 	
-		if($r==true){
+		if($r == true){
 			return 0;
 		}else{
 			return -3;
