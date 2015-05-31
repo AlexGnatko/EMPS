@@ -2,6 +2,8 @@
 class EMPS_Uploads {
 	public $UPLOAD_PATH;
 	
+	public $ord = 10;
+	
 	public function __construct(){
 		global $emps;
 		$this->UPLOAD_PATH = EMPS_SCRIPT_PATH.EMPS_UPLOAD_SUBFOLDER;
@@ -179,5 +181,34 @@ class EMPS_Uploads {
 		
 		return $ra;
 	}
+	
+	public function download_file($context_id, $url, $filename){
+		global $emps, $SET;
+		
+		$data = file_get_contents($url);
+		
+		$headers = get_headers($url, 1);
+		
+		$type = $headers['Content-Type'];
+		if(!$type){
+			$type = "application/octet-stream";
+		}
+					
+		$SET = array();		
+		$SET['md5'] = md5(uniqid(time()));
+		$SET['file_name'] = $filename;
+		$SET['content_type'] = $type;
+		$SET['context_id'] = $context_id;
+		$SET['size'] = strlen($data);
+		$SET['user_id'] = $emps->auth->USER_ID;
+		$SET['ord'] = $this->ord;
+		$emps->db->sql_insert("e_files");
+		$file_id = $emps->db->last_insert();	
+		
+		$xfname = $this->upload_filename($file_id, DT_FILE);
+		
+		file_put_contents($xfname, $data);	
+	}
+
 }
 ?>
