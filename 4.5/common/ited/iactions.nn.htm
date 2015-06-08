@@ -23,6 +23,8 @@
 {{/if}}
 
   <div class="move-modal modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true" style="overflow:hidden;">
+    <div class="modal-dialog">
+      <div class="modal-content">
 <form action="{{if $add_target}}{{$add_target}}{{else}}.{{/if}}" method="post" class="form-horizontal" role="form">  
 <input type="hidden" name="ss" value="" />
 <input type="hidden" name="key" value="" />
@@ -30,8 +32,7 @@
 {{if $autolink}}<input type="hidden" name="autolink" value="{{$autolink}}" />
 {{/if}}
 <input type="hidden" name="return_to" value="{{$return_to}}" />
-    <div class="modal-dialog">
-      <div class="modal-content">
+
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">{{$str_create_new}}</h4>
@@ -43,9 +44,9 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
           <button type="submit" class="btn btn-primary">{{$str_create}}</button>
         </div>
+</form>    
       </div>
     </div>
-</form>    
   </div>
 {{/capture}}
 
