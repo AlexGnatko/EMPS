@@ -18,7 +18,7 @@
 				var id=data['id'];
 				var idx=0;
 				var caller = $(this);
-				$("[id*="+id+"]").each(function(){				
+				$("[id^="+id+"]").each(function(){				
 					$(this).bind('keypress change',function(){
 						caller.EMPSAutoArray('ensure_line');
 					});
@@ -143,8 +143,8 @@
 			var idx = data['idx'];			
 			var id = data['id'];
 //			alert('compact');
-			var last = $("[id*="+id+"]").last();
-			$("[id*="+id+"]").each(function(){
+			var last = $("[id^="+id+"]").last();
+			$("[id^="+id+"]").each(function(){
 				var empty = true;
 				$(this).find("input,select,textarea").each(function(){
 					if($(this).attr('type')=='search' || $(this).attr('type')=='text' || $(this).get(0).tagName == 'TEXTAREA'){
