@@ -41,7 +41,7 @@
 			$("[id^="+id+"]").each(function(){
 				var empty = true;
 				$(this).find("input,select,textarea").each(function(){
-					if($(this).attr('type')=='text' || $(this).get(0).tagName == 'TEXTAREA'){
+					if($(this).attr('type')=='search' || $(this).attr('type')=='text' || $(this).get(0).tagName == 'TEXTAREA'){
 						if($(this).val()!=''){
 							empty = false;
 						}
@@ -87,12 +87,12 @@
 				}
 
 				$(this).attr('name',name+"_idx["+idx+"]");
-				$(this).attr('list', "list_"+id+"_"+idx);
+				$(this).attr('list', "datalist_"+id+"_"+idx);
 				$(this).bind('keypress change select',function(){
 					caller.EMPSAutoArray('ensure_line');
 				});
 				$(this).bind('keyup',function(){
-					caller.EMPSAutoArray('on_keypress', this);
+					caller.EMPSAutoArray('on_keypress', this, 0);
 				});
 				
 			});
@@ -105,7 +105,7 @@
 			data['idx']=idx;
 			$(this).data('autoarray_data',data);
 		},
-		on_keypress: function ( obj ){
+		on_keypress: function ( obj, mode ){
 			var data = $(this).data('autoarray_data');
 			
 			if(typeof data['autocomplete_source'] == "undefined"){
@@ -114,17 +114,28 @@
 			
 			var o = $(obj);
 			var dl = o.parent().find("datalist");
-
-			$.ajax(data['autocomplete_source']+"?q="+escape(o.val()), {success: function(result){
-				if(result.result == "OK"){
-					var list = result.list;
-					dl.html('');
-					var l = list.length;
-					for(var i = 0; i < l; i++){
-						dl.append("<option value=\""+list[i].name+"\" />");
+			
+			var caller = $(this);
+			
+			if(mode == 0){
+				clearTimeout(data['ajax_timeout']);
+				data['ajax_timeout'] = setTimeout(function(){
+					caller.EMPSAutoArray('on_keypress', obj, 1);
+				}, 600);
+				$(this).data('autoarray_data', data);
+			}
+			if(mode == 1){
+				$.ajax(data['autocomplete_source']+"?q="+escape(o.val()), {success: function(result){
+					if(result.result == "OK"){
+						var list = result.list;
+						dl.html('');
+						var l = list.length;
+						for(var i = 0; i < l; i++){
+							dl.append("<option value=\""+list[i].name+"\" />");
+						}
 					}
-				}
-			}});
+				}});
+			}
 			
 		},
 		compact : function( anyway ) {
@@ -136,7 +147,7 @@
 			$("[id*="+id+"]").each(function(){
 				var empty = true;
 				$(this).find("input,select,textarea").each(function(){
-					if($(this).attr('type')=='text' || $(this).get(0).tagName == 'TEXTAREA'){
+					if($(this).attr('type')=='search' || $(this).attr('type')=='text' || $(this).get(0).tagName == 'TEXTAREA'){
 						if($(this).val()!=''){
 							empty = false;
 						}
@@ -147,7 +158,7 @@
 					if(anyway){
 						$(this).remove();					
 					}else if(!$(this).is(last)){
-						if(!$(this).find("input,select,textarea").is($(document.activeElement ))){
+						if(!$(this).find("search,select,textarea").is($(document.activeElement ))){
 							$(this).remove();
 						}
 					}
