@@ -1,11 +1,17 @@
 <div style="display:none" id="tags_list">
 <div class="form-group">
 <input class="form-control" type="text" name="keywords" value="">
+<datalist>
+</datalist>
+
 </div>
+
 </div>
 
 <script>
-$("#tags_list").EMPSAutoArray({'id':'tagslist'});
+$("#tags_list").EMPSAutoArray({'id':'tagslist',
+'autocomplete_source':'/tag-json/'
+});
 {{if $row.keywords_idx}}
 $("#tags_list").EMPSAutoArray('compact',true);
 {{section name=i loop=$row.keywords_idx}}

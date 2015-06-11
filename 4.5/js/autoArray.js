@@ -38,7 +38,7 @@
 			var id = data['id'];
 		
 			var found_free=0;
-			$("[id*="+id+"]").each(function(){
+			$("[id^="+id+"]").each(function(){
 				var empty = true;
 				$(this).find("input,select,textarea").each(function(){
 					if($(this).attr('type')=='text' || $(this).get(0).tagName == 'TEXTAREA'){
@@ -52,7 +52,6 @@
 					found_free++;
 				}
 			});
-//			alert(found_free);
 			if(found_free==0){
 				$(this).EMPSAutoArray('add_line');
 			}
@@ -88,15 +87,45 @@
 				}
 
 				$(this).attr('name',name+"_idx["+idx+"]");
+				$(this).attr('list', "list_"+id+"_"+idx);
 				$(this).bind('keypress change select',function(){
 					caller.EMPSAutoArray('ensure_line');
 				});
+				$(this).bind('keyup',function(){
+					caller.EMPSAutoArray('on_keypress', this);
+				});
+				
+			});
+			template.find("datalist").each(function(){
+				$(this).attr("id", "datalist_"+id+"_"+idx);
 			});
 //			alert(template.html());
 			$(this).before(template);
 			idx++;			
 			data['idx']=idx;
 			$(this).data('autoarray_data',data);
+		},
+		on_keypress: function ( obj ){
+			var data = $(this).data('autoarray_data');
+			
+			if(typeof data['autocomplete_source'] == "undefined"){
+				return;
+			}
+			
+			var o = $(obj);
+			var dl = o.parent().find("datalist");
+
+			$.ajax(data['autocomplete_source']+"?q="+escape(o.val()), {success: function(result){
+				if(result.result == "OK"){
+					var list = result.list;
+					dl.html('');
+					var l = list.length;
+					for(var i = 0; i < l; i++){
+						dl.append("<option value=\""+list[i].name+"\" />");
+					}
+				}
+			}});
+			
 		},
 		compact : function( anyway ) {
 			var data = $(this).data('autoarray_data');

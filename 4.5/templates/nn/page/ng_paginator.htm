@@ -1,0 +1,11 @@
+<div class="form-group text-right">
+<ul class="pagination" >
+  <li><a class="pointer" ng-click="$event.preventDefault(); roll_to(pages.first)"><i class="glyphicon glyphicon-fast-backward"></i></a></li>
+  <li ng-hide="pagination = 'short'"><a class="pointer" ng-click="$event.preventDefault(); roll_to(pages.prev)"><i class="glyphicon glyphicon-backward"></i></a></li>
+  <li ng-repeat="p in pages.pl track by $index" ng-class="{active:p.sel}"><a class="pointer" ng-href="{{AJ v="p.link"}}" ng-click="$event.preventDefault(); roll_to(p)">{{AJ v="p.page"}}</a></li>
+
+  <li ng-hide="pagination = 'short'"><a class="pointer"  ng-click="$event.preventDefault(); roll_to(pages.next)"><i class="glyphicon glyphicon-forward"></i></a></li>
+  <li><a class="pointer"  ng-click="$event.preventDefault(); roll_to(pages.last)"><i class="glyphicon glyphicon-fast-forward"></i></a></li>
+</ul>
+
+</div>
