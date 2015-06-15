@@ -195,6 +195,9 @@
                     <span>{%=file.name%}</span>
                 {% } %}
 				<span class="label label-default">{%=file.fileId%}</span>
+			{% if (file.comment) { %}
+				<span class="label label-default">{%=file.comment%}</span>
+			{% } %}</p>
             </p>
 			<p>
 			<span class="hidden" id="file_name_{%=file.fileId%}" >{%=file.name%}</span>			
