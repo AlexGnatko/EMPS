@@ -261,14 +261,6 @@ function ngted_default_tab_scope($rootScope, $scope, $http, $location, $timeout)
 		}, 500);
 	};
 	
-	$scope.$on('update_row', function(event, args){
-		$http.get("./?json=load&id="+args.id).success(function (response) {
-			if(response.code == 'OK'){
-				$scope.row = response.row;
-			}
-		});
-	});
-	
 	$scope.save_changes = function(){
 		var row = $scope.row;
 		$scope.saving = true;
@@ -297,7 +289,7 @@ function ngted_default_tab_scope($rootScope, $scope, $http, $location, $timeout)
 		$timeout.cancel($scope.cd_promise);
 		$scope.cd_promise = $timeout(function(){
 			$scope.check_dirty();	
-		}, 2000);
+		}, 5000);
 	});
 	
 	$scope.check_dirty = function(){
@@ -315,7 +307,7 @@ function ngted_default_tab_scope($rootScope, $scope, $http, $location, $timeout)
 
 	$scope.cd_promise = $timeout(function(){
 		$scope.check_dirty();	
-	}, 2000);
+	}, 5000);
 	
 	$timeout(function(){
 		$scope.check_new_inputs();
