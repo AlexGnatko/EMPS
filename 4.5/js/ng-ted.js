@@ -317,6 +317,14 @@ function ngted_default_tab_scope($rootScope, $scope, $http, $location, $timeout)
 		$scope.check_dirty();	
 	}, 5000);
 	
+	$scope.reload_row = function(){	
+		$http.get("./?json=load&id="+$scope.row.id).success(function (response) {
+			if(response.code == 'OK'){
+				$scope.row = response.row;
+			}
+		});
+	};
+	
 	$timeout(function(){
 		$scope.check_new_inputs();
 	});
