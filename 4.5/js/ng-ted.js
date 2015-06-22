@@ -234,6 +234,14 @@ ngted_app.controller('ngted_zoom_controller', function($rootScope, $scope, $time
 			$rootScope.$broadcast('ngted_everything_loaded', {});
 		}
 	};
+
+	$scope.reload_row = function(){	
+		$http.get("./?json=load&id="+$scope.row.id).success(function (response) {
+			if(response.code == 'OK'){
+				$scope.row = response.row;
+			}
+		});
+	};
 	
 	$timeout(function(){	
 		$scope.check_loaded();
