@@ -1,0 +1,30 @@
+<div class="ng-zoom" style="display:none">
+
+<div ng-controller="ngted_zoom_controller" >
+
+<h3>{{AJ v="row.display_name"}}
+<span class="pull-right" style="margin:10px 0 10px 0">
+
+<a href="javascript:sink()" ng-click="return_to_list()" class="btn btn-info" style="margin-left:10px"><i class="glyphicon glyphicon-arrow-left"></i> Вернуться в список</a>
+</span>
+</h3>
+
+</div>{{*ng-controller*}}
+
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs ng-ted-tabs" role="tablist">
+{{section name=k loop=$smenu}}
+<li {{if $smenu[k].sel}}class="active"{{/if}}><a href="#ngtab_{{$smenu[k].code}}" data-code="{{$smenu[k].code}}" id="ngtab_link_{{$smenu[k].code}}" aria-controls="ngtab_{{$smenu[k].code}}" role="tab" data-toggle="tab">{{$smenu[k].name}}</a></li>
+{{/section}}
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+{{section name=k loop=$smenu}}
+    <div role="tabpanel" class="tab-pane {{if $smenu[k].sel}}active{{/if}} subpanel" data-code="{{$smenu[k].code}}" id="ngtab_{{$smenu[k].code}}">content {{$smenu[k].code}}</div>
+{{/section}}
+  </div>
+
+</div>
+

@@ -1,0 +1,124 @@
+<div class="input-group">
+
+<input type="hidden" ng-model="{{$model}}" />
+<input type="text" ignore-dirty ng-model="pick_{{$id}}.display_value" style="width:{{$width}}px;{{$addstyle}}" {{if $placeholder}}placeholder="{{$placeholder}}"{{/if}} class="form-control pick_input" ng-click="pick_{{$id}}.select()" readonly="readonly" />
+
+<span class="input-group-btn">
+{{if $textmode}}
+<a class="btn btn-default pointer" ng-click="pick_{{$id}}.select()">выбрать...</a>
+{{if !$noclear}}
+<a class="btn btn-default pointer" ng-click="pick_{{$id}}.clear()">очистить</a>
+{{/if}}
+{{else}}
+<a class="btn btn-default pointer" ng-click="pick_{{$id}}.select()"><i class="glyphicon glyphicon-hand-left"></i></a>
+{{if !$nolink}}
+<a class="btn btn-default pointer" ng-click="pick_{{$id}}.follow()"><i class="glyphicon glyphicon-arrow-right"></i></a>
+{{/if}}
+{{if !$noclear}}
+<a class="btn btn-default pointer" ng-click="pick_{{$id}}.select()"><i class="glyphicon glyphicon-remove"></i></a>
+{{/if}}
+
+{{/if}}
+{{if $submit}}
+<button tyle="submit" class="btn btn-primary {{$submitclass}}" id="submitform_{{$id}}">{{$submit}}</button>
+{{/if}}
+</span>
+</div>
+
+
+
+<div class="move-modal modal fade" id="nginput_modal_{{$id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">{{$typename}}</h4>
+        </div>
+        <div class="modal-body">
+<div class="form-group">
+<input type="text" ng-model="pick_{{$id}}.search_phrase" class="form-control" ignore-dirty placeholder="Начните вводить название для поиска" />
+</div>
+
+<div class="form-group">
+<table class="table table-striped">
+<tr ng-repeat="srow in pick_{{$id}}.list track by $index" class="pointer" ng-click="pick_{{$id}}.select_value(srow.id)">
+<td width="40">
+<small>{{AJ v="srow.id"}}</small>
+</td>
+<td>
+<a>{{AJ v="srow.display_name"}}</a>
+</td>
+</tr>
+</table>
+</div>
+
+{{include file="db:page/ng_paginator" pages_var="pick_`$id`.pages"}}
+
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+if(typeof emps_global_nginputs == "undefined"){
+	var emps_global_nginputs = {};
+}
+
+if(typeof emps_global_nginputs.{{$pad}} == "undefined"){
+	emps_global_nginputs.{{$pad}} = [];
+}
+
+emps_global_nginputs.{{$pad}}.push(function($rootScope, $scope, $http, $location, $timeout){
+	var pick = {};
+	
+	$scope.$watch('{{$model}}', function(newData, oldData){
+		
+//{{* describe new value *}}
+		if(typeof newData != "undefined"){
+			if(newData > 0){
+				$http.get('{{$descriptor}}{{$type}}/'+newData+'/').success(function (response) {
+					if(response.code == 'OK'){
+						$timeout(function(){
+							$scope.pick_{{$id}}.display_value = response.display;
+						});
+					}
+				});
+			}else{
+				$scope.pick_{{$id}}.display_value = "";
+			}
+		}
+	});
+	
+	pick.list = [];
+	pick.start = 0;
+	
+	pick.display = function(){
+		return $scope.pick_{{$id}}.display_value;
+	};
+	pick.select = function(){
+		$http.get('{{$lister}}{{$type}}/'+$scope.pick_{{$id}}.start+'/').success(function (response) {
+			if(response.code == 'OK'){
+				$timeout(function(){
+					$scope.pick_{{$id}}.list = response.list;
+					$scope.pick_{{$id}}.pages = response.pages;
+					$("#nginput_modal_{{$id}}").modal('show');
+				}, 10);
+			}
+		});
+	};
+	pick.select_value = function(id){
+		$timeout(function(){
+			$scope.{{$model}} = id;
+			$("#nginput_modal_{{$id}}").modal('hide');
+			$scope.{{$form}}.$setDirty();
+		}, 10);
+	};
+	pick.clear = function(){
+		$scope.{{$model}} = 0;
+		$scope.{{$form}}.$setDirty();
+	};
+
+	$scope.pick_{{$id}} = pick;
+});
+
+</script>

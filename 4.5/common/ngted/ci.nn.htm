@@ -1,0 +1,22 @@
+<script>
+emps_scripts.push(function(){
+	angular.module('ngted_app').controller('ngted_{{$pad}}_controller', function($rootScope, $scope, $http, $location, $timeout{{$ng_includes}}) {
+		if(typeof emps_global_nginputs != "undefined"){
+			$scope.emps_nginputs = emps_global_nginputs.{{$pad}};
+		}
+		ngted_default_tab_scope($rootScope, $scope, $http, $location, $timeout);
+		$scope.$on('ngted_pad_{{$pad}}', function(event, args){
+			$scope.row = args.row;
+		});
+{{if $add_scope}}
+{{include file=$add_scope}}
+{{/if}}
+		$rootScope.$broadcast("pad_loaded", {pad: "{{$pad}}"});
+	});	
+
+	var $app = document.getElementById('ngted_app');
+	var $div = document.getElementById('ngted_{{$pad}}_controller');
+	ngted_inject_new($app, $div);	
+});
+
+</script>

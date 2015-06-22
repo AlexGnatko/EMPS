@@ -1,0 +1,32 @@
+{{if !$html_varname}}
+{{assign var="html_varname" value="html"}}
+{{/if}}
+
+<div ng-controller="ngted_{{$pad}}_controller" id="ngted_{{$pad}}_controller">
+<form name="rowForm" class="form" role="form" ng-submit="submit_form()">
+<div class="row">
+<div class="col-md-9">
+<div class="form-group">
+<textarea 
+ui-tinymce="tinymceOptions" ng-model="row.{{$html_varname}}" class="form-control" rows="24" style="height:400px" name="{{$html_varname}}"></textarea>
+</div>
+
+{{*<div>{{AJ v="row.{{$html_varname}}"}}</div>*}}
+</div>
+
+<div class="col-md-3">
+<p class="text-right">
+{{include file="db:ngted/savebutton"}}
+</p>
+</div>
+</form>
+</div>
+
+<script>
+{{include file="db:inc/tinymce_set.js"}}
+
+emps_tinymce_settings.trusted = true;
+emps_tinymce_settings.format = "raw";
+</script>
+
+{{include file="db:ngted/ci" add_scope="db:ngted/pads/html.js" ng_includes=', $sce'}}

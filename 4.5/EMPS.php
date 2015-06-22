@@ -802,9 +802,16 @@ class EMPS {
 	
 	public function try_page_file_name($page_name, $first_name, $include_name, $type, $path, $lang){
 		$fn = $path.'/modules/'.$page_name;
+		$exact = false;
 		switch($type){
 		case 'view':
-			$fn .= '/'.$first_name.'.'.$lang.'.htm';
+			if(mb_substr($first_name, 0, 1) == '!'){
+				$first_name = mb_substr($first_name, 1);
+				$fn .= '/'.$first_name;
+				$exact = true;
+			}else{
+				$fn .= '/'.$first_name.'.'.$lang.'.htm';
+			}
 			break;
 		case 'controller':
 			$fn .= '/'.$first_name.'.php';		
@@ -897,8 +904,14 @@ class EMPS {
 	}
 	
 	public function try_common_module_html($path, $file_name, $lang){
-
-		$fn = $path.'/modules/_common/'.$file_name.'.'.$lang.'.htm';
+		
+		$x = explode(".", $file_name);
+		$len = mb_strlen($x[count($x)-1], "utf-8");
+		if($len <= 3){
+			$fn = $path.'/modules/_common/'.$file_name;
+		}else{
+			$fn = $path.'/modules/_common/'.$file_name.'.'.$lang.'.htm';
+		}
 		
 		if(isset($this->require_cache['common_module_html_try'][$fn])){
 			return $this->require_cache['common_module_html_try'][$fn];
@@ -925,11 +938,18 @@ class EMPS {
 				if(!$fn){
 					$fn = $this->try_common_module_html(EMPS_SCRIPT_PATH,$file_name,'nn');
 					if(!$fn){
-						$fn = EMPS_PATH_PREFIX.'/common/'.$file_name.'.'.$this->lang.'.htm';	
-						$fn = stream_resolve_include_path($fn);
-						if(!$fn){
-							$fn = EMPS_PATH_PREFIX.'/common/'.$file_name.'.nn.htm';	
+						$x = explode(".", $file_name);
+						$len = mb_strlen($x[count($x)-1], "utf-8");
+						if($len <= 3){
+							$fn = EMPS_PATH_PREFIX.'/common/'.$file_name;	
 							$fn = stream_resolve_include_path($fn);
+						}else{
+							$fn = EMPS_PATH_PREFIX.'/common/'.$file_name.'.'.$this->lang.'.htm';	
+							$fn = stream_resolve_include_path($fn);
+							if(!$fn){
+								$fn = EMPS_PATH_PREFIX.'/common/'.$file_name.'.nn.htm';	
+								$fn = stream_resolve_include_path($fn);
+							}
 						}
 					}					
 				}
@@ -1682,6 +1702,8 @@ class EMPS {
 		$x = explode(",", $list);
 		foreach($x as $v){
 			$v = trim($v);
+			$xx = explode(":", $v);
+			$v = trim($xx[0]);
 			if(isset($source[$v])){
 				$target[$v] = $source[$v];
 			}

@@ -44,7 +44,10 @@ class EMPS_Mail {
 			
 			//Set who the message is to be sent from
 			
-			$from_whom = $smarty->fetch("db:msg/sitename");
+			$from_whom = $params['Who'];
+			if(!$form_whom){
+				$from_whom = $smarty->fetch("db:msg/sitename");
+			}
 			
 			$mail->setFrom($params['From'], $from_whom);
 			
