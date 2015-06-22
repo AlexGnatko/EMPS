@@ -261,7 +261,10 @@ class EMPS_Auth {
 				$client->scope = 'openid profile';		
 //				$client->debug = true;		
 				$client->store_access_token_response = true;
-				$proto = OAUTH_GOOGLE_PROTO;
+				$proto = "https";
+				if(defined('OAUTH_GOOGLE_PROTO')){
+					$proto = OAUTH_GOOGLE_PROTO;
+				}
 				break;								
 			default:
 				return false;
