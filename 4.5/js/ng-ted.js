@@ -11,6 +11,8 @@ var ngted_app = angular.module('ngted_app', ng_modules, function($controllerProv
 ngted_app.factory('ngted_share', function(){
 	var ngted_share = {};
 	
+	ngted_share.row = {};
+	
 	return ngted_share;
 });
 
@@ -20,7 +22,7 @@ ngted_app.controller('ngted_controller', function($rootScope, $scope, $http, $lo
 	$scope.list = [];
 	$scope.pages = [];
 	$scope.editmode = "add";
-	$scope.row = {};
+	$scope.row = ngted_share.row;
 	$scope.after_load = function(scope){};
 	
 	$scope.load_rows = function(){
@@ -142,7 +144,7 @@ ngted_app.controller('ngted_controller', function($rootScope, $scope, $http, $lo
 });
 
 ngted_app.controller('ngted_zoom_controller', function($rootScope, $scope, $timeout, $http, $location, $timeout, ngted_share) {
-	$scope.row = {name: ""};
+	$scope.row = ngted_share.row;
 	$scope.tabcode = "";
 	$scope.current_link = "";
 	$scope.return_link = "";
@@ -249,7 +251,7 @@ ngted_app.controller('ngted_zoom_controller', function($rootScope, $scope, $time
 
 });
 
-function ngted_default_tab_scope($rootScope, $scope, $http, $location, $timeout) {
+function ngted_default_tab_scope($rootScope, $scope, $http, $location, $timeout, ngted_share) {
 	$scope.saving = false;
 	$scope.no_autosave = false;
 	$scope.cd_promise = false;

@@ -1,10 +1,10 @@
 <script>
 emps_scripts.push(function(){
-	angular.module('ngted_app').controller('ngted_{{$pad}}_controller', function($rootScope, $scope, $http, $location, $timeout{{$ng_includes}}) {
+	angular.module('ngted_app').controller('ngted_{{$pad}}_controller', function($rootScope, $scope, $http, $location, $timeout, ngted_share{{$ng_includes}}) {
 		if(typeof emps_global_nginputs != "undefined"){
 			$scope.emps_nginputs = emps_global_nginputs.{{$pad}};
 		}
-		ngted_default_tab_scope($rootScope, $scope, $http, $location, $timeout);
+		ngted_default_tab_scope($rootScope, $scope, $http, $location, $timeout, ngted_share);
 		$scope.$on('ngted_pad_{{$pad}}', function(event, args){
 			$scope.row = args.row;
 		});
