@@ -42,20 +42,21 @@ class EMPS_DB {
 	
 	public function query($query){
 		if(EMPS_TIMING){
-			$s=emps_microtime_float(microtime());
+			$s = emps_microtime_float(microtime());
 		}
 		$r = $this->db->query($query);
 		if(EMPS_TIMING){		
-			$e=emps_microtime_float(microtime());
-			$l=($e-$s)*1000;
+			$e = emps_microtime_float(microtime());
+			$l = ($e-$s)*1000;
 		}
 				
 		$error_text = $this->sql_error();
 		
 		$log=array();
-		$log['query']=$query;		
+		$log['query'] = $query;		
 		if(!$r){
-			$log['error']=$error_text;
+			$log['error'] = $error_text;
+			error_log($error_text);
 			$this->sql_errors[]=$log;
 		}
 		
