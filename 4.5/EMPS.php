@@ -499,6 +499,7 @@ class EMPS {
 		if($x[0]=="admin" || $x[0]=="manage"){
 			$this->page_property("adminpage",1);
 		}
+		$this->page_property("year", date("Y", time()));
 
 		$smarty->assign("enum",$this->enum);		
 	}

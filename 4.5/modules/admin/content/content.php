@@ -82,7 +82,7 @@ if($_POST['post_import']){
 	$lst = json_decode($_POST['json'], true);
 	foreach($lst as $v){
 		$uri = $emps->db->sql_escape($v['uri']);
-		$row = $emps->db->get_row("e_content", "uri = '".$uri."'");
+		$row = $emps->db->get_row("e_content", "uri = '".$uri."' and context_id = ".$emps->website_ctx);
 		$SET = $v;
 		$SET['context_id'] = $emps->website_ctx;
 		if($row){

@@ -1,3 +1,17 @@
+{{if $lang eq "en"}}
+{{assign var="str_exim" value="Export/Import Menu"}}
+{{assign var="str_ex_sel" value="Export Selected"}}
+{{assign var="str_json_code" value="JSON-code"}}
+{{assign var="str_copy" value="Copy the JSON code from this field into such field on another website in order to import menu items."}}
+{{assign var="str_import" value="Import JSON"}}
+{{else}}
+{{assign var="str_exim" value="Экспорт/импорт меню"}}
+{{assign var="str_ex_sel" value="Экспортировать выделенные"}}
+{{assign var="str_json_code" value="JSON-код"}}
+{{assign var="str_copy" value="Копируйте JSON-код из этого поля в такое же поле на другом сайте для импортирования информации"}}
+{{assign var="str_import" value="Импортировать JSON"}}
+{{/if}}
+
 {{if $Zoom}}
 <div class="page-header">
 
@@ -90,4 +104,28 @@
 <div class="pull-right">{{include file="db:page/paginator"}}</div>
 
 {{include file="db:ited/iactions" mode="bottom"}}
+
+<h4>{{$str_exim}}</h4>
+
+<form action="." method="post" class="form">
+<input type="hidden" name="post_import" value="1" />
+<div class="form-group">
+<label>{{$str_json_code}}:</label>
+<textarea rows="5" class="form-control" id="data_ta" name="json"></textarea>
+<div class="help-block">{{$str_copy}}</div>
+</div>
+<div class="pull-left form-inline">
+<label>Заменить код:&nbsp;</label>
+<input type="text" name="grp" class="form-control" />
+<small>Если пусто - не менять код меню</small>
+</div>
+<p class="text-right"><button type="submit" class="btn btn-primary">{{$str_import}}</button></p>
+
+</form>
+
+<script>
+$("#export_button").click(function(){
+	$("#export_form").submit();
+});
+</script>
 {{/if}}

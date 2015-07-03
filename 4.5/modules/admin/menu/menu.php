@@ -48,6 +48,52 @@ $perpage = 50;
 
 $ited->where = " where context_id = ".$emps->website_ctx;
 
+function import_menu(&$lst, $code, $parent){
+	global $emps, $SET, $ited;
+	
+	foreach($lst as $v){
+		$v['name'] = $v['dname'];
+		$v['uri'] = $v['link'];
+		$v['enabled'] = 1;
+		unset($v['parent']);
+		unset($v['id']);
+		
+		$v['parent'] = $parent;
+		
+		$uri = $emps->db->sql_escape($v['link']);
+//		echo "Doing ".$v['uri']." ".$parent."<br/>";
+//		dump($v);	exit();
+		$row = $emps->db->get_row("e_menu", "uri = '".$uri."' and context_id = ".$emps->website_ctx);
+		$SET = $v;
+		$SET['context_id'] = $emps->website_ctx;
+		if($row){
+			$emps->db->sql_update("e_menu", "id = ".$row['id']);
+			$id = $row['id'];
+///			echo "Updated $id<br/>"; 
+		}else{
+			$emps->db->sql_insert("e_menu");
+//			dump($SET);
+			$id = $emps->db->last_insert();
+//			echo "Inserted $id<br/>";
+		}
+		$context_id = $emps->p->get_context($ited->ref_type, 1, $id);
+		$emps->p->save_properties($v, $context_id, $ited->track_props);
+		if(count($v['sub']) > 0){
+//			echo "doing sub"; exit();
+			$sls = $v['sub'];
+			import_menu($sls, $code, $id);
+		}
+	}
+
+}
+
+if($_POST['post_import']){
+	$lst = json_decode($_POST['json'], true);
+	import_menu($lst, false, 0);
+//	exit();
+	$emps->redirect_elink();exit();
+}
+
 $emps->loadvars();
 
 $cur_grp = $sk;
