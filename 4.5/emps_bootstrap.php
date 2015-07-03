@@ -108,7 +108,8 @@ if($emps->virtual_path && !$emps->fast){
 	$emps->pre_display();
 
 	$out = ob_get_clean();
-	$smarty->assign("ob_out", $out);	
+	$smarty->assign("ob_out", $out);
+	$smarty->assign("virtual_path", $emps->virtual_path);
 	
 	if(!$data['html']){
 		$emps->not_found();
