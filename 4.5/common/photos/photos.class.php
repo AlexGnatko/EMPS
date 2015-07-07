@@ -276,9 +276,11 @@ class EMPS_Photos {
 	
 	public function first_pic($context_id){
 		global $emps;
-		$r=$emps->db->query("select * from ".TP."e_uploads where context_id=$context_id order by ord asc limit 1");
-		$ra=$emps->db->fetch_named($r);
-		$ra = $this->image_extension($ra);
+		$r = $emps->db->query("select * from ".TP."e_uploads where context_id=$context_id order by ord asc limit 1");
+		$ra = $emps->db->fetch_named($r);
+		if($ra){
+			$ra = $this->image_extension($ra);
+		}
 		return $ra;
 	}
 	
