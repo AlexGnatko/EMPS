@@ -418,20 +418,6 @@ CREATE TEMPORARY TABLE `temp_e_sources` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- table
-CREATE TEMPORARY TABLE `temp_e_shadows` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `url` varchar(255) NOT NULL,
-  `user_id` bigint NOT NULL,
-  `cdt` bigint NOT NULL,
-  `dt` bigint NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `url` (`url`),
-  KEY `cdt` (`cdt`),
-  KEY `dt` (`dt`),
-  KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- table
 CREATE TEMPORARY TABLE `temp_e_identities` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `identity` varchar(255) NOT NULL,

@@ -127,13 +127,19 @@ function sync_structure($dest_table, $src_table, $dest, $src){
 }
 
 if($emps->auth->credentials("admin") || $emps->is_empty_database() || true){
-	if($_GET['sql']){
-		$sql = file_get_contents($emps->page_file_name($_GET['sql'], 'inc'));
+	if($key){
+		$name = "_".$key."/sql,module.sql";
+		$file_name = $emps->page_file_name($name, 'inc');
+		$sql = file_get_contents($file_name);
 	}else{
-		$sql = file_get_contents($emps->common_module('config/sql/emps.sql'));
-		$fn = $emps->common_module('config/sql/project.sql');
-		if($fn){
-			$sql .= file_get_contents($fn);
+		if($_GET['sql']){
+			$sql = file_get_contents($emps->page_file_name($_GET['sql'], 'inc'));
+		}else{
+			$sql = file_get_contents($emps->common_module('config/sql/emps.sql'));
+			$fn = $emps->common_module('config/sql/project.sql');
+			if($fn){
+				$sql .= file_get_contents($fn);
+			}
 		}
 	}
 	

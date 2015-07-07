@@ -56,7 +56,7 @@ class EMPS_DB {
 		$log['query'] = $query;		
 		if(!$r){
 			$log['error'] = $error_text;
-			error_log($error_text);
+			error_log($error_text." in query: ".$query);
 			$this->sql_errors[]=$log;
 		}
 		
