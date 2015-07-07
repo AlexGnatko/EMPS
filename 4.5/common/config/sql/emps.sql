@@ -180,7 +180,7 @@ CREATE TEMPORARY TABLE `temp_e_properties` (
   `context_id` int(18) NOT NULL,
   `v_int` bigint DEFAULT NULL,
   `v_char` varchar(255) DEFAULT NULL,
-  `v_text` text,
+  `v_text` mediumtext,
   `v_data` mediumtext,
   `v_float` float DEFAULT NULL,
   `dt` bigint NOT NULL,
