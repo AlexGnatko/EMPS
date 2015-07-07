@@ -278,34 +278,33 @@ class EMPS {
 		$mr=0;
 		
 		$found_one = false;
-
+		
 		while(list($n,$v)=each($menu)){
+			$obtained_spath = array();
 			if($v['sub']){
-				$res=$this->scan_selected($v['sub']);
-				$menu[$n]['sub']=$v['sub'];
+				$reserve_spath = $this->spath;
+				$this->spath = array();
+				$res = $this->scan_selected($v['sub']);
+				$obtained_spath = $this->spath;
+				$this->spath = $reserve_spath;
+				$menu[$n]['sub'] = $v['sub'];
 				if($res>0){
-					$menu[$n]['ssel']=$res;
+					$menu[$n]['ssel'] = $res;
+					$menu[$n]['sel'] = $v['sel']= 1;
 				}
 				if($res>0) $mr=1;
-			}
+			}		
 			if($v['sel']>0) {
 				$this->add_to_spath($v);
+				foreach($obtained_spath as $spv){
+					$this->add_to_spath($spv);
+				}
+			
 				$found_one = true;
 				$mr=1;
 			}
-			
 		}
 		
-		reset($menu);
-		while(list($n,$v)=each($menu)){
-			if(!$found_one){
-				if($v['ssel']>0) {
-					$menu[$n]['sel'] = $v['ssel'];
-					$this->add_to_spath($v);
-					$mr=1;
-				}
-			}
-		}
 		return $mr;
 	}	
 	
