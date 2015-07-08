@@ -15,7 +15,12 @@ $s=$number."";
 $l=strlen($s);
 for($i=0;$i<$l;$i++){
 	$c=$s{$i};
-	$fn=EMPS_SCRIPT_PATH."/i/dig/".$c.".png";
+	$fn = EMPS_SCRIPT_PATH."/i/dig/".$c.".png";
+	if(!file_exists($fn)){
+		$fn = EMPS_PATH_PREFIX."/i/dig/".$c.".png";
+		$fn = stream_resolve_include_path($fn);
+	}
+//	echo $fn;exit();
 	$ci=imagecreatefrompng($fn);
 	imagepalettecopy($im,$ci);
 
