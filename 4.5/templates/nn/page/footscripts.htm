@@ -15,4 +15,12 @@ var logged_on = false;
 {{include file="db:photos/blueimp/headscripts"}}
 {{/if}}
 
+{{if $page.ipbox}}
+<script>
+emps_scripts.push(function(){
+	$(".ipbox").EMPS_IPBox({one_row: true, with_text: true});
+});
+</script>
+{{/if}}
+
 {{include file="db:site/footscripts"}}

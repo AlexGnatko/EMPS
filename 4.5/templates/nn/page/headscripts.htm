@@ -79,5 +79,9 @@ ng_modules.push('ui.tinymce');
 <script type="text/javascript" src="/js/treeView.js"></script>
 {{/if}}
 
+{{if $page.ipbox}}
+<script type="text/javascript" src="/js/ipbox/jquery.ipbox.js"></script>
+<link rel="stylesheet" type="text/css" href="/js/ipbox/css/jquery.ipbox.css" media="screen" />
+{{/if}}
 
 {{include file="db:site/headscripts"}}
