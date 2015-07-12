@@ -334,6 +334,8 @@ class EMPS_ImprovedTableEditor {
 	
 	public function handle_list_mode(){
 		global $smarty,$emps,$key,$ss,$start,$perpage,$total;
+
+		$smarty->assign("lang", $emps->lang);
 		
 		$emps->loadvars();
 		$this->ref_id = $key+0;

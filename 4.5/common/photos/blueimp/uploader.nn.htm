@@ -256,11 +256,15 @@
 
 {{if $CanSave}}
 			<a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> {{$str_b_descr}}</a>
+{{if !$pu_set.simple_mode}}
 			<a href="javascript:reupload_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-transfer"></i> {{$str_b_replace}}</a>
 {{/if}}
+{{/if}}
+{{if !$pu_set.simple_mode}}
 			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> {{$str_b_links}}</a>
 			<a href="javascript:watermark_file('{%=file.fileId%}')" id="wm_{%=file.fileId%}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-tint"></i>
 			{{$str_b_wm}}</a>	
+{{/if}}
 			
 
 
@@ -274,6 +278,7 @@
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
 
 {{if $CanSave}}
+{{if !$pu_set.simple_mode}}
 <p style="margin-bottom:20px">{{$str_qual}}: {%=file.qual%}%</p>
 	<div  class="btn-group pull-right">
   <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -298,6 +303,7 @@
 		<li><a href="javascript:qual_file('{%=file.fileId%}', 40)" >40%</a></li>		
 	</ul>
 	</div>
+{{/if}}
 {{/if}}
         </div>
         <div class="col-md-2">
