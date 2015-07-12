@@ -37,6 +37,7 @@ class EMPS_Mail {
 			$mail->Port = $smtp_data['port'];
 			//Whether to use SMTP authentication
 			$mail->SMTPAuth = $smtp_data['auth'];
+			$mail->SMTPAutoTLS = false;
 			
 			$mail->Username = $smtp_data['username'];                 // SMTP username
 			$mail->Password = $smtp_data['password'];                           // SMTP password
