@@ -679,11 +679,6 @@ class EMPS {
 		$uri = $s[0];
 		$uri = str_replace(EMPS_SCRIPT_URL_FOLDER, '', $uri);	// remove initial path from the URI
 		
-		$user = $this->db->get_row("e_users", "lcase(username)=lcase('".$this->db->sql_escape($first)."')");
-		if($user){
-			$uri = "/user/".$user['id']."/";
-		}
-	
 		$this->PLURI = $uri;	
 		$this->menu_URI = $uri;			
 		
