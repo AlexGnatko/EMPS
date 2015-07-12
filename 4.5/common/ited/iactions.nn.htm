@@ -22,6 +22,7 @@
 
 {{/if}}
 
+{{if !$no_create_form}}
   <div class="move-modal modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true" style="overflow:hidden;">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -48,6 +49,7 @@
       </div>
     </div>
   </div>
+{{/if}}
 {{/capture}}
 
 {{capture name="deleteScript"}}
@@ -73,6 +75,7 @@ function delete_modal(url){
 
 {{/if}}
 
+{{if !$no_bynum}}
   <div class="move-modal modal fade" id="openModal" tabindex="-1" role="dialog" aria-hidden="true" style="overflow:hidden">
 <form action="." method="post" class="form-horizontal" role="form">  
 <input type="hidden" name="action_open" value="1" />
@@ -99,6 +102,7 @@ function delete_modal(url){
     </div>
 </form>    
   </div>
+{{/if}}
 {{/capture}}
 {{if $mode eq "top"}}
 
@@ -106,7 +110,9 @@ function delete_modal(url){
 {{if !$no_create}}
   <a data-toggle="modal" href="#addModal" class="btn btn-default"><span class="glyphicon glyphicon-file"></span>&nbsp; {{$str_create}}</a>
 {{/if}}
+{{if !$no_bynum}}
   <a data-toggle="modal" href="#openModal" class="btn btn-default"><span class="glyphicon glyphicon-bookmark"></span>&nbsp; {{$str_by_num}}</a>
+{{/if}}
   
 </p>
 
