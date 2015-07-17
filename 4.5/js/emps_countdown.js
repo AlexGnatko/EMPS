@@ -13,13 +13,13 @@
     $.extend(EMPS_Countdown.prototype, {
 		defaults: {
 			seconds: 60,
+			level: 3,
+			onExpired: function(obj){},
 			off: 'Expired!'
 		},
 		initialize: function(){
 			var data_seconds = $(this.object).data("seconds");
-			if(data_seconds > 0){
-				this.params.seconds = data_seconds;
-			}
+			this.params.seconds = data_seconds;
 			this.params.start_dt = this.get_time();
 			this.show_formatted();
 		},
@@ -41,9 +41,17 @@
 				var seconds = this.two_digits(left % 60);
 				var minutes = this.two_digits(Math.floor(left/60) % 60);
 				var hours = this.two_digits(Math.floor(Math.floor(left / 60) / 60) % 60);
-				text = hours+":"+minutes+":"+seconds;
+				if(this.params.level == 3){
+					text = hours+":"+minutes+":"+seconds;
+				}else if(this.params.level == 2){
+					text = minutes+":"+seconds;
+				}
 			}else{
 				text = this.params.off;
+				if(!$(this.object).data('expired')){
+					$(this.object).data('expired', true);
+					this.params.onExpired.call(this.params.object);
+				}
 			}
 			$(this.object).html(text);
 			var that = this;
