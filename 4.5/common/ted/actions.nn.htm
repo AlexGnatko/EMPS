@@ -1,11 +1,35 @@
+{{if $lang eq "en"}}
+{{assign var="str_do_you_delete" value="Do you really want to delete #"}}
+{{assign var="str_yes_sure" value="Yes, really!"}}
+{{assign var="str_oh_no" value="Oh, no!"}}
+{{assign var="str_edit" value="Edit #"}}
+{{assign var="str_cancel" value="Cancel"}}
+{{assign var="str_delete" value="Delete"}}
+{{assign var="str_wait" value="Wait..."}}
+{{assign var="str_save_changes" value="Save Changes"}}
+{{assign var="str_add_new_record" value="Add a New Record"}}
+{{assign var="str_add_new" value="Add Record"}}
+{{else}}
+{{assign var="str_do_you_delete" value="Вы действительно хотите удалить №"}}
+{{assign var="str_yes_sure" value="Да, действительно!"}}
+{{assign var="str_oh_no" value="Ой, нет!"}}
+{{assign var="str_edit" value="Редактировать №"}}
+{{assign var="str_cancel" value="Отменить выбор"}}
+{{assign var="str_delete" value="Удалить запись"}}
+{{assign var="str_wait" value="Ждите..."}}
+{{assign var="str_save_changes" value="Сохранить изменения"}}
+{{assign var="str_add_new_record" value="Добавить новую запись"}}
+{{assign var="str_add_new" value="Добавить запись"}}
+{{/if}}
+
 {{if $KillForm eq 1}}
 <form action="." method="post">
 <div class="panel panel-danger">
-<div class="panel-heading"><b>Вы действительно хотите удалить #{{$vle.id}}?</b></div>
+<div class="panel-heading"><b>{{$str_do_you_delete}}{{$vle.id}}?</b></div>
 <div class="panel-body">
-<p><input class="btn btn-danger btn-lg" type="submit" name="confkill" value="Да, действительно!">
+<p><input class="btn btn-danger btn-lg" type="submit" name="confkill" value="{{$str_yes_sure}}">
 &nbsp;
-<a href="." class="btn btn-lg btn-primary">Ой, нет!</a></p>
+<a href="." class="btn btn-lg btn-primary">{{$str_oh_no}}</a></p>
 </div>
 </div>
 </form>
@@ -14,7 +38,7 @@
 <form action="." method="post" class="form-horizontal" role="form">
 <input type="hidden" name="sedit" value="1" />
 <div class="panel panel-primary">
-<div class="panel-heading">Редактировать №{{$vle.id}}</div>
+<div class="panel-heading">{{$str_edit}}{{$vle.id}}</div>
 <div class="panel-body">
 {{include file=$form}}
 </div>
@@ -25,14 +49,14 @@
 </div>
 <div class="col-md-6">
 <div class="btn-group">
-  <a href="{{$DeselectLink}}" class="btn btn-default">Отменить выбор</a>
+  <a href="{{$DeselectLink}}" class="btn btn-default">{{$str_cancel}}</a>
 {{if !$nokill}}  
-  <a href="{{$RemoveLink}}" class="btn btn-danger">Удалить запись</a>
+  <a href="{{$RemoveLink}}" class="btn btn-danger">{{$str_delete}}</a>
 {{/if}}  
 </div>
 </div>
 <div class="col-md-3">
-<p><button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="Ждите..." >Сохранить изменения</button></p>
+<p><button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="{{$str_wait}}" >{{$str_save_changes}}</button></p>
 </div>
 </div>
 
@@ -45,7 +69,7 @@
 {{else}}
 <form action="." method="post" class="form-horizontal" role="form">
 <div class="panel panel-primary">
-<div class="panel-heading">Добавить новую запись</div>
+<div class="panel-heading">{{$str_add_new_record}}</div>
 <div class="panel-body">
 <input type="hidden" name="sadd" value="1" />
 {{include file=$form}}
@@ -55,7 +79,7 @@
 <div class="col-md-9">
 </div>
 <div class="col-md-3">
-<p><button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="Ждите..." >Добавить запись</button></p>
+<p><button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="{{$str_wait}}" >{{$str_add_new}}</button></p>
 </div>
 </div>
 </div>

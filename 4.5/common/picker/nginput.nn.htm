@@ -1,13 +1,23 @@
-<div class="input-group">
+{{if $lang eq "en"}}
+{{assign var="str_select" value="select..."}}
+{{assign var="str_clear" value="clear"}}
+{{assign var="str_start" value="Start typing the name to search"}}
+{{else}}
+{{assign var="str_select" value="выбрать..."}}
+{{assign var="str_clear" value="очистить"}}
+{{assign var="str_start" value="Начните вводить название для поиска"}}
+{{/if}}
+
+<div class="input-group" {{if $hidden_inputs}}style="display:none"{{/if}}>
 
 <input type="hidden" ng-model="{{$model}}" />
 <input type="text" ignore-dirty ng-model="pick_{{$id}}.display_value" style="width:{{$width}}px;{{$addstyle}}" {{if $placeholder}}placeholder="{{$placeholder}}"{{/if}} class="form-control pick_input" ng-click="pick_{{$id}}.select()" readonly="readonly" />
 
 <span class="input-group-btn">
 {{if $textmode}}
-<a class="btn btn-default pointer" ng-click="pick_{{$id}}.select()">выбрать...</a>
+<a class="btn btn-default pointer" ng-click="pick_{{$id}}.select()">{{$str_select}}</a>
 {{if !$noclear}}
-<a class="btn btn-default pointer" ng-click="pick_{{$id}}.clear()">очистить</a>
+<a class="btn btn-default pointer" ng-click="pick_{{$id}}.clear()">{{$str_clear}}</a>
 {{/if}}
 {{else}}
 <a class="btn btn-default pointer" ng-click="pick_{{$id}}.select()"><i class="glyphicon glyphicon-hand-left"></i></a>
@@ -36,15 +46,20 @@
         </div>
         <div class="modal-body">
 <div class="form-group">
-<input type="text" ng-model="pick_{{$id}}.search_phrase" class="form-control" ignore-dirty placeholder="Начните вводить название для поиска" />
+<input type="text" ng-model="pick_{{$id}}.search_phrase" class="form-control" ignore-dirty placeholder="{{$str_start}}" />
 </div>
 
 <div class="form-group">
 <table class="table table-striped">
 <tr ng-repeat="srow in pick_{{$id}}.list track by $index" class="pointer" ng-click="pick_{{$id}}.select_value(srow.id)">
-<td width="40">
+<td width="40" >
 <small>{{AJ v="srow.id"}}</small>
 </td>
+{{if $pic_column}}
+<td width="100" style="background-color:white">
+<img src="/freepic/{{AJ v="srow.pic.md5"}}.{{AJ v="srow.pic.ext"}}?size=100x100&opts=inner" border="0"/>
+</td>
+{{/if}}
 <td>
 <a>{{AJ v="srow.display_name"}}</a>
 </td>
@@ -71,6 +86,8 @@ if(typeof emps_global_nginputs.{{$pad}} == "undefined"){
 emps_global_nginputs.{{$pad}}.push(function($rootScope, $scope, $http, $location, $timeout){
 	var pick = {};
 	
+	pick.search_promise = false;
+	
 	$scope.$watch('{{$model}}', function(newData, oldData){
 		
 //{{* describe new value *}}
@@ -80,6 +97,7 @@ emps_global_nginputs.{{$pad}}.push(function($rootScope, $scope, $http, $location
 					if(response.code == 'OK'){
 						$timeout(function(){
 							$scope.pick_{{$id}}.display_value = response.display;
+							$scope.pick_{{$id}}.on_described();
 						});
 					}
 				});
@@ -89,11 +107,33 @@ emps_global_nginputs.{{$pad}}.push(function($rootScope, $scope, $http, $location
 		}
 	});
 	
+	$scope.$watch('pick_{{$id}}.search_phrase', function(newData, oldData){
+		if(typeof newData != "undefined"){
+			$timeout.cancel($scope.pick_{{$id}}.search_promise);
+			$scope.pick_{{$id}}.search_promise = $timeout(function(){
+				$scope.pick_{{$id}}.update_list();
+			}, 500);
+		}
+	});
+	
 	pick.list = [];
 	pick.start = 0;
 	
+	pick.on_described = function(){
+	};
+	
 	pick.display = function(){
 		return $scope.pick_{{$id}}.display_value;
+	};
+	pick.update_list = function(){
+		$http.get('{{$lister}}{{$type}}/'+$scope.pick_{{$id}}.start+'/?text='+$scope.pick_{{$id}}.search_phrase).success(function (response) {
+			if(response.code == 'OK'){
+				$timeout(function(){
+					$scope.pick_{{$id}}.list = response.list;
+					$scope.pick_{{$id}}.pages = response.pages;
+				}, 10);
+			}
+		});
 	};
 	pick.select = function(){
 		$http.get('{{$lister}}{{$type}}/'+$scope.pick_{{$id}}.start+'/').success(function (response) {

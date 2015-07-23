@@ -23,6 +23,34 @@ class EMPS_NG_PickList {
 		$ra['display_name'] = $ra['name'];
 		return $ra;
 	}
+	
+	public function make_and($extra){
+		global $emps;
+		$and = "";
+		if($extra){
+			$x = explode("|",$extra);
+			while(list($n, $v) = each($x)){
+				$xx = explode("=", $v, 2);
+				if(count($xx) == 2){
+					$and .= " and ";
+					$and .= $emps->db->sql_escape($xx[0])." = '".$emps->db->sql_escape($xx[1])."'";
+				}else{
+					$xx = explode("<>",$v,2);
+					if(count($xx) == 2){
+						$and .= " and ";
+						$and .= $emps->db->sql_escape($xx[0])." <> '".$emps->db->sql_escape($xx[1])."'";
+					}else{
+						$xx = explode("_in_", $v, 2);
+						if(count($xx) == 2){
+							$and .= " and ";
+							$and .= $emps->db->sql_escape($xx[0])." in (".$emps->db->sql_escape($xx[1]).")";
+						}
+					}
+				}
+			}
+		}		
+		return $and;
+	}
 		
 	public function handle_request(){
 		global $emps, $start, $perpage;
@@ -31,10 +59,26 @@ class EMPS_NG_PickList {
 		
 		header("Content-Type: application/json; charset=utf-8");
 		
+		
+		$text = $emps->db->sql_escape($emps->utf8_urldecode($_GET['text']));
+		$id = 0;
+		if($text){
+			$matches = array();
+			preg_match_all("/<([^>]+)>/", $text, $matches);
+			$id = $matches[1][count($matches[1])-1];
+		}
+		
+		$default_text = $emps->db->sql_escape($emps->utf8_urldecode($_GET['default_text']));
+		if($text == $default_text){
+			$text = "";
+		}
+		
+		$and = $this->make_and($this->filter);
+		
 		$perpage = $this->perpage;
 		$start = intval($start);
 		
-		$r = $emps->db->query("select SQL_CALC_FOUND_ROWS ".$this->what." from ".TP.$this->table_name.$this->join." where 1=1 ".$this->where.$this->orderby." limit $start, $perpage");
+		$r = $emps->db->query("select SQL_CALC_FOUND_ROWS ".$this->what." from ".TP.$this->table_name.$this->join." where name like '%$text%' ".$and." ".$this->where.$this->orderby." limit $start, $perpage");
 		
 		$pages = $emps->count_pages($emps->db->found_rows());
 		
@@ -48,7 +92,7 @@ class EMPS_NG_PickList {
 		$response['code'] = "OK";
 		$response['list'] = $lst;
 		$response['pages'] = $pages;
-		
+
 		echo json_encode($response);
 	}
 }

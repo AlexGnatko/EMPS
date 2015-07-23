@@ -10,6 +10,7 @@ class EMPS_NG_PickDescribe {
 		$this->id = intval($start);
 	}
 	public function handle_request(){
+		global $emps;
 		$this->parse_request();
 		header("Content-Type: application/json; charset=utf-8");
 		
