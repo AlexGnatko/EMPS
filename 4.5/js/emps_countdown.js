@@ -40,7 +40,7 @@
 			if(left > 0){
 				var seconds = this.two_digits(left % 60);
 				var minutes = this.two_digits(Math.floor(left/60) % 60);
-				var hours = this.two_digits(Math.floor(Math.floor(left / 60) / 60) % 60);
+				var hours = this.two_digits(Math.floor(Math.floor(left / 60) / 60));
 				if(this.params.level == 3){
 					text = hours+":"+minutes+":"+seconds;
 				}else if(this.params.level == 2){
