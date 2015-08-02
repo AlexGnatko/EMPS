@@ -6,6 +6,7 @@ $(function () {
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
 		'sequentialUploads': true,
+		autoUpload: true,
 		previewMaxWidth : 120,
 		previewMaxHeight : 90,		
 		'url': './?upload=1'
