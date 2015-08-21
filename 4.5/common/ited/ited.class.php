@@ -83,6 +83,10 @@ class EMPS_ImprovedTableEditor {
 		return true;
 	}
 	
+	public function can_delete(){
+		return true;
+	}
+
 	public function can_view_pad(){
 		return true;
 	}	
@@ -291,7 +295,7 @@ class EMPS_ImprovedTableEditor {
 		$emps->loadvars();
 		
 		if($_POST['action_kill']){
-			if($emps->auth->credentials("admin")){
+			if($this->can_delete()){
 				$emps->db->query('delete from '.TP.$this->table_name.' where id='.$this->ref_id);
 				$this->after_kill($this->ref_id);
 	
@@ -384,14 +388,12 @@ class EMPS_ImprovedTableEditor {
 				$emps->redirect_elink();exit();
 			}
 			if($_POST['action_kill']){
-				if($this->can_save()){
-					if($emps->auth->credentials("admin")){
-						$emps->db->query('delete from '.TP.$this->table_name.' where id='.$this->ref_id);
-						$this->after_kill($this->ref_id);
+				if($this->can_delete()){
+					$emps->db->query('delete from '.TP.$this->table_name.' where id='.$this->ref_id);
+					$this->after_kill($this->ref_id);
 			
-						$key="";$ss="";
-						$emps->redirect_elink();exit();					
-					}
+					$key="";$ss="";
+					$emps->redirect_elink();exit();					
 				}
 			}	
 			

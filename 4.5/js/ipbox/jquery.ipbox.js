@@ -682,6 +682,8 @@
 		});*/
 		
 		params['lst'] = lst;
+		
+		$("#ipb-wrapper").remove();
 
 		$("body").append('<div id="ipb-wrapper"><div class="ipb-container"></div><div class="ipb-text"><div class="ipb-textvalue"></div></div><a class="ipb-galleft"></a><a class="ipb-galright"></a><a class="ipb-galclose"></a></div>');
 		$("#ipb-wrapper").data('EMPS_IPBox', new EMPS_IPBox($("#ipb-wrapper"), params));		
