@@ -5,12 +5,12 @@ class EMPS_NG_PickList {
 	public $table_name;
 	public $filter;
 	
-	public $perpage = 15;
+	public $perpage = 10;
 	
-	public $what = "*";
+	public $what = "t.*";
 	public $join = "";
 	public $where = "";
-	public $orderby = " order by id asc ";
+	public $orderby = " order by t.id asc ";
 	
 	public function parse_request(){
 		global $emps, $key;
@@ -78,7 +78,7 @@ class EMPS_NG_PickList {
 		$perpage = $this->perpage;
 		$start = intval($start);
 		
-		$r = $emps->db->query("select SQL_CALC_FOUND_ROWS ".$this->what." from ".TP.$this->table_name.$this->join." where name like '%$text%' ".$and." ".$this->where.$this->orderby." limit $start, $perpage");
+		$r = $emps->db->query("select SQL_CALC_FOUND_ROWS ".$this->what." from ".TP.$this->table_name." as t ".$this->join." where t.name like '%$text%' ".$and." ".$this->where.$this->orderby." limit $start, $perpage");
 		
 		$pages = $emps->count_pages($emps->db->found_rows());
 		

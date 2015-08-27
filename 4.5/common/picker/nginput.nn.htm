@@ -35,8 +35,7 @@
 </span>
 </div>
 
-
-
+{{capture name="nginputModal"}}
 <div class="move-modal modal fade" id="nginput_modal_{{$id}}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -60,19 +59,27 @@
 <img src="/freepic/{{AJ v="srow.pic.md5"}}.{{AJ v="srow.pic.ext"}}?size=100x100&opts=inner" border="0"/>
 </td>
 {{/if}}
+{{$extra_cols}}
 <td>
 <a>{{AJ v="srow.display_name"}}</a>
 </td>
+{{$after_cols}}
 </tr>
 </table>
 </div>
 
-{{include file="db:page/ng_paginator" pages_var="pick_`$id`.pages"}}
+{{include file="db:page/ng_paginator" pages_var="pick_`$id`.pages" roll_pfx="pick_`$id`."}}
 
         </div>
       </div>
     </div>
 </div>
+
+{{/capture}}
+
+{{if !$cut_modal}}
+{{$smarty.capture.nginputModal}}
+{{/if}}
 
 <script>
 if(typeof emps_global_nginputs == "undefined"){
@@ -118,15 +125,24 @@ emps_global_nginputs.{{$pad}}.push(function($rootScope, $scope, $http, $location
 	
 	pick.list = [];
 	pick.start = 0;
+	pick.search_phrase = "";
+	pick.lister = '{{$lister}}';
+	pick.list_type = '{{$type}}';
 	
 	pick.on_described = function(){
+	};
+	
+	pick.roll_to = function(page){
+		$scope.pick_{{$id}}.start = page.start;
+		$scope.pick_{{$id}}.update_list();
 	};
 	
 	pick.display = function(){
 		return $scope.pick_{{$id}}.display_value;
 	};
 	pick.update_list = function(){
-		$http.get('{{$lister}}{{$type}}/'+$scope.pick_{{$id}}.start+'/?text='+$scope.pick_{{$id}}.search_phrase).success(function (response) {
+		pick = $scope.pick_{{$id}};
+		$http.get(pick.lister+pick.list_type+'/'+pick.start+'/?text='+pick.search_phrase).success(function (response) {
 			if(response.code == 'OK'){
 				$timeout(function(){
 					$scope.pick_{{$id}}.list = response.list;
@@ -136,7 +152,8 @@ emps_global_nginputs.{{$pad}}.push(function($rootScope, $scope, $http, $location
 		});
 	};
 	pick.select = function(){
-		$http.get('{{$lister}}{{$type}}/'+$scope.pick_{{$id}}.start+'/').success(function (response) {
+		pick = $scope.pick_{{$id}};
+		$http.get(pick.lister+pick.list_type+'/'+pick.start+'/').success(function (response) {
 			if(response.code == 'OK'){
 				$timeout(function(){
 					$scope.pick_{{$id}}.list = response.list;

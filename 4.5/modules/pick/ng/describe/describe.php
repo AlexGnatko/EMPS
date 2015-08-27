@@ -9,6 +9,9 @@ class EMPS_NG_PickDescribe {
 		$this->table_name = $emps->db->sql_escape($x[0]);
 		$this->id = intval($start);
 	}
+	public function handle_row($row){
+		return $row;
+	}
 	public function handle_request(){
 		global $emps;
 		$this->parse_request();
@@ -16,6 +19,7 @@ class EMPS_NG_PickDescribe {
 		
 		$row = $emps->db->get_row($this->table_name, "id = ".$this->id);
 		$row['display_name'] = $row['id'].": ".$row['name'];
+		$row = $this->handle_row($row);
 
 		$response = array();
 		$response['code'] = "OK";
