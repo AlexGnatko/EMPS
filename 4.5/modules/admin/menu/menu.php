@@ -94,6 +94,19 @@ if($_POST['post_import']){
 	$emps->redirect_elink();exit();
 }
 
+if($_GET['export_menu']){
+	$parent = intval($sd);
+	if($sk == '00'){
+		$sk = '';
+	}
+	$code = $sk;
+	if($code){
+		$menu = $emps->section_menu($code, $parent);
+		$data = json_encode($menu);
+		$smarty->assign("json_data", $data);
+	}
+}
+
 $emps->loadvars();
 
 $cur_grp = $sk;
