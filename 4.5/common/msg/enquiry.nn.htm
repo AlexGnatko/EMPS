@@ -1,4 +1,13 @@
 {{include file="db:msg/sendhead"}}
+{{if $lang eq "en"}}
+<h4>Message from {{include file="db:msg/sitename"}} website</h4>
+<div style="border:1px solid #999999;background-color:#F0F0F0;padding:6px">
+<p><strong>Name</strong>: {{$msg.name}}</p>
+<p><strong>E-mail</strong>: {{$msg.email}}</p>
+<p><strong>Phone</strong>: {{$msg.phone}}</p>
+<p>{{$msg.msg}}</p>
+</div>
+{{else}}
 <h4>Сообщение с сайта {{include file="db:msg/sitename"}}</h4>
 <div style="border:1px solid #999999;background-color:#F0F0F0;padding:6px">
 <p><strong>Имя</strong>: {{$msg.name}}</p>
@@ -6,4 +15,5 @@
 <p><strong>Телефон</strong>: {{$msg.phone}}</p>
 <p>{{$msg.msg}}</p>
 </div>
+{{/if}}
 {{include file="db:msg/sendfoot"}}
