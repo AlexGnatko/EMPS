@@ -9,6 +9,7 @@
 {{assign var="str_json_code" value="JSON-code"}}
 {{assign var="str_copy" value="Copy the JSON code from this field into such field on another website in order to import pages."}}
 {{assign var="str_import" value="Import JSON"}}
+{{assign var="str_view" value="Preview"}}
 {{else}}
 {{assign var="str_pages" value="Страницы"}}
 {{assign var="str_editor" value="Редактор страниц сайта"}}
@@ -20,6 +21,7 @@
 {{assign var="str_json_code" value="JSON-код"}}
 {{assign var="str_copy" value="Копируйте JSON-код из этого поля в такое же поле на другом сайте для импортирования информации"}}
 {{assign var="str_import" value="Импортировать JSON"}}
+{{assign var="str_view" value="Смотреть"}}
 {{/if}}
 
 
@@ -33,7 +35,7 @@
 </div>
 
 <div class="pull-right">
-<a class="btn btn-xs btn-info" href="{{$row.uri}}">Смотреть</a>
+<a class="btn btn-xs btn-info" href="{{$row.uri}}">{{$str_view}}</a>
 </div>
 
 {{include file="db:ited/subted"}}
