@@ -85,4 +85,8 @@ ng_modules.push('ui.tinymce');
 <link rel="stylesheet" type="text/css" href="/js/ipbox/css/jquery.ipbox.css" media="screen" />
 {{/if}}
 
+{{if $page.simple_file_uploader}}
+<link rel="stylesheet" type="text/css" href="/css/fileupload/jquery.fileupload.css" media="screen" />
+{{/if}}
+
 {{include file="db:site/headscripts"}}

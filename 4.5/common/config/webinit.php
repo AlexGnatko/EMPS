@@ -87,4 +87,15 @@ $file_name = $emps->common_module('config/project/webinit.php');
 if(file_exists($file_name)){
 	require_once $file_name;
 }
+
+if($_GET['load_enum']){
+	$response = array();
+	$response['code'] = "OK";
+	$response['enum'] = $emps->enum[$_GET['load_enum']];
+	$emps->no_smarty = true;
+	header("Content-Type: application/json; charset=utf-8");
+
+	echo json_encode($response);
+}
+
 ?>

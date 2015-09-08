@@ -11,9 +11,23 @@ var logged_on = false;
 {{/if}}
 
 
+{{if $page.simple_file_uploader}}
+<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+<script src="/js/fileupload/load-image.min.js" defer></script>
+<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+<script src="/js/fileupload/canvas-to-blob.min.js" defer></script>
+
+<script src="/js/fileupload/jquery.fileupload.js" defer></script>
+<!-- The File Upload processing plugin -->
+<script src="/js/fileupload/jquery.fileupload-process.js" defer></script>
+<!-- The File Upload Angular JS module -->
+<script src="/js/fileupload/jquery.fileupload-angular.js" defer></script>
+{{else}}
 {{if $page.blueimp_uploader}}
 {{include file="db:photos/blueimp/headscripts"}}
 {{/if}}
+{{/if}}
+
 
 {{if $page.ipbox}}
 <script>
