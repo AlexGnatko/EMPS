@@ -9,6 +9,7 @@ class EMPS_Properties {
 	
 	public function save_property($context_id,$code,$datatype,$value,$history,$idx){
 		global $SET,$emps;
+		
 		$SET=array();
 		$SET['context_id']=$context_id;
 		$SET['code']=$code;
@@ -118,7 +119,7 @@ class EMPS_Properties {
 					if($vtaken!="") $vtaken.=",";
 					$vtaken.=$take;
 					
-					if($vv=='on'){
+					if(strcmp($vv, 'on') == 0){
 						$vv=1;
 						if($explicit_idx){
 							$vv=$take;
