@@ -50,17 +50,17 @@
 
 <div class="form-group">
 <table class="table table-striped">
-<tr ng-repeat="srow in pick_{{$id}}.list track by $index" class="pointer" ng-click="pick_{{$id}}.select_value(srow.id)">
-<td width="40" >
+<tr ng-repeat="srow in pick_{{$id}}.list track by $index" class="pointer">
+<td width="40"  ng-click="pick_{{$id}}.select_value(srow.id)">
 <small>{{AJ v="srow.id"}}</small>
 </td>
 {{if $pic_column}}
-<td width="100" style="background-color:white">
+<td width="100" style="background-color:white"  ng-click="pick_{{$id}}.select_value(srow.id)">
 <img src="/freepic/{{AJ v="srow.pic.md5"}}.{{AJ v="srow.pic.ext"}}?size=100x100&opts=inner" border="0"/>
 </td>
 {{/if}}
 {{$extra_cols}}
-<td>
+<td ng-click="pick_{{$id}}.select_value(srow.id)">
 <a>{{AJ v="srow.display_name"}}</a>
 </td>
 {{$after_cols}}
