@@ -1,6 +1,7 @@
+<div class="row ip-rep">
 {{section name=k loop=$pset}}
-<div class="col-xs-4 ip-ig-block ip-girl-block" style="background-image:url('/freepic/{{$pset[k].md5}}.jpg?size=540x500&opts=inner')">
+<div class="col-xs-4 ip-rep-photo" style="background-image:url('/freepic/{{$pset[k].md5}}.jpg?size=540x500&opts=inner')">
 <a class="ipbox" data-id="{{$pset[k].id}}" title="{{$pset[k].descr|escape:html}}" rel="show" href="/pic/{{$pset[k].md5}}.jpg" data-zoom="/pic/{{$pset[k].md5}}.jpg"><img src="/i/b.gif" width="100%" height="auto" border="0" /></a>
-
 </div>{{/section}}
-
+</div>
+<div class="clearfix"></div>
