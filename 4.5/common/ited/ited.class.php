@@ -11,6 +11,8 @@ class EMPS_ImprovedTableEditor {
 	public $track_props = '';	
 	public $table_name = "e_content";
 	public $credentials = "admin";
+
+	public $action_open_ss = "info";
 	
 	public $form_name = "db:ited/generic";
 	
@@ -370,7 +372,7 @@ class EMPS_ImprovedTableEditor {
 			$smarty->display("db:ited/iactpart");
 		}else{
 			if($_POST['action_open']){
-				$ss = "info";
+				$ss = $this->action_open_ss;
 				$key = intval($_POST['id']);
 				$emps->redirect_elink();exit();
 			}
