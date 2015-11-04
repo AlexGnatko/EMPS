@@ -1,6 +1,10 @@
 var emps_tinymce_settings = {
 	content_css: "/editor.css",
+{{if $lang == "en"}}
+	language_url : '/js/tinymce/langs/en.js',
+{{else}}
 	language_url : '/js/tinymce/langs/ru.js',
+{{/if}}
 
 	style_formats_merge: true,
 
