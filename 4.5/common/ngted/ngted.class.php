@@ -264,6 +264,7 @@ class EMPS_NGTed {
 			$emps->no_smarty = true;
 			if($pad_page){
 				$smarty->assign("pad", $this->pad_code);
+				$smarty->assign("lang", $emps->lang);
 				$smarty->display($pad_page);
 			}
 		}else{
