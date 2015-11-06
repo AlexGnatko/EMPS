@@ -6,6 +6,7 @@ var emps_tinymce_settings = {
 {{/if}}
 
 	style_formats_merge: true,
+	remove_script_host: false,
 
     style_formats: [
 		{title: "Сайт - блоки", items: [
@@ -28,7 +29,7 @@ var emps_tinymce_settings = {
 		]}
     ],
 	
-	convert_urls: true,
+	convert_urls: false,
 	relative_urls: false,
 	document_base_url: "",	
 	plugins : ["code image charmap paste anchor searchreplace visualblocks visualchars link","table emoticons textcolor"],
