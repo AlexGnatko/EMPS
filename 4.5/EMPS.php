@@ -365,6 +365,11 @@ class EMPS {
 			$md = $this->get_menu_data($ra);
 			
 			$ra['link'] = $ra['uri'];
+
+			$ra['splink'] = $md['splink'];
+			if(!$ra['splink']){
+				$ra['splink'] = $ra['link'];
+			}
 			
 			if(!$md['name']){
 				$use_name = $p;
