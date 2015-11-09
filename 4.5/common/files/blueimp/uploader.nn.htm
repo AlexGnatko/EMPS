@@ -4,10 +4,16 @@
 {{assign var="str_file_code" value="Control Code: <small>(advanced!)</small>"}}
 {{assign var="str_cancel" value="Cancel"}}
 {{assign var="str_save_descr" value="Save description"}}
+
+{{assign var="str_download" value="Download from another website"}}
+{{assign var="str_many" value="Several URLs can be entered in separate lines"}}
+{{assign var="str_upload" value="Upload"}}
+
 {{assign var="str_replace" value="Replace file for #"}}
 {{assign var="str_replace_descr" value="Replacing the file lets you change the file without changing its current ID."}}
 {{assign var="str_upload_new" value="Upload new file"}}
 {{assign var="str_select_f" value="Select files..."}}
+{{assign var="str_bylink" value="By Link"}}
 {{assign var="str_start_upload" value="Start Uploading"}}
 {{assign var="str_delete" value="Delete"}}
 {{assign var="str_error" value="Error"}}
@@ -24,6 +30,11 @@
 {{assign var="str_file_code" value="Управляющий код: <small>(только для продвинутых пользователей)</small>"}}
 {{assign var="str_cancel" value="Отмена"}}
 {{assign var="str_save_descr" value="Сохранить описание"}}
+
+{{assign var="str_download" value="Загрузить с другого сайта"}}
+{{assign var="str_many" value="Можно несколько URL в отдельных строках"}}
+{{assign var="str_upload" value="Загрузить"}}
+
 {{assign var="str_replace" value="Сменить файл №"}}
 {{assign var="str_replace_descr" value="Смена файла позволяет изменить содержимое файла, не меняя его ID и MD5 &mdash; существующие ссылки на него останутся прежними."}}
 {{assign var="str_upload_new" value="Загрузить новый файл"}}
@@ -76,6 +87,32 @@
 </form>        
 </div>
 
+
+
+<div class="move-modal modal fade" id="download_by_link">
+<form action="." method="post" class="form" role="form">
+<input type="hidden" name="post_by_url" value="1"/>
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">{{$str_download}}<span id="descr_id"></span></h4>
+      </div>
+      <div class="modal-body">
+        <p><textarea name="links" id="descr_input" rows="5" class="form-control" placeholder="{{$str_many}}"></textarea></p>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
+        <button type="submit" class="btn btn-primary">{{$str_upload}}</button>
+      </div>
+    </div>
+  </div>
+</form>        
+</div>
+
 <div class="move-modal modal fade" id="reupload_file">
 <form action="." method="post" class="form" role="form" enctype="multipart/form-data">
 <input type="hidden" name="post_reupload" value="1"/>
@@ -114,6 +151,10 @@
                     <span>{{$str_select_f}}</span>
                     <input type="file" name="files[]" multiple>
                 </span>
+                <button type="button" class="btn btn-primary link" onclick="file_by_url()">
+                    <i class="glyphicon glyphicon-cloud-download"></i>
+                    <span>{{$str_bylink}}</span>
+                </button>                
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
                     <span>{{$str_start_upload}}</span>
@@ -299,6 +340,10 @@ function reupload_file(id){
 	$("#upload_id").html(id);
 	$("#id_file").val(id);	
 	$("#reupload_file").modal();
+}
+
+function file_by_url(){
+	$("#download_by_link").modal('show');
 }
 
 function links_file(id){

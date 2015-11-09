@@ -58,6 +58,17 @@ class EMPS_BlueimpUploader {
 			}
 		}		
 		
+		if($_POST['post_by_url']){
+			$x = explode("\n", $_POST['links']);
+			foreach($x as $v){
+				$v = trim($v);
+				if($v){
+					$this->up->download_file($this->context_id, $v);
+				}
+			}
+			$emps->redirect_elink();exit();			
+		}
+		
 		if($_POST['upload']){
 			$this->handle_upload();
 		}

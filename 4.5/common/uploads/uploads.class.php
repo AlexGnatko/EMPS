@@ -185,6 +185,13 @@ class EMPS_Uploads {
 	public function download_file($context_id, $url, $filename){
 		global $emps, $SET;
 		
+		if(!$filename){
+			$a = parse_url($url);
+			$path = $a['path'];
+			$x = explode("/", $path);
+			$filename = $x[count($x) - 1];
+		}
+		
 		$data = file_get_contents($url);
 		
 		$headers = get_headers($url, 1);
