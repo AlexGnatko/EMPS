@@ -189,7 +189,7 @@ class EMPS_Uploads {
 			$a = parse_url($url);
 			$path = $a['path'];
 			$x = explode("/", $path);
-			$filename = $x[count($x) - 1];
+			$filename = urldecode($x[count($x) - 1]);
 		}
 		
 		$data = file_get_contents($url);
