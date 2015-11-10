@@ -152,6 +152,7 @@
                     <i class="glyphicon glyphicon-cloud-download"></i>
                     <span>{{$str_bylink}}</span>
                 </button>                
+{{if !$biu_simple}}
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
                     <span>{{$str_start_upload}}</span>
@@ -160,6 +161,7 @@
                     <i class="glyphicon glyphicon-ban-circle"></i>
                     <span>{{$str_cancel}}</span>
                 </button>
+{{/if}}
 
                 <!-- The loading indicator is shown during file processing -->
                 <span class="fileupload-loading"></span>

@@ -9,9 +9,11 @@
 
     <div class="row sortable" data-id="{{$lst[i].id}}">
         <div class="col-md-2" align="center">
+{{if $lst[i].pic}}
             <span class="preview">
                     <a href="{{$lst[i].vslink}}" rel="uploaded" title="{{$lst[i].name}}" target="_blank"><img src="/thumb/{{$lst[i].pic.md5}}.jpg"></a>
             </span>
+{{/if}}
         </div>
         <div class="col-md-8">
             <p class="name">
@@ -26,9 +28,11 @@
 {{/if}}</p>
 			<p>
 
+{{if !$vu_simple}}
 			<a href="javascript:enter_descr('{{$lst[i].id}}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> Описание</a>
 			<a href="javascript:ask_do('Переработать? (заново загрузить информацию о ролике с видеосервиса)','?process={{$lst[i].id}}')" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-repeat"></i> Переработать</a>            
 			<a href="javascript:links_video('{{$lst[i].id}}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> Ссылки и код для вставки</a>
+{{/if}}
 
 			</p>
         </div>
@@ -46,6 +50,7 @@
 {{/section}}
 </div>
 
+<div class="clearfix"></div>
 <form action="." method="post" class="form" role="form">
 <div class="panel panel-primary cb">
 <div class="panel-heading">Добавить новый видеоролик</div>
@@ -83,7 +88,7 @@
 <p><button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="Ждите..." >Добавить видеоролик</button></p>
 </div>
 </div>
-</div>
+</div></div>
 </form>
 
 
