@@ -317,7 +317,9 @@ class EMPS_ImprovedTableEditor {
 			$ss = "";
 			$emps->redirect_elink();exit();
 		}
-		$this->row['data']=unserialize($this->row['data']);
+		if(!$this->keep_data){
+			$this->row['data'] = unserialize($this->row['data']);
+		}
 		$smarty->assign('row',$this->row);
 
 		$smarty->assign("CanSave", $this->can_save());
