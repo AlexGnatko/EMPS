@@ -1,4 +1,6 @@
 <?php
+global $emps;
+
 function smarty_plugin_sapecontext($params){
 	global $sape_context;
 	if(defined('_SAPE_USER')){
@@ -149,5 +151,7 @@ function smarty_plugin_downloads($params){
 		return $smarty->fetch("db:page/filelist");
 	}
 }
+
+require_once $emps->common_module('config/smarty/plugins.php');
 
 ?>

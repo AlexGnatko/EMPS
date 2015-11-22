@@ -786,6 +786,7 @@ class EMPS {
 		
 		$item = $this->get_db_content_item($code);
 		$props = $this->get_content_data($item);
+		unset($props['_full']);
 		
 		$this->page_properties = array_merge($this->page_properties,$props);
 	}
