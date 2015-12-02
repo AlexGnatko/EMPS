@@ -103,6 +103,10 @@ if($sua == 'yes'){
 if($emps->virtual_path && !$emps->fast){
 // if the item exists in the CMS database
 	$data = $emps->get_content_data($emps->virtual_path);
+
+	$emps->last_modified = $data['dt'];
+	$emps->handle_modified();
+
 	$emps->page_property("canprint", 1);					
 	$emps->copy_properties($emps->virtual_path['uri']);		
 	$emps->pre_display();
