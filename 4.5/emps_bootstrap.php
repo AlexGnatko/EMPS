@@ -104,7 +104,7 @@ if($emps->virtual_path && !$emps->fast){
 // if the item exists in the CMS database
 	$data = $emps->get_content_data($emps->virtual_path);
 
-	$emps->last_modified = $data['dt'];
+	$emps->last_modified = $emps->virtual_path['dt'];
 	$emps->handle_modified();
 
 	$emps->page_property("canprint", 1);					
