@@ -1657,7 +1657,7 @@ class EMPS {
 				$if_dt = strtotime($if_modified);
 //				echo "Last: ".$this->last_modified.", if: ".$if_dt;
 //				exit();
-				if($this->last_modified >= $if_dt){
+				if($this->last_modified <= $if_dt){
 					header("HTTP/1.1 304 Not Modified");
 					exit();
 				}
