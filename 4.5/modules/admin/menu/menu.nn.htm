@@ -58,9 +58,9 @@
 {{section name=i loop=$grp}}
 	<li {{if $grp[i].sel}}class="active"{{/if}}><a href="{{$grp[i].link}}">
 {{if $grp[i].name == "_nocode"}}
-Без кода
+{{if $lang eq "en"}}No code{{else}}Без кода{{/if}}
 {{elseif $grp[i].name == "_all"}}    
-Все
+{{if $lang eq "en"}}All{{else}}Все{{/if}}
 {{else}}
 {{$grp[i].name}}
 {{/if}}
