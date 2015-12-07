@@ -42,6 +42,12 @@ class EMPS_Videos {
 		return $a;
 	}
 	
+	function covtime($youtube_time){
+		$start = new DateTime('@0'); // Unix epoch
+		$start->add(new DateInterval($youtube_time));
+		return $start->getTimestamp();
+	}  
+	
 	function process_video($video_id){
 		global $emps,$SET;
 		$os=$SET;
@@ -49,8 +55,73 @@ class EMPS_Videos {
 		$ctx=$emps->p->get_context(DT_VIDEO,1,$video_id);
 		
 		$video=$emps->db->get_row("e_videos","id=$video_id");
-		if($video['youtube_id']){
-			$xml=file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$video['youtube_id']);
+		if($video['youtube_id'] && defined('GOOGLE_KEY_YOUTUBE')){
+			
+			$url = "https://www.googleapis.com/youtube/v3/videos?key=".GOOGLE_KEY_YOUTUBE."&part=snippet,contentDetails&id=".$video['youtube_id'];
+			$data = file_get_contents($url);
+			$json = json_decode($data, true);
+			
+			$snip = $json['items'][0]['snippet'];
+			$data = $json['items'][0]['contentDetails'];
+//			dump($json['items'][0]);
+//			dump($data);
+			$SET['name'] = $snip['title'];
+			$SET['description'] = $snip['description'];
+			$SET['duration'] = $this->covtime($data['duration']);
+			
+			unset($_REQUEST['id']);
+			unset($SET['id']);
+			unset($GLOBALS['id']);
+			
+			$emps->db->sql_update("e_videos","id=$video_id");
+			$emps->p->save_properties($SET,$ctx,P_VIDEO);
+			
+			
+		
+			$img = $snip['thumbnails']['standard'];
+			if(!$img){
+				$img = $snip['thumbnails']['high'];
+				if(!$img){
+					$img = $snip['thumbnails']['medium'];
+					if(!$img){
+						$img = $snip['thumbnails']['default'];
+					}
+				}
+			}
+			
+			if($img){
+				$this->p->delete_photos_context($ctx);
+				
+				$ord = 10;
+				
+				$data = file_get_contents($img['url']);
+				
+				if($data){
+					$_REQUEST=array();		
+					$SET=array();
+					$_REQUEST['md5']=md5(uniqid(time()+1231111));
+					$_REQUEST['filename']=$a['URL'];
+					$_REQUEST['type']='image/jpeg';
+					$_REQUEST['size']=strlen($data);
+					$_REQUEST['thumb']=$img['width'].'x'.$img['height']."|120x90|auto,max";
+					$_REQUEST['context_id']=$ctx;
+					$_REQUEST['ord']=$ord+10;
+					$emps->db->sql_insert("e_uploads");
+					$file_id=$emps->db->last_insert();
+					$oname=$this->p->up->upload_filename($file_id,DT_IMAGE);
+					
+					file_put_contents($oname,$data);
+			
+					$row=$emps->db->get_row("e_uploads","id=$file_id");
+					if($row){
+						$fname=$this->p->thumb_filename($file_id);	
+						$this->p->treat_upload($oname,$fname,$row);							
+					}
+				}
+
+			}
+			
+/*			$xml=file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$video['youtube_id']);
 			
 			file_put_contents(EMPS_SCRIPT_PATH.'/video.xml',$xml);			
 			$xml_parser = new Simple_XMLParser;
@@ -136,9 +207,9 @@ class EMPS_Videos {
 							if($row){
 								$fname=$this->p->thumb_filename($file_id);	
 								$this->p->treat_upload($oname,$fname,$row);							
-/*								dump($row);
+								dump($row);
 								echo $oname." // ".$fname;
-								exit();*/
+								exit();
 							}
 						}
 					}
@@ -147,6 +218,7 @@ class EMPS_Videos {
 				
 				$emps->p->save_properties($SET,$ctx,P_VIDEO);									
 			}
+*/
 		}
 		
 		if($video['vimeo_id']){
