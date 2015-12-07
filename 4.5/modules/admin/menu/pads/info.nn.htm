@@ -1,16 +1,51 @@
+{{if $lang eq "en"}}
+
+{{assign var="str_uri" value="URI of the page"}}
+{{assign var="str_with_slashes" value="full, with all slashes"}}
+{{assign var="str_title" value="Title"}}
+{{assign var="str_text" value="text shown in the menu"}}
+{{assign var="str_regex" value="Regex-filter"}}
+{{assign var="str_optional" value="optional"}}
+{{assign var="str_group_code" value="Group code"}}
+{{assign var="str_sorting" value="Sorting"}}
+{{assign var="str_parent" value="Parent"}}
+{{assign var="str_rights" value="Access groups"}}
+{{assign var="str_optional2" value="optional, group codes comma-separated"}}
+{{assign var="str_show" value="Show this menu item"}}
+{{assign var="str_show2" value="Show"}}
+{{assign var="str_save" value="Save Changes"}}
+
+{{else}}
+{{assign var="str_uri" value="URI страницы, на которую указывает пункт меню"}}
+{{assign var="str_with_slashes" value="полный, со слэшами"}}
+{{assign var="str_title" value="Название"}}
+{{assign var="str_text" value="текст, который показывается в меню"}}
+{{assign var="str_regex" value="Regex-фильтр"}}
+{{assign var="str_optional" value="не обязательно"}}
+{{assign var="str_group_code" value="Код группы"}}
+{{assign var="str_sorting" value="Сортировка"}}
+{{assign var="str_parent" value="Родитель"}}
+{{assign var="str_rights" value="Права доступа"}}
+{{assign var="str_optional2" value="не обязательно, коды групп через запятую"}}
+{{assign var="str_show" value="Показывать пункт"}}
+{{assign var="str_show2" value="Показывать"}}
+{{assign var="str_save" value="Сохранить изменения"}}
+
+{{/if}}
+
 <div class="row">  
 <div class="col-md-8">
 <form action="." method="post" class="form" role="form" id="main_form">
 <input type="hidden" name="post_save" value="1" />
 
   <div class="form-group col-md-12">
-    <label for="edit_uri">URI страницы, на которую указывает пункт меню:</label> (полный, со слэшами)
+    <label for="edit_uri">{{$str_uri}}:</label> ({{$str_with_slashes}})
     <input type="text" class="form-control" name="uri" id="edit_uri" value="{{$row.uri|escape:html}}" placeholder="/some-page/, or /somepage.html" />
   </div>
   
 
 <div class="form-group col-md-12">
-<label for="edit_name" class="upspace">Название:</label> (текст, который показывается в меню)
+<label for="edit_name" class="upspace">{{$str_title}}:</label> ({{$str_text}})
 <input class="form-control" size="60" type="text" name="name" id="edit_name" value="{{$row.name|escape:html}}" placeholder="Page heading">
 </div>
 
@@ -18,29 +53,35 @@
 
 
 <div class="form-group col-md-12">
-<label for="edit_regex" class="upspace">Regex-фильтр:</label> (не обязательно)<br />
+<label for="edit_regex" class="upspace">{{$str_regex}}:</label> ({{$str_optional}})<br />
 <input class="form-control" size="60" type="text" name="regex" id="edit_regext" value="{{$row.regex|escape:html}}" placeholder="^\/admin\/$">
 <span class="help-block">
+{{if $lang eq "en"}}
+<small>A regular expression. If 'true' to the URI of the current page, the menu item is active.<br />
+If not set, any URI that starts with the value in the URI field makes the menu item active.
+</small>
+{{else}}
 <small>Выражение regex. Если верно по отношению к URI текущей страницы, пункт считается выбранным.<br />
 Если не задано, любой URI, начинающийся со значения, указанного в поле URI, делает пункт меню выбранным.
 </small>
+{{/if}}
 </span>
 </div>
 
 <div class="col-md-12">
 <div class="row">
 <div class="form-group col-md-4">
-<label for="edit_grp" class="upspace">Код группы:</label>
+<label for="edit_grp" class="upspace">{{$str_group_code}}:</label>
 <input class="form-control" type="text" name="grp" id="edit_grp" value="{{$row.grp|escape:html}}" placeholder="main">
 </div>
 
 <div class="form-group col-md-4">
-<label for="edit_ord" class="upspace">Сортировка:</label>
+<label for="edit_ord" class="upspace">{{$str_sorting}}:</label>
 <input class="form-control" type="text" name="ord" id="edit_ord" value="{{if !$row.ord}}{{$next_ord}}{{else}}{{$row.ord|escape:html}}{{/if}}" placeholder="100">
 </div>
 
 <div class="form-group col-md-4">
-<label for="edit_parent" class="upspace">Родитель:</label>
+<label for="edit_parent" class="upspace">{{$str_parent}}:</label>
 <input class="form-control" type="text" name="parent" id="edit_parent" value="{{$row.parent|escape:html}}" placeholder="100">
 </div>
 
@@ -50,14 +91,14 @@
 <div class="col-md-12">
 <div class="row">
 <div class="form-group col-md-9 ">
-<label for="edit_grant" class="upspace">Права доступа:</label> (не обязательно, коды групп через запятую)
+<label for="edit_grant" class="upspace">{{$str_rights}}:</label> ({{$str_optional2}})
 <input class="form-control" type="text" name="grant" id="edit_grant" value="{{$row.grant|escape:html}}" placeholder="admin,manager">
 </div>
 
 <div class="form-group col-md-3 ">
-<label class="upspace">Показывать пункт:</label><br />
+<label class="upspace">{{$str_show}}:</label><br />
 <input type="hidden" name="enabled" value="0" />
-<input type="checkbox" name="enabled" value="1" id="edit_enabled" {{if $row.enabled eq 1}}checked{{/if}}/> Показывать
+<input type="checkbox" name="enabled" value="1" id="edit_enabled" {{if $row.enabled eq 1}}checked{{/if}}/> {{$str_show2}}
 
 </div>
 
@@ -65,7 +106,7 @@
 </div>
 
 <div class="form-group col-md-12">
-<button type="submit" class="btn btn-primary btn-lg">{{if $nexttitle}}{{$nexttitle}}{{else}}Сохранить изменения{{/if}}</button>
+<button type="submit" class="btn btn-primary btn-lg">{{if $nexttitle}}{{$nexttitle}}{{else}}{{$str_save}}{{/if}}</button>
 </div>
 </form>
 </div>
