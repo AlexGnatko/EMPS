@@ -57,6 +57,7 @@
 <div class="panel-body">
 <input type="hidden" name="post_new" value="1" /> 
 
+{{if !$vu_simple}}
 <p>
 <label for="video_name">Название:</label>
 <input type="text" class="form-control" id="video_name" name="name" placeholder="Поросёнок Пётр заводит свой трактор" />
@@ -68,6 +69,7 @@
 <textarea class="form-control" rows="4" id="video_descr" name="descr"></textarea>
 <div class="help-block">(аналогично названию, вы можете оставить это поле пустым)</div>
 </p>
+{{/if}}
 
 <p>
 <label for="video_link">Страница видеоролика на видеохостинге с идентификатором ролика:</label>

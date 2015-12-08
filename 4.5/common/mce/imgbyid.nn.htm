@@ -1,13 +1,53 @@
+{{if $lang eq "en"}}
+{{assign var="str_title" value="Insert images uploaded at the 'images' tab"}}
+{{assign var="str_back" value="Back"}}
+{{assign var="str_cancel" value="Cancel"}}
+{{assign var="str_with_downsizing" value="Insert downsized"}}
+{{assign var="str_width" value="Width"}}
+{{assign var="str_auto" value="Auto"}}
+{{assign var="str_height" value="Height"}}
+{{assign var="str_set_size" value="Set dimensions"}}
+{{assign var="str_class" value="Class"}}
+{{assign var="str_dont_set" value="Do not set class"}}
+{{assign var="str_of_width" value="of width"}}
+{{assign var="str_right" value="right"}}
+{{assign var="str_left" value="left"}}
+{{assign var="str_center" value="centered"}}
+{{assign var="str_btn_downsized" value="Insert downsized image"}}
+{{assign var="str_btn_full" value="Insert full-resolution image"}}
+{{assign var="str_insert_downsized" value="Insert downsized"}}
+{{assign var="str_choose" value="Select image to insert"}}
+{{else}}
+{{assign var="str_title" value="Вставка иллюстраций из числа загруженных изображений"}}
+{{assign var="str_back" value="Назад"}}
+{{assign var="str_cancel" value="Отмена"}}
+{{assign var="str_with_downsizing" value="Вставить с уменьшением"}}
+{{assign var="str_width" value="Ширина"}}
+{{assign var="str_auto" value="Авто"}}
+{{assign var="str_height" value="Высота"}}
+{{assign var="str_set_size" value="Установить размер"}}
+{{assign var="str_class" value="Класс"}}
+{{assign var="str_dont_set" value="Не присваивать класс"}}
+{{assign var="str_of_width" value="ширины"}}
+{{assign var="str_right" value="cправа"}}
+{{assign var="str_left" value="слева"}}
+{{assign var="str_center" value="по центру"}}
+{{assign var="str_btn_downsized" value="Вставить уменьшенное изображение"}}
+{{assign var="str_btn_full" value="Вставить полное изображение"}}
+{{assign var="str_insert_downsized" value="Вставить с уменьшением"}}
+{{assign var="str_choose" value="Выберите изображение для вставки"}}
+{{/if}}
+
 {{if $mode == 'title'}}
-Вставка иллюстраций из числа загруженных изображений
+{{$str_title}}
 {{elseif $mode == 'footer'}}
 {{if $back}}
-        <button type="button" class="btn btn-primary" onclick="{{$onclick}}" id="tmce_action"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp; Назад</button>
+        <button type="button" class="btn btn-primary" onclick="{{$onclick}}" id="tmce_action"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp; {{$str_back}}</button>
 {{/if}}        
-        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
 
 {{elseif $mode == 'freepic'}}
-<p>Вставить с уменьшением:</p>
+<p>{{$str_with_downsizing}}:</p>
 <div class="picviewer">
 <img src="/freepic/{{$pic.md5}}.{{$pic.ext}}?size=240x180" id="tmce_freepic"/>
 </div>
@@ -18,67 +58,69 @@
 
 <div class="row bspace">
 <div class="col-md-4">
-<label>Ширина:</label>
+<label>{{$str_width}}:</label>
     <div class="input-group">
       <input id="tmce_width" type="text" class="form-control" value="240" data-current="240" data-default="{{$pic.width}}" >
       <span class="input-group-btn">
-        <button class="btn btn-info" onclick="tmce_auto('width')" type="button">Авто</button>
+        <button class="btn btn-info" onclick="tmce_auto('width')" type="button">{{$str_auto}}</button>
       </span>
     </div>
     
 </div>
 <div class="col-md-4">
-<label>Высота:</label>
+<label>{{$str_height}}:</label>
     <div class="input-group">
       <input id="tmce_height" type="text" class="form-control" value="180" data-current="180" data-default="{{$pic.height}}" >
       <span class="input-group-btn">
-        <button class="btn btn-info" onclick="tmce_auto('height')" type="button">Авто</button>
+        <button class="btn btn-info" onclick="tmce_auto('height')" type="button">{{$str_auto}}</button>
       </span>
     </div>
 </div>
 <div class="col-md-4">
 <label>&nbsp;</label>
-<a href="javascript:tmce_set_size()" class="form-control btn btn-info">Установить размер</a>
+<a href="javascript:tmce_set_size()" class="form-control btn btn-info">{{$str_set_size}}</a>
 </div>
 </div>
 <div class="row">
 <div class="col-md-12">
+{{if $lang eq "en"}}
 <p><strong>Элемент A:</strong> <small>Ссылка вокруг уменьшенного изображения, при нажатии на которую открывается fancybox с полным изображением.
 Если вы выберете класс <strong>lightbox</strong>, в код будет добавлен элемент <strong>A</strong> обёртнутый вокруг <strong>IMG</strong>.</small></p>
+{{else}}
+<p><strong>Элемент A:</strong> <small>Ссылка вокруг уменьшенного изображения, при нажатии на которую открывается fancybox с полным изображением.
+Если вы выберете класс <strong>lightbox</strong>, в код будет добавлен элемент <strong>A</strong> обёртнутый вокруг <strong>IMG</strong>.</small></p>
+{{/if}}
 </div>
 </div>
 
 <div class="input-group bspace">
-
   <input type="text" class="form-control" value="pic-full" id="tmce_class_name">
   <div class="input-group-btn btn-group dropup">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Класс <span class="caret"></span></button>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{$str_class}} <span class="caret"></span></button>
         <ul class="dropdown-menu pull-right">
-          <li><a href="javascript:tmce_set_class('pic-full')">100% ширины</a></li>        
-          <li><a href="javascript:tmce_set_class('pic-3-right')">1/4 → cправа</a></li>
-          <li><a href="javascript:tmce_set_class('pic-3-left')">1/4 ← слева</a></li>
-          <li><a href="javascript:tmce_set_class('pic-4-right')">1/3 → cправа</a></li>
-          <li><a href="javascript:tmce_set_class('pic-4-left')">1/3 ← слева</a></li>
-          <li><a href="javascript:tmce_set_class('pic-6-right')">1/2 → cправа</a></li>
-          <li><a href="javascript:tmce_set_class('pic-6-left')">1/2 ← слева</a></li>
-          <li><a href="javascript:tmce_set_class('pic-6-center')">1/2 по центру</a></li>      
+          <li><a href="javascript:tmce_set_class('pic-full')">100% {{$str_of_width}}</a></li>        
+          <li><a href="javascript:tmce_set_class('pic-3-right')">1/4 → {{$str_right}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-3-left')">1/4 ← {{$str_left}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-4-right')">1/3 → {{$str_right}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-4-left')">1/3 ← {{$str_left}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-6-right')">1/2 → {{$str_right}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-6-left')">1/2 ← {{$str_left}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-6-center')">1/2 {{$str_center}}</a></li>      
           <li class="divider"></li>
-          <li><a href="javascript:tmce_set_class('pic-3-right fancybox')">1/4 → cправа, <strong>lightbox</strong></a></li>
-          <li><a href="javascript:tmce_set_class('pic-3-left fancybox')">1/4 ← слева, <strong>lightbox</strong></a></li>
-          <li><a href="javascript:tmce_set_class('pic-4-right fancybox')">1/3 → cправа, <strong>lightbox</strong></a></li>
-          <li><a href="javascript:tmce_set_class('pic-4-left fancybox')">1/3 ← слева, <strong>lightbox</strong></a></li>
+          <li><a href="javascript:tmce_set_class('pic-3-right fancybox')">1/4 → {{$str_right}}, <strong>lightbox</strong></a></li>
+          <li><a href="javascript:tmce_set_class('pic-3-left fancybox')">1/4 ← {{$str_left}}, <strong>lightbox</strong></a></li>
+          <li><a href="javascript:tmce_set_class('pic-4-right fancybox')">1/3 → {{$str_right}}, <strong>lightbox</strong></a></li>
+          <li><a href="javascript:tmce_set_class('pic-4-left fancybox')">1/3 ← {{$str_left}}, <strong>lightbox</strong></a></li>
           <li class="divider"></li>                    
-          <li><a href="javascript:tmce_set_class('')">Не присваивать класс</a></li>
+          <li><a href="javascript:tmce_set_class('')">{{$str_dont_set}}</a></li>
         </ul>
   </div>
   
 </div>
 
-
-
 <div class="row">
 <div class="col-md-12">
-<p><a href="javascript:tmce_set_size();tmce_answer()" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>&nbsp; Вставить уменьшенное изображение</a></p>
+<p><a href="javascript:tmce_set_size();tmce_answer()" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>&nbsp; {{$str_btn_downsized}}</a></p>
 </div>
 </div>
 
@@ -93,43 +135,45 @@
 <img src="/pic/{{$pic.md5}}.{{$pic.ext}}" title="{{$pic.descr|escape:html}}" alt="{{$pic.descr|escape:html}}" border="0" />
 </div>
 
-
+{{if $lang eq "en"}}
 <p>Можно выбрать класс элемента IMG: <small>(Вид и расположение изображения)</small></p>
+{{else}}
+<p>Можно выбрать класс элемента IMG: <small>(Вид и расположение изображения)</small></p>
+{{/if}}
 
 <div class="input-group bspace">
 
   <input type="text" class="form-control" value="pic-full" id="tmce_class_name">
   <div class="input-group-btn btn-group dropup">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Класс <span class="caret"></span></button>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{$str_class}} <span class="caret"></span></button>
         <ul class="dropdown-menu pull-right">
-          <li><a href="javascript:tmce_set_class('pic-full')">100% ширины</a></li>        
-          <li><a href="javascript:tmce_set_class('pic-3-right')">1/4 → cправа</a></li>
-          <li><a href="javascript:tmce_set_class('pic-3-left')">1/4 ← слева</a></li>
-          <li><a href="javascript:tmce_set_class('pic-4-right')">1/3 → cправа</a></li>
-          <li><a href="javascript:tmce_set_class('pic-4-left')">1/3 ← слева</a></li>
-          <li><a href="javascript:tmce_set_class('pic-6-right')">1/2 → cправа</a></li>
-          <li><a href="javascript:tmce_set_class('pic-6-left')">1/2 ← слева</a></li>
-          <li><a href="javascript:tmce_set_class('pic-6-center')">1/2 по центру</a></li>          
+          <li><a href="javascript:tmce_set_class('pic-full')">100% {{$str_of_width}}</a></li>        
+          <li><a href="javascript:tmce_set_class('pic-3-right')">1/4 → {{$str_right}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-3-left')">1/4 ← {{$str_left}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-4-right')">1/3 → {{$str_right}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-4-left')">1/3 ← {{$str_left}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-6-right')">1/2 → {{$str_right}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-6-left')">1/2 ← {{$str_left}}</a></li>
+          <li><a href="javascript:tmce_set_class('pic-6-center')">1/2 {{$str_center}}</a></li>          
           <li class="divider"></li>                    
-          <li><a href="javascript:tmce_set_class('')">Не присваивать класс</a></li>
+          <li><a href="javascript:tmce_set_class('')">{{$str_dont_set}}</a></li>
         </ul>
   </div>
   
 </div>
 
-
 <div class="row">
 <div class="col-md-6">
-<p><a href="javascript:tmce_answer()" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>&nbsp; Вставить полное изображение</a></p>
+<p><a href="javascript:tmce_answer()" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>&nbsp; {{$str_btn_full}}</a></p>
 </div>
 <div class="col-md-6">
-<p align="right"><a href="javascript:tmce_load('/mcequery/{{$context_id}}/imgbyid/{{$pic.id}}-freepic/','','/mcequery/{{$context_id}}/imgbyid/{{$pic.id}}-freefooter/')" class="btn btn-primary ">Вставить с уменьшением &nbsp;<i class="glyphicon glyphicon-arrow-right"></i></a></p>
+<p align="right"><a href="javascript:tmce_load('/mcequery/{{$context_id}}/imgbyid/{{$pic.id}}-freepic/','','/mcequery/{{$context_id}}/imgbyid/{{$pic.id}}-freefooter/')" class="btn btn-primary ">{{$str_insert_downsized}} &nbsp;<i class="glyphicon glyphicon-arrow-right"></i></a></p>
 </div>
 </div>
 
 {{elseif $mode == 'body'}}
 
-<p>Выберите изображение для вставки:</p>
+<p>{{$str_choose}}:</p>
 
 {{section name=i loop=$lst}}<div class="picpick">
 <a href="javascript:tmce_load('/mcequery/{{$context_id}}/imgbyid/{{$lst[i].id}}-body/','','/mcequery/{{$context_id}}/imgbyid/{{$lst[i].id}}-picfooter/')"><img src="/freepic/{{$lst[i].md5}}.{{$lst[i].ext}}?size=130x95" width="130" height="95"/></a>
