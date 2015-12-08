@@ -5,6 +5,8 @@ $photos = new EMPS_Photos;
 $videos = new EMPS_Videos;
 
 if($emps->auth->credentials("users")){
+	$smarty->assign("lang", $emps->lang);
+	
 	$emps->no_smarty=true;
 	
 	$context_id = intval($key);
