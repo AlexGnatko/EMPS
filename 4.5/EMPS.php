@@ -1385,6 +1385,8 @@ class EMPS {
 			$_SESSION['antibot_pin']=$pk;
 	
 			$this->db->query('insert into '.TP."e_pincode values ($pin,$dt,$sid)");
+			$dt = time() - 60*60*24*7;
+			$this->db->query('delete from '.TP.'e_pincode where dt < '.$dt);
 		}
 	
 		$smarty->assign("pk",$pk);
