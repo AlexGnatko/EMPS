@@ -50,16 +50,29 @@ if(!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/") 
 			if($fh){		
 				$size = filesize($fname);
 				
-				$body = new http\Message\Body($fh);
-				$resp = new http\Env\Response;
+				if(class_exists('http\Env\Response')){
 				
-				$resp->setContentType($content_type);
-				$resp->setHeader("Content-Length", $size);
-				$resp->setHeader("Last-Modified", date("r", filemtime($fname)));
-				$resp->setHeader("Expires", date("r", time()+60*60*24*7));
-				$resp->setCacheControl("Cache-Control: max-age=".(60*60*24*7));
-				$resp->setBody($body);
-				$resp->send();			
+					$body = new http\Message\Body($fh);
+					$resp = new http\Env\Response;
+					
+					$resp->setContentType($content_type);
+					$resp->setHeader("Content-Length", $size);
+//					$resp->setHeader("Send-File", "http");
+					$resp->setHeader("Last-Modified", date("r", filemtime($fname)));
+					$resp->setHeader("Expires", date("r", time()+60*60*24*7));
+					$resp->setCacheControl("Cache-Control: max-age=".(60*60*24*7));
+					$resp->setBody($body);
+					$resp->send();			
+				}else{
+					header("Content-Type: ".$content_type);
+					header("Content-Length: ".$size);
+//					header("Send-File: fpassthru");
+					header("Last-Modified: ", date("r", filemtime($fname)));
+					header("Expires: ", date("r", time()+60*60*24*7));
+					header("Cache-Control: max-age=".(60*60*24*7));
+
+					fpassthru($fh);
+				}
 		
 				fclose($fh);
 			}
