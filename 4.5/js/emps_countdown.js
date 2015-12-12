@@ -13,7 +13,7 @@
     $.extend(EMPS_Countdown.prototype, {
 		defaults: {
 			seconds: 60,
-			level: 3,
+			level: 4,
 			onExpired: function(obj){},
 			off: 'Expired!'
 		},
@@ -40,9 +40,22 @@
 			if(left > 0){
 				var seconds = this.two_digits(left % 60);
 				var minutes = this.two_digits(Math.floor(left/60) % 60);
-				var hours = this.two_digits(Math.floor(Math.floor(left / 60) / 60));
+				if(this.params.level == 3){
+					var hours = this.two_digits(Math.floor(Math.floor(left / 60) / 60));
+				}else{
+					var hours = this.two_digits(Math.floor(Math.floor(left / 60) / 60) % 24);
+					var days = Math.floor(Math.floor(Math.floor(left / 60) / 60) / 24) ;
+				}
 				if(this.params.level == 3){
 					text = hours+":"+minutes+":"+seconds;
+				}else if(this.params.level == 4){
+					var s = "s";
+					if((days % 10) == 1){
+						if((days % 100) != 11 && days != 1){
+							s = "";
+						}
+					}
+					text = days+" day"+s+" "+hours+":"+minutes+":"+seconds;
 				}else if(this.params.level == 2){
 					text = minutes+":"+seconds;
 				}
