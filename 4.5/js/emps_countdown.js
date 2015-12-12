@@ -55,7 +55,11 @@
 							s = "";
 						}
 					}
-					text = days+" day"+s+" "+hours+":"+minutes+":"+seconds;
+					if(days > 0){
+						text = days+" day"+s+" "+hours+":"+minutes+":"+seconds;
+					}else{
+						text = hours+":"+minutes+":"+seconds;
+					}
 				}else if(this.params.level == 2){
 					text = minutes+":"+seconds;
 				}
