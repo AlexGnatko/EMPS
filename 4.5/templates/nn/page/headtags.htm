@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{if $html_lang}}{{$html_lang}}{{else}}ru{{/if}}">
+<html lang="{{if $html_lang}}{{$html_lang}}{{else}}ru{{/if}}" {{include file="db:html_tag_extra"}}>
 <head>
 <title>{{if $page.title}}{{$page.title|escape:html}}{{else}}{{include file="db:page/mainhead"}}{{/if}}{{include file="db:page/everytitle"}}</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
