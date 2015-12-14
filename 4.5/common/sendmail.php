@@ -16,6 +16,7 @@ $mail = new EMPS_Mail;
 while($ra=$emps->db->fetch_named($r)){
 	$to=$ra['to'];
 	$msg_id=$ra['id'];
+	$status = $ra['status'];
 	$emps->db->query("update $tn set status=status+1,sdt=$dt where id=$msg_id");
 	$params=unserialize($ra['params']);
 	$smtpdata=unserialize($ra['smtpdata']);	
