@@ -9,7 +9,17 @@ $code = $key;
 $response = array();
 if(isset($emps->enum[$code])){
 	$response['code'] = 'OK';
-	$response['enum'] = $emps->enum[$code];
+	$enum = $emps->enum[$code];
+	if($_GET['numeric']){
+		$ne = array();
+		foreach($enum as $v){
+			$v['code'] = intval($v['code']);
+			$ne[] = $v;
+		}
+		$enum = $ne;
+	}
+	
+	$response['enum'] = $enum;
 }else{
 	$response['code'] = 'Error';
 	$response['message'] = "No such enum!";

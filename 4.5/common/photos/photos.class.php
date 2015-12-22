@@ -53,6 +53,9 @@ class EMPS_Photos {
 				$img=imagecreatefrompng($fname);
 			}elseif(strstr($ra['type'],"gif")){
 				$img=imagecreatefromgif($fname);
+			}else{
+				$ra['fname'] = $fname;
+				return $ra;
 			}
 	
 			$z=explode("x",$size);
@@ -432,6 +435,9 @@ class EMPS_Photos {
 		}	
 		if(strstr($ra['type'],'gif')){
 			$ra['ext'] = "gif";
+		}		
+		if(strstr($ra['type'],'svg')){
+			$ra['ext'] = "svg";
 		}		
 		
 		if(!$ra['qual']){

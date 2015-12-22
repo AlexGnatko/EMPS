@@ -33,7 +33,15 @@ if($ra){
 			$body = new http\Message\Body($fh);
 			$resp = new http\Env\Response;
 			
-			$resp->setContentType("image/jpeg");
+			$content_type = "image/jpeg";
+			if(strstr($ra['type'],"jpeg")){
+			}elseif(strstr($ra['type'],"png")){
+			}elseif(strstr($ra['type'],"gif")){
+			}else{
+				$content_type = $ra['type'];
+			}
+			
+			$resp->setContentType($content_type);
 			$resp->setHeader("Content-Length", $size);
 			$resp->setHeader("Last-Modified", date("r",$ra['dt']));
 			$resp->setHeader("Expires", date("r",time()+60*60*24*7));

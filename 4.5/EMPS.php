@@ -770,6 +770,7 @@ class EMPS {
 		$context_id = $this->p->get_context(DT_CONTENT,1,$page['id']);
 		$ra=$this->p->read_properties(array(), $context_id);
 		$ra['context_id'] = $context_id;
+		$ra['page_context_id'] = $context_id;
 		return $ra;
 	}
 	
