@@ -172,4 +172,9 @@ if(defined('EMPS_PRE_MINIFY')){
 		$smarty->registerFilter('pre', 'smarty_pre_minify');
 	}
 }	
+
+$fn = $emps->common_module('config/smarty/modifiers.php');
+if(file_exists($fn)){
+	require_once $fn;
+}
 ?>
