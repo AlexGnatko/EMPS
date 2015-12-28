@@ -6,11 +6,15 @@ if(!$emps->enums_loaded){
 	$emps->load_enums_from_file();
 }
 
-$emps->loadvars();
-$start = "";
-$URI = $emps->elink();
-
-$emps->shadow_properties_link($URI);	
+if($emps->virtual_path){
+	$emps->shadow_properties_link($emps->virtual_path['uri']);
+}else{
+	$emps->loadvars();
+	$start = "";
+	$URI = $emps->elink();
+	
+	$emps->shadow_properties_link($URI);	
+}
 
 $file_name = $emps->common_module('config/project/predisplay.php');
 if(file_exists($file_name)){
