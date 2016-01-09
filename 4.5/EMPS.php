@@ -1045,6 +1045,11 @@ class EMPS {
 	public function deny_access($reason){
 		global $smarty;
 		
+		$this->retry_for_session();
+		$smarty->assign($reason, 1);
+	}
+
+	public function retry_for_session(){
 		if($this->should_prevent_session()){
 			$retry = intval($_GET['retry']);
 			if($retry < 3) {
@@ -1052,7 +1057,6 @@ class EMPS {
 				$this->redirect_page("./?retry=".$retry);exit();
 			}
 		}
-		$smarty->assign($reason, 1);
 	}
 	
 	public function add_to_menu(&$menu,$variable,$code,$name){
