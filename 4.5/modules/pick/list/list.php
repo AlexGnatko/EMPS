@@ -102,5 +102,7 @@ while(list($n,$ra) = each($rlst)){
 
 $smarty->assign("lst", $lst);
 
+$smarty->assign("lang", $emps->lang);
+
 $smarty->display("db:_pick/list");
 ?>

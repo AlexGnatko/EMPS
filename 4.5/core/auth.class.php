@@ -226,13 +226,8 @@ class EMPS_Auth {
 		
 		switch($target){
 			case 'twitter':
-//				$oauth_key = OAUTH_TWITTER_KEY;
-//				$oauth_secret = OAUTH_TWITTER_SECRET;
 				$client->client_id = OAUTH_TWITTER_KEY;
 				$client->client_secret = OAUTH_TWITTER_SECRET;				
-//				$oauth_request_url = "https://api.twitter.com/oauth/request_token";
-//				$oauth_authenticate_url = "https://api.twitter.com/oauth/authenticate";
-//				$oauth_access_token_url = "https://api.twitter.com/oauth/access_token";				
 				$client->server = 'Twitter';
 				break;
 			case 'vk':
@@ -246,7 +241,6 @@ class EMPS_Auth {
 				$client->client_secret = OAUTH_OK_SECRET;				
 				$client->server = 'OK';
 				$client->scope = '';		
-//				$client->debug = true;		
 				break;				
 			case 'facebook':
 				$client->client_id = OAUTH_FB_ID;
@@ -259,7 +253,6 @@ class EMPS_Auth {
 				$client->client_secret = OAUTH_GOOGLE_SECRET;				
 				$client->server = 'Google2';
 				$client->scope = 'openid profile';		
-//				$client->debug = true;		
 				$client->store_access_token_response = true;
 				$proto = "https";
 				if(defined('OAUTH_GOOGLE_PROTO')){
@@ -279,22 +272,12 @@ class EMPS_Auth {
 			$_SESSION['ok_back_redirect'] = $path;
 			$url = $proto."://".$host."/"."?provider=".$target;
 		}
-//		echo $url;exit();
 		
 		$client->redirect_uri = $url;
 					
 		if($mode == 'start'){
 			unset($_SESSION['OAUTH_ACCESS_TOKEN']);
 			
-	//		$_SESSION['emps_last_oauth'] = $target;
-			
-	//		$host = "irkplus.ru";
-
-/*			
-			$o = new OAuth($oauth_key, $oauth_secret);		
-			$o->disableSSLChecks();
-			$arrayResp = $o->getRequestToken($oauth_request_url, $url);*/
-
 			$client->ResetAccessToken();
 						
 			if(($success = $client->Initialize()))
@@ -303,35 +286,18 @@ class EMPS_Auth {
 					$success = $client->Finalize($success);				
 				}
 			}
-			
-			
-//			dump($arrayResp);exit();
-//			$_SESSION['oauth_token'] = $arrayResp["oauth_token"];
-//			$_SESSION['oauth_token_secret'] = $arrayResp["oauth_token_secret"];
-			
-//			header("Location: ".$oauth_authenticate_url."?oauth_token=".$arrayResp["oauth_token"]);		
-			
 		}
 		
 		if($mode == 'finish'){
 
 			if(($success = $client->Initialize()))
 			{
-//			if($target == 'ok'){
-//				echo "MODE FINISH - Initialized";exit();
-//			}				
 				if(($success = $client->Process())){
-					
 					if(strlen($client->access_token))
 					{
 						$data = $this->oauth_user_data($client, $target);
 						
 						if($data['user_id']){
-/*							if($target == "twitter"){
-								$userword = $data['twitter'];
-							}else{
-								$userword = $target.'-'.$data['user_id'];
-							}*/
 							$userword = $target.'-'.$data['user_id'];
 							
 							if($target == 'ok'){
@@ -341,9 +307,7 @@ class EMPS_Auth {
 							$oauth_id = $this->oauth_id($userword);
 							if($oauth_id){
 								$user = $this->load_user($oauth_id['user_id']);
-//								dump($oauth_id);
 								if($user){
-//									dump($user);exit();
 									$this->create_session($user['username'], '', 1);
 									$emps->redirect_page($path);exit();
 								}
@@ -351,8 +315,6 @@ class EMPS_Auth {
 							}else{
 							
 								if(!$this->taken_user($userword)){
-//									$o->setToken($arrayResp['oauth_token'], $arrayResp['oauth_token_secret']);					
-									
 									
 									$password = $this->generate_password();
 									
@@ -384,15 +346,6 @@ class EMPS_Auth {
 					}
 					$success = $client->Finalize($success);									
 				}
-				
-/*				$o = new OAuth($oauth_key, $oauth_secret);		
-				$o->disableSSLChecks();
-				$o->setToken($_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
-				$arrayResp = $o->getAccessToken($oauth_access_token_url, "", $_GET['XpgjysOYFK7QcpsFReI2DJVxtHgJGiNg2sNliEpL08E']);
-*/
-//				dump($arrayResp);
-	
-
 			}
 		}
 
@@ -455,13 +408,13 @@ class EMPS_Auth {
 		if($target == 'vk'){		
 			$success = $client->CallAPI(
 				'https://api.vk.com/method/users.get', 
-				'GET', array(), array('FailOnAccessError'=>true), $user);
+				'GET', array("fields"=>"id,first_name,last_name,sex,photo_50"), array('FailOnAccessError'=>true), $user);
 		}		
 		
 		if($target == 'facebook'){		
 			$success = $client->CallAPI(
 				'https://graph.facebook.com/me', 
-				'GET', array(), array('FailOnAccessError'=>true), $user);
+				'GET', array("fields"=>"id,first_name,last_name,gender,picture,email,link"), array('FailOnAccessError'=>true), $user);
 		}
 		
 		if($target == 'google'){		
@@ -522,6 +475,8 @@ class EMPS_Auth {
 				$data['user_id'] = $resp->uid;
 				$data['firstname'] = $resp->first_name;
 				$data['lastname'] = $resp->last_name;
+				$data['gender'] = $user->sex;
+				$data['profile_image'] = $user->picture_50;
 				$data['link'] = "https://vk.com/id".$resp->uid;				
 			}
 			if($target == 'ok'){
@@ -529,7 +484,7 @@ class EMPS_Auth {
 				$data['user_id'] = $user->uid;
 				$data['firstname'] = $user->first_name;				
 				$data['lastname'] = $user->last_name;				
-				$data['link'] = "http://odnoklassniki/profile/".$user->uid;
+				$data['link'] = "http://odnoklassniki.ru/profile/".$user->uid;
 				$data['profile_image'] = $user->pic_1;
 			}
 			if($target == 'facebook'){
@@ -537,13 +492,22 @@ class EMPS_Auth {
 				$data['user_id'] = $user->id;
 				$data['firstname'] = $user->first_name;
 				$data['lastname'] = $user->last_name;	
+				$data['email'] = $user->email;
+				$data['gender'] = $user->gender;
+				$data['profile_image'] = $user->picture->data->url;
 				$data['link'] = "https://www.facebook.com/profile.php?id=".$user->id;
 			}
 			if($target == 'google'){
 				$data['user_id'] = $user->sub;
 				$data['firstname'] = $user->given_name;
 				$data['lastname'] = $user->family_name;	
+				$data['link'] = $user->link;
+				$data['email'] = $user->email;
+				$data['gender'] = $user->gender;
+				$data['profile_image'] = $user->picture;
 			}
+			
+			$data['orig_user'] = json_encode($user);
 			
 			return $data;
 		}

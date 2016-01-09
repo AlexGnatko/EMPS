@@ -1,3 +1,15 @@
+{{if $lang eq "en"}}
+
+{{assign var="str_prev" value="Previous"}}
+{{assign var="str_next" value="Next"}}
+
+{{else}}
+
+{{assign var="str_prev" value="Предыдущие"}}
+{{assign var="str_next" value="Следующие"}}
+
+{{/if}}
+
 {{section name=i loop=$lst}}
 <div class="listitem">
 <a href="javascript:select_item('{{$lst[i].id}}')"><strong>{{$lst[i].name}}</strong> {{if $lst[i].parents}}
@@ -12,12 +24,12 @@
 {{/section}}
 <div class="listpages">
 {{if $prev.start < $cur.start}}
-<a href="javascript:list_start({{$prev.start}})">&laquo; Предыдущие {{$prev.count}}</a>
+<a href="javascript:list_start({{$prev.start}})">&laquo; {{$str_prev}} {{$prev.count}}</a>
 &nbsp; 
 {{/if}}
 {{$cur.fi}}-{{$cur.li}}
 {{if $next.start > $cur.start}}
  &nbsp;
-<a href="javascript:list_start({{$next.start}})">Следующие {{$next.count}} &raquo;</a>
+<a href="javascript:list_start({{$next.start}})">{{$str_next}} {{$next.count}} &raquo;</a>
 {{/if}}
 </div>

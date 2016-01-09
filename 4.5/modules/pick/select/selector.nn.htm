@@ -1,13 +1,25 @@
+{{if $lang eq "en"}}
+
+{{assign var="str_select" value="Select"}}
+{{assign var="str_placeholder" value="Enter a few letters to start search"}}
+
+{{else}}
+
+{{assign var="str_select" value="Выбор"}}
+{{assign var="str_placeholder" value="Начните вводить название для поиска"}}
+
+{{/if}}
+
 <div id="popup_area">
 
-<h4>Выбор: {{$what}}:</h4>
+<h4>{{$str_select}}: {{$what}}:</h4>
 
 <div class="popup-inner">
 
 <div class="row">
 <div class="col-md-12">
 <div class="form-group popup-fg">
-<input type="text" name="search_name" value="{{$value|escape:html}}" placeholder="Начните вводить название для поиска" class="popup_search form-control"/>
+<input type="text" name="search_name" value="{{$value|escape:html}}" placeholder="{{$str_placeholder}}" class="popup_search form-control"/>
 </div>
 </div>
 </div>
