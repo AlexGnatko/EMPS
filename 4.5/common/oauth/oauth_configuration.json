@@ -14,9 +14,9 @@
 		"OK":
 		{
 			"oauth_version": "2.0",
-			"dialog_url": "http://www.odnoklassniki.ru/oauth/authorize?client_id={CLIENT_ID}&scope={SCOPE}&response_type=code&redirect_uri={REDIRECT_URI}&state={STATE}",
+			"dialog_url": "https://www.odnoklassniki.ru/oauth/authorize?client_id={CLIENT_ID}&scope={SCOPE}&response_type=code&redirect_uri={REDIRECT_URI}&state={STATE}",
 			
-			"access_token_url": "http://api.odnoklassniki.ru/oauth/token.do"
+			"access_token_url": "https://api.odnoklassniki.ru/oauth/token.do"
 		},
 
 		"37Signals":
