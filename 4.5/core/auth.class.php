@@ -241,6 +241,7 @@ class EMPS_Auth {
 				$client->client_secret = OAUTH_OK_SECRET;				
 				$client->server = 'OK';
 				$client->scope = '';		
+				$proto = "https";
 				break;				
 			case 'facebook':
 				$client->client_id = OAUTH_FB_ID;
