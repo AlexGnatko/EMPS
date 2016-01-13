@@ -25,6 +25,7 @@ while($ra = $emps->db->fetch_named($r)){
 	
 	$sms->account_sid = $params['account_sid'];
 	$sms->auth_token = $params['auth_token'];
+	$sms->from = $params['from'];
 
 	$rv = $sms->send_message($to, $ra['message']);
 	$dt = time();

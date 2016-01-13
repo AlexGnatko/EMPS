@@ -3,10 +3,12 @@
 class EMPS_SMS {
 	public $account_sid;
 	public $auth_token;
+	public $from;
 	
 	public function __construct(){
 		$this->account_sid = TWILIO_SID; 
 		$this->auth_token = TWILIO_TOKEN; 
+		$this->from = TWILIO_FROM;
 	}
 	
 	public function enqueue_message($to, $msg){
@@ -19,6 +21,7 @@ class EMPS_SMS {
 		$params = array();
 		$params['account_sid'] = $this->account_sid;
 		$params['auth_token'] = $this->auth_token;
+		$params['from'] = $this->from;
 		
 		$SET = array();
 		$SET['to'] = $to;
@@ -34,7 +37,7 @@ class EMPS_SMS {
 			$client = new Services_Twilio($this->account_sid, $this->auth_token); 
 			$client->account->messages->create(array( 
 				'To' => $to, 
-				'From' => TWILIO_FROM, 
+				'From' => $this->from, 
 				'Body' => $msg,  
 			));		
 		}catch(Exception $e){
