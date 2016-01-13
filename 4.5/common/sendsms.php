@@ -32,8 +32,10 @@ while($ra = $emps->db->fetch_named($r)){
 
 	if($rv){
 		$emps->db->query("update $tn set status = 50, sdt = $dt where id = $msg_id");
+		echo "Sent: ".$to."<br/>";
 	}else{
 		$emps->db->query("update $tn set status = 10, sdt = $dt where id = $msg_id");
+		echo "ERROR: ".$to."<br/>";
 	}
 }
 ?>
