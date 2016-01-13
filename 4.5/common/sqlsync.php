@@ -161,6 +161,7 @@ if($emps->auth->credentials("admin") || $emps->is_empty_database() || true){
 		if($ra){
 			// table exists, synchronize
 			$emps->db->query($code);
+			echo $emps->db->sql_error();
 			
 			$query = "show columns from `$table_name`";
 			$r = $emps->db->query($query);
@@ -177,7 +178,7 @@ if($emps->auth->credentials("admin") || $emps->is_empty_database() || true){
 			$query = "show index from `$rt_name`";
 			$r = $emps->db->query($query);
 			$idx_r = collect_indices($r);			
-			
+
 			sync_structure($rt_name, $table_name, $lst_r, $lst_t);
 			sync_indices($rt_name, $table_name, $idx_r, $idx_t);
 			

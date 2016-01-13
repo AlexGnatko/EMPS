@@ -1,0 +1,5 @@
+<ul>
+{{section name=f loop=$filelist}}
+<li><a href="/retrieve/{{$filelist[f].md5}}/{{$filelist[f].file_name}}">{{if $filelist[f].comment}}{{$filelist[f].comment}}{{else}}{{$filelist[f].file_name}}{{/if}}</a>, {{$filelist[f].fsize}}</li>
+{{/section}}
+</ul>

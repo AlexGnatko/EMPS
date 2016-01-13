@@ -7,6 +7,7 @@ ignore_user_abort(true);
 ini_set('memory_limit', -1);
 
 $data = file_get_contents(EMPS_SCRIPT_WEB."/sendmail/");
+$data = file_get_contents(EMPS_SCRIPT_WEB."/sendsms/");
 $data = file_get_contents(EMPS_SCRIPT_WEB."/purge_sessions/");
 
 $fn = $emps->page_file_name("_heartbeat,project", "controller");

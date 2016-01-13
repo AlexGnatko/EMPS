@@ -145,6 +145,21 @@ CREATE TEMPORARY TABLE `temp_e_msgcache` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- table
+CREATE TEMPORARY TABLE `temp_e_smscache` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `to` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `message` text COLLATE utf8_bin NOT NULL,
+  `params` blob NOT NULL,
+  `dt` bigint NOT NULL DEFAULT '0',
+  `sdt` bigint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `status` (`status`),
+  KEY `dt` (`dt`),
+  KEY `sdt` (`sdt`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- table
 CREATE TEMPORARY TABLE `temp_e_pincode` (
   `pincode` int(11) NOT NULL DEFAULT '0',
   `dt` bigint NOT NULL DEFAULT '0',
