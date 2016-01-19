@@ -6,6 +6,13 @@ $emps->no_smarty = true;
 
 $tn = TP."e_smscache";
 
+$r = $emps->db->query("show tables like '".$tn."'");
+$ra = $emps->db->fetch_row($r);
+if(!$ra){
+	echo "No SMS table!";
+	exit();
+}
+
 $dt = time() - 7*24*60*60;
 
 $emps->db->query("delete from $tn where status=50 and sdt<$dt and sdt>0");

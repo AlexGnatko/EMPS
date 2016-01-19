@@ -9,6 +9,7 @@ ini_set('memory_limit', -1);
 $data = file_get_contents(EMPS_SCRIPT_WEB."/sendmail/");
 $data = file_get_contents(EMPS_SCRIPT_WEB."/sendsms/");
 $data = file_get_contents(EMPS_SCRIPT_WEB."/purge_sessions/");
+$data = file_get_contents(EMPS_SCRIPT_WEB."/smartyservice/");
 
 $fn = $emps->page_file_name("_heartbeat,project", "controller");
 if(file_exists($fn)){
