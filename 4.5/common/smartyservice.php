@@ -2,7 +2,7 @@
 
 $emps->no_smarty = true;
 
-$hours = $emps->db->get_setting("smarty_clear_hours");
+$hours = $emps->get_setting("smarty_clear_hours");
 
 if(!$hours){
 	$hours = 6;
