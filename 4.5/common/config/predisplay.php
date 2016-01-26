@@ -20,4 +20,9 @@ $file_name = $emps->common_module('config/project/predisplay.php');
 if(file_exists($file_name)){
 	require_once $file_name;
 }
+
+$css_reset = $emps->get_setting("css_reset");
+if($css_reset){
+	$emps->page_property("css_reset", $css_reset);
+}
 ?>
