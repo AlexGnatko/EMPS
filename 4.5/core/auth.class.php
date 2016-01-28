@@ -371,6 +371,9 @@ class EMPS_Auth {
 			$ra['data'] = unserialize($ra['data']);
 			$ra['name'] = $ra['firstname']." ".$ra['lastname'];
 			$ra['link'] = $this->identity_link($ra);
+			if(isset($ra['data']['orig_user'])){
+				$ra['orig_user'] = json_decode($ra['data']['orig_user'], true);
+			}
 			$lst[$ra['provider']] = $ra;
 		}
 		return $lst;
@@ -496,7 +499,7 @@ class EMPS_Auth {
 				$data['email'] = $user->email;
 				$data['gender'] = $user->gender;
 				$data['profile_image'] = $user->picture->data->url;
-				$data['link'] = "https://www.facebook.com/profile.php?id=".$user->id;
+				$data['link'] = "https://www.facebook.com/app_scoped_user_id/".$user->id."/";
 			}
 			if($target == 'google'){
 				$data['user_id'] = $user->sub;
