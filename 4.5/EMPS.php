@@ -1388,7 +1388,8 @@ class EMPS {
 			$pk['pin']=$pin;
 			$pk['sid']=$sid;
 			$_SESSION['antibot_pin']=$pk;
-	
+
+			$dt = time();
 			$this->db->query('insert into '.TP."e_pincode values ($pin,$dt,$sid)");
 			$dt = time() - 60*60*24*7;
 			$this->db->query('delete from '.TP.'e_pincode where dt < '.$dt);
