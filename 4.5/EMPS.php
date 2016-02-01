@@ -8,10 +8,26 @@
 
 // The general class autoloading function. Not needed by EMPS, but could be neccessary for 3rd-party PHP classes.
 // Will search for class files in the include path folders.
+
+// The $emps_autoload_prefixes array can be used to add prefixes to class file names, e.g. "PayPal-PHP-SDK/lib/"
+if(!isset($emps_autoload_prefixes)){
+	$emps_autoload_prefixes = array();
+}
+
 spl_autoload_register(function ($name) {
+	global $emps_autoload_prefixes;
 	$fn = $name.".php";
 	$f = stream_resolve_include_path($fn);
 	if($f === false){
+		reset($emps_autoload_prefixes);
+		foreach($emps_autoload_prefixes as $prefix){
+			$pfn = $prefix.$fn;
+			$f = stream_resolve_include_path($fn);
+			if($f !== false){
+				require_once $f;
+				return true;
+			}
+		}
 		return false;
 	}
 	require_once $f;

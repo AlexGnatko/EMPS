@@ -1,13 +1,25 @@
 <script>
     function date_parse(string) {
+		var tp = string.split(' ');
+		var h = 0, m = 0;
+		if(tp[1]){
+			var x = tp[1].split(':');
+			h = x[0];
+			m = x[0];
+		}
         var parts = string.split('.');
-        return new Date(parseInt(parts[2]), parseInt(parts[1])-1, parseInt(parts[0]));
+        return new Date(parseInt(parts[2]), parseInt(parts[1])-1, parseInt(parts[0]), h, m);
     }
 emps_scripts.push(function() {
 	var dates = jQuery( "#{{$from}}, #{{$to}}" ).date{{$istime}}picker({
 		defaultDate: "+1w",
 		changeMonth: false,
 		numberOfMonths: 1,
+		showMillisec: false,
+		showMicrosec: false,
+		showTimezone: false,
+		timeInput: true,
+		timeFormat: 'HH:mm',
 		onClose: function(dateText, inst) {
 			if(this.id=="{{$from}}"){
 				var endDateTextBox = jQuery('#{{$to}}');
@@ -38,14 +50,24 @@ emps_scripts.push(function() {
 			}
 		},		
 		onSelect: function( selectedDate ) {
+{{if $istime == 'time'}}			
 			var option = this.id == "{{$from}}" ? "minDate" : "maxDate",			
 				instance = jQuery( this ).data( "datepicker" ),
-{{if $istime == 'time'}}			
-				start = jQuery(this).datetimepicker('getDate'),
-				date = new Date(start.getTime());
-			dates.not( this ).datepicker( "option", option, date ).datepicker( "setTime", date );
+
+				this_picker = jQuery(this);
+			var
+				this_date = this_picker.datetimepicker('getDate'),
+				this_time = new Date(this_date.getTime());
 			
+			var other_picker = dates.not( this );
+			
+			var other_date = other_picker.datetimepicker('getDate');
+			
+			other_picker.datetimepicker( "option", option, this_date );
+		
 {{else}}
+			var option = this.id == "{{$from}}" ? "minDate" : "maxDate",			
+				instance = jQuery( this ).data( "datepicker" ),
 				date = jQuery.datepicker.parseDate(
 					instance.settings.dateFormat ||
 					jQuery.datepicker._defaults.dateFormat,

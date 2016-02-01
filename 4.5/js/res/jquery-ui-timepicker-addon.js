@@ -29,15 +29,15 @@ $.extend($.ui, { timepicker: { version: "0.9.3" } });
 function Timepicker() {
 	this.regional = []; // Available regional settings, indexed by language code
 	this.regional[''] = { // Default regional settings
-		currentText: 'Now',
-		closeText: 'Done',
+		currentText: 'Сейчас',
+		closeText: 'Готово',
 		ampm: false,
 		timeFormat: 'hh:mm tt',
-		timeOnlyTitle: 'Select time',
-		timeText: 'Time',
-		hourText: 'Hour',
-		minuteText: 'Minute',
-		secondText: 'Second'
+		timeOnlyTitle: 'Выберите время',
+		timeText: 'Время',
+		hourText: 'Час',
+		minuteText: 'Минута',
+		secondText: 'Секунда'
 	};
 	this._defaults = { // Global defaults for all the datetime picker instances
 		showButtonPanel: true,

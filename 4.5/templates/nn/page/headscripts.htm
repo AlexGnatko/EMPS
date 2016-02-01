@@ -26,8 +26,24 @@ var emps_scripts = [];
 {{if $page.calendar}}
 <script type="text/javascript" src="/js/jquery.ui.datepicker-ru.js"></script>
 <script type="text/javascript" src="/js/jquery-ui-timepicker-addon.js"></script>
+
+<link href="/js/jquery-ui-timepicker-addon.min.css" rel="stylesheet" type="text/css" media="screen" />
+{{if $lang eq "en"}}
+<script type="text/javascript" src="/js/i18n/jquery-ui-timepicker-addon-i18n.js"></script>
+{{else}}
+<script type="text/javascript" src="/js/i18n/jquery-ui-timepicker-ru.js"></script>
+{{/if}}
+<script type="text/javascript" src="/js/jquery-ui-sliderAccess.js"></script>
+
 <script type="text/javascript">
+{{if ($lang eq "nn") || ($lang eq "ru")}}
 $.datepicker.setDefaults( $.datepicker.regional[ "ru" ] );
+{{/if}}
+
+emps_scripts.push(function(){
+	$(".datepicker").datepicker(); $(".timepicker").datetimepicker();
+});
+
 </script>
 {{/if}}
 
