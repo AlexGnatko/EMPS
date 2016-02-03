@@ -22,7 +22,7 @@ spl_autoload_register(function ($name) {
 		reset($emps_autoload_prefixes);
 		foreach($emps_autoload_prefixes as $prefix){
 			$pfn = $prefix.$fn;
-			$f = stream_resolve_include_path($fn);
+			$f = stream_resolve_include_path($pfn);
 			if($f !== false){
 				require_once $f;
 				return true;
