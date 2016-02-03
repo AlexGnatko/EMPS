@@ -16,6 +16,7 @@ if(!isset($emps_autoload_prefixes)){
 
 spl_autoload_register(function ($name) {
 	global $emps_autoload_prefixes;
+	$name = str_replace("\\", "/", $name);
 	$fn = $name.".php";
 	$f = stream_resolve_include_path($fn);
 	if($f === false){
