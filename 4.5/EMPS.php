@@ -1804,6 +1804,12 @@ class EMPS {
 		return $t;
 	}
 
+	function is_localhost_request(){
+		if($_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR']){
+			return true;
+		}
+		return false;
+	}
 }
 
 ?>
