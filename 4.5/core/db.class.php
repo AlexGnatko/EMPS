@@ -57,7 +57,20 @@ class EMPS_DB {
 		if(!$r){
 			$log['error'] = $error_text;
 			error_log($error_text." in query: ".$query);
+			$spacer = "       ";
+			$btxt = "Backtrace:".$spacer;
+
+			$bt = debug_backtrace();
+			array_shift($bt);
+			foreach($bt as $v){
+				$class = "";
+				if($v['class']){
+					$class = $v['class'].$v['type'];
+				}
+				$btxt .= $class.$v['function'].", line ".$v['line'].$spacer;
+			}
 			$this->sql_errors[]=$log;
+			error_log($btxt);
 		}
 		
 		if(EMPS_TIMING && !$this->no_caching){
