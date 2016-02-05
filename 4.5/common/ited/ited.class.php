@@ -455,7 +455,7 @@ class EMPS_ImprovedTableEditor {
 			$emps->loadvars();
 		}		
 		
-		if($emps->auth->credentials($this->credentials)){
+		if($emps->auth->credentials($this->credentials) || $this->override_credentials){
 			if($ss && !isset($_REQUEST['action_kill'])){
 				$this->handle_detail_mode();
 			}else{

@@ -1693,6 +1693,10 @@ class EMPS {
 	public function should_prevent_session(){
 		global $emps_bots, $emps_just_set_cookie;
 		
+		if($this->is_localhost_request()){
+			return false;
+		}
+		
 		if(!$_SERVER['HTTP_USER_AGENT']){
 			return true;
 		}

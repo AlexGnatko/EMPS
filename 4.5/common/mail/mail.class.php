@@ -246,7 +246,7 @@ class EMPS_Mail {
 			$emps_smtp_params=$headers;
 		}
 		
-		$this->queue_direct_email($email,"db:msg/plain",$title);
+		return $this->queue_direct_email($email,"db:msg/plain",$title);
 	}	
 }
 ?>
