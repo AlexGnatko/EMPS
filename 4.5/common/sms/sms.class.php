@@ -50,4 +50,9 @@ class EMPS_SMS {
 		
 		return $rv;
 	}
+
+	public function plain_phone($phone){
+		$s = preg_replace('/\D/', '', $phone);
+		return $s;
+	}
 }
