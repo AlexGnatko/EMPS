@@ -38,6 +38,34 @@ class EMPS_PropertiesEditor {
 			$emps->redirect_elink();exit();
 		}
 		
+		if($_POST['post_import']){
+			$data = json_decode($_POST['import_json'], true);
+			foreach($data as $ra){
+				switch($ra['type']){
+				case "i":
+				case "r":
+					$value=$ra['v_int'];
+					break;
+				case "f":
+					$value=$ra['v_float'];
+					break;
+				case "c":
+					$value=$ra['v_char'];
+					break;
+				case "d":
+					$value=$ra['v_data'];
+					break;
+				case "b":
+					$value=$ra['v_bool'];
+					break;
+				default:
+					$value=$ra['v_text'];
+				}
+				$emps->p->save_property($this->context_id, $ra['code'], $ra['type'], $value, false, 0);
+			}
+			$emps->redirect_elink();exit();
+		}
+		
 		if($_POST['post_delete']){
 			$list="";
 			while(list($n,$v)=each($_POST['sel'])){
@@ -50,6 +78,24 @@ class EMPS_PropertiesEditor {
 			$emps->flash("killedcode",$list);
 			$sd = "";
 			$emps->redirect_elink();exit();
+		}
+		if($_POST['post_export']){
+			$list = array();
+			foreach($_POST['sel'] as $n => $v){
+				$n = intval($n);
+				$row = $emps->db->get_row("e_properties", "id = ".$n);
+				unset($row['id']);
+				unset($row['context_id']);
+				unset($row['dt']);
+				foreach($row as $n => $v){
+					if(!$v){
+						unset($row[$n]);
+					}
+				}
+				$list[] = $row;
+			}
+			$code = json_encode($list);
+			$smarty->assign("exportcode", $code);
 		}
 		
 		$data=$emps->p->read_properties(array(),$this->context_id);
