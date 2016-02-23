@@ -1814,6 +1814,16 @@ class EMPS {
 		}
 		return false;
 	}
+
+	public function json_response($response){
+		global $emps;
+		
+		$emps->no_smarty = true;
+		header("Content-Type: application/json; charset=utf-8");
+
+		echo json_encode($response);
+	}
+
 }
 
 ?>
