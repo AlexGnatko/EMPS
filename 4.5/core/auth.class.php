@@ -269,7 +269,7 @@ class EMPS_Auth {
 		$path = $x[0];
 		$url = $proto."://".$host.$path."?provider=".$target;
 		
-		if($target == 'ok' && $mode == 'start'){
+		if(($target == 'ok' || $target == 'google') && $mode == 'start'){
 			$_SESSION['ok_back_redirect'] = $path;
 			$url = $proto."://".$host."/"."?provider=".$target;
 		}

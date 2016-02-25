@@ -1,5 +1,10 @@
 <?php
-// If the requested URI is a file in the multi-website engine's folder, just send the file using HTTP_Download
+/**
+ * Static file sender
+ *
+ * Searches the static filesystem for the file that matches the requested URL.
+ * Will first try EMPS_SCRIPT_PATH, then EMPS_PATH_PREFIX (EMPS version folder), then EMPS_COMMON_PATH_PREFIX (EMPS all-versions folder).
+*/
 
 $x = explode("?", $_SERVER['REQUEST_URI'], 2);
 $uri = $x[0];
@@ -24,6 +29,12 @@ if(!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/") 
 		
 		if($fname != false){
 			$go = true;
+		}else{
+			$fname = EMPS_COMMON_PATH_PREFIX.$uri;
+			$fname = stream_resolve_include_path($fname);
+			if($fname != false){
+				$go = true;
+			}
 		}
 	}
 	
@@ -57,7 +68,6 @@ if(!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/") 
 					
 					$resp->setContentType($content_type);
 					$resp->setHeader("Content-Length", $size);
-//					$resp->setHeader("Send-File", "http");
 					$resp->setHeader("Last-Modified", date("r", filemtime($fname)));
 					$resp->setHeader("Expires", date("r", time()+60*60*24*7));
 					$resp->setCacheControl("Cache-Control: max-age=".(60*60*24*7));
@@ -66,7 +76,6 @@ if(!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/") 
 				}else{
 					header("Content-Type: ".$content_type);
 					header("Content-Length: ".$size);
-//					header("Send-File: fpassthru");
 					header("Last-Modified: ", date("r", filemtime($fname)));
 					header("Expires: ", date("r", time()+60*60*24*7));
 					header("Cache-Control: max-age=".(60*60*24*7));
