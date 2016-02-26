@@ -19,9 +19,11 @@ if($last_purge < (time() - 15*60)){
 	while($ra = $emps->db->fetch_named($r)){
 		$lst[] = $ra['bid'];
 	}
-	$tlst = implode(", ", $lst);
 	
-	$emps->db->query("delete from ".TP."e_browsers where id in (".$tlst.")");
+	if(count($lst) > 0){
+		$tlst = implode(", ", $lst);
+		$emps->db->query("delete from ".TP."e_browsers where id in (".$tlst.")");
+	}
 }
 
 ?>
