@@ -1195,6 +1195,16 @@ class EMPS_Common {
 		}
 	}
 	
+	public function enum_val($enum, $code){
+		$lst = $this->enum[$enum];
+		while(list($n,$v)=each($lst)){
+			if($v['code']==$code){
+				return $v['value'];
+			}
+		}
+		return false;
+	}
+
 	public function infliction($value){
 		$h=floor(($value%100)/10);
 		$d=$value%10;
