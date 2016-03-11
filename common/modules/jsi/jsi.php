@@ -78,14 +78,18 @@ if(file_exists($fname)){
 				}
 		
 				fclose($fh);
+				exit();
+			}else{
+				$emps->not_found();
 			}
+		}else{
+			$emps->not_found();
 		}
-
-		exit();
 	}else{
 		$emps->not_found();
-		
 	}
+}else{
+	$emps->not_found();
 }
 
 
