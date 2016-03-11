@@ -2,6 +2,7 @@
 /**
  * EMPS MULTI-WEBSITE ENGINE
  *
+ * Version 4.5 / MySQL-based
  */
 
 require_once EMPS_COMMON_PATH_PREFIX."/EMPS.php";
@@ -152,6 +153,13 @@ class EMPS extends EMPS_Common {
 		}
 		return $menu;
 	
+	}
+	
+	public function save_setting($code,$value){
+		$x=explode(':',$code);
+		$name=$x[0];
+		$a=array($name=>$value);
+		$this->p->save_properties($a,$this->website_ctx,$code);
 	}
 	
 	public function get_setting($code){
@@ -324,17 +332,6 @@ class EMPS extends EMPS_Common {
 	// Read the properties of a menu item 
 		$ra=$this->p->read_properties(array(),$this->p->get_context(DT_MENU,1,$item['id']));	
 		return $ra;
-	}
-	
-	public function copy_properties($code){
-	// Load properties from get_content_data for the content item $code and save them as $page_properies
-		global $smarty;
-		
-		$item = $this->get_db_content_item($code);
-		$props = $this->get_content_data($item);
-		unset($props['_full']);
-		
-		$this->page_properties = array_merge($this->page_properties,$props);
 	}
 	
 	public function get_setting_time($code){

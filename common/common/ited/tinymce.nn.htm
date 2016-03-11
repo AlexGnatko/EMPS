@@ -1,0 +1,6 @@
+{{include file="db:inc/tinymce_set.js"}}
+emps_scripts.push(function(){
+	emps_tinymce_settings.selector = "{{if $tinymce_selector}}{{$tinymce_selector}}{{else}}#id_html{{/if}}";
+
+	tinymce.init(emps_tinymce_settings);
+});

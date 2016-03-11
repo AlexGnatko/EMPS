@@ -108,7 +108,7 @@
 <th width="140">{{$str_actions}}</th>
 </tr>
 {{section name=i loop=$lst}}
-<tr>
+<tr  {{if !$lst[i].enabled}}class="warning"{{/if}}>
 <td>{{$lst[i].id}}
 <span class="badge">{{$lst[i].ord}}</span></td>
 <td><a href="{{$lst[i].clink}}" class="btn btn-xs btn-primary">{{$lst[i].children|hyp}} &nbsp; <i class="glyphicon glyphicon-arrow-down"></i></a></td>

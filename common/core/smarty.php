@@ -36,15 +36,17 @@ class Smarty_Resource_EMPS_DB extends Smarty_Resource_Custom {
 			$fn = $emps->page_file_name($name,'view');
 			if(file_exists($fn)){
 				$source = file_get_contents($fn);
+				$mtime = filemtime($fn);
 			}else{
 				$fn = $emps->common_module_html($name);
 				if(file_exists($fn)){
 					$source = file_get_contents($fn);
+					$mtime = filemtime($fn);
 				}else{
 					$source = "";
+					$mtime = time() - 60*60*24;
 				}
 			}
-			$mtime = filemtime($fn);
 		}else{
 			$source = $r;
 			$mtime = $emps->get_setting_time($name);						

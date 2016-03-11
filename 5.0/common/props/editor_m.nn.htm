@@ -1,0 +1,161 @@
+{{if $KillForm eq 1}}
+
+<form action="." method="post">
+<input type="hidden" name="post_confirm" value="1" />
+<input type="hidden" name="set_id" value="{{$set.id}}" />
+
+<div class="panel panel-danger">
+<div class="panel-heading">{{$str_ask_delete_this}} <b>{{$set.code}}</b></div>
+<div class="panel-body">
+<p><input class="btn btn-danger btn-lg" type="submit" name="yessure" value="{{$str_yessure}}">
+&nbsp;
+<a href="." class="btn btn-lg btn-primary">{{$str_oh_no}}</a></p>
+</div>
+</div>
+</form>
+
+{{/if}}
+{{if $flash.killedcode}}
+<div class="alert alert-danger">
+{{$str_param}} <strong>{{$flash.killedcode}}</strong> {{$str_deleted}}
+</div>
+{{/if}}
+{{if $flash.savedcode}}
+<div class="alert alert-success">
+{{$str_param}} <strong>{{$flash.savedcode}}</strong> {{$str_saved}}
+</div>
+
+{{/if}}
+<form action="." method="post" id="delete_form">
+<input type="hidden" name="post_delete" value="0" id="post_delete_prop"/>
+<input type="hidden" name="post_export" value="0" id="post_export_prop"/>
+<table class="table table-striped table-condensed">
+<tr valign="top">
+<th class="lt" width="20">&nbsp;</th>
+<th class="lt" width="120">{{$str_code}}</th>
+<th class="lt" width="400">{{$str_val}}</th>
+</tr>
+{{section name=i loop=$lst}}
+<tr valign="top">
+<td class="le"><input type="checkbox" name="sel[{{$lst[i].code}}]" /></td>
+<td class="le"><a href="{{$lst[i].link}}">{{$lst[i].code}}</a></td>
+<td class="le">{{$lst[i].value|escape:html}}</td>
+</tr>
+{{/section}}
+</table>
+<div class="row">
+<div class="col-md-8">
+<p><button type="button" class="btn btn-danger" onclick="props_delete_selected()" >{{$str_delete_selected}}</button>
+<button type="button" class="btn btn-info" onclick="props_export_selected()" >{{$str_export_selected}}</button>
+</p>
+</div>
+<div class="col-md-4">
+<p class="text-right">
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exportModal" >{{$str_import}}</button>
+</p>
+</div>
+</div>{{*row*}}
+
+</form>
+<script>
+function props_delete_selected(){
+	if(confirm('{{$str_ask_delete_selected}}')){
+		$("#post_delete_prop").val(1);
+		$("#post_export_prop").val(0);
+		$("#delete_form").submit();
+	}
+}
+
+function props_export_selected(){
+	$("#post_delete_prop").val(0);
+	$("#post_export_prop").val(1);
+	$("#delete_form").submit();
+}
+</script>
+<form action="." method="post" class="form" role="form">
+<input type="hidden" name="post_saveset" value="1" />
+<div class="panel panel-primary">
+<div class="panel-heading">{{$str_add_or_save_param}}:</div>
+<div class="panel-body">
+<div class="row">
+  <div class="form-group col-md-8">
+    <label for="param_code">{{$str_param_code}}:</label>
+    <input type="text" class="form-control" name="code" value="{{$set.code}}" id="param_code" placeholder="{{$str_placeholder}}" />
+  </div>
+  <div class="form-group col-md-4">
+    <label for="param_type">{{$str_param_type}}:</label><br />
+
+    <select name="type" id="param_type" class="form-control">
+<option value="t">Text</option>
+<option value="i" {{if $set.type eq 'i'}}selected{{/if}}>Integer</option>
+<option value="f" {{if $set.type eq 'f'}}selected{{/if}}>Float</option>
+<option value="b" {{if $set.type eq 'b'}}selected{{/if}}>Boolean</option>
+<option value="o" {{if $set.type eq 'o'}}selected{{/if}}>ObjectID</option>
+</select>
+  </div>
+  
+  <div class="form-group col-md-12" style="margin-top:10px">
+    <label for="param_value">{{$str_param_value}}:</label>
+    <textarea rows="10" cols="6" name="value" class="form-control" id="param_value">{{$set.value|escape:html}}</textarea>
+  </div>
+</div>
+</div>
+<div class="panel-footer">
+<div class="row">
+<div class="col-md-9">
+{{if $set}}
+<div class="btn-group">
+  <a href="./" class="btn btn-default">{{$str_add_new_param}}</a>
+{{if !$nokill}}  
+  <a href="{{$KillLink}}" class="btn btn-danger">{{$str_delete_param}}</a>
+{{/if}} 
+</div>
+{{/if}}
+</div>
+
+
+<div class="col-md-3">
+<p><button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="{{$str_wait}}" >{{$str_save_setting}}</button></p>
+</div>
+</div>
+
+
+</div>
+</div>
+
+</form>
+
+
+<div class="modal" id="exportModal" tabindex="-1" role="dialog">
+<form action="." method="post">
+<input type="hidden" name="post_import" value="1"/>
+
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="{{$str_close}}"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{{$str_export}}</h4>
+      </div>
+      <div class="modal-body">
+<div class="form-group">
+<label>{{$str_json_import}}</label>
+<textarea rows="6" class="form-control" name="import_json">{{$exportcode|escape:html}}</textarea>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_close}}</button>
+        <button type="submit" class="btn btn-primary">{{$str_import}}</button>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+
+{{if $exportcode}}
+<script>
+emps_scripts.push(function(){
+	$("#exportModal").modal('show');
+});
+</script>
+{{/if}}
+

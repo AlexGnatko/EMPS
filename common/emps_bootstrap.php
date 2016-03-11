@@ -10,6 +10,9 @@ define('EMPS_COMMON_PATH_PREFIX', 'EMPS/common');
 
 date_default_timezone_set(EMPS_TZ);
 
+// Autoloader
+require_once EMPS_COMMON_PATH_PREFIX."/emps_autoloader.php";
+
 if($emps_force_hostname){
 	if($_SERVER['HTTP_HOST'] != EMPS_HOST_NAME){
 		header("HTTP/1.1 301 Moved Permanently");
@@ -39,17 +42,6 @@ if(!isset($_COOKIE['EMPS'])){
 	setcookie("EMPS", time(), time() + 60*60*24*30, '/');
 }
 
-// Initialize data constants
-
-// Local data constants
-$emps_require_file = EMPS_SCRIPT_PATH."/modules/_common/config/data.php";
-if(file_exists($emps_require_file)){
-	require $emps_require_file;
-}
-require_once EMPS_PATH_PREFIX."/common/config/data.php";		// Common data constants. Not defined if already defined in the previous script
-
-
-
 // The main script
 require_once EMPS_PATH_PREFIX."/EMPS.php";						// EMPS Class
 
@@ -57,9 +49,6 @@ $emps = new EMPS();
 $emps->check_fast();
 
 require_once EMPS_PATH_PREFIX."/core/core.php";					// Core classes (some not included if $emps->fast is set)
-
-// Autoloader
-require_once EMPS_COMMON_PATH_PREFIX."/emps_autoloader.php";
 
 mb_internal_encoding('utf-8');
 date_default_timezone_set(EMPS_TZ);
@@ -96,6 +85,7 @@ if(!$emps->fast){
 
 	$emps->post_init();	
 }
+
 
 $sua = $emps->get_setting("service_unavailable");
 if($sua == 'yes'){
@@ -144,7 +134,10 @@ if($emps->virtual_path && !$emps->fast){
 	}
 }else{
 // if the item is a controller or a static page
-	require_once $emps->common_module('config/webinit.php');	
+	$fn = $emps->common_module('config/webinit.php');
+	if($fn){
+		require_once $fn;
+	}
 	
 	$emps->pre_controller();
 

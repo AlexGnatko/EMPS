@@ -1,0 +1,50 @@
+
+{{if $lang eq "en"}}
+{{assign var="str_uri_full" value="(relative, complete, with slashes)"}}
+{{assign var="str_or" value="or"}}
+{{assign var="str_title" value="Page Title"}}
+{{assign var="str_descr" value="Description"}}
+{{assign var="str_kw" value="Keywords"}}
+{{assign var="str_save" value="Save Changes"}}
+{{else}}
+{{assign var="str_uri_full" value="(полный, со слэшами)"}}
+{{assign var="str_or" value="или"}}
+{{assign var="str_title" value="Заголовок страницы"}}
+{{assign var="str_descr" value="Описание"}}
+{{assign var="str_kw" value="Ключевые слова"}}
+{{assign var="str_save" value="Сохранить изменения"}}
+{{/if}}
+
+<div class="row">  
+<div class="col-md-8">
+<form action="." method="post" class="form" role="form" id="main_form">
+<input type="hidden" name="post_save" value="1" />
+
+  <div class="form-group col-md-12">
+    <label for="edit_uri">URI:</label> {{$str_uri_full}}
+    <input type="text" class="form-control" name="uri" id="edit_uri" value="{{$row.uri|escape:html}}" placeholder="/some-page/, {{$str_or}} /somepage.html" />
+  </div>
+  
+
+<div class="form-group col-md-12">
+<label for="edit_title" class="upspace">{{$str_title}}:</label> &lt;TITLE&gt;
+<input class="form-control" size="60" type="text" name="title" id="edit_title" value="{{$row.title|escape:html}}">
+</div>
+
+
+<div class="form-group col-md-12">
+<label for="edit_descr">{{$str_descr}}:</label> meta-description
+<textarea class="form-control" rows="2" cols="25" name="descr">{{$row.descr|escape:html}}</textarea>
+</div>
+
+<div class="form-group col-md-12">
+<label for="edit_keywords" class="upspace">{{$str_kw}}:</label> meta-keywords
+<input class="form-control" size="60" type="text" name="keywords" id="edit_keywords" value="{{$row.keywords|escape:html}}" placeholder="goods, services">
+</div>
+
+<div class="form-group col-md-12">
+<button type="submit" class="btn btn-primary btn-lg">{{if $nexttitle}}{{$nexttitle}}{{else}}{{$str_save}}{{/if}}</button>
+</div>
+</form>
+</div>
+</div>

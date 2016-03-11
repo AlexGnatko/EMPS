@@ -123,7 +123,8 @@ class EMPS_Common {
 				$_GET = $this->unslash_prepare($_GET);
 			}	
 		}
-		
+
+	
 		$this->early_init();
 		$this->select_website();
 		
@@ -209,6 +210,12 @@ class EMPS_Common {
 		$_SESSION['flash'][$code] = $value;
 	}
 	
+	/**
+	 * Check if the current module URL should be regarded as 'fast'
+	 * 
+	 * 'fast' modules are not using authentication and some other modules to boost performance. The list of module names
+	 * is defined in the EMPS_FAST constant.
+	 */
 	public function check_fast(){
 		global $pp;
 		
@@ -224,10 +231,19 @@ class EMPS_Common {
 		}		
 	}
 	
+	/**
+	 * Called after parsing the URL
+	 *
+	 * This function, among other things, starts the PHP session.
+	 */
+	
 	public function post_parse(){
 		global $pp;
 		
-		require_once $this->common_module('config/postparse.php');			
+		$fn = $this->common_module('config/postparse.php');
+		if($fn){
+			require_once $fn;
+		}
 		
 		// this website's default content-type is utf-8 HTML
 		$this->text_headers();
@@ -252,68 +268,113 @@ class EMPS_Common {
 		}
 	}
 	
-	public function changevar($n,$v){
-	// Change a variable in the $this->VA
-		$this->VA[$n]=$v;
-		$GLOBALS[$n]=$v;
+	/**
+	 * Replace the value of a stored URL variable
+	 *
+	 * The next loadvars() will set the variable to this new stored value.
+	 */
+	public function changevar($n, $v){
+		$this->VA[$n] = $v;
+		$GLOBALS[$n] = $v;
 	}
 	
+	/**
+	 * Reset stored URL variables
+	 *
+	 * Clears the global variables whose names are defined in the EMPS_VARS constant. Omits the $lang variable.
+	 */
 	public function clearvars(){
-	// $this->VA still contains the tracked vars, but we can clear the $GLOBALS of these vars. Except $lang.
-		$x=explode(",",EMPS_VARS);
-		while(list($name,$value)=each($x)){
-			if($value=='lang') continue;
-			$GLOBALS[$value]="";
+		$x = explode(",", EMPS_VARS);
+		while(list($name, $value) = each($x)){
+			if($value == 'lang'){
+				continue;
+			}
+			$GLOBALS[$value] = "";
 		}	
 	}
 	
+	/**
+	 * Load stored URL variables
+	 *
+	 * Loads the values of the variables whose names are defined in the EMPS_VARS constant from the $this->VA array property to their respective
+	 * global variables.
+	 */
 	public function loadvars(){
-	// Load the variables from the $this->VA backup array to $GLOBALS
-		$pp=explode(",",EMPS_VARS);
-		while(list($name,$value)=each($pp)){
-			$GLOBALS[$value]=$this->VA[$value];
+		$pp = explode(",", EMPS_VARS);
+		while(list($name, $value) = each($pp)){
+			$GLOBALS[$value] = $this->VA[$value];
 		}	
 	}
 	
+	/**
+	 * Save URL variables to storage
+	 *
+	 * Puts the values of URL variables whose names are defined in the EMPS_VARS constant into the $this->VA array property.
+	 */
 	public function savevars(){
-	// Populate $this->VA with values from $GLOBALS that match the EMPS_VARS
-		$x=explode(",",EMPS_VARS);
-		while(list($name,$value)=each($x)){
+		$x = explode(",", EMPS_VARS);
+		while(list($name, $value) = each($x)){
 			if(isset($GLOBALS[$value])){
-				$this->VA[$value]=$GLOBALS[$value];
+				$this->VA[$value] = $GLOBALS[$value];
 			}
 		}	
 	}	
 	
-	public function page_property($name,$value){
-	// The function to set page properties from the script
-		$this->page_properties[$name]=$value;
+	/**
+	 * Sets a page property
+	 *
+	 * @param $name string Page property name (code)
+	 * @param $value mixed Page property value
+	 */
+	public function page_property($name, $value){
+		$this->page_properties[$name] = $value;
 	}	
+	
+	public function copy_properties($code){
+	// Load properties from get_content_data for the content item $code and save them as $page_properies
+		global $smarty;
+		
+		$item = $this->get_db_content_item($code);
+		$props = $this->get_content_data($item);
+		unset($props['_full']);
+		
+		$this->page_properties = array_merge($this->page_properties, $props);
+	}
 
+	/**
+	 * Adds a new menu item to $this->spath
+	 *
+	 * This can be a real menu item or an array prepared by a module script.
+	 *
+	 * @param $v array Menu item array
+	 */
 	public function add_to_spath($v){
 		reset($this->spath);
-//		dump($v);
-		while(list($n,$cv)=each($this->spath)){
+		while(list($n,$cv) = each($this->spath)){
 			if(($cv['id'] == $v['id'])){
 				reset($this->spath);
 				return false;
 			}
 		}
-//		echo "adding";
-//		dump($v);
 		reset($this->spath);
-		$this->spath[]=$v;
+		$this->spath[] = $v;
 		return true;
 	}
 	
+	/**
+	 * Scan a menu for selected items
+	 *
+	 * Iterate through a menu, including sub-menus, and mark menu items that match the current URLs.
+	 *
+	 * @param $menu array Menu array
+	 */
 	public function scan_selected(&$menu){
-	// Scan a menu for selected items and populate $spath
 		reset($menu);
-		$mr=0;
+		$mr = 0;
 		
 		$found_one = false;
 		
-		while(list($n,$v)=each($menu)){
+		while(list($n,$v) = each($menu)){
 			$obtained_spath = array();
 			if($v['sub']){
 				$reserve_spath = $this->spath;
@@ -322,62 +383,85 @@ class EMPS_Common {
 				$obtained_spath = $this->spath;
 				$this->spath = $reserve_spath;
 				$menu[$n]['sub'] = $v['sub'];
-				if($res>0){
+				if($res > 0){
 					$menu[$n]['ssel'] = $res;
 					$menu[$n]['sel'] = $v['sel']= 1;
 				}
-				if($res>0) $mr=1;
+				if($res > 0) $mr=1;
 			}		
-			if($v['sel']>0) {
+			if($v['sel'] > 0) {
 				$this->add_to_spath($v);
 				foreach($obtained_spath as $spv){
 					$this->add_to_spath($spv);
 				}
 			
 				$found_one = true;
-				$mr=1;
+				$mr = 1;
 			}
 		}
 		
 		return $mr;
 	}	
 	
+	/**
+	 * Sorting function for menu items
+	 *
+	 * @param $a array One menu item
+	 * @param $b array Other menu item
+	 */
 	function sort_menu($a, $b){
-		if($a['ord']==$b['ord']){
+		if($a['ord'] == $b['ord']){
 			return 0;
 		}
-		if($a['ord']<$b['ord']){
+		if($a['ord'] < $b['ord']){
 			return -1;
 		}else{
 			return 1;
 		}
 	}
 	
+	/**
+	 * Load a menu or submenu from the database
+	 *
+	 * @param $code Menu code
+	 * @param $parent Parent ID
+	 */
 	public function section_menu($code, $parent){
 		return $this->section_menu_ex($code, $parent, 0);
 	}
 	
-	public function menu_levels($menu,$mlv){
-	// Create the menu levels: Top menu (0), then selected submenu (1), then selected sub-submenu (2), etc.
-	// Used to make the popup-menu for the current page
+	/**
+	 * Create menu levels
+	 *
+	 * Top menu (0), then selected submenu (1), then selected sub-submenu (2), etc. Used to make the popup-menu for the current page.
+	 *
+	 * @param $menu Menu array
+	 * @param $mlv Menu levels array
+	 */
+	public function menu_levels($menu, $mlv){
 		reset($menu);
-		$mlv[]=$menu;
-		while(list($n,$v)=each($menu)){
+		$mlv[] = $menu;
+		while(list($n,$v) = each($menu)){
 			if($v['sel']>0 && $v['sub']){
-				$mlv=$this->menu_levels($v['sub'],$mlv);
+				$mlv = $this->menu_levels($v['sub'],$mlv);
 				break;
 			}
 		}
 		return $mlv;
 	}
-		
+	
+	/**
+	 * Prepare all website menus
+	 *
+	 * Read the 'handle_menus' setting and load the appropriate menus, including the 'admin' menu.
+	 */
 	public function prepare_menus(){
 		global $smarty;
 		
 		if($this->auth->credentials("admin,author,editor,oper")){
-			$menu=$this->section_menu("admin",0);
+			$menu=$this->section_menu("admin", 0);
 			$this->scan_selected($menu);
-			$this->menus['admin']=$menu;
+			$this->menus['admin'] = $menu;
 		}
 		
 		$r = $this->get_setting('handle_menus');
@@ -385,111 +469,136 @@ class EMPS_Common {
 			return false;
 		}		
 		
-		$x = explode(',',$r);
-		while(list($n,$v)=each($x)){
+		$x = explode(',', $r);
+		while(list($n,$v) = each($x)){
 			unset($menu);
-			$xx=explode('/',$v);
-			$code=$xx[0];
-			$t=$xx[1];
-			$menu=$this->section_menu($code,0);
+			$xx = explode('/',$v);
+			$code = $xx[0];
+			$t = $xx[1];
+			$menu = $this->section_menu($code, 0);
 			$this->scan_selected($menu);
-			if($t=='mlv'){
-				$mlv=array();
-				$mlv=$this->menu_levels($menu,$mlv);
-				$this->mlv[$code]=$mlv;
+			if($t == 'mlv'){
+				$mlv = array();
+				$mlv = $this->menu_levels($menu, $mlv);
+				$this->mlv[$code] = $mlv;
 			}
-			$this->menus[$code]=$menu;
+			$this->menus[$code] = $menu;
 		}
 		
-		$smarty->assign("menus",$this->menus);
-		$smarty->assign("mlv",$this->mlv);
+		$smarty->assign("menus", $this->menus);
+		$smarty->assign("mlv", $this->mlv);
 		return true;
 	}
-	
+
+	/**
+	 * Post-init handler
+	 *
+	 * Called after the initialization of the EMPS object.
+	 */	
 	public function post_init(){
 		$this->prepare_menus();		
-		
 	}
 	
+	/**
+	 * Pre-controller handler
+	 *
+	 * Called immediately before a module controller PHP script is called.
+	 */
 	public function pre_controller(){
-		global $pp,$smarty;
-		$x=explode('-',$pp);
-		if($x[0]=="admin" || $x[0]=="manage"){
-			$this->page_property("adminpage",1);
+		global $pp, $smarty;
+		$x = explode('-', $pp);
+		if($x[0] == "admin" || $x[0] == "manage"){
+			$this->page_property("adminpage", 1);
 		}
 
-		$smarty->assign("enum",$this->enum);		
+		$smarty->assign("enum", $this->enum);		
 	}
-		
+	
+	/**
+	 * Pre-display handler
+	 *
+	 * Called immediately before a module view Smarty template is displayed.
+	 */
 	public function pre_display(){
 		global $smarty;
 		
 		if(!$this->page_properties['title']){
-			$this->page_properties['title']="";
-			while(list($n,$v)=each($this->spath)){
-				if($this->page_properties['title']!=""){
-					$this->page_properties['title'].=" - ";
+			$this->page_properties['title'] = "";
+			while(list($n,$v) = each($this->spath)){
+				if($this->page_properties['title'] != ""){
+					$this->page_properties['title'] .= " - ";
 				}
-				$this->page_properties['title'].=strip_tags($v['dname']);
+				$this->page_properties['title'] .= strip_tags($v['dname']);
 			}
 		}
 		
 		$this->page_property("year", date("Y", time()));
 		
-		$smarty->assign("enum",$this->enum);				
+		$smarty->assign("enum", $this->enum);				
 		
-		require_once $this->common_module('config/predisplay.php');
+		$fn = $this->common_module('config/predisplay.php');
+		if($fn){
+			require_once $fn;
+		}
 		
-		$smarty->assign("spath",$this->spath);
+		$smarty->assign("spath", $this->spath);
 	
-		$smarty->assign('page',$this->page_properties);
-		$smarty->assign('lang',$this->lang);
+		$smarty->assign('page', $this->page_properties);
+		$smarty->assign('lang', $this->lang);
 		
 		$html_lang = $this->lang;
 		
 		if($html_lang == 'nn'){
 			$html_lang = 'ru';
 		}
-		$smarty->assign("html_lang",$html_lang);
+		$smarty->assign("html_lang", $html_lang);
 		
-		$smarty->assign("df_format",EMPS_DT_FORMAT);
+		$smarty->assign("df_format", EMPS_DT_FORMAT);
 		
-		$smarty->assign("current_host",$_SERVER['HTTP_HOST']);
-		$smarty->assign("current_uri",$_SERVER['REQUEST_URI']);
+		$smarty->assign("current_host", $_SERVER['HTTP_HOST']);
+		$smarty->assign("current_uri", $_SERVER['REQUEST_URI']);
 		
 	}
 	
-	public function make_enum($name,$list){
-		$lst=array();
-		$x=explode(";",$list);
-		while(list($n,$v)=each($x)){
-			$xx=explode("=",$v,3);
-			$e=array();
-			$e['code']=trim($xx[0]);
-			$e['value']=$xx[1];
-			$dx=explode(",",$xx[2]);
-			while(list($nn,$vv)=each($dx)){
-				$e[$vv]=1;
+	/**
+	 * Parse an enum descriptor string into an enum array
+	 *
+	 * @param $name Enum name (code)
+	 * @param $list Values list string (e.g. '10=Yes,20=No')
+	 */
+	public function make_enum($name, $list){
+		$lst = array();
+		$x = explode(";", $list);
+		while(list($n,$v) = each($x)){
+			$xx = explode("=", $v, 3);
+			$e = array();
+			$e['code'] = trim($xx[0]);
+			$e['value'] = $xx[1];
+			$dx = explode(",", $xx[2]);
+			while(list($nn,$vv) = each($dx)){
+				$e[$vv] = 1;
 			}
-			$lst[]=$e;
+			$lst[] = $e;
 		}
-		$this->enum[$name]=$lst;
+		$this->enum[$name] = $lst;
 	}
 	
-	public function save_setting($code,$value){
-		$x=explode(':',$code);
-		$name=$x[0];
-		$a=array($name=>$value);
-		$this->p->save_properties($a,$this->website_ctx,$code);
-	}
-	
+	/**
+	 * Redirect handler for parse_path()
+	 *
+	 * Called from within parse_path() to check if the current URL has to be redirected (e.g. /admin-shadows/)
+	 */
 	private function handle_redirect($uri){
 		
 	}
 	
+	/**
+	 * Main URL parser
+	 *
+	 * Parses the current URL to determine if it should be routed to a module or a virtual page.
+	 */
 	private function parse_path(){
-		// URL parser for virtual path
-	
+
 		$uri = $_SERVER["REQUEST_URI"];
 		
 		$first = substr($uri, 1);
@@ -497,7 +606,6 @@ class EMPS_Common {
 		$this->handle_redirect($uri);
 	
 		if(function_exists("emps_uri_filter")){
-			// define "emps_uri_filter" in extension to re-write the URI
 			$uri = emps_uri_filter($uri);
 		}
 	
@@ -519,8 +627,6 @@ class EMPS_Common {
 	
 		$this->URI = $uri;
 		
-//		dump($this->URI);		
-	
 		$sp = $this->get_setting("startpage");
 	
 		if(!$this->URI){
@@ -552,19 +658,27 @@ class EMPS_Common {
 		$this->post_parse();
 	}	
 	
+	/**
+	 * Import URL variables from $GET/$POST
+	 *
+	 * Checks if any of the variables whose names are defined in EMPS_VARS exist in $GET or $POST arrays and loads them
+	 * to the appropriate global variables, if found. Effecively this is a filtered track-vars.
+	 */
 	private function import_vars(){
-	// Import the track-list variables from the GET, POST and put them to globals
-	// Effecively this is a filtered track-vars
 		$x = explode(",", EMPS_VARS);
 		while(list($n,$v) = each($x)){
-			if(!isset($GLOBALS[$v])) $GLOBALS[$v]='';
-			if(isset($_GET[$v])) $GLOBALS[$v]=$_GET[$v];
-			if(isset($_POST[$v])) $GLOBALS[$v]=$_POST[$v];
+			if(!isset($GLOBALS[$v])) $GLOBALS[$v] = '';
+			if(isset($_GET[$v])) $GLOBALS[$v] = $_GET[$v];
+			if(isset($_POST[$v])) $GLOBALS[$v] = $_POST[$v];
 		}	
 	}	
 	
+	/**
+	 * Check if a virtual page exists in the database
+	 *
+	 * @param $uri string The full relative URI of the page sought
+	 */
 	public function page_exists($uri){
-	// Return get_db_content_item if this URI exists in the CMS database
 		$ra = $this->get_db_content_item($uri);
 		if($ra) return $ra;
 		return false;
@@ -645,6 +759,12 @@ class EMPS_Common {
 							$fn = $this->try_page_file_name($page_name, $first_name, $include_name, $type, EMPS_PATH_PREFIX, $this->lang);
 							if(!$fn){
 								$fn = $this->try_page_file_name($page_name, $first_name, $include_name, $type, EMPS_PATH_PREFIX, 'nn');
+								if(!$fn){
+									$fn = $this->try_page_file_name($page_name, $first_name, $include_name, $type, EMPS_COMMON_PATH_PREFIX, $this->lang);
+									if(!$fn){
+										$fn = $this->try_page_file_name($page_name, $first_name, $include_name, $type, EMPS_COMMON_PATH_PREFIX, 'nn');
+									}
+								}
 							}
 						}
 					}
@@ -662,6 +782,12 @@ class EMPS_Common {
 							$fn = $this->try_template_name(EMPS_PATH_PREFIX, $page_name, $this->lang);
 							if(!$fn){
 								$fn = $this->try_template_name(EMPS_PATH_PREFIX, $page_name, 'nn');
+								if(!$fn){
+									$fn = $this->try_template_name(EMPS_COMMON_PATH_PREFIX, $page_name, $this->lang);
+									if(!$fn){
+										$fn = $this->try_template_name(EMPS_COMMON_PATH_PREFIX, $page_name, 'nn');
+									}
+								}
 							}
 						}
 					}
@@ -713,12 +839,24 @@ class EMPS_Common {
 						if($len <= 3){
 							$fn = EMPS_PATH_PREFIX.'/common/'.$file_name;	
 							$fn = stream_resolve_include_path($fn);
+							if(!$fn){
+								$fn = EMPS_COMMON_PATH_PREFIX.'/common/'.$file_name;	
+								$fn = stream_resolve_include_path($fn);
+							}
 						}else{
 							$fn = EMPS_PATH_PREFIX.'/common/'.$file_name.'.'.$this->lang.'.htm';	
 							$fn = stream_resolve_include_path($fn);
 							if(!$fn){
 								$fn = EMPS_PATH_PREFIX.'/common/'.$file_name.'.nn.htm';	
 								$fn = stream_resolve_include_path($fn);
+								if(!$fn){
+									$fn = EMPS_COMMON_PATH_PREFIX.'/common/'.$file_name.'.'.$this->lang.'.htm';
+									$fn = stream_resolve_include_path($fn);
+									if(!$fn){
+										$fn = EMPS_COMMON_PATH_PREFIX.'/common/'.$file_name.'.nn.htm';	
+										$fn = stream_resolve_include_path($fn);
+									}
+								}
 							}
 						}
 					}					
@@ -752,6 +890,10 @@ class EMPS_Common {
 			if(!$fn || ($level > 1)){
 				$fn = EMPS_PATH_PREFIX.'/common/'.$file_name;	
 				$fn = stream_resolve_include_path($fn);
+				if(!$fn){
+					$fn = EMPS_COMMON_PATH_PREFIX.'/common/'.$file_name;	
+					$fn = stream_resolve_include_path($fn);
+				}
 			}
 		}
 
@@ -790,6 +932,10 @@ class EMPS_Common {
 			if(!$fn){
 				$fn = EMPS_PATH_PREFIX.$file_name;	
 				$fn = stream_resolve_include_path($fn);
+				if(!$fn){
+					$fn = EMPS_COMMON_PATH_PREFIX.$file_name;	
+					$fn = stream_resolve_include_path($fn);
+				}
 			}
 		}
 
@@ -993,7 +1139,7 @@ class EMPS_Common {
 		while(list($n,$v)=each($x)){
 			$rlist[$v]=$GLOBALS[$v];
 		}
-			
+		
 		$t="";$tc="";
 		reset($x);
 		while(list($n,$v)=each($x)){
@@ -1066,7 +1212,7 @@ class EMPS_Common {
 	}
 
 	public function redirect_page($page){
-		header("Location: $page");
+		header("Location: ".$page);
 	}
 	
 	public function redirect_elink(){
@@ -1133,7 +1279,7 @@ class EMPS_Common {
 		return $parr;
 	}
 	
-	function utf8_urldecode($str){
+	public function utf8_urldecode($str){
 		$str = preg_replace("/%u([0-9a-f]{3,4})/i","&#x\\1;",urldecode($str));
 		return html_entity_decode($str,null,'UTF-8');;
 	}	
@@ -1154,7 +1300,7 @@ class EMPS_Common {
 	}
 	
 	public function is_https(){
-		if($_SERVER['HTTPS']=='on'){
+		if($_SERVER['HTTPS'] == 'on'){
 			return true;
 		}
 		return false;
@@ -1205,6 +1351,10 @@ class EMPS_Common {
 		return false;
 	}
 
+	public function inflection($value){
+		return $this->infliction($value);
+	}
+	
 	public function infliction($value){
 		$h=floor(($value%100)/10);
 		$d=$value%10;
@@ -1279,16 +1429,12 @@ class EMPS_Common {
 	
 	public function handle_modified(){
 		if($this->last_modified > 0){
-//			header("Cache-Control: cache");
-//			header("Pragma: cache");			
 			header("Expires: ".date("r", $this->expire_guess()));
 			header("Last-Modified: ".date("r", $this->last_modified));
 
 			$if_modified = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
 			if($if_modified){
 				$if_dt = strtotime($if_modified);
-//				echo "Last: ".$this->last_modified.", if: ".$if_dt;
-//				exit();
 				if($this->last_modified <= $if_dt){
 					header("HTTP/1.1 304 Not Modified");
 					exit();
@@ -1393,7 +1539,7 @@ class EMPS_Common {
 		return '.';
 	}
 	
-	function transliterate_url($source){
+	public function transliterate_url($source){
 		$s = $source;
 		$t = "";
 		$l = mb_strlen($s);
@@ -1415,7 +1561,7 @@ class EMPS_Common {
 		return $t;
 	}
 
-	function is_localhost_request(){
+	public function is_localhost_request(){
 		if($_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR']){
 			return true;
 		}

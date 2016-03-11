@@ -17,7 +17,12 @@ spl_autoload_register(function ($name) {
 	if($f === false){
 		reset($emps_autoload_prefixes);
 		foreach($emps_autoload_prefixes as $prefix){
-			$pfn = $prefix.$fn;
+			$x = explode("|", $prefix);
+			$xfn = $fn;
+			if(isset($x[1])){
+				$xfn = str_replace($x[1], '', $xfn);
+			}
+			$pfn = $x[0].$xfn;
 			$f = stream_resolve_include_path($pfn);
 			if($f !== false){
 				require_once $f;

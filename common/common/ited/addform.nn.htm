@@ -1,0 +1,15 @@
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr valign="middle"><td class="gt"><div style="float:right;"><a href="javascript:close_action('add')"><img src="/i/close.png" width="16" height="16" border="0" style="position:relative;top:1px;"/></a></div>
+<div class="atop">Добавить новый элемент</div></td></tr>
+</table>
+<form action="{{if $add_target}}{{$add_target}}{{else}}.{{/if}}" method="post" style="margin:0;padding:4px" id="add_form">
+<input type="hidden" name="action_add" value="1" />
+{{if $autolink}}<input type="hidden" name="autolink" value="{{$autolink}}" />
+{{/if}}
+<input type="hidden" name="return_to" value="{{$return_to}}" />
+{{include file=$form}}
+<br/>
+<p><input class="input button" type="button" onclick="javascript:submit_form(this,'add_form')" value=" Добавить " />
+<input type="button" class="input button" onclick="javascript:close_up('add')" value=" Отмена " />
+</p>
+</form>
