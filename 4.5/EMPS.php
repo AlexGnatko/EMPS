@@ -417,12 +417,16 @@ class EMPS extends EMPS_Common {
 	public function shadow_properties_link($link){
 		$link = $this->db->sql_escape($link);
 
-		$shadow = $this->db->get_row("e_shadows","url='".$link."'");
-		if($shadow){
-			$context_id = $this->p->get_context(DT_SHADOW,1,$shadow['id']);
-			$props = $this->p->read_properties(array(),$context_id);
-			$this->page_properties = array_merge($this->page_properties,$props);			
+		$shadow = $this->db->get_row("e_shadows", "url='".$link."' and website_ctx = ".$this->website_ctx);
+		if(!$shadow){
+			$shadow = $this->db->get_row("e_shadows", "url='".$link."' and website_ctx = ".$this->default_ctx);
+			if(!$shadow){
+				return false;
+			}
 		}
+		$context_id = $this->p->get_context(DT_SHADOW, 1, $shadow['id']);
+		$props = $this->p->read_properties(array(), $context_id);
+		$this->page_properties = array_merge($this->page_properties, $props);			
 	}
 		
 	public function shadow_properties($vars){

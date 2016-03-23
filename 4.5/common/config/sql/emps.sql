@@ -265,6 +265,7 @@ CREATE TEMPORARY TABLE `temp_e_php_sessions` (
 CREATE TEMPORARY TABLE `temp_e_shadows` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,
+  `website_ctx` bigint NOT NULL,
   `user_id` bigint NOT NULL,
   `cdt` bigint NOT NULL,
   `dt` bigint NOT NULL,
@@ -272,6 +273,7 @@ CREATE TEMPORARY TABLE `temp_e_shadows` (
   KEY `url` (`url`),
   KEY `cdt` (`cdt`),
   KEY `dt` (`dt`),
+  KEY `website_ctx` (`website_ctx`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

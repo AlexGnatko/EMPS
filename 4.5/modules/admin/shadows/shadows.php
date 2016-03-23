@@ -49,9 +49,10 @@ if($emps->auth->credentials("admin")):
 	
 	if($_POST['sadd']){
 		$_REQUEST['user_id']=$emps->auth->USER_ID;
+		$_REQUEST['website_ctx'] = $emps->website_ctx;
 	}
 	
-	$where="";
+	$where = " and website_ctx = ".$emps->website_ctx;
 
 	$ted->addfilt = $where;
 
