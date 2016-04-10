@@ -30,6 +30,13 @@ function ask_kill(id){
 	}
 }
 
+function ask_call(text,code){
+	if(confirm(text)){
+		eval(code);
+	}	
+}
+
+
 function submit_form(el,id){
 	var f=document.getElementById(id);
 	var r;
