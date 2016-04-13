@@ -1517,11 +1517,11 @@ class EMPS_Common {
 			$l = count($x);
 			$this->tl_array = array();
 			for($i=0;$i<$l;$i++){
-				$this->tl_array[$x[$i]]=$y[$i];
+				$this->tl_array['_'.$x[$i]]=$y[$i];
 			}
 		}
-		if($this->tl_array[$c]){
-			return $this->tl_array[$c];
+		if($this->tl_array['_'.$c]){
+			return $this->tl_array['_'.$c];
 		}
 		
 		if($c==' ' || $c=='-' || $c=='_' || $c==':' || $c=='*'){
