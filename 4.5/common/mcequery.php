@@ -9,6 +9,8 @@ if($emps->auth->credentials("users")){
 	
 	$emps->no_smarty=true;
 	
+	$emps->loadvars();
+	
 	$context_id = intval($key);
 	$mode = $start;
 	$subcode = $ss;
