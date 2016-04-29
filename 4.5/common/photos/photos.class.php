@@ -460,22 +460,31 @@ class EMPS_Photos {
 		
 		$data = file_get_contents($url);
 		
-		$headers = get_headers($url, 1);
-		
-		$path = parse_url($url, PHP_URL_PATH);
-		
+		$type = "image/jpeg";
 		$filename = "file.jpg";
 		
+		$headers = get_headers($url, 1);
+		
+		foreach($headers as $header){
+			if(stristr($header, "Content-Type")){
+				if(stristr($header, "png")){
+					$filename = "file.png";
+					$type = "image/png";
+				}
+				if(stristr($header, "gif")){
+					$filename = "file.gif";
+					$type = "image/gif";
+				}
+			}
+		}
+	
+		$path = parse_url($url, PHP_URL_PATH);
+	
 		$x = explode("/", $path);
 		if(count($x)>1){
 			$filename = $x[count($x)-1];
 		}
 		
-		$type = $headers['Content-Type'];
-		if(!$type){
-			$type = "image/jpeg";
-		}
-					
 		$SET = array();		
 		$SET['md5'] = md5(uniqid(time()));
 		$SET['filename'] = $filename;
