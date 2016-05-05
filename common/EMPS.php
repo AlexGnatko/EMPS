@@ -1009,12 +1009,14 @@ class EMPS_Common {
 		}
 		$a=array();
 		
-		if($GLOBALS[$this->page_var]>=$total){
-			$GLOBALS[$this->page_var]=$total-$perpage;
-			if($GLOBALS[$this->page_var]<0){
-				$GLOBALS[$this->page_var]=0;
+		if(is_numeric($GLOBALS[$this->page_var])){
+			if($GLOBALS[$this->page_var]>=$total){
+				$GLOBALS[$this->page_var]=$total-$perpage;
+				if($GLOBALS[$this->page_var]<0){
+					$GLOBALS[$this->page_var]=0;
+				}
+				$this->savevars();
 			}
-			$this->savevars();
 		}
 		
 		$cs=$GLOBALS[$this->page_var];

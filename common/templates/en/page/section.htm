@@ -1,0 +1,28 @@
+{{if $AdminNeeded}}
+
+<div class="page-header">
+<h1>Administrative Access Needed</h1>
+</div>
+<p class="alert alert-danger">This page is only for website administrators.</p>
+<p>If you are an administrator, please log in:</p>
+
+{{include file="db:inc/inlinelogin"}}
+{{elseif $WebsiteNeeded}}
+<h1>Select Another Website</h1>
+<p>You can not access this page from the root website. Use one of the regular websites:</p>
+<ul>
+{{section name=i loop=$wlst}}
+<li><a href="http://{{$wlst[i].hostname}}{{$current_url}}"><strong>{{$wlst[i].name}}</strong> (http://{{$wlst[i].hostname}})</li>
+{{/section}}
+</ul>
+{{elseif $UserNeeded}}
+
+<h1>Registered Users Only</h1>
+<div class="read">
+<p>This page is only for registered users.</p>
+</div>
+{{include file="db:inc/inlinelogin"}}
+
+{{else}}
+{{include file=$main_body}}
+{{/if}}

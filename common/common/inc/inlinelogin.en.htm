@@ -1,0 +1,46 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">Log in to get personal access:</div>
+	<div class="panel-body">
+{{if $login.error}}
+<div class="alert alert-danger">
+<strong>
+{{if $login.error eq "no_activation"}}
+You have not yet activated your account.<br />
+Please follow the link in the activation e-mail sent to you.
+{{/if}}
+{{if $login.error eq "no_user"}}
+There is no such user here!
+{{/if}}
+{{if $login.error eq "wrong_password"}}
+Wrong password!
+{{/if}}
+</strong>
+</div>
+{{/if}}
+<br/>
+<form action="." method="post" class="form" role="form">
+<input type="hidden" name="post_login" value="1" />
+
+
+
+  <div class="form-group col-md-3">
+    <label for="login_email">E-mail:</label>
+    <p><input type="text" class="form-control" name="login_username" value="{{$login.login_username}}" id="login_email" placeholder="joe@example.com" /></p>
+  </div>
+  
+<div class="form-group col-md-3">
+    <label for="login_password">Password:</label>
+    <p><input type="password" class="form-control" name="login_password" id="login_password" /></p>
+
+</div>
+
+<div class="col-md-2">
+<br />
+
+<button type="submit" class="btn btn-primary btn-lg" data-loading-text="Wait..." >Log In</button>
+</form>
+	</div>
+
+
+
+</div>
