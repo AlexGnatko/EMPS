@@ -459,6 +459,9 @@ class EMPS_Photos {
 		global $emps, $SET;
 		
 		$data = file_get_contents($url);
+		if($data === FALSE){
+			return false;
+		}
 		
 		$type = "image/jpeg";
 		$filename = "file.jpg";
@@ -506,7 +509,7 @@ class EMPS_Photos {
 		$emps->db->query("update ".TP."e_uploads set size=$size where id=".$file_id);
 		
 //		var_dump($row);echo "\r\n";
-		
+		return true;
 	}
 	
 	
