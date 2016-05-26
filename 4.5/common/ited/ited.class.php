@@ -121,7 +121,6 @@ class EMPS_ImprovedTableEditor {
 		if($this->multilevel){
 			$r = $emps->db->query("select id from ".TP.$this->table_name." where parent = ".$id);
 			while($ra = $emps->db->fetch_row($r)){
-				$this->pre_kill($ra[0]);
 				$emps->db->query('delete from '.TP.$this->table_name.' where id='.$ra[0]);				
 				$this->after_kill($ra[0]);
 			}
@@ -302,6 +301,7 @@ class EMPS_ImprovedTableEditor {
 		
 		if($_POST['action_kill']){
 			if($this->can_delete()){
+				$this->pre_kill($this->ref_id);
 				$emps->db->query('delete from '.TP.$this->table_name.' where id='.$this->ref_id);
 				$this->after_kill($this->ref_id);
 	
