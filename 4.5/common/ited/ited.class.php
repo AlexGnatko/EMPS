@@ -108,6 +108,9 @@ class EMPS_ImprovedTableEditor {
 		$emps->p->handle_keywords($this->context_id,$_REQUEST['keywords_idx']);
 	}	
 
+	public function pre_kill($id){
+	}
+
 	public function after_kill($id){
 		global $emps;
 		
@@ -118,6 +121,7 @@ class EMPS_ImprovedTableEditor {
 		if($this->multilevel){
 			$r = $emps->db->query("select id from ".TP.$this->table_name." where parent = ".$id);
 			while($ra = $emps->db->fetch_row($r)){
+				$this->pre_kill($ra[0]);
 				$emps->db->query('delete from '.TP.$this->table_name.' where id='.$ra[0]);				
 				$this->after_kill($ra[0]);
 			}
