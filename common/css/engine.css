@@ -103,3 +103,9 @@ del {
 ins {
 	color:green;
 }
+
+.ip-video-box {
+	width:100%;
+	margin:0 auto;
+	position:relative;
+}
