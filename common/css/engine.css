@@ -42,6 +42,10 @@
 	overflow:auto;
 }
 
+.pic-selected {
+	border:2px solid green;
+}
+
 .bspace {
 	margin-bottom:10px;
 }
