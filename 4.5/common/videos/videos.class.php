@@ -32,9 +32,17 @@ class EMPS_Videos {
 			if($x[1]){
 				$a['vimeo_id'] = $x[1];
 			}else{
-				$x = explode("://rutube.ru/video/", $url, 2);
+				$x = explode("http://rutube.ru/video/", $url, 2);
 				if($x[1]){
 					$a['rutube_id'] = $x[1];					
+				}else{
+					$x = explode("//www.screencast.com/", $url, 2);
+					if($x[1]){
+						$xx = explode(" src=\"", $url, 2);
+						$xxx = explode("\"", $xx[1], 2);
+						$a['screencast_url'] = $xxx[0];
+						$a['name'] = $xxx[0];
+					}
 				}
 			}
 		}

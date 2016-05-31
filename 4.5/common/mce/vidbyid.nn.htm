@@ -1,10 +1,23 @@
+{{if $lang eq "en"}}
+{{assign var="str_title" value="Insert from the 'Videos' tab"}}
+{{assign var="str_back" value="Back"}}
+{{assign var="str_cancel" value="Cancel"}}
+{{assign var="str_insert" value="Insert"}}
+{{assign var="str_select" value="Select video to insert:"}}
+{{else}}
+{{assign var="str_title" value="Вставка клипов из вкладки «Видео»"}}
+{{assign var="str_back" value="Назад"}}
+{{assign var="str_cancel" value="Отмена"}}
+{{assign var="str_insert" value="Вставить"}}
+{{assign var="str_select" value="Выберите видео для вставки:"}}
+{{/if}}
 {{if $mode == 'title'}}
-Вставка клипов из вкладки «Видео»
+{{$str_title}}
 {{elseif $mode == 'footer'}}
 {{if $back}}
-        <button type="button" class="btn btn-primary" onclick="{{$onclick}}" id="tmce_action"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp; Назад</button>
+        <button type="button" class="btn btn-primary" onclick="{{$onclick}}" id="tmce_action"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp; {{$str_back}}</button>
 {{/if}}        
-        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
 
 {{elseif $mode == 'vid'}}
 <p>
@@ -16,13 +29,13 @@
 
 <div class="row">
 <div class="col-md-6">
-<p><a href="javascript:tmce_answer()" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>&nbsp; Вставить</a></p>
+<p><a href="javascript:tmce_answer()" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>&nbsp; {{$str_insert}}</a></p>
 </div>
 </div>
 
 {{elseif $mode == 'body'}}
 
-<p>Выберите видео для вставки:</p>
+<p>{{$str_select}}</p>
 
 {{section name=i loop=$lst}}<div class="picpick">
 <a href="javascript:tmce_video_answer({{$lst[i].id}})"><img src="/freepic/{{$lst[i].pic.md5}}.{{$lst[i].pic.ext}}?size=130x95" width="130" height="95"/></a>

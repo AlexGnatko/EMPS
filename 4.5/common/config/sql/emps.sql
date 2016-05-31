@@ -381,6 +381,7 @@ CREATE TEMPORARY TABLE `temp_e_videos` (
   `rutube_id` char(64) COLLATE utf8_bin DEFAULT NULL,
   `youtube_id` varchar(64) COLLATE utf8_bin DEFAULT NULL,
   `vimeo_id` varchar(64) COLLATE utf8_bin DEFAULT NULL,  
+  `screencast_url` text DEFAULT NULL,  
   `duration` int(10) unsigned NOT NULL,
   `size` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,

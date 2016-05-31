@@ -1,10 +1,23 @@
+{{if $lang eq "en"}}
+{{assign var="str_title" value="Insert photos as a gallery (mosaic)"}}
+{{assign var="str_back" value="Back"}}
+{{assign var="str_cancel" value="Cancel"}}
+{{assign var="str_insert_all" value="Insert all images"}}
+{{assign var="str_insert_selected" value="Insert selected"}}
+{{else}}
+{{assign var="str_title" value="Вставка фотогалереи из иллюстраций (мозаика)"}}
+{{assign var="str_back" value="Назад"}}
+{{assign var="str_cancel" value="Отмена"}}
+{{assign var="str_insert_all" value="Вставить все изображения в блок"}}
+{{assign var="str_insert_selected" value="Вставить выбранные"}}
+{{/if}}
 {{if $mode == 'title'}}
-Вставка фотогалереи из иллюстраций (мозаика)
+{{$str_title}}
 {{elseif $mode == 'footer'}}
 {{if $back}}
-        <button type="button" class="btn btn-primary" onclick="{{$onclick}}" id="tmce_action"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp; Назад</button>
+        <button type="button" class="btn btn-primary" onclick="{{$onclick}}" id="tmce_action"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp; {{$str_back}}</button>
 {{/if}}        
-        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
 
 {{elseif $mode == 'body'}}
 
@@ -23,11 +36,11 @@ tmce_selected = [];
 
 <div class="row upspace">
 <div class="col-md-6">
-<p align="right"><a href="javascript:tmce_photoreport_answer('all')" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>&nbsp; Вставить все изображения в блок</a></p>
+<p align="left"><a href="javascript:tmce_photoreport_answer('all')" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>&nbsp; {{$str_insert_all}}</a></p>
 </div>
 <div class="col-md-6">
 <p align="right"><a href="javascript:tmce_photoreport_answer('selected')" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>
-&nbsp; Вставить выбранные</a></p>
+&nbsp; {{$str_insert_selected}}</a></p>
 </div>
 </div>
 
