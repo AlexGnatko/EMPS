@@ -136,7 +136,7 @@ class EMPS_Properties {
 
 	public function read_properties($row,$context_id){
 		global $emps;
-		$r = $emps->db->query('select * from '.TP."e_properties where context_id=$context_id and status=0");
+		$r = $emps->db->query('select * from '.TP."e_properties where context_id=$context_id and status=0 order by idx asc");
 		while($ra = $emps->db->fetch_named($r)){
 			switch($ra['type']){
 			case "i":
