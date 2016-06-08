@@ -1579,6 +1579,18 @@ class EMPS_Common {
 		echo json_encode($response);
 	}
 
+	function indexes_list($ar){
+		reset($ar);
+		$lst="";
+		while(list($n,$v)=each($ar)){
+			if($lst!=""){
+				$lst.=", ";
+			}
+			$lst.=$n;
+		}
+		return $lst;
+	}
+
 }
 
 ?>

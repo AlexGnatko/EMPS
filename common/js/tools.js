@@ -130,3 +130,6 @@ function report_banner_show(id, pos){
 	$.ajax("/banners-show/"+pos+"/?time="+Date.now(),{success: function(){
 	}});
 }
+
+function voidClick(){
+}

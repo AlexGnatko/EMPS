@@ -24,7 +24,11 @@ var emps_scripts = [];
 {{/if}}
 
 {{if $page.calendar}}
+{{if $lang eq "en"}}
+<script type="text/javascript" src="/js/jquery.ui.datepicker-en.js"></script>
+{{else}}
 <script type="text/javascript" src="/js/jquery.ui.datepicker-ru.js"></script>
+{{/if}}
 <script type="text/javascript" src="/js/jquery-ui-timepicker-addon.js"></script>
 
 <link href="/js/jquery-ui-timepicker-addon.min.css" rel="stylesheet" type="text/css" media="screen" />
