@@ -258,12 +258,14 @@ class EMPS_Common {
 		}
 		$skip = $this->should_prevent_session();
 		if(!$skip){
-			session_start();
-			if($_SESSION['lsu'] < (EMPS_SESSION_COOKIE_LIFETIME / 30)){
-				$_sess_name = session_name();
-				$_sess_id = session_id();
-				setcookie($_sess_name, $_sess_id, time() + EMPS_SESSION_COOKIE_LIFETIME, "/");
-				$_SESSION['lsu'] = time();
+			if(!$this->is_localhost_request()){
+				session_start();
+				if($_SESSION['lsu'] < (EMPS_SESSION_COOKIE_LIFETIME / 30)){
+					$_sess_name = session_name();
+					$_sess_id = session_id();
+					setcookie($_sess_name, $_sess_id, time() + EMPS_SESSION_COOKIE_LIFETIME, "/");
+					$_SESSION['lsu'] = time();
+				}
 			}
 		}
 	}
