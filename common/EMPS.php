@@ -1594,10 +1594,15 @@ class EMPS_Common {
 	}
 
 	public function recaptcha_check(){
+		$response = $_POST['g-recaptcha-response'];
+		if(!$response){
+			return false;
+		}
+		
 		$postdata = http_build_query(
 			array(
 				'secret' => GOOGLE_KEY_RECAPTCHA,
-				'response' => $_POST['g-recaptcha-response']
+				'response' => $response
 			)
 		);
 
