@@ -1593,6 +1593,30 @@ class EMPS_Common {
 		return $lst;
 	}
 
+	public function recaptcha_check(){
+		$postdata = http_build_query(
+			array(
+				'secret' => GOOGLE_KEY_RECAPTCHA,
+				'response' => $_POST['g-recaptcha-response']
+			)
+		);
+
+		$opts = array('http' =>
+			array(
+				'method'  => 'POST',
+				'header'  => 'Content-type: application/x-www-form-urlencoded',
+				'content' => $postdata
+			)
+		);
+
+		$context  = stream_context_create($opts);
+
+		$result = file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $context);
+		
+		$data = json_decode($result, true);
+		$this->last_recaptcha_result = $data;
+		return $data['success'];
+	}
 }
 
 ?>
