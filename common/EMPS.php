@@ -1620,7 +1620,11 @@ class EMPS_Common {
 		
 		$data = json_decode($result, true);
 		$this->last_recaptcha_result = $data;
-		return $data['success'];
+		if($data['success']){
+			return true;
+		}
+		
+		return false;
 	}
 }
 
