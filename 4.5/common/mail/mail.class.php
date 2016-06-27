@@ -142,9 +142,9 @@ class EMPS_Mail {
 		$r=false;
 		
 		if($mode==2 || $mode==3){
-			$to=$user_id;
+			$to = $user_id;
 		}else{
-			$to=$this->encode_string($full,'utf-8')." <".$email.">";
+			$to = $email;
 		}
 	
 		if($mode==0 || $mode==3){
