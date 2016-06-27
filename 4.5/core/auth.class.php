@@ -578,7 +578,7 @@ class EMPS_Auth {
 		$bt = md5(uniqid(rand().time(), true));
 		$dt = time();
 		$emps->db->query("delete from ".TP."e_actkeys where pin = '".$bt."'");
-		$emps->db->query("insert into ".TP."e_actkeys values ('$bt',$uid,$dt)");
+		$emps->db->query("insert into ".TP."e_actkeys (pin, user_id, dt) values ('$bt',$uid,$dt)");
 		return $bt;
 	}
 	
