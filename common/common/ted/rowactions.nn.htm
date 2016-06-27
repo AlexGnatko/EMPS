@@ -1,10 +1,18 @@
+{{if $lang eq "en"}}
+{{assign var="str_edit" value="Edit"}}
+{{assign var="str_delete" value="Delete"}}
+{{else}}
+{{assign var="str_edit" value="Правка"}}
+{{assign var="str_delete" value="Удалить"}}
+{{/if}}
+
 
 <div class="btn-group">
-  <a href="{{$lst[i].ilink}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp; Правка</a>
+  <a href="{{$lst[i].ilink}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp; {{$str_edit}}</a>
   <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
-    <li><a href="{{$lst[i].klink}}">&times; &nbsp; Удалить</a></li>
+    <li><a href="{{$lst[i].klink}}">&times; &nbsp; {{$str_delete}}</a></li>
   </ul>
 </div>
