@@ -1,0 +1,15 @@
+#commdef {
+	display:none;
+}
+
+.commentrow {
+	box-sizing:border-box;
+}
+.commentrow blockquote {
+	margin-bottom:0px;
+}
+
+.commpic {
+	display:inline-block;
+	margin:0 3px 0 3px;
+}

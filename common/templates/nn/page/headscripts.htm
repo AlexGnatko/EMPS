@@ -112,4 +112,8 @@ ng_modules.push('ui.tinymce');
 <link rel="stylesheet" type="text/css" href="/css/fileupload/jquery.fileupload.css" media="screen" />
 {{/if}}
 
+{{if $page.comments}}
+<link href="/css/comments.css" rel="stylesheet" media="screen" />
+{{/if}}
+
 {{include file="db:site/headscripts"}}

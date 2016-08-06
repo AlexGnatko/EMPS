@@ -43,7 +43,7 @@ Before trying to insert pictures, upload them through &laquo;Images&raquo;.</p>"
 {{assign var="html_varname" value="html"}}
 {{/if}}
 
-<h5 class="subhead">{{$str_title}}</h5>
+<h5 class="subhead">{{if $html_custom_title}}{{$html_custom_title}}{{else}}{{$str_title}}{{/if}}</h5>
 {{if $Differences}}
 <p class="alert alert-danger">{{$str_warning}}</p>
 <table class="table">
