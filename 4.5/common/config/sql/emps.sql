@@ -81,6 +81,7 @@ CREATE TEMPORARY TABLE `temp_e_files` (
   `folder` varchar(16) NOT NULL DEFAULT '',
   `size` bigint NOT NULL DEFAULT '0',
   `dt` bigint NOT NULL DEFAULT '0',
+  `offloaded` int(11) NOT NULL DEFAULT '0',
   `ord` int(11) NOT NULL DEFAULT '0',
   `user_id` bigint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -91,7 +92,25 @@ CREATE TEMPORARY TABLE `temp_e_files` (
   KEY `md5` (`md5`),
   KEY `context_id` (`context_id`),
   KEY `signature` (`user_id`),
+  KEY `offloaded` (`offloaded`),
   KEY `ord` (`ord`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- table
+CREATE TEMPORARY TABLE `temp_e_aws_offloading` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0',
+  `object_id` bigint NOT NULL DEFAULT '0',
+  `direct_url` varchar(255) NOT NULL DEFAULT '',
+  `status` int(11) NOT NULL DEFAULT '0',
+  `size` bigint NOT NULL DEFAULT '0',
+  `dt` bigint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `type` (`type`),
+  KEY `object_id` (`object_id`),
+  KEY `size` (`size`),
+  KEY `dt` (`dt`),
+  KEY `direct_url` (`direct_url`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- table

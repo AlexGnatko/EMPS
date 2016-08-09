@@ -56,7 +56,7 @@
 </td>
 {{if $pic_column}}
 <td width="100" style="background-color:white"  ng-click="pick_{{$id}}.select_value(srow.id)">
-<img src="/freepic/{{AJ v="srow.pic.md5"}}.{{AJ v="srow.pic.ext"}}?size=100x100&opts=inner" border="0"/>
+<img ng-src="/freepic/{{AJ v="srow.pic.md5"}}.{{AJ v="srow.pic.ext"}}?size=100x100&opts=inner" border="0"/>
 </td>
 {{/if}}
 {{$extra_cols}}
