@@ -1626,6 +1626,23 @@ class EMPS_Common {
 		
 		return false;
 	}
+	
+	public function referer_vars(){
+		$referer = $_SERVER['HTTP_REFERER'];
+		
+		$x = explode(EMPS_SCRIPT_WEB, $referer);
+		if($x[0] == "" && isset($x[1])){
+			$xx = explode(",", EMPS_URL_VARS);
+			$uri = mb_substr($x[1], 1);
+			$x = explode("/", $uri);
+			while(list($n, $v) = each($x)){
+				if($v == "") continue;
+				if($v != '-'){
+					$GLOBALS[$xx[$n]] = urldecode($v);
+				}
+			}	
+		}
+	}
 }
 
 ?>
