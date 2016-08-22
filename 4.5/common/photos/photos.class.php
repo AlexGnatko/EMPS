@@ -171,6 +171,8 @@ class EMPS_Photos {
 		}
 	
 		$dst = imagecreatetruecolor($nsx, $nsy);
+		$white = imagecolorallocate($dst, 255, 255, 255);
+		imagefill($dst, 0, 0, $white);
 		
 		imagecopyresampled($dst, $img, 0, 0, $stx*$rate, $sty*$rate, $nsx, $nsy, $nsx*$rate, $nsy*$rate);
 		return $dst;
