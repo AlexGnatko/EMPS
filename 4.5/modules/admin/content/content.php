@@ -57,7 +57,8 @@ if($_POST['post_export']){
 		$row = $emps->db->get_row("e_content", "id = ".$id);
 		if($row){
 			$row = $ited->handle_row($row);
-			$pics = $ited->v->p->list_pics($row['context_id'], 10000);
+			$context_id = $emps->p->get_context(DT_CONTENT, CURRENT_LANG, $row['id']);
+			$pics = $ited->v->p->list_pics($context_id, 10000);
 			$a = array();
 			$emps->copy_values($a, $row, "uri,type,title,descr,html");
 			$pl = array();
@@ -92,7 +93,7 @@ if($_POST['post_import']){
 			$emps->db->sql_insert("e_content");
 			$id = $emps->db->last_insert();
 		}
-		$context_id = $emps->p->get_context($ited->ref_type, 1, $id);
+		$context_id = $emps->p->get_context($ited->ref_type, $ited->ref_sub, $id);
 		$emps->p->save_properties($v, $context_id, $ited->track_props);
 		
 		$ited->v->p->import_photos($context_id, $v['pics']);
