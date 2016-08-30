@@ -57,7 +57,7 @@ if($_POST['post_export']){
 		$row = $emps->db->get_row("e_content", "id = ".$id);
 		if($row){
 			$row = $ited->handle_row($row);
-			$pics = $ited->v->p->list_pics($row['context_id']);
+			$pics = $ited->v->p->list_pics($row['context_id'], 10000);
 			$a = array();
 			$emps->copy_values($a, $row, "uri,type,title,descr,html");
 			$pl = array();

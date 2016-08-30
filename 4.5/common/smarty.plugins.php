@@ -56,7 +56,6 @@ function smarty_common_photoreport($params){
 	$smarty->assign("ctx",$context_id);
 
 
-		
 	$smarty->assign("pset",$ps);
 	
 }
