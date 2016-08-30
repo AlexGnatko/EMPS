@@ -354,7 +354,7 @@ class EMPS_Photos {
 				$_REQUEST['context_id']=$context_id;
 				$_REQUEST['ord']=$ord;
 				$emps->db->sql_insert(TP."e_uploads");
-				$file_id=last_insert();		
+				$file_id = $emps->db->last_insert();		
 			}
 	
 			$oname=$this->up->upload_filename($file_id,DT_IMAGE);
