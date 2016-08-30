@@ -64,7 +64,7 @@ if($_POST['post_export']){
 			$pl = array();
 			foreach($pics as $pic){
 				$b = array();
-				$emps->copy_values($b, $pic, "descr,md5,ord,type,filename,wmark");
+				$emps->copy_values($b, $pic, "descr,md5,ord,type,size,filename,wmark");
 				$b['url'] = EMPS_SCRIPT_WEB.'/pic/'.$b['md5'].'.'.$pic['ext'];
 				$pl[] = $b;
 			}
