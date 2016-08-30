@@ -340,7 +340,7 @@ class EMPS_Photos {
 				$_REQUEST['size']=$size;
 				$_REQUEST['thumb']=EMPS_PHOTO_SIZE;
 				$_REQUEST['ord']=$ord;
-				$emps->db->sql_update(TP."e_uploads","id=".$row['id']);
+				$emps->db->sql_update("e_uploads","id=".$row['id']);
 				
 				$file_id=$row['id'];
 			}else{
@@ -353,7 +353,7 @@ class EMPS_Photos {
 				$_REQUEST['thumb']=EMPS_PHOTO_SIZE;
 				$_REQUEST['context_id']=$context_id;
 				$_REQUEST['ord']=$ord;
-				$emps->db->sql_insert(TP."e_uploads");
+				$emps->db->sql_insert("e_uploads");
 				$file_id = $emps->db->last_insert();		
 			}
 	
