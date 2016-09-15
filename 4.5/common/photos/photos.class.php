@@ -606,6 +606,8 @@ class EMPS_Photos {
 				$rect['height'] = $dsy - $diffy*2;
 				
 				$dst2 = imagecrop($dst, $rect);
+				
+				$emps->db->query("update ".TP."e_uploads set dt = ".time()." where id = ".$ra['id']);
 			
 				imagejpeg($dst2, $fname, 100);			
 				
@@ -658,7 +660,7 @@ class EMPS_Photos {
 				imagedestroy($dst);
 			}
 			
-			$emps->db->query("update ".TP."e_uploads set wmark = 1 where id = ".$file_id);
+			$emps->db->query("update ".TP."e_uploads set wmark = 1, dt = ".time()." where id = ".$file_id);
 		}
 	}
 	
