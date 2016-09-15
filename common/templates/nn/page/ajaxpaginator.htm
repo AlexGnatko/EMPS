@@ -1,0 +1,18 @@
+{{if $pagemode eq "next"}}
+
+{{if $pages.next.start > $pages.cur.start}}
+<div class="ap-paginator">
+<a href="{{$pages.next.link}}" data-target="{{$selector}}" class="ap-page-next-link">Show More...</a>
+<span class="ap-page-loading" style="display:none">Loading...</span>
+</div>
+{{/if}}
+
+{{else}}
+
+{{if $pages.prev.start < $pages.cur.start}}
+<div class="ap-paginator">
+<a href="{{$pages.first.link}}">Show First...</a>
+</div>
+{{/if}}
+
+{{/if}}
