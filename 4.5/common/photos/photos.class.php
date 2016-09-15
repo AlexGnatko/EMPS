@@ -596,8 +596,8 @@ class EMPS_Photos {
 				$dsx = imagesx($dst);
 				$dsy = imagesy($dst);
 				
-				$diffx = sin(deg2rad($angle)) * $sy;
-				$diffy = sin(deg2rad($angle)) * $sx;
+				$diffx = abs(sin(deg2rad($angle))) * $sy;
+				$diffy = abs(sin(deg2rad($angle))) * $sx;
 				
 				$rect = array();
 				$rect['x'] = $diffx;
