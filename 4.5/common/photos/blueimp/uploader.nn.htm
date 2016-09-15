@@ -86,6 +86,32 @@
 </form>        
 </div>
 
+<div class="move-modal modal fade" id="rotate_img">
+<formclass="form" role="form">
+
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Rotate Image</h4>
+      </div>
+      <div class="modal-body">
+
+<div class="input-group">
+  <input type="number" class="form-control" name="angle" placeholder="" id="id_angle">
+  <span class="input-group-addon" >degrees (negative - CCW)</span>
+</div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
+        <button type="button" id="id_rotate_button" class="btn btn-primary">Rotate</button>
+      </div>
+    </div>
+  </div>
+</form>        
+</div>
+
 <div class="move-modal modal fade" id="download_by_link">
 <form action="." method="post" class="form" role="form">
 <input type="hidden" name="post_by_url" value="1"/>
@@ -266,6 +292,7 @@
 			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> {{$str_b_links}}</a>
 			<a href="javascript:watermark_file('{%=file.fileId%}')" id="wm_{%=file.fileId%}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-tint"></i>
 			{{$str_b_wm}}</a>	
+			<a href="javascript:rotate_file('{%=file.fileId%}')" id="rotate_{%=file.fileId%}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-repeat"></i></a>	
 {{/if}}
 			
 
@@ -389,6 +416,48 @@ function reupload_file(id){
 	$("#upload_id").html(id);
 	$("#id_file").val(id);	
 	$("#reupload_file").modal();
+}
+
+function rotate_file(id){
+	var o = $("#rotate_"+id);
+	o.attr("disabled", true);
+	if(o.hasClass("btn-danger")){
+		$.ajax({
+			type: "GET",
+			url: "./?remove_tilt="+id,
+			error: function(){
+				o.attr("disabled", false);				
+			},
+			success: function(data, status){
+				if(data == "OK"){
+					o.removeClass("btn-danger");
+					o.addClass("btn-default");	
+				}
+				o.attr("disabled", false);						
+			}
+		});		
+	}else{
+		$("#rotate_img").modal("show");
+		$("#id_rotate_button").unbind("click");
+		$("#id_rotate_button").click(function(){
+			var deg = $("#id_angle").val();
+			$("#rotate_img").modal("hide");
+			$.ajax({
+				type: "GET",
+				url: "./?add_tilt="+id+"&angle="+deg,
+				error: function(){
+					o.attr("disabled", false);				
+				},
+				success: function(data, status){
+					if(data == "OK"){
+						o.removeClass("btn-default");
+						o.addClass("btn-danger");	
+					}
+					o.attr("disabled", false);						
+				}
+			});			
+		});
+	}
 }
 
 function watermark_file(id){

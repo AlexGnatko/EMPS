@@ -208,6 +208,22 @@ class EMPS_BlueimpUploader {
 			exit();
 		}			
 		
+		if($_GET['add_tilt']){
+			$emps->no_smarty = true;
+			$id = intval($_GET['add_tilt']);
+			$this->p->ensure_tilt($id, floatval($_GET['angle']));
+			echo "OK";
+			exit();
+		}
+		
+		if($_GET['remove_tilt']){
+			$emps->no_smarty = true;
+			$id = intval($_GET['remove_tilt']);
+			$this->p->cancel_tilt($id);			
+			echo "OK";
+			exit();
+		}			
+		
 
 		if(isset($_REQUEST['reorder_files'])) {
 			$files = $_REQUEST['p'];

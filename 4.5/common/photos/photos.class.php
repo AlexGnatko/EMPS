@@ -559,6 +559,72 @@ class EMPS_Photos {
 		}
 	}	
 	
+	public function ensure_tilt($file_id, $angle){
+		global $emps;
+	
+		$ra = $emps->db->get_row("e_uploads", "id = ".$file_id);
+		if($ra){
+
+			$fname = $this->up->upload_filename($file_id, DT_IMAGE);
+			
+			$orig_name = $this->up->UPLOAD_PATH.$ra['folder']."/".$ra['id']."-orig.dat";			
+			if(!file_exists($orig_name)){
+				copy($fname, $orig_name);
+			}
+
+			if(strstr($ra['type'],"jpeg")){
+				$img = imagecreatefromjpeg($orig_name);
+			}elseif(strstr($ra['type'],"png")){
+				$img = imagecreatefrompng($orig_name);
+			}elseif(strstr($ra['type'],"gif")){
+				$img = imagecreatefromgif($orig_name);
+			}else{
+				return;
+			}
+			
+			$white = imagecolorallocate($img, 255, 255, 255);
+
+			imagesetinterpolation($img, IMG_BICUBIC);
+			
+			$sx = imagesx($img);
+			$sy = imagesy($img);
+
+			
+			$dst = imagerotate($img, $angle, $white);
+			if($dst !== false){
+				
+				$dsx = imagesx($dst);
+				$dsy = imagesy($dst);
+				
+				$diffx = sin(deg2rad($angle)) * $sy;
+				$diffy = sin(deg2rad($angle)) * $sx;
+				
+				$rect = array();
+				$rect['x'] = $diffx;
+				$rect['y'] = $diffy;
+				$rect['width'] = $dsx - $diffx*2;
+				$rect['height'] = $dsy - $diffy*2;
+				
+				$dst2 = imagecrop($dst, $rect);
+			
+				imagejpeg($dst2, $fname, 100);			
+				
+				if(is_resource($dst)){
+					imagedestroy($dst);
+				}			
+				if(is_resource($dst2)){
+					imagedestroy($dst2);
+				}			
+
+			}
+			if(is_resource($img)){
+				imagedestroy($img);
+			}
+			
+			$this->delete_thumbs($file_id);
+		}
+	}
+	
 	public function ensure_watermark($file_id){
 		global $emps;
 		
@@ -601,16 +667,27 @@ class EMPS_Photos {
 		
 		$ra = $emps->db->get_row("e_uploads", "id = ".$file_id);
 		if($ra){
+			
 			$wmname = $this->up->UPLOAD_PATH.$ra['folder']."/".$ra['id']."-wm.dat";			
-			if(file_exists($wmname)){
-				unlink($wmname);			
-			}
-			$wmname = $this->up->UPLOAD_PATH.$ra['folder']."/".$ra['id']."-orig.dat";			
 			if(file_exists($wmname)){
 				unlink($wmname);			
 			}
 
 			$emps->db->query("update ".TP."e_uploads set wmark = 0 where id = ".$file_id);
+		}
+	}
+	
+	public function cancel_tilt($file_id){
+		global $emps;
+		
+		$ra = $emps->db->get_row("e_uploads", "id = ".$file_id);
+		if($ra){
+			$fname = $this->up->upload_filename($file_id, DT_IMAGE);
+			
+			$orig_name = $this->up->UPLOAD_PATH.$ra['folder']."/".$ra['id']."-orig.dat";			
+			if(file_exists($orig_name)){
+				copy($orig_name, $fname);
+			}
 		}
 	}
 	
