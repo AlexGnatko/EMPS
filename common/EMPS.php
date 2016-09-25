@@ -351,6 +351,9 @@ class EMPS_Common {
 	 * @param $v array Menu item array
 	 */
 	public function add_to_spath($v){
+		if($v['uri']{0} == '#'){
+			return false;
+		}
 		reset($this->spath);
 		while(list($n,$cv) = each($this->spath)){
 			if(($cv['id'] == $v['id'])){
