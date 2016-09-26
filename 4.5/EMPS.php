@@ -204,7 +204,9 @@ class EMPS extends EMPS_Common {
 		$hostname = $_SERVER['SERVER_NAME'];
 		$this->default_ctx = $this->p->get_context(1,1,0);
 		$website_id = $this->website_by_host($hostname);
+		$this->website_id = 0;
 		if($website_id){
+			$this->website_id = $website_id;
 			if($this->current_website['status']==100){
 				$this->website_ctx = $this->default_ctx;
 			}else{
