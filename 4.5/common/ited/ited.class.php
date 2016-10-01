@@ -292,6 +292,7 @@ class EMPS_ImprovedTableEditor {
 			
 	public function handle_detail_mode(){
 		global $emps, $smarty, $ss, $key;
+
 		if($this->ref_id){
 			$ss='';
 			$smarty->assign('def_edit',$emps->clink('part=edit'));

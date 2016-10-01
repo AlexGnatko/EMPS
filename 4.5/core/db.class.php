@@ -123,6 +123,24 @@ class EMPS_DB {
 			}
 		}
 	}
+
+	private function sql_findcols_row($table, $row){
+		$columns = $this->table_columns($table);
+		while(list($n,$v) = each($columns)){
+			$name = $v[0];
+			if(isset($row['SET'][$name])){
+				$this->sql_take[$name]="`".$name."`";
+				$this->sql_value[$name]="'".$this->sql_escape($row['SET'][$name])."'";
+			}elseif(isset($row['RESET'][$name])){
+				$this->sql_take[$name]="`".$name."`";
+				$this->sql_value[$name]="''";
+			}elseif(isset($row['NULL'][$name])){
+				$this->sql_take[$name]="`".$name."`";
+				$this->sql_value[$name]="null";
+			}
+		}
+	}
+
 	
 	public function sql_insert($table){
 		global $SET;
@@ -135,6 +153,26 @@ class EMPS_DB {
 		$this->sql_take = array();
 		$this->sql_value = array();
 		$this->sql_findcols(TP.$table);
+		if(count($this->sql_take)==0 || count($this->sql_value)==0){
+			return 0;
+		}
+		$t = implode(",",$this->sql_take);
+		$v = implode(",",$this->sql_value);
+		$q = "insert into ".TP."$table ($t) values ($v)";
+		$r = $this->query($q);
+		return $r;
+	}	
+	
+	public function sql_insert_row($table, $row){
+		if(!isset($row['SET']['cdt'])){
+			$row['SET']['cdt'] = time();
+		}
+		if(!isset($row['SET']['dt'])){
+			$row['SET']['dt'] = time();
+		}
+		$this->sql_take = array();
+		$this->sql_value = array();
+		$this->sql_findcols_row(TP.$table, $row);
 		if(count($this->sql_take)==0 || count($this->sql_value)==0){
 			return 0;
 		}
@@ -166,7 +204,30 @@ class EMPS_DB {
 		$t.=" where ".$cond;
 		$r=$this->query($t);
 		return $r;
+	}
 	
+	public function sql_update_row($table, $row, $cond){
+		global $SET;
+		
+		if(!isset($row['SET']['dt']) && !$this->no_dt_update){
+			$row['SET']['dt'] = time();
+		}
+		
+		$this->sql_take = array();
+		$this->sql_value = array();
+		$this->sql_findcols_row(TP.$table, $row);
+		if(count($this->sql_take)==0 || count($this->sql_value)==0) return 0;
+	
+		$t='update '.TP.$table;
+		$st=0;
+		while(list($n,$v)=each($this->sql_take)){
+			if($st) $t.=","; else $t.=" set";
+			$t.=" $v=".$this->sql_value[$n];
+			$st=1;
+		}
+		$t.=" where ".$cond;
+		$r=$this->query($t);
+		return $r;
 	}
 	
 	public function found_rows(){
