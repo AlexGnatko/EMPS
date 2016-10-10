@@ -72,6 +72,8 @@ class EMPS_Common {
 	public $cli_mode = false;
 	
 	public $tl_array = array();
+
+	public $json_options = 0;
 			
 	public function __construct(){
 		$this->lang = $GLOBALS['emps_lang'];
@@ -1581,7 +1583,7 @@ class EMPS_Common {
 		$emps->no_smarty = true;
 		header("Content-Type: application/json; charset=utf-8");
 
-		echo json_encode($response);
+		echo json_encode($response, $this->json_options);
 	}
 
 	function indexes_list($ar){

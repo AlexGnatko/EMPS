@@ -2,13 +2,16 @@
 {{assign var="pages_var" value="pages"}}
 {{/if}}
 <div class="form-group text-right">
-<ul class="pagination" >
+<ul class="pagination {{if $size == "lg"}}pagination-lg{{/if}}" >
   <li><a class="pointer" ng-click="$event.preventDefault(); {{$roll_pfx}}roll_to({{$pages_var}}.first)"><i class="glyphicon glyphicon-fast-backward"></i></a></li>
+{{if $pmode != "short"}}
   <li ng-hide="pagination = 'short'"><a class="pointer" ng-click="$event.preventDefault(); {{$roll_pfx}}roll_to({{$pages_var}}.prev)"><i class="glyphicon glyphicon-backward"></i></a></li>
+{{/if}}
   <li ng-repeat="p in {{$pages_var}}.pl track by $index" ng-class="{active:p.sel}"><a class="pointer" ng-href="{{AJ v="p.link"}}" ng-click="$event.preventDefault(); {{$roll_pfx}}roll_to(p)">{{AJ v="p.page"}}</a></li>
-
+{{if $pmode != "short"}}
   <li ng-hide="pagination = 'short'"><a class="pointer"  ng-click="$event.preventDefault(); {{$roll_pfx}}roll_to({{$pages_var}}.next)"><i class="glyphicon glyphicon-forward"></i></a></li>
-  <li><a class="pointer"  ng-click="$event.preventDefault(); {{$roll_pfx}}roll_to({{$pages_var}}.last)"><i class="glyphicon glyphicon-fast-forward"></i></a></li>
+  <li ng-hide="pagination = 'short'"><a class="pointer"  ng-click="$event.preventDefault(); {{$roll_pfx}}roll_to({{$pages_var}}.last)"><i class="glyphicon glyphicon-fast-forward"></i></a></li>
+{{/if}}
 </ul>
 
 </div>
