@@ -109,3 +109,12 @@ ins {
 	margin:0 auto;
 	position:relative;
 }
+
+.ip-rep {
+	margin:0 0 15px 0;
+}
+
+.ip-rep-photo {
+	border:2px solid white;
+	background-size:cover;
+}
