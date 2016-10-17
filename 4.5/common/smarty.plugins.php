@@ -24,6 +24,19 @@ function smarty_plugin_sapelinks($params){
 	return "";
 }
 
+function smarty_plugin_sapearticles($params){
+	global $sape_article;
+	if(defined('_SAPE_USER')){	
+		$count = $params['count'];
+		if($count > 0){
+			return $sape_article->return_announcements($count);
+		}else{
+			return $sape_article->return_announcements();		
+		}
+	}
+	return "";
+}
+
 function smarty_common_photoreport($params){
 	global $smarty,$emps,$sp_photos;
 	
