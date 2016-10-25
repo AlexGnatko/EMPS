@@ -72,12 +72,12 @@ class EMPS_Diff {
 		$hlines2 = explode("\n", $text2);
 	
 		// create the diff object
-		$diff = &new Text_Diff($hlines1, $hlines2);
+		$diff = new Text_Diff($hlines1, $hlines2);
 		
 		// get the diff in unified format
 		// you can add 4 other parameters, which will be the ins/del prefix/suffix tags
 //		$renderer = &new EMPS_Diff_Renderer(50000);
-		$renderer = &new Text_Diff_Renderer_Inline($this->lines);
+		$renderer = new Text_Diff_Renderer_Inline($this->lines);
 		return $renderer->render($diff);
 	
 	}
