@@ -1,11 +1,11 @@
 <?php
 
-include_once 'Text/Diff.php';
-include_once 'Text/Diff/Renderer.php';
-include_once 'Text/Diff/Renderer/unified.php';
-include_once 'Text/Diff/Renderer/inline.php';
+include_once 'Horde/Text/Diff.php';
+include_once 'Horde/Text/Diff/Renderer.php';
+include_once 'Horde/Text/Diff/Renderer/Unified.php';
+include_once 'Horde/Text/Diff/Renderer/Inline.php';
 
-class EMPS_Diff_Renderer extends Text_Diff_Renderer {
+class EMPS_Diff_Renderer extends Horde_Text_Diff_Renderer {
 
 	var $ins_prefix = '<ins>';
 	var $ins_suffix = '</ins>';
@@ -77,7 +77,7 @@ class EMPS_Diff {
 		// get the diff in unified format
 		// you can add 4 other parameters, which will be the ins/del prefix/suffix tags
 //		$renderer = &new EMPS_Diff_Renderer(50000);
-		$renderer = &new Text_Diff_Renderer_inline($this->lines);
+		$renderer = &new Text_Diff_Renderer_Inline($this->lines);
 		return $renderer->render($diff);
 	
 	}
