@@ -891,6 +891,7 @@ class EMPS_Common {
 		if(isset($this->require_cache['common_module'][$level][$file_name])){
 			return $this->require_cache['common_module'][$level][$file_name];
 		}
+
 		$fn = $this->try_common_module(EMPS_WEBSITE_SCRIPT_PATH, $file_name);
 		if(!$fn || ($level > 0)){
 			$fn = $this->try_common_module(EMPS_SCRIPT_PATH, $file_name);
