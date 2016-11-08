@@ -1,0 +1,13 @@
+{
+  "name": "oldtimers.su",
+  "version": "1.0.0",
+  "ignore": [
+    "**/.*",
+    "bower_components"
+  ],
+  "dependencies": {
+	"angular": "latest",
+	"jquery": "latest",
+	"jquery-ui": "latest"
+  }
+}

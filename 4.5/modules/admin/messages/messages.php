@@ -15,6 +15,7 @@ if($emps->auth->credentials("admin")):
 	
 	$ted = new EMPS_Messages;
 	
+	$ted->addfilt = " and (context_id = 0 or context_id = ".$emps->website_ctx.") ";
 	$ted->handle_request();
 else:
 	$emps->deny_access("AdminNeeded");

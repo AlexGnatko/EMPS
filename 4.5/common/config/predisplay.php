@@ -25,4 +25,9 @@ $css_reset = $emps->get_setting("css_reset");
 if($css_reset){
 	$emps->page_property("css_reset", $css_reset);
 }
+
+$use_bower = $emps->get_setting("use_bower");
+if($use_bower){
+	$emps->page_property("use_bower", $use_bower);
+}
 ?>
