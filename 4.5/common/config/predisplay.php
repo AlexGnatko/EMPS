@@ -8,6 +8,8 @@ if(!$emps->enums_loaded){
 
 if($emps->virtual_path){
 	$emps->shadow_properties_link($emps->virtual_path['uri']);
+	$page_data = $emps->get_content_data($emps->virtual_path);
+	$emps->page_property("context_id", $page_data['context_id']);
 }else{
 	$emps->loadvars();
 	$start = "";
