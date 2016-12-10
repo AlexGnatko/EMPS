@@ -89,10 +89,30 @@ class EMPS_BlueimpUploader {
 					$r=$emps->db->query($q);
 					$ra=$emps->db->fetch_row($r);
 					$ord=$ra[0];
+					
+					$context_id = $this->context_id;
+						
+					if($this->other_context){
+						$oc = $_POST['post_other_context'];
+						if($oc){
+							$oc = json_decode($oc, true);
+							foreach($oc as $code => $list){
+								foreach($list as $ocfile){
+									if($ocfile['name'] == $v['name'][0]
+									&& $ocfile['size'] == $v['size'][0]){
+										$context_id = $this->other_context[$code];
+									}
+								}
+							}
+						}else{
+						}
+					}else{
+					}
+
 											
 					$_REQUEST['md5']=md5(uniqid());
 					$_REQUEST['file_name']=$v['name'][0];
-					$_REQUEST['context_id']=$this->context_id;
+					$_REQUEST['context_id']=$context_id;
 					$_REQUEST['content_type']=$v['type'][0];
 					$_REQUEST['size']=$v['size'][0];
 					$_REQUEST['user_id']=$emps->auth->USER_ID;

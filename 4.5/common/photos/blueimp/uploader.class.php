@@ -93,7 +93,7 @@ class EMPS_BlueimpUploader {
 	
 	public function handle_upload(){
 		global $emps;
-			
+		
 		while(list($n,$v)=each($_FILES)){
 //			echo "D: \r\n";
 //dump($v);
@@ -104,6 +104,8 @@ class EMPS_BlueimpUploader {
 						$r=$emps->db->query($q);
 						$ra=$emps->db->fetch_row($r);
 						$ord=$ra[0];
+						
+						$context_id = $this->context_id;
 		
 						$_REQUEST['md5']=md5(uniqid(time()));
 						$_REQUEST['filename']=$v['name'][0];
@@ -111,7 +113,7 @@ class EMPS_BlueimpUploader {
 						$_REQUEST['size']=$v['size'][0];
 						$_REQUEST['descr']=$_POST['title'][0];
 						$_REQUEST['thumb']=EMPS_PHOTO_SIZE;
-						$_REQUEST['context_id']=$this->context_id;
+						$_REQUEST['context_id']=$context_id;
 						$_REQUEST['qual'] = 100;
 						$_REQUEST['ord']=$ord+10;
 						$emps->db->sql_insert("e_uploads");
