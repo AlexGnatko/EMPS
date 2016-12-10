@@ -40,6 +40,7 @@ function setup_pagination(opts){
 					}else{
 						elem.attr('href', data.next);
 					}
+					$(document).trigger('pagination:complete');
 				}
 			});	
 		
