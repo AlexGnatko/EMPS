@@ -3,15 +3,18 @@ require_once 'PHPMailer/PHPMailerAutoload.php';
 
 class EMPS_Mail {
 	public $attachments = array();
+	public $inline = array();
 	
 	public function mail_smtp($to, $subject, $body, $smtp_data, $params){
 		global $smarty;
 		
 		$rv = false;
 		
-		if(isset($smtp_data['attachments'])){
+		if(isset($smtp_data['attachments']))
 			$this->attachments = $smtp_data['attachments'];
-		}
+
+		if(isset($smtp_data['inline']))
+			$this->inline = $smtp_data['inline'];
 
 		$mail = new PHPMailer(true);
 		try {
@@ -44,9 +47,8 @@ class EMPS_Mail {
 		//	$mail->SMTPSecure = 'tls'; 
 			
 			//Set who the message is to be sent from
-			
 			$from_whom = $params['Who'];
-			if(!$form_whom){
+			if(!$from_whom){
 				$from_whom = $smarty->fetch("db:msg/sitename");
 			}
 			
@@ -78,9 +80,16 @@ class EMPS_Mail {
 			$mail->Body = $body;
 			
 			// Attachments, if any
-			foreach($this->attachments as $att){
-				$mail->AddAttachment($att['path'], $att['filename']);
-			}
+			if(!empty($this->attachments))
+				foreach($this->attachments as $att){
+					$mail->AddAttachment($att['path'], $att['filename']);
+				}
+
+			// inline images
+			if(!empty($this->inline))
+				foreach($this->inline as $inl)
+					if(isset($inl['path']) and isset($inl['cid']))
+						$mail->addEmbeddedImage($inl['path'], $inl['cid']);
 			
 			//send the message
 			//Note that we don't need check the response from this because it will throw an exception if it has trouble
@@ -159,6 +168,7 @@ class EMPS_Mail {
 			$SET['params'] = serialize($emps_smtp_params);
 			$data = $emps_smtp_data;
 			$data['attachments'] = $this->attachments;
+			$data['inline'] = $this->inline;
 			$SET['smtpdata'] = serialize($data);		
 			$SET['dt'] = time();
 			$SET['sdt'] = 0;
