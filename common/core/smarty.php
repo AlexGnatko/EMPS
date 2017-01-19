@@ -164,7 +164,16 @@ function smarty_modifier_hyp($v){
 	}
 }
 
+// Call an arbitrary EMPS method from within a Smarty template (as modifier).
+// E.g. {{$dt|emps:form_date}} to transform a Unix timestamp into a formatted date
+function smarty_modifier_emps($arg1, $m, $arg2 = "", $arg3 = ""){
+	global $emps;
+	
+	return call_user_func_array(array($emps, $m), array($arg1, $arg2, $arg3));
+}
+
 $smarty->registerPlugin("modifier", "hyp", "smarty_modifier_hyp");
+$smarty->registerPlugin("modifier", "emps", "smarty_modifier_emps");
 
 if(defined('EMPS_PRE_MINIFY')){
 	if(EMPS_PRE_MINIFY){

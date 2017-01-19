@@ -81,7 +81,11 @@ emps_scripts.push(function(){
 {{if $page.angularjs}}
 
 {{if $page.use_bower}}
+{{if $page.angular_debug}}
+<script src="/bower_components/angular/angular.js"></script>
+{{else}}
 <script src="/bower_components/angular/angular.min.js"></script>
+{{/if}}
 {{else}}
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.js"></script>
 {{if $lang == 'ru'}}
