@@ -164,7 +164,7 @@ class EMPS_ImprovedTableEditor {
 		
 		$emps->loadvars();
 		$key=$row['id'];
-		$ss="info";
+		$ss=$this->action_open_ss;
 		$row['nlink']=$emps->elink();	
 		$ss="html";
 		$row['ilink']=$emps->elink();
