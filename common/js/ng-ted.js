@@ -6,7 +6,12 @@ var ngted_app = angular.module('ngted_app', ng_modules, function($controllerProv
         $compileProvider: $compileProvider,
         $provide: $provide
 	}
-});
+}).filter('trusted_html', ['$sce', function($sce) {
+	// http://stackoverflow.com/a/21254635
+	return function (str) {
+		return $sce.trustAsHtml(str);
+    }
+}]);
 
 ngted_app.factory('ngted_share', function(){
 	var ngted_share = {};
