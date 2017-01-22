@@ -353,12 +353,15 @@ class EMPS_Dates {
 	
 			break;
 		case "year":
-			$s=date("YHi",$cdt);
-			$hr=substr($s,4,2);
-			$mn=substr($s,6,2);
+			$s=date("YmdHi",$cdt);
 			$year=substr($s,0,4);
+			$mon=substr($s,4,2);
+			$day=substr($s,6,2);
+			$hr=substr($s,8,2);
+			$mn=substr($s,10,2);
+
 			$year--;
-			$dt=mktime($hr,$mn,0,1,1,$year);
+			$dt=mktime($hr,$mn,0,$mon,$day,$year);
 			break;
 		case "week":
 			$dt=$cdt-60*60*24*7;
@@ -400,12 +403,15 @@ class EMPS_Dates {
 	
 			break;
 		case "year":
-			$s=date("YHi",$cdt);
-			$hr=substr($s,4,2);
-			$mn=substr($s,6,2);
+			$s=date("YmdHi",$cdt);
 			$year=substr($s,0,4);
+			$mon=substr($s,4,2);
+			$day=substr($s,6,2);
+			$hr=substr($s,8,2);
+			$mn=substr($s,10,2);
+
 			$year++;
-			$dt=mktime($hr,$mn,0,1,1,$year);
+			$dt=mktime($hr,$mn,0,$mon,$day,$year);
 			break;
 	
 		case "week":

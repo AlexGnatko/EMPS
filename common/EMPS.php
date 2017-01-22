@@ -533,9 +533,10 @@ class EMPS_Common {
 			$this->page_properties['title'] = "";
 			while(list($n,$v) = each($this->spath)){
 				if($this->page_properties['title'] != ""){
-					$this->page_properties['title'] .= " - ";
+					$this->page_properties['title'] = strip_tags($v['dname']) . " - " . $this->page_properties['title'];
+				}else{
+					$this->page_properties['title'] = strip_tags($v['dname']);
 				}
-				$this->page_properties['title'] .= strip_tags($v['dname']);
 			}
 		}
 		
