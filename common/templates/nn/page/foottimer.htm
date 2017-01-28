@@ -1,18 +1,18 @@
-<div style="clear:both;width:1000px;margin:0 auto;position:relative">
+<div class="clearfix">
 {{if $ShowTiming}}
-<p style="text-align:center">Runtime:<br />
+<p class="text-center">Runtime:<br />
 <b>{{$timespan}}</b> ms</p>
 {{/if}}
 {{if $ShowErrors}}
 {{if $errors}}
-<h4 align="center">SQL Errors:</h4>
-<table cellpadding="0" cellspacing="0" border="0" align="center">
+<h4 class="text-center">SQL Errors:</h4>
+<table class="table table-condensed">
 <tr valign="top">
-<th class="lt" width="1000">Error / Query</th>
+<th width="1000">Error / Query</th>
 </tr>
 {{section name=i loop=$errors}}
 <tr valign="top">
-<td class="le"><b>{{$errors[i].error}}</b><br />
+<td ><b>{{$errors[i].error}}</b><br />
 {{$errors[i].query}}
 </td>
 </tr>
@@ -23,15 +23,15 @@
 
 {{if $SqlProfile}}
 {{if $timing}}
-<table cellpadding="0" cellspacing="0" border="0" align="center">
+<table class="table table-condensed">
 <tr valign="top">
-<th class="lt" width="900">Query</th>
-<th class="lt" width="100">Time</th>
+<th  width="900">Query</th>
+<th  width="100">Time</th>
 </tr>
 {{section name=i loop=$timing}}
 <tr valign="top">
-<td class="le">{{$timing[i].query}}</td>
-<td class="le">{{$timing[i].ms}} ms</td>
+<td >{{$timing[i].query}}</td>
+<td >{{$timing[i].ms}} ms</td>
 </tr>
 {{/section}}
 </table>

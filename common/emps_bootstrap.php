@@ -48,6 +48,10 @@ require_once EMPS_PATH_PREFIX."/EMPS.php";						// EMPS Class
 $emps = new EMPS();
 $emps->check_fast();
 
+if($emps_force_protocol){
+	$emps->ensure_protocol($emps_force_protocol);
+}
+
 require_once EMPS_PATH_PREFIX."/core/core.php";					// Core classes (some not included if $emps->fast is set)
 
 mb_internal_encoding('utf-8');

@@ -1302,7 +1302,7 @@ class EMPS_Common {
 				header("Location: https://".$addr);
 				exit();
 			}			
-		}else{
+		}elseif($protocol == 'http'){
 			if($_SERVER['HTTPS']=='on'){
 				header("Location: http://".$addr);
 				exit();
