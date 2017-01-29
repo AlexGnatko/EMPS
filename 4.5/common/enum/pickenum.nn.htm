@@ -2,8 +2,11 @@
 {{if $withempty}}
 <option value=""></option>
 {{/if}}
+{{if !$step}}
+{{assign var="step" value=1}}
+{{/if}}
 {{assign var="elst" value=$enum.$xenum}}
-{{section name=i loop=$elst}}
+{{section name=i loop=$elst step=$step}}
 {{if (($max+0>0) && ($elst[i].code+0 <= $max)) || (!$max)}}
 <option value="{{$elst[i].code}}" {{if $elst[i].code eq $value}}selected{{/if}} {{if $elst[i].def && (!isset($value))}}selected{{/if}}>{{$elst[i].value}}</option>
 {{/if}}
