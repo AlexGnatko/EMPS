@@ -487,7 +487,10 @@ class EMPS_Photos {
 	
 		$x = explode("/", $path);
 		if(count($x)>1){
-			$filename = $x[count($x)-1];
+			$fn = trim($x[count($x)-1]);
+			if($fn){
+				$filename = $fn;
+			}
 		}
 		
 		$SET = array();		
@@ -497,6 +500,7 @@ class EMPS_Photos {
 		$SET['thumb'] = "1600x1600|100x100|inner";
 		$SET['context_id'] = $context_id;
 		$SET['ord'] = $this->ord;
+		$SET['descr'] = $this->descr;
 		$emps->db->sql_insert("e_uploads");
 		$file_id=$emps->db->last_insert();	
 		
