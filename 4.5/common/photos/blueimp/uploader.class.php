@@ -134,7 +134,7 @@ class EMPS_BlueimpUploader {
 							$j['size']=$row['size']+0;
 							$j['url']="/pic/".$row['md5'].".".$row['ext']."&dt=".$row['dt'];
 							$j['thumbnailUrl']="/freepic/".$row['md5'].".".$row['ext']."?size=120x90&opts=inner&dt=".$row['dt'];
-							$j['deleteUrl']="./?delete=".$row['id'];
+							$j['deleteUrl']="./?delete_photo=".$row['id'];
 							$j['fileId']=$row['id'];
 							$j['deleteType']="GET";
 							$j['descr']=$row['descr'];
@@ -168,90 +168,90 @@ class EMPS_BlueimpUploader {
 		
 		$this->jlst=array();		
 		
-		if($_GET['links']){
-			$emps->no_smarty = true;
-			
-			$id = intval($_GET['links']);
-			$row = $emps->db->get_row("e_uploads","id=$id");
-			$row = $this->p->image_extension($row);			
-			$smarty->assign("row",$row);
-			$smarty->assign("BaseURL", EMPS_SCRIPT_WEB);
-			$smarty->display("db:photos/blueimp/links");
-			exit();
-		}
+		if($this->can_save){
 		
-		if($_GET['resize16x9']){
-			$id = intval($_GET['resize16x9']);
-			$mode = $_GET['mode'];
-			$this->p->resize_16x9($id, $mode);
-			$emps->redirect_elink();exit();
-		}
-		
-		if($_GET['qual']){
-			$id = intval($_GET['qual']);
-			$mode = intval($_GET['mode']);
-			$this->p->set_quality($id, $mode);
-			$emps->redirect_elink();exit();
-		}
-		
-		if($_GET['add_watermark']){
-			$emps->no_smarty = true;
-			$id = intval($_GET['add_watermark']);
-			$this->p->ensure_watermark($id);
-			echo "OK";
-			exit();
-		}
-		
-		if($_GET['remove_watermark']){
-			$emps->no_smarty = true;
-			$id = intval($_GET['remove_watermark']);
-			$this->p->cancel_watermark($id);			
-			echo "OK";
-			exit();
-		}			
-		
-		if($_GET['add_tilt']){
-			$emps->no_smarty = true;
-			$id = intval($_GET['add_tilt']);
-			$this->p->ensure_tilt($id, floatval($_GET['angle']));
-			echo "OK";
-			exit();
-		}
-		
-		if($_GET['remove_tilt']){
-			$emps->no_smarty = true;
-			$id = intval($_GET['remove_tilt']);
-			$this->p->cancel_tilt($id);			
-			echo "OK";
-			exit();
-		}			
-		
-
-		if(isset($_REQUEST['reorder_files'])) {
-			$files = $_REQUEST['p'];
-			$ord = 10;
-			foreach($files as $file_id) {
-				$emps->db->query(sprintf("update ".TP."e_uploads set ord=%d where id=%d ",
-					$ord,
-					intval($file_id)));
-				$ord+=10;
+			if($_GET['links']){
+				$emps->no_smarty = true;
+				
+				$id = intval($_GET['links']);
+				$row = $emps->db->get_row("e_uploads","id=$id");
+				$row = $this->p->image_extension($row);			
+				$smarty->assign("row",$row);
+				$smarty->assign("BaseURL", EMPS_SCRIPT_WEB);
+				$smarty->display("db:photos/blueimp/links");
+				exit();
 			}
-			exit;
-		}							
-		
-		if($_POST){
-			if($this->can_save){
+			
+			if($_GET['resize16x9']){
+				$id = intval($_GET['resize16x9']);
+				$mode = $_GET['mode'];
+				$this->p->resize_16x9($id, $mode);
+				$emps->redirect_elink();exit();
+			}
+			
+			if($_GET['qual']){
+				$id = intval($_GET['qual']);
+				$mode = intval($_GET['mode']);
+				$this->p->set_quality($id, $mode);
+				$emps->redirect_elink();exit();
+			}
+			
+			if($_GET['add_watermark']){
+				$emps->no_smarty = true;
+				$id = intval($_GET['add_watermark']);
+				$this->p->ensure_watermark($id);
+				echo "OK";
+				exit();
+			}
+			
+			if($_GET['remove_watermark']){
+				$emps->no_smarty = true;
+				$id = intval($_GET['remove_watermark']);
+				$this->p->cancel_watermark($id);			
+				echo "OK";
+				exit();
+			}			
+			
+			if($_GET['add_tilt']){
+				$emps->no_smarty = true;
+				$id = intval($_GET['add_tilt']);
+				$this->p->ensure_tilt($id, floatval($_GET['angle']));
+				echo "OK";
+				exit();
+			}
+			
+			if($_GET['remove_tilt']){
+				$emps->no_smarty = true;
+				$id = intval($_GET['remove_tilt']);
+				$this->p->cancel_tilt($id);			
+				echo "OK";
+				exit();
+			}			
+			
+	
+			if(isset($_REQUEST['reorder_files'])) {
+				$files = $_REQUEST['p'];
+				$ord = 10;
+				foreach($files as $file_id) {
+					$emps->db->query(sprintf("update ".TP."e_uploads set ord=%d where id=%d ",
+						$ord,
+						intval($file_id)));
+					$ord+=10;
+				}
+				exit;
+			}							
+			
+			if($_POST){
 				$this->handle_post();
 			}
-		}
-		
-		if($this->can_save){
-			if($_GET['delete']){
-				$this->p->delete_photo($_GET['delete']+0);
+
+			if($_GET['delete_photo']){
+				$this->p->delete_photo($_GET['delete_photo']+0);
 				$r = array("status"=>"OK");
 				echo json_encode($r);
 				exit();
 			}
+			
 		}
 		
 		$r=$emps->db->query('select SQL_CALC_FOUND_ROWS * from '.TP.'e_uploads where context_id='.$this->context_id." order by ord asc");
@@ -272,7 +272,7 @@ class EMPS_BlueimpUploader {
 			$j['url']="/pic/".$ra['md5'].".".$ra['ext']."&dt=".$ra['dt'];
 			$j['fileId']=$ra['id'];
 			$j['thumbnailUrl']="/freepic/".$ra['md5'].".".$ra['ext']."?size=120x90&opts=inner&dt=".$ra['dt'];
-			$j['deleteUrl']="./?delete=".$ra['id'];
+			$j['deleteUrl']="./?delete_photo=".$ra['id'];
 			$j['deleteType']="GET";
 			$j['descr']=$ra['descr'];
 			$j['ord']=$ra['ord'];			
@@ -284,16 +284,14 @@ class EMPS_BlueimpUploader {
 		}
 		$emps->loadvars();
 		
-		if($this->can_save){
-			if($_REQUEST['upload']){
-				$emps->no_smarty=true;
-				header("Content-Type: application/json; charset=utf-8");
-				$a = array();
-				$a['files'] = $this->jlst;
-				echo json_encode($a);
-			}else{
-				$smarty->assign("ilst",$lst);
-			}
+		if($_REQUEST['upload']){
+			$emps->no_smarty=true;
+			header("Content-Type: application/json; charset=utf-8");
+			$a = array();
+			$a['files'] = $this->jlst;
+			echo json_encode($a);
+		}else{
+			$smarty->assign("ilst",$lst);
 		}
 		
 	}

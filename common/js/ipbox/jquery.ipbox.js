@@ -116,6 +116,8 @@
 			col.css("background-image", "url('"+zoom+"')");
 			
 			img.data("col", col);
+
+			img.off('click');
 						
 			img.on('click', function(e){
 				var obj = $(this).data('EMPS_IPBox');
@@ -159,23 +161,23 @@
 			
 			var images = c;
 			
-			c.parent().find(".ipb-galclose").on('click', function(){
+			c.parent().find(".ipb-galclose").off('click').on('click', function(){
 				var obj = $(this).parent().data('EMPS_IPBox');
 				obj.close_wrapper();
 			});
 			
-			c.parent().find(".ipb-galleft").on('click', function(){
+			c.parent().find(".ipb-galleft").off('click').on('click', function(){
 				var obj = $(this).parent().data('EMPS_IPBox');				
 				
 				obj.step(1);
 			});
-			c.parent().find(".ipb-galright").on('click', function(){
+			c.parent().find(".ipb-galright").off('click').on('click', function(){
 				var obj = $(this).parent().data('EMPS_IPBox');				
 				
 				obj.step(-1);
 			});			
 
-            images.on('click', proxy_listener);
+            images.off('click').on('click', proxy_listener);
             if (this.support_touch()) {
 //				alert("touch!");
                 images

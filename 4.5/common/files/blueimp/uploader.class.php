@@ -5,6 +5,8 @@ class EMPS_BlueimpUploader {
 	public $context_id = 0;
 	public $up;
 	
+	public $can_save = true;
+	
 	public $jlst;
 	
 	public function __construct(){
@@ -130,7 +132,7 @@ class EMPS_BlueimpUploader {
 						$j['name']=$row['file_name'];
 						$j['size']=$row['size']+0;
 						$j['url']="/retrieve/".$row['md5']."/".urlencode($row['file_name']);
-						$j['deleteUrl']="./?delete=".$row['id'];
+						$j['deleteUrl']="./?delete_file=".$row['id'];
 						$j['fileId']=$row['id'];
 						$j['deleteType']="GET";
 						$j['descr']=$row['descr'];
@@ -162,42 +164,45 @@ class EMPS_BlueimpUploader {
 		
 		$this->jlst=array();		
 		
-		if($_GET['links']){
-			$emps->no_smarty = true;
+		if($this->can_save){
+		
+			if($_GET['links']){
+				$emps->no_smarty = true;
+				
+				$id = intval($_GET['links']);
+				$row = $emps->db->get_row("e_files","id=$id");
+				$row = $this->up->file_extension($row);			
+				$row['link'] = "/retrieve/".$row['md5']."/".urlencode($row['file_name']);
+				$smarty->assign("row",$row);
+				$smarty->assign("BaseURL", EMPS_SCRIPT_WEB);
+				$smarty->display("db:files/blueimp/links");
+				exit();
+			}		
 			
-			$id = intval($_GET['links']);
-			$row = $emps->db->get_row("e_files","id=$id");
-			$row = $this->up->file_extension($row);			
-			$row['link'] = "/retrieve/".$row['md5']."/".urlencode($row['file_name']);
-			$smarty->assign("row",$row);
-			$smarty->assign("BaseURL", EMPS_SCRIPT_WEB);
-			$smarty->display("db:files/blueimp/links");
-			exit();
-		}		
-		
-
-		if(isset($_REQUEST['reorder_files'])) {
-			$files = $_REQUEST['p'];
-			$ord = 10;
-			foreach($files as $file_id) {
-				$emps->db->query(sprintf("update ".TP."e_files set ord=%d where id=%d ",
-					$ord,
-					intval($file_id)));
-				$ord+=10;
+	
+			if(isset($_REQUEST['reorder_files'])) {
+				$files = $_REQUEST['p'];
+				$ord = 10;
+				foreach($files as $file_id) {
+					$emps->db->query(sprintf("update ".TP."e_files set ord=%d where id=%d ",
+						$ord,
+						intval($file_id)));
+					$ord+=10;
+				}
+				exit;
+			}							
+			
+			if($_POST){
+				$this->handle_post();
+			
 			}
-			exit;
-		}							
-		
-		if($_POST){
-			$this->handle_post();
-		
-		}
-		
-		if($_GET['delete']){
-			$this->up->delete_file(intval($_GET['delete']), DT_FILE);
-			$r = array("status"=>"OK");
-			echo json_encode($r);
-			exit();
+			
+			if($_GET['delete_file']){
+				$this->up->delete_file(intval($_GET['delete_file']), DT_FILE);
+				$r = array("status"=>"OK");
+				echo json_encode($r);
+				exit();
+			}
 		}
 		
 		$r=$emps->db->query('select SQL_CALC_FOUND_ROWS * from '.TP.'e_files where context_id='.$this->context_id." order by ord asc");
@@ -218,7 +223,7 @@ class EMPS_BlueimpUploader {
 			$j['size']=$ra['size']+0;
 			$j['url']="/retrieve/".$ra['md5']."/".urlencode($ra['file_name']);
 			$j['fileId']=$ra['id'];
-			$j['deleteUrl']="./?delete=".$ra['id'];
+			$j['deleteUrl']="./?delete_file=".$ra['id'];
 			$j['deleteType']="GET";
 			$j['descr']=$ra['descr'];
 			$j['comment']=$ra['comment'];			

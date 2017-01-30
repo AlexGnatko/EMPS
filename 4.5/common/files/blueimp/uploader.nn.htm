@@ -145,6 +145,7 @@
      <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar col-md-12">
             <div class="col-lg-7">
+{{if $CanSave}}
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
@@ -163,6 +164,7 @@
                     <i class="glyphicon glyphicon-ban-circle"></i>
                     <span>{{$str_cancel}}</span>
                 </button>
+{{/if}}
 
                 <!-- The loading indicator is shown during file processing -->
                 <span class="fileupload-loading"></span>
@@ -177,11 +179,13 @@
                 <div class="progress-extended">&nbsp;</div>
             </div>
             <div class="col-lg-2">
+{{if $CanSave}}
                 <button type="button" class="btn btn-danger delete">
                     <i class="glyphicon glyphicon-trash"></i>
                     <span>{{$str_delete}}</span>
                 </button>
                 <input type="checkbox" class="toggle">            
+{{/if}}
             </div>
         </div>
         <!-- The table listing the files available for upload/download -->
@@ -248,11 +252,13 @@
 			{% } else { %}
 			<span>{{$str_no_descr}}</span>			
 			{% } %}</p>
+{{if $CanSave}}
 			<p>
 			<a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> {{$str_b_descr}}</a>
 			<a href="javascript:reupload_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-transfer"></i> {{$str_b_replace}}</a>
 			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> {{$str_b_links}}</a>			
 			</p>
+{{/if}}
             {% if (file.error) { %}
                 <div><span class="label label-danger">{{$str_error}}</span> {%=file.error%}</div>
             {% } %}
@@ -261,6 +267,7 @@
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
         </div>
         <div class="col-md-2">
+{{if $CanSave}}
             {% if (file.deleteUrl) { %}
                 <button class="btn btn-danger delete delete-button" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                     <i class="glyphicon glyphicon-trash"></i>
@@ -273,6 +280,7 @@
                     <span>{{$str_cancel}}</span>
                 </button>
             {% } %}
+{{/if}}
         </div>
     </div>
 	
@@ -284,6 +292,7 @@ var ajax_wait;
 $(function(){
 	ajax_wait = $('#ajax-wait');
 	ajax_wait.css({ width: $(window).width(), height: $(window).height() });
+{{if $CanSave}}
 	$('.files').sortable({
 		items: '.sortable',
 		update: function(e,ui) {
@@ -301,6 +310,7 @@ $(function(){
 			});
 		}
 	});
+{{/if}}
 });
 
 

@@ -162,12 +162,12 @@
 </form>        
 </div>
 
-{{if $CanSave}}
 <form id="fileupload" action=".?upload=1" method="POST" enctype="multipart/form-data">
 <input type="hidden" name="upload" value="1"/>
      <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar col-md-12">
             <div class="col-lg-7">
+{{if $CanSave}}
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
@@ -188,9 +188,10 @@
                     <span>{{$str_cancel}}</span>
                 </button>
 {{/if}}
-
+{{/if}}
                 <!-- The loading indicator is shown during file processing -->
                 <span class="fileupload-loading"></span>
+                
             </div>
             <!-- The global progress information -->
             <div class="col-lg-3 fileupload-progress fade">
@@ -202,17 +203,18 @@
                 <div class="progress-extended">&nbsp;</div>
             </div>
             <div class="col-lg-2">
+{{if $CanSave}}
                 <button type="button" class="btn btn-danger delete">
                     <i class="glyphicon glyphicon-trash"></i>
                     <span>{{$str_delete}}</span>
                 </button>
                 <input type="checkbox" class="toggle" name="delete" value="1">            
+{{/if}}
             </div>
         </div>
         <!-- The table listing the files available for upload/download -->
 		<div class="files uploader-list col-md-12"></div>
 </form>
-{{/if}}
 
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
@@ -286,15 +288,13 @@
 			<a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> {{$str_b_descr}}</a>
 {{if !$pu_set.simple_mode}}
 			<a href="javascript:reupload_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-transfer"></i> {{$str_b_replace}}</a>
-{{/if}}
-{{/if}}
-{{if !$pu_set.simple_mode}}
+
 			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> {{$str_b_links}}</a>
 			<a href="javascript:watermark_file('{%=file.fileId%}')" id="wm_{%=file.fileId%}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-tint"></i>
 			{{$str_b_wm}}</a>	
 			<a href="javascript:rotate_file('{%=file.fileId%}')" id="rotate_{%=file.fileId%}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-repeat"></i></a>	
 {{/if}}
-			
+{{/if}}			
 
 
 
@@ -386,6 +386,7 @@ emps_scripts.push(
 function(){
 	ajax_wait = $('#ajax-wait');
 	ajax_wait.css({ width: $(window).width(), height: $(window).height() });
+{{if $CanSave}}
 	$('.files').sortable({
 		items: '.sortable',
 		update: function(e,ui) {
@@ -403,6 +404,7 @@ function(){
 			});
 		}
 	});
+{{/if}}
 });
 
 function enter_descr(id){
