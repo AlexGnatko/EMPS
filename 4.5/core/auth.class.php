@@ -656,6 +656,10 @@ class EMPS_Auth {
 		if(!$user) return false;
 		$user=$emps->p->read_properties($user,$emps->p->get_context(DT_USER,1,$user['id']));
 		
+		if(!$user['fullname']){
+			$user['fullname'] = $this->form_fullname($user);
+		}
+		
 		if(!$user['display_name']){
 			$user['display_name'] = $user['fullname'];
 		}
@@ -663,7 +667,15 @@ class EMPS_Auth {
 	}
 
 	public function form_fullname($ra){
-		$ra['fullname']=$ra['firstname']." ".$ra['lastname'];
+		$parts = array();
+		if($ra['firstname']){
+			$parts[] = $ra['firstname'];
+		}
+		if($ra['lastname']){
+			$parts[] = $ra['lastname'];
+		}
+		
+		$ra['fullname'] = implode(" ", $parts);
 		return $ra;
 	}
 	
