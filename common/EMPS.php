@@ -596,8 +596,7 @@ class EMPS_Common {
 	 *
 	 * Called from within parse_path() to check if the current URL has to be redirected (e.g. /admin-shadows/)
 	 */
-	private function handle_redirect($uri){
-		
+	public function handle_redirect($uri){
 	}
 	
 	/**

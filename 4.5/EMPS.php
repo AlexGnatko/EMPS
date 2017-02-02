@@ -293,8 +293,8 @@ class EMPS extends EMPS_Common {
 		return true;
 	}
 	
-	private function handle_redirect($uri){
-		$ouri = $this->db->sql_escape($uri);
+	public function handle_redirect($uri){
+		$ouri = $this->db->sql_escape(urldecode($uri));
 		$row = $this->db->get_row("e_redirect", "'$ouri' regexp olduri");
 		if($row){
 			// redirect if there is an entry in the e_redirect table
