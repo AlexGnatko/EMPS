@@ -997,6 +997,9 @@ class EMPS_Common {
 	
 	public function prepare_pad_menu($pads,$variable){
 		$menu = array();
+		if(!is_array($pads)){
+			return false;
+		}
 		while(list($n,$v)=each($pads)){
 			$this->add_to_menu($menu,$variable,$n,$v);
 		}

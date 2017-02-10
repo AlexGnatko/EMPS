@@ -13,6 +13,8 @@ require_once EMPS_COMMON_PATH_PREFIX."/EMPS.php";
 class EMPS extends EMPS_Common {
 	public $db;
 	public $cas;
+
+	public $settings_cache, $content_cache;
 			
 	public function __destruct(){
 		unset($this->db);
@@ -99,7 +101,7 @@ class EMPS extends EMPS_Common {
 			}
 			
 			if(!$md['name']){
-				$use_name = $p;
+				$use_name = $ra['uri'];
 			}else{
 				if($md['name$'.$this->lang]){
 					$use_name = $md['name$'.$this->lang];	

@@ -45,9 +45,11 @@ class EMPS_NGTed {
 			if($this->explain_list_rows){
 				$ra = $this->handle_row($ra);
 				
-				$nrow = array();
-				$emps->copy_values($nrow, $ra, $this->show_cols);
-				$ra = $nrow;
+				if(!$this->show_all_cols){
+					$nrow = array();
+					$emps->copy_values($nrow, $ra, $this->show_cols);
+					$ra = $nrow;
+				}
 
 			}
 			$lst[] = $ra;
@@ -146,9 +148,17 @@ class EMPS_NGTed {
 			}
 		}
 	}
+	
+	public function pre_post(){
+	}
+	
+	public function pre_add(){
+	}
 
 	public function save_item($id){
 		global $emps, $SET;
+		
+		$this->pre_post();
 		
 		$emps->no_smarty = true;
 		header("Content-Type: application/json; charset=utf-8");
@@ -182,6 +192,9 @@ class EMPS_NGTed {
 	
 	public function add_item(){
 		global $emps, $SET;
+		
+		$this->pre_post();
+		$this->pre_add();
 		
 		$emps->no_smarty = true;
 		header("Content-Type: application/json; charset=utf-8");
