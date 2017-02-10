@@ -78,6 +78,8 @@ $("#pick_clear_"+id).bind('click',function(ev){
 	var i=o.parent().prevAll('.pick_input').first();
 	i.val('');
 	i.EMPSObjectSelector('describe');
+	i.EMPSObjectSelector('cleared');
+	
 	o.blur();
 });	
 });

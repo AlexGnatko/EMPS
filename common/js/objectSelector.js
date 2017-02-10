@@ -162,6 +162,18 @@
 			methods.hide();
 			$(this).EMPSObjectSelector('describe');
 		},
+		cleared: function(){
+			var data = $(this).data('selector_data');
+			if(data.value_holder){
+				var o = $("#"+data.value_holder);
+
+				if(o.data("ng")){
+					var idata = $(this).data('selector_data');
+					idata.onSetValue.call($(this), 0);
+				}
+			}
+
+		},
 		settings : function( settings ){
 			var data = $(this).data('selector_data');			
 			$.extend( data, settings);
@@ -229,3 +241,6 @@ function EMPSSelector_ensure_line(id,settings){
 		EMPSSelector_newline(id,0,settings);
 	}
 }
+
+window.sink = function(){
+};

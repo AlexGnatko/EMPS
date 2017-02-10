@@ -140,6 +140,10 @@ ngted_app.controller('ngted_controller', function($rootScope, $scope, $http, $lo
 		$scope = angular.extend($scope, ngted_custom);
 	}
 	
+	if((typeof $scope.extender) != "undefined"){
+		$scope.extender($rootScope, $scope, $http, $location, $timeout);
+	}
+	
 	$scope.init();
 	
 
