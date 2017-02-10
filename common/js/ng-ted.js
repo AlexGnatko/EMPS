@@ -82,7 +82,16 @@ ngted_app.controller('ngted_controller', function($rootScope, $scope, $http, $lo
 		$("#ngtedEditModal").modal("show");
 	}
 	
+	$scope.can_save = function(){
+		return true;
+	};
+	
 	$scope.save_current = function(){
+		
+		if(!$scope.can_save()){
+			return;
+		}
+		
 		var row = $scope.row;
 		var mode = $scope.editmode;
 		
