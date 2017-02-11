@@ -26,6 +26,10 @@ class EMPS_NGTed {
 		
 		$this->pad_templates[] = "ngted/pads,%s";
 	}
+	
+	public function handle_list_response($response){
+		return $response;
+	}
 
 	public function json_list($st, $perp){
 		global $emps, $start, $perpage;
@@ -60,6 +64,8 @@ class EMPS_NGTed {
 		$response['list'] = $lst;
 		$response['path'] = $emps->elink();
 		$response['code'] = "OK";
+		
+		$response = $this->handle_list_response($response);
 		
 		echo json_encode($response);
 	}

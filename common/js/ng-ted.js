@@ -30,12 +30,16 @@ ngted_app.controller('ngted_controller', function($rootScope, $scope, $http, $lo
 	$scope.row = ngted_share.row;
 	$scope.after_load = function(scope){};
 	
+	$scope.handle_list_response = function(response){
+	};
+	
 	$scope.load_rows = function(){
 		$http.get("./?json=list&start="+$scope.start+"&perpage="+$scope.perpage).success(function (response) {
 			if(response.code == 'OK'){
 				$scope.list = response.list;
 				$location.path(response.path);
 				$scope.pages = response.pages;
+				$scope.handle_list_response(response);
 			}
 		});
 	};
