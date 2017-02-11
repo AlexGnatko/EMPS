@@ -1,0 +1,67 @@
+{{if !$format}}
+{{assign var="format" value="DD.MM.YYYY"}}
+{{/if}}
+
+<script>
+
+emps_scripts.push(function(){
+	moment.locale('ru');
+	
+	$("{{$selector}}").daterangepicker({
+{{if $timepicker}}
+		"timePicker": true,
+		"timePicker24Hour": true,
+{{/if}}
+		"autoUpdateInput": false,
+		"autoApply": true,
+		"locale": {
+			"format": "{{$format}}",
+			"separator": " - ",
+			"applyLabel": "Применить",
+			"cancelLabel": "Отмена",
+			"fromLabel": "С",
+			"toLabel": "По",
+			"customRangeLabel": "Особый",
+			"weekLabel": "Н",
+			"daysOfWeek": [
+				"Вс",
+				"Пн",
+				"Вт",
+				"Ср",
+				"Чт",
+				"Пт",
+				"Сб"
+			],
+			"monthNames": [
+				"Январь",
+				"Февраль",
+				"Март",
+				"Апрель",
+				"Май",
+				"Июнь",
+				"Июль",
+				"Август",
+				"Сентябрь",
+				"Октябрь",
+				"Ноябрь",
+				"Декабрь"
+			],
+			"firstDay": 1
+		}
+
+	}, function(start, end, label) {
+		$("{{$from}}").val(start.format('{{$format}}'));
+		$("{{$to}}").val(end.format('{{$format}}'));
+		
+		if(typeof window.on_date_change == 'function'){
+			window.on_date_change("{{$selector}}");
+		}
+	});
+	
+  $('{{$selector}}').on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('{{$format}}') + ' - ' + picker.endDate.format('{{$format}}'));
+  });
+
+	
+});
+</script>
