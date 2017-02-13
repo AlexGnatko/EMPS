@@ -538,6 +538,23 @@ class EMPS_Auth {
 		}
 	}
 	
+	public function list_user_groups($user_id){
+		global $emps;
+		
+		$r = $emps->db->query("select * from ".TP."e_users_groups where user_id = ".$user_id." and context_id in (".$emps->website_ctx.",".
+		$emps->default_ctx.")");
+		
+		$groups = array();
+		while($ra = $emps->db->fetch_named($r)){
+			$groups[$ra['group_id']] = true;
+		}
+		$gl = array();
+		foreach($groups as $n => $v){
+			$gl[] = $n;
+		}
+		return $gl;
+	}
+	
 	public function delete_from_group($user_id,$group_id,$context_id){
 		global $emps;
 		$context_id+=0;
