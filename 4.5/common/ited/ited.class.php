@@ -181,6 +181,7 @@ class EMPS_ImprovedTableEditor {
 		$emps->loadvars();
 		
 		$sd = $row['id'];
+		$ss = ""; $key = "";
 		$row['clink'] = $emps->elink();
 		$emps->loadvars();
 		
