@@ -8,6 +8,7 @@
   "dependencies": {
 	"angular": "latest",
 	"jquery": "latest",
-	"jquery-ui": "latest"
+	"jquery-ui": "latest",
+	"clipboard": "latest"
   }
 }
