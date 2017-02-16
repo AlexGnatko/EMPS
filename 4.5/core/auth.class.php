@@ -477,7 +477,10 @@ class EMPS_Auth {
 
             $sig = md5($sigq.OAUTH_MAILRU_PRIVATE_KEY);
 
-            $result = file_get_contents("http://www.appsmail.ru/platform/api?".$query."&sig=".$sig);
+            $url = "http://www.appsmail.ru/platform/api?".$query."&sig=".$sig;
+            error_log($url);
+
+            $result = file_get_contents($url);
 
             error_log($result);
 
