@@ -213,7 +213,7 @@ class EMPS_Auth {
 		
 				
 		$client = new oauth_client_class;
-		$client->debug = 1;
+		//$client->debug = 1;
 		$client->debug_http = 1;
 		$config_file = EMPS_SCRIPT_PATH.'/modules/oauth/oauth_configuration.json';
 		if(!file_exists($config_file)){
@@ -297,15 +297,15 @@ class EMPS_Auth {
 		}
 		
 		if($mode == 'finish'){
-			error_log("OAUTH: mode: finish");
+			//error_log("OAUTH: mode: finish");
 			if(($success = $client->Initialize()))
 			{
-                error_log("OAUTH: Initialize = true");
+//                error_log("OAUTH: Initialize = true");
 				if(($success = $client->Process())){
-                    error_log("OAUTH: Process = true");
+//                    error_log("OAUTH: Process = true");
 					if(strlen($client->access_token))
 					{
-                        error_log("OAUTH: access_token = true");
+//                        error_log("OAUTH: access_token = true");
 						$data = $this->oauth_user_data($client, $target);
 						
 						if($data['user_id']){
