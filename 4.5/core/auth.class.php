@@ -213,8 +213,8 @@ class EMPS_Auth {
 		
 				
 		$client = new oauth_client_class;
-//		$client->debug = 1;
-//		$client->debug_http = 1;
+		$client->debug = 1;
+		$client->debug_http = 1;
 		$config_file = EMPS_SCRIPT_PATH.'/modules/oauth/oauth_configuration.json';
 		if(!file_exists($config_file)){
 			$config_file = $emps->common_module("oauth/oauth_configuration.json");
