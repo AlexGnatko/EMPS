@@ -463,7 +463,7 @@ class EMPS_Auth {
 		}
 
         if($target == 'mailru'){
-			error_log("TARGET: Mail.ru")
+			error_log("TARGET: Mail.ru");
 
             $params = array(
                 "app_id=".OAUTH_MAILRU_ID,
