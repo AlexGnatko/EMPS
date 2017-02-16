@@ -86,6 +86,11 @@ emps_scripts.push(function(){
 {{else}}
 <script src="/bower_components/angular/angular.min.js"></script>
 {{/if}}
+
+    {{if $lang == 'ru'}}
+		<script src="/bower_components/angular-i18n/angular-locale_ru-ru.js"></script>
+    {{/if}}
+
 {{else}}
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.js"></script>
 {{if $lang == 'ru'}}
