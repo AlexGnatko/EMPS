@@ -242,8 +242,15 @@ class EMPS_Auth {
 				$client->server = 'OK';
 				$client->scope = '';		
 				$proto = "https";
-				break;				
-			case 'facebook':
+				break;
+            case 'mailru':
+                $client->client_id = OAUTH_MAILRU_ID;
+                $client->client_secret = OAUTH_MAILRU_SECRET;
+                $client->server = 'MailRu';
+                $client->scope = '';
+                $proto = "https";
+                break;
+            case 'facebook':
 				$client->client_id = OAUTH_FB_ID;
 				$client->client_secret = OAUTH_FB_SECRET;				
 				$client->server = 'Facebook';
@@ -269,8 +276,8 @@ class EMPS_Auth {
 		$path = $x[0];
 		$url = $proto."://".$host.$path."?provider=".$target;
 		
-		if(($target == 'ok' || $target == 'google') && $mode == 'start'){
-			$_SESSION['ok_back_redirect'] = $path;
+		if(($target == 'ok' || $target == 'google' || $target == 'facebook') && $mode == 'start'){
+			$_SESSION['oauth_back_redirect'] = $path;
 			$url = $proto."://".$host."/"."?provider=".$target;
 		}
 		
@@ -301,8 +308,9 @@ class EMPS_Auth {
 						if($data['user_id']){
 							$userword = $target.'-'.$data['user_id'];
 							
-							if($target == 'ok'){
-								$path = $_SESSION['ok_back_redirect'];
+							if($_SESSION['oauth_back_redirect']){
+								$path = $_SESSION['oauth_back_redirect'];
+								unset($_SESSION['oauth_back_redirect']);
 							}
 							
 							$oauth_id = $this->oauth_id($userword);
@@ -426,12 +434,9 @@ class EMPS_Auth {
 				'https://www.googleapis.com/oauth2/v3/userinfo', 
 				'GET', array(), array('FailOnAccessError'=>true), $user);
 		}
-		
-		if($target == 'ok'){		
-/*			$success = $client->CallAPI(
-				'http://api.odnoklassniki.ru/fb.do', 
-				'GET', array('application_key'=>OAUTH_OK_PUBLIC, 'method'=>'users.getCurrentUser','format'=>'json'), array('FailOnAccessError'=>true), $user);*/
-			
+
+		if($target == 'ok'){
+
 			$params = array(
 				"application_key=".OAUTH_OK_PUBLIC,
 				"format=json",
@@ -445,10 +450,6 @@ class EMPS_Auth {
 			$s2 = md5($client->access_token.OAUTH_OK_SECRET);
 			$sig = md5($sigq.$s2);
 			
-//			dump($client->access_token);
-//			echo $sigq.$s2."<br/>";			
-//			echo $query."<br/>";
-			
 			$result = file_get_contents("http://api.odnoklassniki.ru/fb.do?".$query."&sig=".$sig);
 			
 			$user = json_decode($result);
@@ -456,8 +457,30 @@ class EMPS_Auth {
 				$success = true;
 			}
 		
-//			dump($user);exit();
 		}
+
+        if($target == 'mailru'){
+
+            $params = array(
+                "app_id=".OAUTH_MAILRU_ID,
+                "method=users.getInfo",
+				"secure=1",
+				"session_key=".$client->access_token
+            );
+
+            $sigq = implode("", $params);
+            $query = implode("&", $params);
+
+            $sig = md5($sigq.$client->access_token.OAUTH_MAILRU_PRIVATE_KEY);
+
+            $result = file_get_contents("http://www.appsmail.ru/platform/api?".$query."&sig=".$sig);
+
+            $user = json_decode($result);
+            if(isset($user->uid)){
+                $success = true;
+            }
+
+        }
 		
 		$data = array();
 		if($success){
@@ -491,6 +514,15 @@ class EMPS_Auth {
 				$data['link'] = "http://odnoklassniki.ru/profile/".$user->uid;
 				$data['profile_image'] = $user->pic_1;
 			}
+            if($target == 'mailru'){
+//				dump($user);exit();
+                $data['user_id'] = $user->uid;
+                $data['firstname'] = $user->first_name;
+                $data['lastname'] = $user->last_name;
+                $data['email'] = $user->email;
+                $data['link'] = $user->link;
+                $data['profile_image'] = $user->pic_big;
+            }
 			if($target == 'facebook'){
 
 				$data['user_id'] = $user->id;

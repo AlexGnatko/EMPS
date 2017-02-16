@@ -11,6 +11,13 @@
 	],
 	"servers":
 	{
+		"MailRu":
+		{
+			"oauth_version": "2.0",
+			"dialog_url": "https://connect.mail.ru/oauth/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}",
+			"access_token_url": "https://connect.mail.ru/oauth/token"
+		},
+
 		"OK":
 		{
 			"oauth_version": "2.0",
