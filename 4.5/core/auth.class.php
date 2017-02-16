@@ -478,6 +478,8 @@ class EMPS_Auth {
 
             $result = file_get_contents("http://www.appsmail.ru/platform/api?".$query."&sig=".$sig);
 
+            error_log($result);
+
             $user = json_decode($result);
             if(isset($user->uid)){
                 $success = true;
