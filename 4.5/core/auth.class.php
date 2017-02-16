@@ -199,7 +199,7 @@ class EMPS_Auth {
 		}
 	}
 	
-	public function base64Decode_jwt($string)
+	public function base64Decode_jwt($data)
 	{
 		$decoded = str_pad($data,4 - (strlen($data) % 4),'=');
 		return base64_decode(strtr($decoded, '-_', '+/'));
@@ -214,7 +214,7 @@ class EMPS_Auth {
 				
 		$client = new oauth_client_class;
 		//$client->debug = 1;
-		$client->debug_http = 1;
+		//$client->debug_http = 1;
 		$config_file = EMPS_SCRIPT_PATH.'/modules/oauth/oauth_configuration.json';
 		if(!file_exists($config_file)){
 			$config_file = $emps->common_module("oauth/oauth_configuration.json");
