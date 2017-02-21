@@ -8,7 +8,7 @@
 {{assign var="elst" value=$enum.$xenum}}
 {{section name=i loop=$elst step=$step}}
 {{if (($max+0>0) && ($elst[i].code+0 <= $max)) || (!$max)}}
-<option value="{{$elst[i].code}}" {{if $elst[i].code eq $value}}selected{{/if}} {{if $elst[i].def && (!isset($value))}}selected{{/if}}>{{$elst[i].value}}</option>
+<option value="{{$elst[i].code}}" {{if $elst[i].code eq $value}}selected{{/if}} {{if $elst[i].def && (!isset($value))}}selected{{/if}} style="{{if $backgrounds}}background-color:{{$enum.$backgrounds[i].value}}{{/if}}">{{$elst[i].value}}</option>
 {{/if}}
 {{/section}}
 </select>
