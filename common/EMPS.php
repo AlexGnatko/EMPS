@@ -1037,7 +1037,7 @@ class EMPS_Common {
 		$scl=floor($GLOBALS[$this->page_var]/$perpage)-4;
 		if($scl<0) $scl=0;
 		
-		if($f>9) $f=9;
+		if($f>7) $f=7;
 		
 		if($f+$scl>$cf) $scl=$cf-$f;
 		
