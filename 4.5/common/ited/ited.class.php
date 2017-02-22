@@ -273,8 +273,9 @@ class EMPS_ImprovedTableEditor {
 				}
 				
 				if(!$rv){
-					$emps->db->sql_update($this->table_name,'id='.$this->ref_id);
 					$this->row = $emps->db->get_row($this->table_name,'id='.$this->ref_id);
+					$this->row = $this->handle_display($this->row);
+					$emps->db->sql_update($this->table_name,'id='.$this->ref_id);
 					$emps->p->save_properties($_POST,$this->context_id,$this->track_props);
 					
 					$this->after_save($this->ref_id);
