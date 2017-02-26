@@ -966,6 +966,11 @@ class EMPS_Common {
 	public function common_module($file_name){
 		return $this->common_module_ex($file_name, 0);
 	}
+
+	public function core_module($file_name){
+	    // for now it's a stub
+	    return EMPS_COMMON_PATH_PREFIX."/core/".$file_name.".php";
+    }
 	
 	public function try_plain_file($path, $file_name){
 		if(isset($this->require_cache['plain_file_try'][$path][$file_name])){
@@ -1706,6 +1711,7 @@ class EMPS_Common {
 			}	
 		}
 	}
+
 }
 
 ?>
