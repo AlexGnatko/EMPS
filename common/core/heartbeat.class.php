@@ -33,12 +33,14 @@ class EMPS_Heartbeat {
         $active = null;
         do {
             $mrc = curl_multi_exec($mh, $active);
+            sleep(1);
         } while ($mrc == CURLM_CALL_MULTI_PERFORM);
 
         while ($active && $mrc == CURLM_OK) {
             if (curl_multi_select($mh) != -1) {
                 do {
                     $mrc = curl_multi_exec($mh, $active);
+                    sleep(1);
                 } while ($mrc == CURLM_CALL_MULTI_PERFORM);
             }
         }
