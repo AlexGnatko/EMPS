@@ -40,6 +40,7 @@ class EMPS_Heartbeat {
             $mrc = curl_multi_exec($mh, $active);
             sleep(1);
             error_log("mrc: ".$mrc);
+            break;
         } while ($mrc == CURLM_CALL_MULTI_PERFORM);
 
         while ($active && $mrc == CURLM_OK) {
@@ -48,8 +49,10 @@ class EMPS_Heartbeat {
                     $mrc = curl_multi_exec($mh, $active);
                     error_log("mrc: ".$mrc);
                     sleep(1);
+                    break;
                 } while ($mrc == CURLM_CALL_MULTI_PERFORM);
             }
+            break;
         }
 
         foreach($this->ch as $ch){
