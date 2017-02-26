@@ -57,13 +57,13 @@ class EMPS_Heartbeat {
             break;
         }*/
 
-/*
+
         $running = 0;
 
         do {
             curl_multi_exec($mh, $running);
             curl_multi_select($mh);
-        } while ($running > 0);*/
+        } while ($running > 0);
 
         foreach($this->ch as $ch){
             curl_multi_remove_handle($mh, $ch);
