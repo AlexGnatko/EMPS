@@ -16,7 +16,7 @@ class EMPS_Heartbeat {
     }
 
     public function execute(){
-        set_time_limit(60);
+//        set_time_limit(60);
 
         foreach($this->queue as $url){
             $ch = curl_init();
@@ -34,7 +34,7 @@ class EMPS_Heartbeat {
         foreach($this->ch as $ch) {
             curl_multi_add_handle($mh, $ch);
         }
-
+/*
         $active = null;
         do {
             $mrc = curl_multi_exec($mh, $active);
@@ -53,7 +53,14 @@ class EMPS_Heartbeat {
                 } while ($mrc == CURLM_CALL_MULTI_PERFORM);
             }
             break;
-        }
+        }*/
+
+        $running = 0;
+        
+        do {
+            curl_multi_exec($mh, $running);
+            curl_multi_select($mh);
+        } while ($running > 0);
 
         foreach($this->ch as $ch){
             curl_multi_remove_handle($mh, $ch);
