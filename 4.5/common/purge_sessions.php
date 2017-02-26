@@ -24,6 +24,10 @@ if($last_purge < (time() - 15*60)){
 		$tlst = implode(", ", $lst);
 		$emps->db->query("delete from ".TP."e_browsers where id in (".$tlst.")");
 	}
+
+	$emps->service_blacklist();
+
+	file_get_contents(EMPS_SCRIPT_WEB."/sqlsync/");
 }
 
 ?>

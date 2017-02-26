@@ -15,7 +15,7 @@
 -- WARNING! If you are RENAMING a column instead of adding, and want the new column to keep the data from the old column,
 -- then have the field manually renamed in the database. Otherwise the script will create another column with no data.
 
--- Please put "-- table" before each table creationg statement. That's to make it easier to divide the code into
+-- Please put "-- table" before each table creating statement. That's to make it easier to divide the code into
 -- individual statments.
 
 -- Table name is the piece of text inside the first occurence of a pair of ` accents in a table statement.
@@ -249,6 +249,22 @@ CREATE TEMPORARY TABLE `temp_e_browsers` (
   `cdt` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- table
+CREATE TEMPORARY TABLE `temp_e_blacklist` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `ip` varchar(255) NOT NULL,
+  `adt` bigint NOT NULL,
+  `edt` bigint NOT NULL,
+  `cdt` bigint NOT NULL,
+  `dt` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `adt` (`adt`),
+  KEY `edt` (`edt`),
+  KEY `cdt` (`cdt`),
+  KEY `dt` (`dt`),
+  KEY `ip` (`ip`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- table
