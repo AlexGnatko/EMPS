@@ -18,16 +18,21 @@ class EMPS_Heartbeat {
     public function execute(){
         set_time_limit(60);
 
-        $mh = curl_multi_init();
-
         foreach($this->queue as $url){
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
             curl_setopt($ch, CURLOPT_HEADER, 0);
 
-            curl_multi_add_handle($mh, $ch);
+            error_log("Heartbeat: ".$url);
 
             $this->ch[] = $ch;
+        }
+
+        $mh = curl_multi_init();
+
+        foreach($this->ch as $ch) {
+            curl_multi_add_handle($mh, $ch);
         }
 
         $active = null;
