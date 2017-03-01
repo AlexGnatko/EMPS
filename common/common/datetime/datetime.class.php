@@ -1,12 +1,14 @@
 <?php
 require_once("Date.php");
 
-class EMPS_DateTime {
-	public $zones;
-	public $ussr_zones;
-	
-	public function __construct(){
-		$zones="
+class EMPS_DateTime
+{
+    public $zones;
+    public $ussr_zones;
+
+    public function __construct()
+    {
+        $zones = "
 Africa/Abidjan
 Africa/Accra
 Africa/Addis_Ababa
@@ -575,17 +577,17 @@ UTC
 W-SU
 WET
 Zulu";
-		$x=explode("\n",$zones);
-		$this->zones=array();
-		while(list($n,$v)=each($x)){
-			$vle=trim($v);
-			if(!$vle){
-				continue;
-			}
-			$this->zones[]=$vle;
-		}
-		
-		$rzones="
+        $x = explode("\n", $zones);
+        $this->zones = array();
+        while (list($n, $v) = each($x)) {
+            $vle = trim($v);
+            if (!$vle) {
+                continue;
+            }
+            $this->zones[] = $vle;
+        }
+
+        $rzones = "
 Asia/Almaty
 Asia/Aqtobe
 Asia/Ashgabat
@@ -612,48 +614,49 @@ Europe/Kiev
 Europe/Moscow
 ";
 
-		$x=explode("\n",$rzones);
-		$this->ussr_zones=array();
-		while(list($n,$v)=each($x)){
-			$vle=trim($v);
-			if(!$vle){
-				continue;
-			}
-			$this->ussr_zones[]=$vle;
-		}
-		
-	}
-	
-	public function get_uct($mday,$month,$year,$hour,$min,$sec,$zone){
-		$d = new Date(sprintf("%d-%02d-%02d %02d:%02d:%02d",$year,$month,$mday,$hour,$min,$sec));
-		$d->setTZByID($zone);
-		if(array_search($zone,$this->ussr_zones)===FALSE){
-		}else{
-			$add=false;
-			if($year<1981){
-				$add=true;
-			}elseif($year==1981){
-				if($month<=4){
-					if($day<=1){
-						if($hour<=3){
-							$add=true;
-						}
-					}
-				}
-			}
-			if($add){
-				// add 1 hour for USSR timezones for dates prior to 3AM April 1, 1981
-				$d->addSeconds(60*60);			
-			}
-		}
-		$d->convertTZByID('UTC');
-		$format=$d->format("%Y-%m-%d %H:%M:%S");
-		$rv=$format;
-		if($add){
-			$rv.="|USSR<=1981";
-		}
-		return $rv;
-	}
+        $x = explode("\n", $rzones);
+        $this->ussr_zones = array();
+        while (list($n, $v) = each($x)) {
+            $vle = trim($v);
+            if (!$vle) {
+                continue;
+            }
+            $this->ussr_zones[] = $vle;
+        }
+
+    }
+
+    public function get_uct($mday, $month, $year, $hour, $min, $sec, $zone)
+    {
+        $d = new Date(sprintf("%d-%02d-%02d %02d:%02d:%02d", $year, $month, $mday, $hour, $min, $sec));
+        $d->setTZByID($zone);
+        if (array_search($zone, $this->ussr_zones) === FALSE) {
+        } else {
+            $add = false;
+            if ($year < 1981) {
+                $add = true;
+            } elseif ($year == 1981) {
+                if ($month <= 4) {
+                    if ($mday <= 1) {
+                        if ($hour <= 3) {
+                            $add = true;
+                        }
+                    }
+                }
+            }
+            if ($add) {
+                // add 1 hour for USSR timezones for dates prior to 3AM April 1, 1981
+                $d->addSeconds(60 * 60);
+            }
+        }
+        $d->convertTZByID('UTC');
+        $format = $d->format("%Y-%m-%d %H:%M:%S");
+        $rv = $format;
+        if ($add) {
+            $rv .= "|USSR<=1981";
+        }
+        return $rv;
+    }
 }
 
 ?>
