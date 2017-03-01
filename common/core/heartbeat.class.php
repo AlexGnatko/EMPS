@@ -5,8 +5,8 @@
  */
 class EMPS_Heartbeat
 {
-    public $queue = [];
-    public $ch = [];
+    public $queue = array();
+    public $ch = array();
 
     public function add_url($url)
     {

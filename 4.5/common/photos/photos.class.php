@@ -508,6 +508,15 @@ class EMPS_Photos
             }
         }
 
+        if (stristr($url, ".png")) {
+            $filename = "file.png";
+            $type = "image/png";
+        }
+        if (stristr($url, ".gif")) {
+            $filename = "file.gif";
+            $type = "image/gif";
+        }
+
         $path = parse_url($url, PHP_URL_PATH);
 
         $x = explode("/", $path);
