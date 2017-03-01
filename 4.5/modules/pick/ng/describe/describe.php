@@ -51,4 +51,3 @@ if (!isset($pick)) {
 $emps->no_smarty = true;
 $pick->handle_request();
 
-?>

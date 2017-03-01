@@ -28,4 +28,3 @@ if (!$user) {
         echo "User 'root' exists. No action needed.";
     }
 }
-?>

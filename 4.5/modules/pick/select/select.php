@@ -10,4 +10,3 @@ $smarty->assign("lister", "/pick-list/$type/");
 $smarty->assign("lang", $emps->lang);
 
 $smarty->display("db:_pick/select,selector");
-?>

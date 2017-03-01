@@ -11,4 +11,3 @@ if ($key) {
 } else {
     echo "ERROR";
 }
-?>

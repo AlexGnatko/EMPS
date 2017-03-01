@@ -31,4 +31,3 @@ while ($ra = $emps->db->fetch_named($r)) {
         echo "Delayed: $to ($msg_id), status " . ($status + 1) . "</br>";
     }
 }
-?>

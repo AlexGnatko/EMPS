@@ -19,4 +19,3 @@ require_once "local/local.php";                        // local settings for con
 
 require_once "EMPS/4.5/emps_bootstrap.php";            // The main logic of the index.php file
 
-?>

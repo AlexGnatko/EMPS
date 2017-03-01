@@ -91,4 +91,3 @@ if (!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/")
     }
 }
 
-?>

@@ -45,4 +45,3 @@ while ($ra = $emps->db->fetch_named($r)) {
         echo "ERROR: " . $to . "<br/>";
     }
 }
-?>

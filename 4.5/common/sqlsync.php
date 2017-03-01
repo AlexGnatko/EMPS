@@ -202,4 +202,3 @@ if ($emps->auth->credentials("admin") || $emps->is_empty_database() || true) {
     }
 }
 
-?>

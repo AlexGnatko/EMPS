@@ -102,4 +102,3 @@ $smarty->assign("lst", $lst);
 $smarty->assign("lang", $emps->lang);
 
 $smarty->display("db:_pick/list");
-?>

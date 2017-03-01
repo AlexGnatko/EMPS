@@ -79,4 +79,3 @@ class EMPS_SessionHandler implements SessionHandlerInterface
     }
 }
 
-?>

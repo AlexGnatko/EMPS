@@ -27,5 +27,3 @@ if (isset($emps->enum[$code])) {
 
 echo json_encode($response);
 
-
-?>

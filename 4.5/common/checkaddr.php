@@ -8,4 +8,3 @@ if ($emps->auth->credentials("users")) {
         echo "no";
     }
 }
-?>

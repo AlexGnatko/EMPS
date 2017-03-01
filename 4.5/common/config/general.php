@@ -11,13 +11,12 @@ ini_set("session.use_only_cookies", "1");
 ini_set("magic_quotes_runtime", "0");
 
 $emps_bots = array(
-'YandexBot',
-'SputnikBot',
-'YandexMetrika',
-'Yahoo! Slurp',
-'bingbot',
-'StackRambler',
-'Googlebot',
+    'YandexBot',
+    'SputnikBot',
+    'YandexMetrika',
+    'Yahoo! Slurp',
+    'bingbot',
+    'StackRambler',
+    'Googlebot',
 );
 
-?>

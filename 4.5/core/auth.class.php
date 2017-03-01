@@ -814,4 +814,3 @@ class EMPS_Auth
     }
 }
 
-?>

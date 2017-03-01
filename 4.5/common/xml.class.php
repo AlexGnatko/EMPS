@@ -46,4 +46,3 @@ class Simple_XMLParser
     }
 }
 
-?>

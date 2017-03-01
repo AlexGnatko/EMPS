@@ -30,4 +30,3 @@ if ($last_purge < (time() - 15 * 60)) {
     file_get_contents(EMPS_SCRIPT_WEB . "/sqlsync/");
 }
 
-?>

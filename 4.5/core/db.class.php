@@ -318,4 +318,3 @@ class EMPS_DB
     }
 }
 
-?>

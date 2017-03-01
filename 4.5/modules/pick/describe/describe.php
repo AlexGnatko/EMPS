@@ -34,4 +34,3 @@ if ($object) {
 } else {
     echo "ERROR";
 }
-?>

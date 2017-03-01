@@ -86,5 +86,3 @@ class EMPS_Diff
 
     }
 }
-
-?>

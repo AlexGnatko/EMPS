@@ -19,4 +19,3 @@ if ($emps->auth->credentials("admin")) {
         }
     }
 }
-?>

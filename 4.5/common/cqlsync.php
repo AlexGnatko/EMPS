@@ -13,4 +13,3 @@ if ($emps->auth->credentials("admin")) {
 } else {
     echo "No access!";
 }
-?>

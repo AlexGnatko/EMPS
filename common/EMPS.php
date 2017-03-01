@@ -1807,5 +1807,3 @@ class EMPS_Common
     }
 
 }
-
-?>

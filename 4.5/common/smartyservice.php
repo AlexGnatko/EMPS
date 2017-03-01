@@ -19,4 +19,3 @@ $smarty->clearCompiledTemplate(null, null, $hours * 60 * 60);
 
 echo "Cleared!";
 
-?>

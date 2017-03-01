@@ -28,4 +28,3 @@ if (!$setting) {
     echo "Set order_mailto\r\n";
 }
 
-?>

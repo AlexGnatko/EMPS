@@ -119,4 +119,3 @@ if ($emps->lang == "en") {
 }
 
 $ited->handle_request();
-?>

@@ -20,5 +20,3 @@ if ($row) {
     $emps->redirect_page("/badkey/");
 }
 
-
-?>

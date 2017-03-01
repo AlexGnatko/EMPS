@@ -64,4 +64,3 @@ imagesavealpha($im, true);
 imagepng($im);
 imagedestroy($im);
 
-?>

@@ -180,4 +180,3 @@ if ($emps->virtual_path && !$emps->fast) {
 }
 
 exit();            // Invoke EMPS class destructor for clean shutdown
-?>

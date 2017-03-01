@@ -22,4 +22,3 @@ if ($key) {
     fclose($f);
 }
 
-?>
