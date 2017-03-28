@@ -431,6 +431,7 @@ class EMPS_ImprovedTableEditor
             }
             if ($_POST['action_kill']) {
                 if ($this->can_delete()) {
+                    $this->pre_kill($this->ref_id);
                     $emps->db->query('delete from ' . TP . $this->table_name . ' where id=' . $this->ref_id);
                     $this->after_kill($this->ref_id);
 

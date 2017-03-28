@@ -270,6 +270,13 @@ class EMPS_Auth
                 $client->server = 'Facebook';
                 $client->scope = '';
                 break;
+            case 'yandex':
+                $client->client_id = OAUTH_YANDEX_ID;
+                $client->client_secret = OAUTH_YANDEX_SECRET;
+                $client->server = 'Yandex';
+                $client->scope = '';
+                $proto = "https";
+                break;
             case 'google':
                 $client->client_id = OAUTH_GOOGLE_ID;
                 $client->client_secret = OAUTH_GOOGLE_SECRET;
@@ -290,7 +297,7 @@ class EMPS_Auth
         $path = $x[0];
         $url = $proto . "://" . $host . $path . "?provider=" . $target;
 
-        if (($target == 'ok' || $target == 'google' || $target == 'facebook') && $mode == 'start') {
+        if (($target == 'ok' || $target == 'google' || $target == 'facebook' || $target == 'yandex') && $mode == 'start') {
             $_SESSION['oauth_back_redirect'] = $path;
             $url = $proto . "://" . $host . "/" . "?provider=" . $target;
         }
@@ -457,6 +464,12 @@ class EMPS_Auth
                 'GET', array(), array('FailOnAccessError' => true), $user);
         }
 
+        if ($target == 'yandex') {
+            $success = $client->CallAPI(
+                'https://login.yandex.ru/info',
+                'GET', array("format" => "json"), array('FailOnAccessError' => true), $user);
+        }
+
         if ($target == 'ok') {
 
             $params = array(
@@ -569,6 +582,17 @@ class EMPS_Auth
                 $data['email'] = $user->email;
                 $data['gender'] = $user->gender;
                 $data['profile_image'] = $user->picture;
+            }
+            if ($target == 'yandex') {
+                $data['user_id'] = $user->id;
+                $data['firstname'] = $user->first_name;
+                $data['lastname'] = $user->last_name;
+                $data['link'] = $user->login;
+                $data['email'] = $user->default_email;
+                $data['gender'] = $user->sex;
+                if(!$user->is_avatar_empty) {
+                    $data['profile_image'] = "https://avatars.yandex.net/get-yapic/" . $user->default_avatar_id . "/islands-200";
+                }
             }
 
             $data['orig_user'] = json_encode($user);

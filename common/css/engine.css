@@ -119,3 +119,7 @@ ins {
 	background-size:cover;
 	background-position:center;
 }
+
+.uploader-list .preview img {
+    max-width:100%;
+}
