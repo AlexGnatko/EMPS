@@ -317,13 +317,13 @@ class EMPS_Auth
         }
 
         if ($mode == 'finish') {
-            error_log("OAUTH: mode: finish");
+//            error_log("OAUTH: mode: finish");
             if (($success = $client->Initialize())) {
-                error_log("OAUTH: Initialize = true");
+//                error_log("OAUTH: Initialize = true");
                 if (($success = $client->Process())) {
-                    error_log("OAUTH: Process = true");
+//                    error_log("OAUTH: Process = true");
                     if (strlen($client->access_token)) {
-                        error_log("OAUTH: access_token = true");
+//                        error_log("OAUTH: access_token = true");
                         $data = $this->oauth_user_data($client, $target);
 
                         if ($data['user_id']) {
