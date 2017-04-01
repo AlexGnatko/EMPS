@@ -1,5 +1,5 @@
 <?php
-if ($emps->auth->credentials("admin")):
+if ($emps->auth->credentials("admin,seo")):
     include($emps->common_module('ted/ted.class.php'));
 
 
