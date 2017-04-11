@@ -723,60 +723,6 @@ class EMPS_Common
         return false;
     }
 
-    /**
-     * Add the current remote IP address to the black list (or update the timestamps if it already exists)
-     *
-     *
-     */
-    public function add_to_blacklist()
-    {
-        $term = 180 * 24 * 60 * 60;
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $row = $this->db->get_row("e_blacklist", "ip = '" . $ip . "'");
-
-        $ur = array();
-        $ur['edt'] = time() + $term;
-        $ur['adt'] = time();
-
-        if ($row) {
-            $update = ['SET' => $ur];
-            $this->db->sql_update_row("e_blacklist", $update, "id = " . $row['id']);
-        } else {
-            $ur['ip'] = $ip;
-            $update = ['SET' => $ur];
-            $this->db->sql_insert_row("e_blacklist", $update);
-        }
-
-        $this->service_blacklist();
-    }
-
-    /**
-     * Check if the current remote IP address is blacklisted
-     *
-     *
-     */
-    public function is_blacklisted()
-    {
-        $ip = $_SERVER['REMOTE_ADDR'];
-
-        $row = $this->db->get_row("e_blacklist", "ip = '" . $ip . "'");
-        if ($row) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Delete expired items from the black list
-     *
-     *
-     */
-    public function service_blacklist()
-    {
-        $this->db->query("delete from " . TP . "e_blacklist where edt < " . time());
-    }
-
     public function try_page_file_name($page_name, $first_name, $include_name, $type, $path, $lang)
     {
         $fn = $path . '/modules/' . $page_name;

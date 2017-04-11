@@ -268,6 +268,21 @@ CREATE TEMPORARY TABLE `temp_e_blacklist` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- table
+CREATE TEMPORARY TABLE `temp_e_watchlist` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `ip` varchar(255) NOT NULL,
+  `cnt` bigint NOT NULL,
+  `cdt` bigint NOT NULL,
+  `dt` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cnt` (`cnt`),
+  KEY `cdt` (`cdt`),
+  KEY `dt` (`dt`),
+  KEY `ip` (`ip`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+
+-- table
 CREATE TEMPORARY TABLE `temp_e_sessions` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,

@@ -481,5 +481,135 @@ class EMPS extends EMPS_Common
         }
     }
 
+    /**
+     * Add the current remote IP address to the black list (or update the timestamps if it already exists)
+     *
+     *
+     */
+    public function add_to_blacklist()
+    {
+        $term = 180 * 24 * 60 * 60;
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $row = $this->db->get_row("e_blacklist", "ip = '" . $ip . "'");
+
+        $ur = array();
+        $ur['edt'] = time() + $term;
+        $ur['adt'] = time();
+
+        if ($row) {
+            $update = ['SET' => $ur];
+            $this->db->sql_update_row("e_blacklist", $update, "id = " . $row['id']);
+        } else {
+            $ur['ip'] = $ip;
+            $update = ['SET' => $ur];
+            $this->db->sql_insert_row("e_blacklist", $update);
+        }
+
+        $this->service_blacklist();
+    }
+
+    /**
+     * Add the current remote IP address to the black list (or update the timestamps if it already exists)
+     *
+     *
+     */
+    public function add_to_blacklist_term($term)
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $row = $this->db->get_row("e_blacklist", "ip = '" . $ip . "'");
+
+        $ur = array();
+        $ur['edt'] = time() + $term;
+        $ur['adt'] = time();
+
+        if ($row) {
+            $update = ['SET' => $ur];
+            $this->db->sql_update_row("e_blacklist", $update, "id = " . $row['id']);
+        } else {
+            $ur['ip'] = $ip;
+            $update = ['SET' => $ur];
+            $this->db->sql_insert_row("e_blacklist", $update);
+        }
+
+        $this->service_blacklist();
+    }
+
+    /**
+     * Check if the current remote IP address is blacklisted
+     *
+     *
+     */
+    public function is_blacklisted()
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        $row = $this->db->get_row("e_blacklist", "ip = '" . $ip . "'");
+        if ($row) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Delete expired items from the black list
+     *
+     *
+     */
+    public function service_blacklist()
+    {
+        $this->db->query("delete from " . TP . "e_blacklist where edt < " . time());
+    }
+
+    public function failed_antibot()
+    {
+        global $emps;
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        error_log("Failed antibot: " . $ip);
+
+        $row = $this->db->get_row("e_watchlist", "ip = '" . $ip . "'");
+        if ($row) {
+            $cnt = $row['cnt'] + 1;
+
+            $update = array();
+            $update['SET'] = array('cnt' => $cnt);
+            $emps->db->sql_update_row("e_watchlist", $update, "id = ".$row['id']);
+
+        }else{
+            $cnt = 1;
+            $ur = array();
+            $ur['ip'] = $ip;
+            $ur['cnt'] = $cnt;
+            $update = array();
+            $update['SET'] = $ur;
+            $emps->db->sql_insert_row("e_watchlist", $update);
+        }
+
+        if($cnt > 5){
+            $this->add_to_blacklist_term(30 * 60);
+        }
+        if($cnt > 10){
+            $this->add_to_blacklist_term(6 * 60 * 60);
+        }
+        if($cnt > 20){
+            $this->add_to_blacklist_term(24 * 60 * 60);
+        }
+    }
+
+    public function passed_antibot()
+    {
+        global $emps;
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        $row = $this->db->get_row("e_watchlist", "ip = '" . $ip . "'");
+        if ($row) {
+            $cnt = $row['cnt'] + 1;
+
+            $update = array();
+            $update['SET'] = array('cnt' => 0);
+            $emps->db->sql_update_row("e_watchlist", $update, "id = ".$row['id']);
+        }
+    }
 }
 

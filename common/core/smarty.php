@@ -190,6 +190,12 @@ if (defined('EMPS_PRE_MINIFY')) {
         /* Minify the html */
         function smarty_pre_minify($tpl_source, Smarty_Internal_Template $template)
         {
+            global $emps;
+
+            if($emps->dont_minify){
+                return $tpl_source;
+            }
+
             return preg_replace('/[\r\n]+/s', "\r\n", preg_replace('/[ \t]+/s', ' ', $tpl_source));
         }
 
