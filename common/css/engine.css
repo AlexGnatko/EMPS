@@ -123,3 +123,10 @@ ins {
 .uploader-list .preview img {
     max-width:100%;
 }
+
+.emps-pick-row {
+	cursor: pointer;
+	display:block;
+	height:100%;
+	width:100%;
+}

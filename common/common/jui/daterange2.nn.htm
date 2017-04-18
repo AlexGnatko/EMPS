@@ -14,6 +14,9 @@ emps_scripts.push(function(){
 {{/if}}
 		"autoUpdateInput": false,
 		"autoApply": true,
+{{if $parentEl}}
+		"parentEl": "{{$parentEl}}",
+{{/if}}
 		"locale": {
 			"format": "{{$format}}",
 			"separator": " - ",
