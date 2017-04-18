@@ -189,7 +189,13 @@ class EMPS extends EMPS_Common
             $this->settings_cache = array_merge($default_settings, $website_settings);
 //			dump($this->settings_cache);
         }
-        return $this->settings_cache[$code];
+        $rv = $this->settings_cache[$code];
+        if(isset($rv)){
+            if(intval($this->settings_cache['_full'][$code]['id']) > 0){
+                return $rv;
+            }
+        }
+        return NULL;
     }
 
     public function website_by_host($hostname)
