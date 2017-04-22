@@ -1780,7 +1780,7 @@ class EMPS_Common
         $this->prand_seed = $val;
         //echo $val;
 
-        $diff = abs($max - $min);
+        $diff = abs($max - $min) + 1;
         $rv = $val / (100000 / $diff);
         $rv += $min;
         return $rv;
