@@ -1760,16 +1760,21 @@ class EMPS_Common
      * Used in {{syn v=""}} to select variants pseudo-randomly based on the page URL seed
      */
     public function prand($min, $max){
-        $cv = $this->prand_seed * $this->prand_seed ;
+        $pv = $this->prand_seed;
+        $cv = $this->prand_seed * $this->prand_seed + 7;
         //echo $cv." => ";
         $val = $cv / 10;
         $val = $val % 100000;
 
         if($val == 0){
-            $val = 11781;
+            $val = 15891;
         }
         if($val == 1){
             $val = 21131;
+        }
+
+        if($pv == $val){
+            $val += 7;
         }
 
         $this->prand_seed = $val;
