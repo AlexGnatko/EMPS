@@ -158,11 +158,29 @@ function smarty_JA($params, Smarty_Internal_Template $template)
     return '}}';
 }
 
+function smarty_syn($params, Smarty_Internal_Template $template)
+{
+    global $emps;
+
+    if(isset($params['v'])) {
+        $x = explode("|", $params['v']);
+        $id = $emps->prand(0, count($x) - 1);
+        return $x[$id];
+    }
+    if(isset($params['seed'])){
+        $emps->prand_md5_seed($params['seed']);
+    }
+    if(isset($params['urlseed'])){
+        $emps->prand_md5_seed(md5($emps->URI));
+    }
+}
+
 $smarty->registerPlugin("function", "emps", "smarty_emps");
 
 // Angular JS markup helpers
 $smarty->registerPlugin("function", "AJ", "smarty_AJ");
 $smarty->registerPlugin("function", "JA", "smarty_JA");
+$smarty->registerPlugin("function", "syn", "smarty_syn");
 
 function smarty_modifier_hyp($v)
 {

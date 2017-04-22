@@ -75,6 +75,8 @@ class EMPS_Common
 
     public $json_options = 0;
 
+    public $prand_seed = 17131;
+
     public function __construct()
     {
         $this->lang = $GLOBALS['emps_lang'];
@@ -1750,6 +1752,43 @@ class EMPS_Common
                 }
             }
         }
+    }
+
+    /**
+     * Pseudo-random number generator
+     *
+     * Used in {{syn v=""}} to select variants pseudo-randomly based on the page URL seed
+     */
+    public function prand($min, $max){
+        $cv = $this->prand_seed * $this->prand_seed ;
+        //echo $cv." => ";
+        $val = $cv / 10;
+        $val = $val % 100000;
+
+        $this->prand_seed = $val;
+        //echo $val;
+
+        $diff = abs($max - $min);
+        $rv = $val / (100000 / $diff);
+        $rv += $min;
+        return $rv;
+    }
+
+    /**
+     * Create a 5-digital-digit prand_seed from an md5 string
+     *
+     * A few digits of the md5 string will be cut out of the middle of the string, converted to integer, and limited at 11111-99999
+     *
+     * @param $md string The input md5 string
+     *
+     * @return string
+     */
+
+    public function prand_md5_seed($md5){
+        $s = substr($md5, 8, 6);
+        $int = intval($s, 16);
+        $v = $int % 88889;
+        return $v + 11111;
     }
 
 }
