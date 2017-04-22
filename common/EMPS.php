@@ -1781,7 +1781,7 @@ class EMPS_Common
      *
      * @param $md string The input md5 string
      *
-     * @return string
+     * @return int
      */
 
     public function prand_md5_seed($md5){
@@ -1790,5 +1790,27 @@ class EMPS_Common
         $v = $int % 88889;
         return $v + 11111;
     }
+
+    /**
+     * Pseudo-random shuffling of an array
+     *
+     * Unlike the original shuffle(), this one will generate the same pseudo-random results depending on the initial prand_seed
+     *
+     * @param $array &array The array to shuffle
+     *
+     * @return bool
+     */
+    public function prand_shuffle(&$array)
+    {
+        $l = count($array);
+        for($i = 0; $i < $l; $i++){
+            $v = $array[$i];
+            $idx = $this->prand(0, $l - 1);
+            $array[$i] = $array[$idx];
+            $array[$idx] = $v;
+        }
+        return true;
+    }
+
 
 }
