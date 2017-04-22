@@ -1788,7 +1788,8 @@ class EMPS_Common
         $s = substr($md5, 8, 6);
         $int = intval($s, 16);
         $v = $int % 88889;
-        return $v + 11111;
+        $this->prand_seed = $v + 11111;
+        return $this->prand_seed;
     }
 
     /**
