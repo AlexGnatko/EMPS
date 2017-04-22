@@ -1765,6 +1765,13 @@ class EMPS_Common
         $val = $cv / 10;
         $val = $val % 100000;
 
+        if($val == 0){
+            $val = 11781;
+        }
+        if($val == 1){
+            $val = 21131;
+        }
+
         $this->prand_seed = $val;
         //echo $val;
 
