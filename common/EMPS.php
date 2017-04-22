@@ -1777,7 +1777,7 @@ class EMPS_Common
     /**
      * Create a 5-digital-digit prand_seed from an md5 string
      *
-     * A few digits of the md5 string will be cut out of the middle of the string, converted to integer, and limited at 11111-99999
+     * A few digits of the md5 string will be cut out of the middle of the string, converted to integer, and limited at 11111-29999
      *
      * @param $md string The input md5 string
      *
@@ -1787,7 +1787,7 @@ class EMPS_Common
     public function prand_md5_seed($md5){
         $s = substr($md5, 8, 6);
         $int = intval($s, 16);
-        $v = $int % 88889;
+        $v = $int % 28889;
         $this->prand_seed = $v + 11111;
         return $this->prand_seed;
     }
