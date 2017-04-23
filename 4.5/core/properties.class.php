@@ -71,12 +71,14 @@ class EMPS_Properties
 
     public function remove_empty_idx($ra)
     {
+        $rv = array();
         foreach ($ra as $n => $v) {
             if (!$v) {
-                unset($ra[$n]);
+                continue;
             }
+            $rv[] = $v;
         }
-        return $ra;
+        return $rv;
     }
 
     public function treat_multiline_properties($context_id, $lst)
