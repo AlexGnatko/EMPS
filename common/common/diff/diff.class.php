@@ -5,7 +5,7 @@ require_once 'Horde/Autoloader/ClassPathMapper.php';
 require_once 'Horde/Autoloader/ClassPathMapper/Default.php';
 
 $autoloader = new Horde_Autoloader();
-$autoloader->addClassPathMapper( new Horde_Autoloader_ClassPathMapper_Default('') );
+$autoloader->addClassPathMapper( new Horde_Autoloader_ClassPathMapper_Default(EMPS_INCLUDE_PATH) );
 $autoloader->registerAutoloader();
 
 class EMPS_Diff_Renderer extends Horde_Text_Diff_Renderer
