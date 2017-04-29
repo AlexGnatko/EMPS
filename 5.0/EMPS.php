@@ -354,4 +354,3 @@ class EMPS extends EMPS_Common {
 	}
 }
 
-?>

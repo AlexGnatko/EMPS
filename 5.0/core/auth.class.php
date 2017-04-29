@@ -123,7 +123,7 @@ class EMPS_Auth extends EMPS_Auth_Common {
 	
 	function user_credentials($user__id, $lst){
 		global $emps;
-	
+
 		if(!$user__id){
 			return false;
 		}
@@ -185,4 +185,3 @@ class EMPS_Auth extends EMPS_Auth_Common {
 	}
 }
 
-?>

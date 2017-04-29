@@ -17,4 +17,3 @@ if(file_exists($emps_require_file)){
 require_once EMPS_PATH_PREFIX."/common/config/data.php";		// Common data constants. Not defined if already defined in the previous script
 
 require_once "EMPS/common/emps_bootstrap.php";
-?>

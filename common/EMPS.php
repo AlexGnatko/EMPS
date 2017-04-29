@@ -34,17 +34,17 @@ class EMPS_Common
     /**
      * @var $settings_cache Cache array to store website settings
      */
-    private $settings_cache = false;
+    public $settings_cache = false;
 
     /**
      * @var $content_cache Cache array to store content pages
      */
-    private $content_cache = array();
+    public $content_cache = array();
 
     /**
      * @var $require_cache Cache array to store the resolved paths of files looked up with page_file_name()
      */
-    private $require_cache = array();
+    public $require_cache = array();
 
     public $no_smarty = false;
 

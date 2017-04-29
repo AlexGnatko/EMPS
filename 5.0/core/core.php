@@ -16,5 +16,3 @@ if(!$emps->fast){
 	require_once EMPS_PATH_PREFIX."/core/auth.class.php";
 	require_once EMPS_COMMON_PATH_PREFIX."/core/smarty.php";
 }
-
-?>

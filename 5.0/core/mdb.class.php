@@ -16,6 +16,8 @@ class EMPS_MongoDB {
 		$this->mongo = new MongoDB\Driver\Manager($emps_mongodb_config['url'], $emps_mongodb_config['options']);
 		$this->mdb = new MongoDB\Database($this->mongo, $emps_mongodb_config['database']);
 		$this->database_name = $emps_mongodb_config['database'];
+
+		unset($emps_mongodb_config);
 	}	
 	
 	public function __destruct(){
@@ -225,4 +227,3 @@ class EMPS_MongoDB {
 	}
 }
 
-?>

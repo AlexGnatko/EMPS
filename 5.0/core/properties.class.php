@@ -41,4 +41,3 @@ class EMPS_Properties {
 	}
 }
 
-?>

@@ -8,4 +8,3 @@
 define('EMPS_PATH_PREFIX', 'EMPS/5.0');
 
 require_once "EMPS/common/emps_worker_bootstrap.php";
-?>
