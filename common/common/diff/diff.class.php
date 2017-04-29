@@ -4,6 +4,7 @@ include_once 'Horde/Text/Diff.php';
 include_once 'Horde/Text/Diff/Renderer.php';
 include_once 'Horde/Text/Diff/Renderer/Unified.php';
 include_once 'Horde/Text/Diff/Renderer/Inline.php';
+include_once 'Horde/Text/Diff/Engine/Native.php';
 include_once 'Horde/Util.php';
 include_once 'Horde/String.php';
 
