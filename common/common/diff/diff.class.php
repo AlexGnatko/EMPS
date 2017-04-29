@@ -78,7 +78,7 @@ class EMPS_Diff
         $hlines2 = explode("\n", $text2);
 
         // create the diff object
-        $diff = new Horde_Text_Diff($hlines1, $hlines2);
+        $diff = new Horde_Text_Diff('auto', [$hlines1, $hlines2]);
 
         // get the diff in unified format
         // you can add 4 other parameters, which will be the ins/del prefix/suffix tags
