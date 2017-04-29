@@ -4,6 +4,8 @@ include_once 'Horde/Text/Diff.php';
 include_once 'Horde/Text/Diff/Renderer.php';
 include_once 'Horde/Text/Diff/Renderer/Unified.php';
 include_once 'Horde/Text/Diff/Renderer/Inline.php';
+include_once 'Horde/Util.php';
+include_once 'Horde/String.php';
 
 class EMPS_Diff_Renderer extends Horde_Text_Diff_Renderer
 {
