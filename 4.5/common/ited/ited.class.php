@@ -456,6 +456,7 @@ class EMPS_ImprovedTableEditor
                 $this->group . ' ' . $this->having . ' ' . $this->order . ' limit ' . $start . ',' . $perpage;
 //				echo $q;
             $r = $emps->db->query($q);
+            $this->last_sql_query = $q;
 //			echo $emps->db->sql_error();
             $lst = array();
             $smarty->assign("pages", $emps->count_pages($emps->db->found_rows()));
