@@ -1377,11 +1377,13 @@ class EMPS_Common
         $addr = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         if ($protocol == 'https') {
             if ($_SERVER['HTTPS'] != 'on') {
+                header("HTTP/1.1 301 Moved Permanently");
                 header("Location: https://" . $addr);
                 exit();
             }
         } elseif ($protocol == 'http') {
             if ($_SERVER['HTTPS'] == 'on') {
+                header("HTTP/1.1 301 Moved Permanently");
                 header("Location: http://" . $addr);
                 exit();
             }

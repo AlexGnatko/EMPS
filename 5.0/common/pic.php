@@ -2,36 +2,41 @@
 
 $emps->no_smarty = true;
 
-require_once($emps->common_module('photos/photos.class.php'));
+require_once $emps->common_module('photos/photos.class.php');
 $photos = new EMPS_Photos;
+$up = $photos->up;
 
-$md5 = $photos->get_pic_md5();
-$r = $emps->db->query("select * from " . TP . "e_uploads where md5='$md5'");
-$ra = $emps->db->fetch_named($r);
-if ($ra) {
-    $id = $ra['id'];
+$filename = $photos->get_pic_md5();
 
-    if ($ra['wmark']) {
-        $fname = $photos->up->upload_filename($id, DT_IMAGEWM);
-    } else {
-        $fname = $photos->up->upload_filename($id, DT_IMAGE);
+$lst = $up->list_files_ex(['filename' => $filename, 'ut' => 'i'], ['limit' => 1, 'sort' => ['_id' => -1]]);
+$file = false;
+if(count($lst) > 0) {
+    $file = $lst[0];
+}
+
+if ($file) {
+
+    if ($file['wmark']) {
+        $file = $up->file_info($file['watermarked_id']);
     }
 
-    $fh = fopen($fname, "rb");
+    $id = $emps->db->oid($file['_id']);
+
+    $fh = $up->bucket->openDownloadStream($id);
 
     if ($fh) {
         ob_end_clean();
 
-        $size = filesize($fname);
+        $size = $file['length'];
 
         if (class_exists('http\Env\Response')) {
 
             $body = new http\Message\Body($fh);
             $resp = new http\Env\Response;
 
-            $resp->setContentType($ra['type']);
+            $resp->setContentType($file['content_type']);
             $resp->setHeader("Content-Length", $size);
-            $resp->setHeader("Last-Modified", date("r", $ra['dt']));
+            $resp->setHeader("Last-Modified", date("r", $file['dt']));
             $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * 7));
             $resp->setHeader("Pragma", "");
             $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
@@ -40,9 +45,9 @@ if ($ra) {
             $resp->setBody($body);
             $resp->send();
         }else{
-            header("Content-Type: image/jpeg");
+            header("Content-Type: ".$file['content_type']);
             header("Content-Length: " . $size);
-            header("Last-Modified: ", date("r", $ra['dt']));
+            header("Last-Modified: ", date("r", $file['dt']));
             header("Expires: ", date("r", time() + 60 * 60 * 24 * 7));
             header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
 

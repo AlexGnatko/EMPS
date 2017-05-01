@@ -135,6 +135,9 @@ class EMPS extends EMPS_Common {
 		if(!is_array($this->settings_cache)){
 			$this->load_settings();
 		}
+		if(!isset($this->settings_cache[$code])){
+		    return false;
+        }
 		return $this->settings_cache['dt'];
 	}
 	

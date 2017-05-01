@@ -1,6 +1,7 @@
 <?php
 
 class EMPS_Properties {
+    private $cleanups = array();
 	
 	public function get_context($type, $subtype, $ref_id){
 		global $emps;
@@ -39,5 +40,17 @@ class EMPS_Properties {
 		$row = $emps->db->get_row("emps_contexts", array('query' => array('_id' => $_id)));
 		return $row;
 	}
+
+    public function register_cleanup($call)
+    {
+        reset($this->cleanups);
+        while (list($n, $v) = each($this->cleanups)) {
+            if (get_class($v[0]) == get_class($call[0])) {
+                return false;
+            }
+        }
+        $this->cleanups[] = $call;
+        return true;
+    }
 }
 

@@ -13,4 +13,3 @@ if(!$this->can_save()){
 
 $biup->handle_request($this->context_id);
 
-?>

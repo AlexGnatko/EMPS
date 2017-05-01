@@ -10,6 +10,8 @@ var logged_on = false;
 </script>
 {{/if}}
 
+
+
 {{if $page.simple_file_uploader}}
 <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
 <script src="/js/fileupload/load-image.min.js" defer></script>
@@ -22,8 +24,9 @@ var logged_on = false;
 <!-- The File Upload Angular JS module -->
 <script src="/js/fileupload/jquery.fileupload-angular.js" defer></script>
 {{else}}
+
 {{if $page.blueimp_uploader}}
-{{include file="db:photos/blueimp/headscripts"}}
+{{include file="db:files/blueimp/headscripts"}}
 {{/if}}
 {{/if}}
 

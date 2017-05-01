@@ -11,7 +11,6 @@ class EMPS_ImprovedTableEditor {
 	
 	public $id_field = "id";
 	
-	public $track_props = '';	
 	public $table_name = "";
 	public $credentials = "admin";
 

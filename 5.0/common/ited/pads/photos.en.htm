@@ -1,0 +1,22 @@
+<h5 class="subhead">Upload images with size limiting</h5>
+
+{{if $ExportMode}}
+<div class="form-group">
+<textarea class="form-control" rows="15">{{$txt|escape:html}}</textarea>
+</div>
+<a href="./" class="btn btn-default">Back</a>
+{{else}}
+<div class="row">
+<div class="col-md-12">
+<p>
+<span class="pull-right"><a href="./?export=1" class="btn btn-info btn-xs">Export</a></span>
+Select one or more pictures to upload</p>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-12">
+{{include file="db:photos/blueimp/uploader"}}
+</div>
+</div>
+{{/if}}

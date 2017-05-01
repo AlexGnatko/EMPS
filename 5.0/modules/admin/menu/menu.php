@@ -4,8 +4,6 @@ require_once $emps->common_module('ited/ited.class.php');
 class EMPS_MenuEditor extends EMPS_ImprovedTableEditor {
 	public $ref_sub = 1;
 
-	public $doc_filter = P_MENU;	
-	
 	public $table_name = "emps_menu";
 	
 	public $credentials = "admin";

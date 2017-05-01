@@ -49,6 +49,11 @@ class EMPS_MongoDB {
 		$this->collection_cache[$collection_name] = $collection;
 		return $collection;
 	}
+
+	public function gridfs_bucket(){
+	    $bucket = $this->mdb->selectGridFSBucket(['bucketName' => 'empsfs']);
+	    return $bucket;
+    }
 	
 	public function free_collection($collection_name){
 		if(isset($this->collection_cache[$collection_name])){
