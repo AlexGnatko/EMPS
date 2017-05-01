@@ -9,6 +9,9 @@ if (!defined('EMPS_HOST_NAME')) {
 
 $emps_force_hostname = true;
 
+// enable this option if you're running the website on localhost to enable sessions
+//$emps_localhost_mode = true;
+
 define('EMPS_SCRIPT_WEB', 'http://' . EMPS_HOST_NAME);
 define('EMPS_SCRIPT_URL_FOLDER', '');
 
