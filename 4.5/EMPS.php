@@ -329,11 +329,13 @@ class EMPS extends EMPS_Common
 
         if (isset($this->content_cache[$uri])) return $this->content_cache[$uri];
 
-        $q = "select * from " . TP . "e_content where uri='$uri' and context_id = " . $this->website_ctx;
+        $euri = $this->db->sql_escape($uri);
+
+        $q = "select * from " . TP . "e_content where uri='$euri' and context_id = " . $this->website_ctx;
         $r = $this->db->query($q);
         $ra = $this->db->fetch_named($r);
         if (!$ra) {
-            $q = "select * from " . TP . "e_content where uri='$uri' and context_id = " . $this->default_ctx;
+            $q = "select * from " . TP . "e_content where uri='$euri' and context_id = " . $this->default_ctx;
             $r = $this->db->query($q);
             $ra = $this->db->fetch_named($r);
         }

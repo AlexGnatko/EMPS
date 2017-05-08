@@ -17,6 +17,12 @@ emps_scripts.push(function(){
 {{if $parentEl}}
 		"parentEl": "{{$parentEl}}",
 {{/if}}
+	{{if $start_date}}
+		"startDate": "{{$start_date}}",
+	{{/if}}
+	{{if $end_date}}
+		"endDate": "{{$end_date}}",
+	{{/if}}
 		"locale": {
 			"format": "{{$format}}",
 			"separator": " - ",
@@ -53,6 +59,7 @@ emps_scripts.push(function(){
 		}
 
 	}, function(start, end, label) {
+
 		$("{{$from}}").val(start.format('{{$format}}'));
 		$("{{$to}}").val(end.format('{{$format}}'));
 		
