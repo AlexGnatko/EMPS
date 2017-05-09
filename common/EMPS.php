@@ -1690,6 +1690,10 @@ class EMPS_Common
         echo json_encode($response, $this->json_options);
     }
 
+    public function array_info($array){
+        return json_encode($array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    }
+
     function indexes_list($ar)
     {
         reset($ar);
