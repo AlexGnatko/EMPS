@@ -290,7 +290,7 @@ class EMPS_ImprovedTableEditor
                 }
 
                 $rv = false;
-                if (isset($_POST['orig'])) {
+                if (isset($_POST['orig']) && $GLOBALS['emps_html_orig']) {
                     $rv = $this->handle_orig();
                 }
 
