@@ -10,21 +10,25 @@
 {{assign var="str_del" value="Удалить"}}
 {{/if}}
 
+{{if !$item}}
+{{assign var="item" value=$lst[i]}}
+{{/if}}
+
 <div class="btn-group">
-  <a href="{{$lst[i].nlink}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp; {{$str_edit}}</a>
+  <a href="{{$item.nlink}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp; {{$str_edit}}</a>
   <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
 {{if $row_html}}  
-    <li><a href="{{$lst[i].ilink}}"><span class="glyphicon glyphicon-header"></span>&nbsp; HTML</a>  
+    <li><a href="{{$item.ilink}}"><span class="glyphicon glyphicon-header"></span>&nbsp; HTML</a>  
 {{/if}}    
-    <li><a href="{{$lst[i].plink}}"><span class="glyphicon glyphicon-list"></span>&nbsp; {{$str_props}}</a>      
-    <li><a href="{{$lst[i].hlink}}"><span class="glyphicon glyphicon-camera"></span>&nbsp; {{$str_photos}}</a>      
+    <li><a href="{{$item.plink}}"><span class="glyphicon glyphicon-list"></span>&nbsp; {{$str_props}}</a>      
+    <li><a href="{{$item.hlink}}"><span class="glyphicon glyphicon-camera"></span>&nbsp; {{$str_photos}}</a>      
 {{$extra_actions}}
 	<li class="divider"></li>
 {{if !$no_delete}}
-    <li><a href="javascript:delete_modal('{{$lst[i].klink}}')">&times; &nbsp; {{$str_del}}</a></li>
+    <li><a href="javascript:delete_modal('{{$item.klink}}')">&times; &nbsp; {{$str_del}}</a></li>
 {{/if}}
   </ul>
 </div>
