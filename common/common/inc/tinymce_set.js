@@ -39,7 +39,7 @@ var emps_tinymce_settings = {
 {{else}}
 	toolbar1: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent "+
 	"| link image charmap emoticons | code ",
-	toolbar2: "forecolor backcolor | paste | table",
+	toolbar2: "forecolor backcolor | paste | table | blockquote",
 {{/if}}
 	image_advtab: true,
     table_class_list: [
