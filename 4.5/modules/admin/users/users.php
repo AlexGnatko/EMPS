@@ -34,6 +34,8 @@ if ($emps->auth->credentials("root")):
                 $v = trim($v);
                 $emps->auth->add_to_group($id, $v);
             }
+
+            $emps->auth->ensure_fullname(['id' => $id]);
         }
 
         public function handle_kill($id)
