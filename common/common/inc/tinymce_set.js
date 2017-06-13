@@ -33,6 +33,7 @@ var emps_tinymce_settings = {
 	relative_urls: false,
 	document_base_url: "",	
 	plugins : ["code image charmap paste anchor searchreplace visualblocks visualchars link","table emoticons textcolor"],
+	paste_auto_cleanup_on_paste : true,
 {{if $tinymce_short}}
 	toolbar1: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent "+
 	"| link image charmap emoticons | code ",
