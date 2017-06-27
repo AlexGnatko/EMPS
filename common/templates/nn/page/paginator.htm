@@ -1,5 +1,8 @@
 {{if $pages.count > 1}}
 <ul class="pagination {{if $size == "lg"}}pagination-lg{{/if}}">
+{{if $all_link}}
+  <li><a href="{{$all_link}}"{{$linkextra}}>Все</a></li>
+{{/if}}
   <li><a href="{{$pages.first.link}}"{{$linkextra}}><i class="glyphicon glyphicon-fast-backward"></i></a></li>
 {{if $pmode != "short"}}  
   <li><a href="{{$pages.prev.link}}"{{$linkextra}}><i class="glyphicon glyphicon-backward"></i></a></li>
