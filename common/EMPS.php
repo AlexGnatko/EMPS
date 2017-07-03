@@ -1831,5 +1831,13 @@ class EMPS_Common
         return true;
     }
 
+    /**
+     * Set the maximum execution time of the script to unlimited / 12 hours.
+     */
+    public function no_time_limit(){
+        ini_set("max_execution_time",60*60*12);
+        set_time_limit(0);
+        ignore_user_abort(true);
+    }
 
 }
