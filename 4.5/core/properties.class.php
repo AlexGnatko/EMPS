@@ -42,12 +42,13 @@ class EMPS_Properties
         $SET['dt'] = time();
         $SET['status'] = 0;
 
-        $row = $emps->db->get_row("e_properties", "context_id=$context_id and code='$code' and status=0 and idx=$idx");
+        $row = $emps->db->get_row("e_properties", "context_id = ".$context_id." and code = '".$code."' and status = 0 and idx = ".$idx);
         if (!$row) {
             $emps->db->sql_insert("e_properties");
         } else {
             if (!$history) {
                 $emps->db->sql_update("e_properties", "id=" . $row['id']);
+                $emps->db->query("delete from ".TP."e_properties where context_id = ".$context_id." and code = '".$code."' and status = 0 and idx = ".$idx." and id <> ".$row['id']);
             } else {
                 if ($row[$field] == $value) {
                 } else {
