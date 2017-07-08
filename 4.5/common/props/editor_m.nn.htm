@@ -29,6 +29,7 @@
 <form action="." method="post" id="delete_form">
 <input type="hidden" name="post_delete" value="0" id="post_delete_prop"/>
 <input type="hidden" name="post_export" value="0" id="post_export_prop"/>
+    <input type="hidden" name="post_export_text" value="0" id="post_export_prop_text"/>
 <table class="table table-striped table-condensed">
 <tr valign="top">
 <th class="lt" width="20">&nbsp;</th>
@@ -47,6 +48,7 @@
 <div class="col-md-8">
 <p><button type="button" class="btn btn-danger" onclick="props_delete_selected()" >{{$str_delete_selected}}</button>
 <button type="button" class="btn btn-info" onclick="props_export_selected()" >{{$str_export_selected}}</button>
+    <button type="button" class="btn btn-info" onclick="props_export_selected_txt()" >{{$str_export_selected}} (.txt)</button>
 </p>
 </div>
 <div class="col-md-4">
@@ -70,6 +72,13 @@ function props_export_selected(){
 	$("#post_delete_prop").val(0);
 	$("#post_export_prop").val(1);
 	$("#delete_form").submit();
+}
+
+function props_export_selected_txt(){
+    $("#post_delete_prop").val(0);
+    $("#post_export_prop").val(1);
+    $("#post_export_prop_text").val(1);
+    $("#delete_form").submit();
 }
 </script>
 <form action="." method="post" class="form" role="form">

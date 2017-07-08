@@ -86,22 +86,33 @@ class EMPS_PropertiesEditor
             exit();
         }
         if ($_POST['post_export']) {
-            $list = array();
-            foreach ($_POST['sel'] as $n => $v) {
-                $n = intval($n);
-                $row = $emps->db->get_row("e_properties", "id = " . $n);
-                unset($row['id']);
-                unset($row['context_id']);
-                unset($row['dt']);
-                foreach ($row as $n => $v) {
-                    if (!$v) {
-                        unset($row[$n]);
-                    }
+            if($_POST['post_export_text']){
+                $code = "";
+                foreach ($_POST['sel'] as $n => $v) {
+                    $n = intval($n);
+                    $row = $emps->db->get_row("e_properties", "id = " . $n);
+                    $code .= $row['code']."\t=\t".$row['v_text']."\r\n";
                 }
-                $list[] = $row;
+
+                $smarty->assign("exportcode", $code);
+            }else {
+                $list = array();
+                foreach ($_POST['sel'] as $n => $v) {
+                    $n = intval($n);
+                    $row = $emps->db->get_row("e_properties", "id = " . $n);
+                    unset($row['id']);
+                    unset($row['context_id']);
+                    unset($row['dt']);
+                    foreach ($row as $n => $v) {
+                        if (!$v) {
+                            unset($row[$n]);
+                        }
+                    }
+                    $list[] = $row;
+                }
+                $code = json_encode($list);
+                $smarty->assign("exportcode", $code);
             }
-            $code = json_encode($list);
-            $smarty->assign("exportcode", $code);
         }
 
         $data = $emps->p->read_properties(array(), $this->context_id);
