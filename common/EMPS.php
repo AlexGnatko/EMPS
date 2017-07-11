@@ -353,6 +353,11 @@ class EMPS_Common
         $this->page_properties[$name] = $value;
     }
 
+    /**
+     * Copy properties from a content item (page)
+     *
+     * @param $code string Page URI
+     */
     public function copy_properties($code)
     {
         // Load properties from get_content_data for the content item $code and save them as $page_properies
@@ -363,6 +368,23 @@ class EMPS_Common
         unset($props['_full']);
 
         $this->page_properties = array_merge($this->page_properties, $props);
+    }
+
+    /**
+     * Set properties from a text file (can be obtained from a Smarty template with $lang and {{syn...}} applied)
+     *
+     * @param $code string Property codes followed by "equals" signs and property values, one property per line
+     */
+    public function parse_properties($code)
+    {
+        $x = explode("\n", $code);
+        foreach($x as $v){
+            $v = trim($v);
+            $xx = explode("=", $v);
+            $code = trim($xx[0]);
+            $value = trim($xx[1]);
+            $this->page_properties[$code] = $value;
+        }
     }
 
     /**
