@@ -1,0 +1,27 @@
+{
+  "name": "EMPS/EMPS",
+  "type": "project",
+  "description": "EMPS web framework",
+  "authors": [
+    {
+      "name": "Alex Gnatko",
+      "email": "agnatko@gmail.com"
+    }
+  ],
+  "config": {
+    "secure-http": false
+  },
+  "repositories": [
+    {
+      "type": "pear",
+      "url": "http://pear.php.net"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.0",
+    "smarty/smarty": ">=3.0.0",
+    "pear-pear.php.net/MIME_Type": "*",
+    "pear-pear.php.net/Mail": "*",
+    "pear-pear.php.net/Mail_MIME": "*"
+  }
+}
