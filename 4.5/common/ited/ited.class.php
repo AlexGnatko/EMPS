@@ -369,7 +369,7 @@ class EMPS_ImprovedTableEditor
 
         if (file_exists($fn) && $this->can_view_pad()) {
             $smarty->assign('subpage', $this->current_pad('view'));
-            require_once($fn);
+            require_once $fn;
         }
 
         $smarty->assign('context_id', $this->context_id);
@@ -561,7 +561,7 @@ class EMPS_ImprovedTableEditor
             $file = $this->ajax_template($start, 'controller');
 
             if ($file) {
-                require_once($file);
+                require_once $file;
             }
         } else {
             echo "ACCESS DENIED. Please log in again.";

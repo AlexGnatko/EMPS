@@ -9,7 +9,7 @@ $emps->db->query("delete from $tn where status=50 and sdt<$dt and sdt>0");
 $r = $emps->db->query("select * from $tn where status<>50 order by status asc, sdt asc limit 20");
 $dt = time();
 
-require_once($emps->common_module("mail/mail.class.php"));
+require_once $emps->common_module("mail/mail.class.php");
 
 $mail = new EMPS_Mail;
 

@@ -3,7 +3,7 @@ $emps->no_smarty = true;
 
 if ($emps->auth->credentials("admin")) {
     if ($key) {
-        require_once($emps->common_module('videos/videos.class.php'));
+        require_once $emps->common_module('videos/videos.class.php');
         $videos = new EMPS_Videos;
 
         $x = explode(",", $key);

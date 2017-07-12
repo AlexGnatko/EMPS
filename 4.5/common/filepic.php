@@ -1,8 +1,6 @@
 <?php
 $emps->no_smarty = true;
 
-require_once 'HTTP/Download.php';
-
 if ($key) {
     $file = $emps->db->get_row("e_files", "md5='$key'");
 

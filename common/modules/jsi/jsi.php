@@ -20,7 +20,8 @@ $fname = stream_resolve_include_path($uri);
 
 if (file_exists($fname)) {
 
-    require_once 'MIME/Type.php';
+    // no need with Composer
+    // require_once 'MIME/Type.php';
 
     $type = new MIME_Type();
     $type->useFinfo = false;

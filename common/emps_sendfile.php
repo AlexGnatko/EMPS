@@ -39,8 +39,6 @@ if (!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/")
     }
 
     if ($go) {
-        require_once 'MIME/Type.php';
-
         $type = new MIME_Type();
         $type->useFinfo = false;
         $type->useMimeContentType = false;

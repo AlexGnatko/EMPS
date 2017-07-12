@@ -150,7 +150,7 @@ class EMPS_Common
         $plugins = $this->common_module('smarty.plugins.php');
 
         if (file_exists($plugins)) {
-            require_once($plugins);
+            require_once $plugins;
         }
     }
 

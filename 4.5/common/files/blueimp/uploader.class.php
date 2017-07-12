@@ -1,5 +1,5 @@
 <?php
-require_once($emps->common_module('uploads/uploads.class.php'));
+require_once $emps->common_module('uploads/uploads.class.php');
 
 class EMPS_BlueimpUploader {
 	public $context_id = 0;

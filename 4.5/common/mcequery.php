@@ -1,5 +1,5 @@
 <?php
-require_once($emps->common_module('videos/videos.class.php'));
+require_once $emps->common_module('videos/videos.class.php');
 
 $photos = new EMPS_Photos;
 $videos = new EMPS_Videos;
@@ -182,4 +182,3 @@ if ($emps->auth->credentials("users")) {
     }
 }
 
-?>

@@ -1,7 +1,8 @@
 <?php
 global $emps;
 
-require_once "Smarty3/libs/Smarty.class.php";
+// With composer, we no longer need this
+//require_once "Smarty3/libs/Smarty.class.php";
 
 $smarty = new Smarty;
 
@@ -225,4 +226,3 @@ $fn = $emps->common_module('config/smarty/modifiers.php');
 if (file_exists($fn)) {
     require_once $fn;
 }
-?>

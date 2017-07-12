@@ -713,7 +713,7 @@ class EMPS_Auth
 
         $smarty->assign("url", $link);
 
-        require_once($emps->common_module("mail/mail.class.php"));
+        require_once $emps->common_module("mail/mail.class.php");
 
         $mail = new EMPS_Mail;
 

@@ -2,7 +2,7 @@
 
 $this->handle_view_row();
 
-require_once($emps->common_module('photos/blueimp/uploader.class.php'));
+require_once $emps->common_module('photos/blueimp/uploader.class.php');
 
 $biup = new EMPS_BlueimpUploader;
 
@@ -37,4 +37,3 @@ if($_GET['export']){
 	$biup->handle_request($this->context_id);
 }
 
-?>

@@ -3,3 +3,5 @@ docs/*
 5.1/*
 4.5/bower_components/*
 4.5/node_modules/*
+vendor/*
+composer.lock

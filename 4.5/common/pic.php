@@ -2,7 +2,7 @@
 
 $emps->no_smarty = true;
 
-require_once($emps->common_module('photos/photos.class.php'));
+require_once $emps->common_module('photos/photos.class.php');
 $photos = new EMPS_Photos;
 
 $md5 = $photos->get_pic_md5();
@@ -53,4 +53,3 @@ if ($ra) {
     }
 
 }
-

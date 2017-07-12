@@ -10,8 +10,10 @@ define('EMPS_COMMON_PATH_PREFIX', 'EMPS/common');
 
 date_default_timezone_set(EMPS_TZ);
 
-// Autoloader
+// EMPS Autoloader
 require_once EMPS_COMMON_PATH_PREFIX . "/emps_autoloader.php";
+// Composer Autoloader
+require_once "EMPS/vendor/autoload.php";
 
 if ($emps_force_hostname) {
     if ($_SERVER['HTTP_HOST'] != EMPS_HOST_NAME) {

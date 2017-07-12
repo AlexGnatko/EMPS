@@ -6,7 +6,7 @@ if ($key) {
 
     if ($file) {
 
-        require_once($emps->common_module('uploads/uploads.class.php'));
+        require_once $emps->common_module('uploads/uploads.class.php');
         $up = new EMPS_Uploads;
 
         $fname = $up->upload_filename($file['id'], DT_FILE);

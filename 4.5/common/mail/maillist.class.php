@@ -1,7 +1,7 @@
 <?php
 require_once $emps->common_module('uploads/uploads.class.php');
-require_once "Mail.php";
-require_once "Mail/mime.php";
+//require_once "Mail.php";
+//require_once "Mail/mime.php";
 
 
 class EMPS_MailList
@@ -164,7 +164,7 @@ class EMPS_MailList
     {
         global $emps;
         $text = $html;
-        require_once($emps->common_module('mail/conversion.php'));
+        require_once $emps->common_module('mail/conversion.php');
 
         return $out;
     }
