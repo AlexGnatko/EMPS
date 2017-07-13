@@ -18,6 +18,9 @@ $emps_paths = array_merge($emps_paths, $emps_extra_paths);
 $path = implode($glue, $emps_paths);
 ini_set('include_path', $path);
 
+// Composer Autoloader
+require_once "EMPS/vendor/autoload.php";
+
 // Initialize data constants
 
 // Local data constants
