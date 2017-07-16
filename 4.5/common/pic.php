@@ -40,7 +40,7 @@ if ($ra) {
             $resp->setBody($body);
             $resp->send();
         }else{
-            header("Content-Type: image/jpeg");
+            header("Content-Type: ".$ra['type']);
             header("Content-Length: " . $size);
             header("Last-Modified: ", date("r", $ra['dt']));
             header("Expires: ", date("r", time() + 60 * 60 * 24 * 7));

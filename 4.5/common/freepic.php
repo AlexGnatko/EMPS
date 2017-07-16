@@ -29,17 +29,17 @@ if ($ra) {
 
         $size = filesize($fname);
 
+        $content_type = "image/jpeg";
+        if (strstr($ra['type'], "jpeg")) {
+        } elseif (strstr($ra['type'], "png")) {
+        } elseif (strstr($ra['type'], "gif")) {
+        } else {
+            $content_type = $ra['type'];
+        }
+
         if (class_exists('http\Env\Response')) {
             $body = new http\Message\Body($fh);
             $resp = new http\Env\Response;
-
-            $content_type = "image/jpeg";
-            if (strstr($ra['type'], "jpeg")) {
-            } elseif (strstr($ra['type'], "png")) {
-            } elseif (strstr($ra['type'], "gif")) {
-            } else {
-                $content_type = $ra['type'];
-            }
 
             $resp->setContentType($content_type);
             $resp->setHeader("Content-Length", $size);
@@ -51,7 +51,8 @@ if ($ra) {
             $resp->setBody($body);
             $resp->send();
         } else {
-            header("Content-Type: image/jpeg");
+
+            header("Content-Type: ".$content_type);
             header("Content-Length: " . $size);
             header("Last-Modified: ", date("r", $ra['dt']));
             header("Expires: ", date("r", time() + 60 * 60 * 24 * 7));

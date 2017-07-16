@@ -9,7 +9,11 @@ class EMPS_Uploads
     public function __construct()
     {
         global $emps;
-        $this->UPLOAD_PATH = EMPS_SCRIPT_PATH . EMPS_UPLOAD_SUBFOLDER;
+        if(defined(EMPS_UPLOAD_PATH)){
+            $this->UPLOAD_PATH = EMPS_UPLOAD_PATH;
+        }else {
+            $this->UPLOAD_PATH = EMPS_SCRIPT_PATH . EMPS_UPLOAD_SUBFOLDER;
+        }
 
         $emps->p->register_cleanup(array($this, 'delete_files_context'));
     }
