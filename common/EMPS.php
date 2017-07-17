@@ -1879,7 +1879,7 @@ class EMPS_Common
 
         if(time() < $next_run){
             $rv['wait'] = true;
-            $rv['nexturn'] = $next_run;
+            $rv['nextrun'] = $next_run;
         }else{
             $this->save_setting($setting_name, time());
         }
