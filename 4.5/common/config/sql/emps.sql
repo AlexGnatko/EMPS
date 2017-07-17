@@ -546,7 +546,7 @@ CREATE TEMPORARY TABLE `temp_e_unique_texts` (
   `dt` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `type_code` (`type_code`),
-  KEY `cdt` (`cdt`),
+  KEY `context_id` (`context_id`),
   KEY `status_yandex` (`status_yandex`),
   KEY `website_ctx` (`website_ctx`),
   KEY `cdt` (`cdt`),
