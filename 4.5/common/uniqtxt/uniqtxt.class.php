@@ -65,7 +65,15 @@ class EMPS_UniqueTexts {
         $text = str_replace(array('<p(>| .*>)', '</p>'), array('', "\r\n\r\n"), $html);
         $text = strip_tags($text);
         $text = html_entity_decode($text);
-        return $text;
+
+        $rtxt = "";
+        $x = explode("\n", $text);
+        foreach($x as $v){
+            $v = trim($v);
+            $rtxt .= $v."\r\n\r\n";
+        }
+
+        return $rtxt;
     }
 
     public function handle_request($context_id, $type_code, $row){
