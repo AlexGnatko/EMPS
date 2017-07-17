@@ -70,6 +70,9 @@ class EMPS_UniqueTexts {
         $x = explode("\n", $text);
         foreach($x as $v){
             $v = trim($v);
+            if(!$v){
+                continue;
+            }
             $rtxt .= $v."\r\n\r\n";
         }
 
