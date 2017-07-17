@@ -7,6 +7,7 @@
     {{if $yandex_token}}
         <p>Но есть свежий токен Яндекса, который можно сохранить:</p>
         {{include file="db:_admin/uniqtxt,token" token=$yandex_token}}
+        <p><a href="./?capture_token=1" class="btn btn-primary">Сохранить этот токен для доступа</a></p>
     {{else}}
         <p>Также отсутствует свежий токен. Попробуйте войти на сайт через OAuth Яндекса.</p>
     {{/if}}
