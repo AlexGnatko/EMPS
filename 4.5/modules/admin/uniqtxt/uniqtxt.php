@@ -8,6 +8,7 @@ if($emps->auth->credentials("users")){
 
         if($_GET['capture_token']){
             $emps->save_setting("yandex_token", json_encode($yandex_token));
+            $emps->redirect_elink(); exit;
         }
     }
     $stored_yandex_token = $emps->get_setting("yandex_token");

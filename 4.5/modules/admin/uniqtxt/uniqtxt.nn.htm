@@ -1,7 +1,8 @@
 <h1>Настройка соединения с API для выгрузки оригинальных текстов</h1>
 <h2>Яндекс.Вебмастер</h2>
 {{if $stored_yandex_token}}
-<p>Токен Яндекса:</p>
+<p>Сохранённый токен Яндекса:</p>
+    {{include file="db:_admin/uniqtxt,token" token=$stored_yandex_token}}
 {{else}}
     <p>Сохранённый токен Яндекса отсутствует.</p>
     {{if $yandex_token}}
