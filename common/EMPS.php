@@ -1862,4 +1862,28 @@ class EMPS_Common
         ignore_user_abort(true);
     }
 
+    /**
+     * Control service execution: check if it's too early to run this service again (period since the last run hasn't
+     * yet elapsed).
+     *
+     * @param $code Service code
+     * @param $period Period in seconds between service runs
+     */
+    public function service_control($code, $period){
+        $setting_name = "_service_control_".$code;
+        $last_run = $this->get_setting($setting_name);
+        $next_run = $last_run + $period;
+
+        $rv = [];
+        $rv['wait'] = false;
+
+        if(time() < $next_run){
+            $rv['wait'] = true;
+            $rv['nexturn'] = $next_run;
+        }else{
+            $this->save_setting($setting_name, time());
+        }
+
+        return $rv;
+    }
 }

@@ -532,3 +532,24 @@ CREATE TEMPORARY TABLE `temp_e_counter` (
   KEY `dt` (`dt`),
   KEY `context_id` (`context_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- table
+CREATE TEMPORARY TABLE `temp_e_unique_texts` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `type_code` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `context_id` bigint NOT NULL,
+  `website_ctx` bigint NOT NULL,
+  `unique_text` mediumtext NOT NULL,
+  `status_yandex` int(11) NOT NULL,
+  `cdt` bigint NOT NULL,
+  `dt` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `type_code` (`type_code`),
+  KEY `cdt` (`cdt`),
+  KEY `status_yandex` (`status_yandex`),
+  KEY `website_ctx` (`website_ctx`),
+  KEY `cdt` (`cdt`),
+  KEY `dt` (`dt`),
+  KEY `context_id` (`context_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
