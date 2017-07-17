@@ -62,7 +62,7 @@ class EMPS_UniqueTexts {
     }
 
     public function html_to_plain($html){
-        $text = str_replace(array('<p(>| .*>)', '</p>'), array('', '<br /><br />'), $html);
+        $text = str_replace(array('<p(>| .*>)', '</p>'), array('', "\r\n\r\n"), $html);
         $text = strip_tags($text);
         $text = html_entity_decode($text);
         return $text;
