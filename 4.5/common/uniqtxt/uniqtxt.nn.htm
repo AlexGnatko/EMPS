@@ -1,0 +1,17 @@
+<form action="." method="post">
+    <input type="hidden" name="post_new_uniqtxt" value="1" />
+
+    <div class="form-group">
+        <label>Заголовок:</label>
+        <input type="text" class="form-control" readonly="readonly" name="title" value="{{$utxt.title|escape:html}}" />
+    </div>
+    <div class="form-group">
+        <label>Код принадлежности:</label>
+        <input type="text" class="form-control" readonly="readonly" name="type_code" value="{{$utxt.type_code|escape:html}}" />
+    </div>
+    <div class="form-group">
+        <label>Текст для отправки:</label>
+        <textarea rows="10" class="form-control" name="unique_text" readonly="readonly">{{$utxt.unique_text|escape:html}}</textarea>
+    </div>
+
+</form>

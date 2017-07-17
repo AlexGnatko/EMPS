@@ -60,4 +60,22 @@ class EMPS_UniqueTexts {
         $update['SET'] = [$field => $value];
         $emps->db->sql_update_row("e_unique_texts", $update, "id = ".$id);
     }
+
+    public function html_to_plain($html){
+        $text = str_replace(array('<p(>| .*>)', '</p>'), array('', '<br /><br />'), $html);
+        $text = strip_tags($text);
+        $text = html_entity_decode($text);
+        return $text;
+    }
+
+    public function handle_request($context_id, $type_code, $row){
+        global $emps, $smarty;
+
+        $utxt = [];
+        $utxt['unique_text'] = $row['html'];
+        $utxt['title'] = $row['name'];
+        $utxt['type_code'] = $type_code;
+
+        $smarty->assign("utxt", $utxt);
+    }
 }
