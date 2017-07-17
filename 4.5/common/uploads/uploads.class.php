@@ -9,7 +9,7 @@ class EMPS_Uploads
     public function __construct()
     {
         global $emps;
-        if(defined(EMPS_UPLOAD_PATH)){
+        if(defined('EMPS_UPLOAD_PATH')){
             $this->UPLOAD_PATH = EMPS_UPLOAD_PATH;
         }else {
             $this->UPLOAD_PATH = EMPS_SCRIPT_PATH . EMPS_UPLOAD_SUBFOLDER;
