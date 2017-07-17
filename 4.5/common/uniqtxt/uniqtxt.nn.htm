@@ -31,7 +31,7 @@
     </div>
     <div class="form-group">
         <label>Текст для отправки:</label>
-        <div class="well well-sm">{{$utxt_row.unique_text|escape:html}}</div>
+        <div class="well well-sm">{{$utxt_row.unique_text|escape:html|nl2br}}</div>
     </div>
 
 {{/if}}
