@@ -3,6 +3,12 @@
     <h4>Уже есть данные для отправки:</h4>
     <p>Создано: {{$utxt_row.cdt|emps:form_time}}, обновлено: {{$utxt_row.dt|emps:form_time}}. Состояние: <strong>{{$utxt_row.status_yandex}}</strong>.</p>
 
+    {{if $utxt_row.upload_log}}
+        <div class="well">
+            {{$utxt_row.upload_log|nl2br}}
+        </div>
+    {{/if}}
+
     <div class="form-group">
         <label>Заголовок:</label>
         <div class="well well-sm">{{$utxt_row.title|escape:html}}</div>
@@ -16,7 +22,9 @@
         <div class="well well-sm">{{$utxt_row.unique_text|escape:html|nl2br}}</div>
     </div>
 
-    <p class="text-right"><a href="./?uniqtxt_delete=1" class="btn btn-primary btn-lg">Удалить данные (для обновления)</a></p>
+    <p class="text-right">
+        <a href="./?uniqtxt_upload_now=1" class="btn btn-primary btn-lg pull-left">Отправить сейчас</a>
+        <a href="./?uniqtxt_delete=1" class="btn btn-danger btn-lg">Удалить данные (для обновления)</a></p>
 {{else}}
     <form action="." method="post">
         <input type="hidden" name="post_new_uniqtxt" value="1" />
@@ -36,6 +44,8 @@
 
     </form>
 
-    <p class="text-right"><a href="./?uniqtxt_add=1" class="btn btn-primary btn-lg">Поставить на отправку</a></p>
+    <p class="text-right">
+
+        <a href="./?uniqtxt_add=1" class="btn btn-primary btn-lg">Поставить на отправку</a></p>
 
 {{/if}}

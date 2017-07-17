@@ -108,18 +108,23 @@ class EMPS_UniqueTexts {
             $this->add($utxt);
             $emps->redirect_elink();
         }
-        if($_GET['uniqtxt_delete']){
-            $id = intval($_GET['uniqtxt_delete']);
-            $urow = $emps->db->get_row("e_unique_texts", "id = ".$id);
-            if($urow){
-                if($urow['context_id'] == $context_id){
-                    $emps->db->query("delete from ".TP."e_unique_texts where id = ".$id);
-                }
-            }
-            $emps->redirect_elink();
-        }
+
 
         $urow = $this->row($utxt);
         $smarty->assign("utxt_row", $urow);
+        if($urow){
+            if($_GET['uniqtxt_upload_now']){
+                $emps->no_time_limit();
+                $result = file_get_contents(EMPS_SCRIPT_WEB."/service-uniqtxt-upload/".$urow['id']."/");
+                $emps->redirect_elink();
+            }
+            if($_GET['uniqtxt_delete']){
+                $id = $urow['id'];
+                if($urow['context_id'] == $context_id){
+                    $emps->db->query("delete from ".TP."e_unique_texts where id = ".$id);
+                }
+                $emps->redirect_elink();
+            }
+        }
     }
 }

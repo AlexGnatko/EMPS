@@ -541,6 +541,7 @@ CREATE TEMPORARY TABLE `temp_e_unique_texts` (
   `context_id` bigint NOT NULL,
   `website_ctx` bigint NOT NULL,
   `unique_text` mediumtext NOT NULL,
+  `upload_log` mediumtext NOT NULL,
   `status_yandex` int(11) NOT NULL,
   `cdt` bigint NOT NULL,
   `dt` bigint NOT NULL,
