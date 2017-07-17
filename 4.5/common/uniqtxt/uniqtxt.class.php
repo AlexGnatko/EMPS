@@ -72,7 +72,7 @@ class EMPS_UniqueTexts {
         global $emps, $smarty;
 
         $utxt = [];
-        $utxt['unique_text'] = $row['html'];
+        $utxt['unique_text'] = $this->html_to_plain($row['html']);
         $utxt['title'] = $row['name'];
         $utxt['type_code'] = $type_code;
 
