@@ -1,7 +1,7 @@
 
 {{if $utxt_row}}
     <h4>Уже есть данные для отправки:</h4>
-    <p>Создано: {{$utxt_row.cdt|emps:form_time}}, обновлено: {{$utxt_row.dt|emps:form_time}}. Состояние: <strong>{{$utxt_row.status_yandex}}</strong>.</p>
+    <p>Создано: {{$utxt_row.cdt|emps:form_time}}, обновлено: {{$utxt_row.dt|emps:form_time}}. Состояние: <strong>{{$utxt_row.status_yandex}}</strong>. ID: {{$utxt_row.id}}</p>
 
     {{if $utxt_row.upload_log}}
         <div class="well">
