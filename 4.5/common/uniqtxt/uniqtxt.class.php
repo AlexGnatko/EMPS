@@ -109,7 +109,7 @@ class EMPS_UniqueTexts {
             $emps->redirect_elink();
         }
 
-        $urow = $this->list($utxt);
+        $urow = $this->row($utxt);
         $smarty->assign("utxt_row", $urow);
     }
 }
