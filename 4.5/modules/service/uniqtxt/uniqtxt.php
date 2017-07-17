@@ -1,4 +1,5 @@
 <?php
+$emps->no_smarty = true;
 
 require_once $emps->common_module('uniqtxt/uniqtxt.class.php');
 $utxt = new EMPS_UniqueTexts;
@@ -8,7 +9,7 @@ if(!$utxt->check_available()){
     exit;
 }
 
-echo $_SESSION['OAUTH_ACCESS_TOKEN'];
+dump($_SESSION['OAUTH_ACCESS_TOKEN']);
 
 
 $emps->no_time_limit();
