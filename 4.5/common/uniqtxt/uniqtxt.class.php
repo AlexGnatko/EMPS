@@ -15,6 +15,20 @@ class EMPS_UniqueTexts {
         return false;
     }
 
+    public function row($ra){
+        global $emps;
+
+        $ra['website_ctx'] = $emps->website_ctx;
+        $er = $emps->db->get_row("e_unique_texts", "website_ctx = ".$ra['website_ctx']." and type_code = '".
+            $ra['type_code']."' and context_id = ".$ra['context_id']);
+
+        if($er){
+            return $er;
+        }
+
+        return false;
+    }
+
     public function add($ra){
         global $emps;
 
@@ -86,7 +100,16 @@ class EMPS_UniqueTexts {
         $utxt['unique_text'] = $this->html_to_plain($row['html']);
         $utxt['title'] = $row['name'];
         $utxt['type_code'] = $type_code;
+        $utxt['context_id'] = $context_id;
 
         $smarty->assign("utxt", $utxt);
+
+        if($_GET['uniqtxt_add']){
+            $this->add($utxt);
+            $emps->redirect_elink();
+        }
+
+        $urow = $this->list($utxt);
+        $smarty->assign("utxt_row", $urow);
     }
 }

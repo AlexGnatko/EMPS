@@ -15,3 +15,23 @@
     </div>
 
 </form>
+
+<p class="text-right"><a href="./?uniqtxt_add=1" class="btn btn-primary btn-lg">Поставить на отправку</a></p>
+
+{{if $utxt_row}}
+    <h4>Уже есть данные для отправки:</h4>
+
+    <div class="form-group">
+        <label>Заголовок:</label>
+        <div class="well well-sm">{{$utxt_row.title|escape:html}}</div>
+    </div>
+    <div class="form-group">
+        <label>Код принадлежности:</label>
+        <div class="well well-sm">{{$utxt_row.type_code|escape:html}}</div>
+    </div>
+    <div class="form-group">
+        <label>Текст для отправки:</label>
+        <div class="well well-sm">{{$utxt_row.unique_text|escape:html}}</div>
+    </div>
+
+{{/if}}
