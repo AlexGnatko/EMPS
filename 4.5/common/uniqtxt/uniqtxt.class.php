@@ -97,7 +97,11 @@ class EMPS_UniqueTexts {
         global $emps, $smarty;
 
         $utxt = [];
-        $utxt['unique_text'] = $this->html_to_plain($row['html']);
+        $get_text = $row['unique_text'];
+        if(!$get_text){
+            $get_text = $row['html'];
+        }
+        $utxt['unique_text'] = $this->html_to_plain($get_text);
         $utxt['title'] = $row['name'];
         $utxt['type_code'] = $type_code;
         $utxt['context_id'] = $context_id;
