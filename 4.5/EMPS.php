@@ -47,7 +47,7 @@ class EMPS extends EMPS_Common
 
         $use_context = $this->website_ctx;
 
-        $query = 'select * from ' . TP . "e_menu where parent=$parent and context_id=" . $use_context . " and grp='$code' and enabled=1 order by ord asc";
+        $query = 'select * from ' . TP . "e_menu where parent=$parent and context_id=" . $use_context . " and grp='$code' order by ord asc";
         $r = $this->db->query($query);
 
         $mlst = array();
@@ -60,7 +60,7 @@ class EMPS extends EMPS_Common
             if ($default_parent) {
                 $use_parent = $default_parent;
             }
-            $q = 'select * from ' . TP . "e_menu where parent=$use_parent and context_id=" . $this->default_ctx . " and grp='$code' and enabled=1 order by ord asc";
+            $q = 'select * from ' . TP . "e_menu where parent=$use_parent and context_id=" . $this->default_ctx . " and grp='$code' order by ord asc";
 
             $r = $this->db->query($q);
             $dlst = array();
@@ -69,7 +69,7 @@ class EMPS extends EMPS_Common
                 $dlst[] = $ra;
             }
             $ndlst = array();
-            while (list($n, $v) = each($dlst)) {
+            foreach($dlst as $v) {
                 reset($mlst);
                 $add = true;
                 while (list($nn, $vv) = each($mlst)) {
@@ -84,7 +84,7 @@ class EMPS extends EMPS_Common
             }
             if ($ndlst) {
                 reset($ndlst);
-                while (list($nn, $vv) = each($ndlst)) {
+                foreach($ndlst as $vv){
                     $mlst[] = $vv;
                 }
 
@@ -92,7 +92,10 @@ class EMPS extends EMPS_Common
             }
         }
         reset($mlst);
-        while (list($n, $ra) = each($mlst)) {
+        foreach($mlst as $ra) {
+            if(!$ra['enabled']){
+                continue;
+            }
             $md = $this->get_menu_data($ra);
 
             $ra['link'] = $ra['uri'];
