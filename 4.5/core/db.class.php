@@ -115,7 +115,7 @@ class EMPS_DB
     {
         global $sql_reset;
         $columns = $this->table_columns($table);
-        while (list($n, $v) = each($columns)) {
+        foreach($columns as $v) {
             $name = $v[0];
             if (isset($GLOBALS['SET'][$name])) {
                 $this->sql_take[$name] = "`" . $name . "`";
@@ -133,10 +133,21 @@ class EMPS_DB
         }
     }
 
+    public function set_sql_reset(){
+        global $sql_reset;
+
+        $sql_reset = [];
+        foreach($_REQUEST as $n => $v){
+            if($v == ""){
+                $sql_reset[$n] = true;
+            }
+        }
+    }
+
     private function sql_findcols_row($table, $row)
     {
         $columns = $this->table_columns($table);
-        while (list($n, $v) = each($columns)) {
+        foreach($columns as $v) {
             $name = $v[0];
             if (isset($row['SET'][$name])) {
                 $this->sql_take[$name] = "`" . $name . "`";
