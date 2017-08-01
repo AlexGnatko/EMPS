@@ -32,3 +32,8 @@ $use_bower = $emps->get_setting("use_bower");
 if ($use_bower) {
     $emps->page_property("use_bower", $use_bower);
 }
+
+$defer_all = $emps->get_setting("defer_all");
+if ($defer_all) {
+    $emps->page_property("defer_all", $defer_all);
+}
