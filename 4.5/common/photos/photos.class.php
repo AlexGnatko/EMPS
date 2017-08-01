@@ -107,12 +107,19 @@ class EMPS_Photos
                 //			echo "SX,SY,PX,PY = $sx,$sy,$px,$py ";exit();
             }
 
+            $quality = 100;
+            foreach($opts as $opt){
+                if(mb_substr($opt, 0, 1) == 'q'){
+                    $quality = intval(mb_substr($opt, 1));
+                }
+            }
+
             $dst = $this->adapt_image($img, $tx, $ty);
             if (PHOTOSET_WATERMARK) {
                 $dst = $this->apply_watermark($dst, $tx, $ty);
             }
 
-            imagejpeg($dst, $dname, 100);
+            imagejpeg($dst, $dname, $quality);
 
             $_REQUEST = array();
             $_GLOBALS['id'] = "";
