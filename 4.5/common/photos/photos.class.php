@@ -8,6 +8,8 @@ class EMPS_Photos
     public $up;
     public $ord = 10;
 
+    public $bypass_time = 0;
+
     public function __construct()
     {
         global $emps;
@@ -15,6 +17,11 @@ class EMPS_Photos
         $this->up = new EMPS_Uploads;
 
         $emps->p->register_cleanup(array($this, 'delete_photos_context'));
+
+        $date = $emps->get_setting("bypass_thumbs");
+        if($date) {
+            $this->bypass_time = $emps->parse_time($date . " 00:00");
+        }
     }
 
     public function thumb_filename($image_id)
@@ -52,7 +59,7 @@ class EMPS_Photos
             $fname = $orig_name;
         }
 
-        if (!file_exists($dname)) {
+        if (!file_exists($dname) || ($this->bypass_time > filemtime($dname))) {
             if (strstr($ra['type'], "jpeg")) {
                 $img = imagecreatefromjpeg($fname);
             } elseif (strstr($ra['type'], "png")) {
