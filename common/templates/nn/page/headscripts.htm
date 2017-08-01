@@ -22,12 +22,12 @@ var emps_scripts = [];
 
 {{if !$page.noscripts}}
 {{if $page.use_bower}}
-<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>      
-<script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js" {{$add_defer}}></script>
+<script src="/bower_components/jquery-ui/jquery-ui.min.js" {{$add_defer}}></script>
 <link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet">
 {{else}}
-<script type="text/javascript" src="/js/jquery.js"></script>      
-<script src="/js/jquery.ui.js"></script>
+<script type="text/javascript" src="/js/jquery.js" {{$add_defer}}></script>
+<script src="/js/jquery.ui.js" {{$add_defer}}></script>
 <link href="/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 {{/if}}
 {{/if}}
