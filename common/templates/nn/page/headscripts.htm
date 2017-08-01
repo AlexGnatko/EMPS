@@ -82,10 +82,10 @@ emps_scripts.push(function(){
 {{/if}}
 
 {{if $page.ited}}
-<script type="text/javascript" src="/js/objectSelector.js"></script>
-<link rel="stylesheet" type="text/css" href="/css/selector.css" media="screen" />
+<script type="text/javascript" src="/js/objectSelector.js" {{$add_defer}}></script>
+<link rel="stylesheet" type="text/css" href="/css/selector.css" {{$add_media}} />
 <script type="text/javascript" src="/js/jquery.fancybox.pack.js" {{$add_defer}}></script>
-<link rel="stylesheet" type="text/css" href="/css/fancybox/jquery.fancybox.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/css/fancybox/jquery.fancybox.css" {{$add_media}} />
 {{/if}}
 
 {{if $page.angularjs}}
@@ -125,8 +125,8 @@ ng_modules.push('ui.tinymce');
 
 
 {{if $page.treeview}}
-<link href="/css/tree.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/js/treeView.js"></script>
+<link href="/css/tree.css" rel="stylesheet" type="text/css" {{$add_media}}/>
+<script type="text/javascript" src="/js/treeView.js" {{$add_defer}}></script>
 {{/if}}
 
 {{if $page.ipbox}}
@@ -139,7 +139,7 @@ ng_modules.push('ui.tinymce');
 {{/if}}
 
 {{if $page.comments}}
-<link href="/css/comments.css" rel="stylesheet" media="screen" />
+<link href="/css/comments.css" rel="stylesheet" {{$add_media}} />
 {{/if}}
 
 {{include file="db:site/headscripts"}}
