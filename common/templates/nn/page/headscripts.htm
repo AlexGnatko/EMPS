@@ -1,20 +1,22 @@
 {{assign var="add_defer" value=""}}
+{{assign var="add_media" value="media=\"screen\""}}
 {{if $page.defer_all}}
     {{assign var="add_defer" value="defer"}}
+    {{assign var="add_media" value="media=\"none\" data-dynamic=\"true\""}}
+
 {{/if}}
 <script>
 var emps_scripts = [];
 </script>
-<link href="/fonts/fonts.css" rel="stylesheet" media="screen" />
 
-<link href="/css/bootstrap.min.css" rel="stylesheet" media="screen" />
-<link href="/css/bootstrap-theme.min.css" rel="stylesheet" media="screen" />
+<link href="/css/bootstrap.min.css" rel="stylesheet" {{$add_media}} />
+<link href="/css/bootstrap-theme.min.css" rel="stylesheet" {{$add_media}} />
 
-<link href="/css/default.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="/css/engine.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/css/default.css" rel="stylesheet" type="text/css" {{$add_media}} />
+<link href="/css/engine.css" rel="stylesheet" type="text/css" {{$add_media}} />
 
-<link href="/css/design.css{{$page.css_reset}}" rel="stylesheet" type="text/css" media="screen" />
-<link href="/css/media.css{{$page.css_reset}}" rel="stylesheet" type="text/css" media="screen" />
+<link href="/css/design.css{{$page.css_reset}}" rel="stylesheet" type="text/css" {{$add_media}} />
+<link href="/css/media.css{{$page.css_reset}}" rel="stylesheet" type="text/css" {{$add_media}} />
 
 <link rel="icon" 
       type="image/png" 
@@ -24,12 +26,16 @@ var emps_scripts = [];
 {{if $page.use_bower}}
 <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js" {{$add_defer}}></script>
 <script src="/bower_components/jquery-ui/jquery-ui.min.js" {{$add_defer}}></script>
-<link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet">
+<link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet" {{$add_media}}>
 {{else}}
 <script type="text/javascript" src="/js/jquery.js" {{$add_defer}}></script>
 <script src="/js/jquery.ui.js" {{$add_defer}}></script>
-<link href="/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+<link href="/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" {{$add_media}}>
 {{/if}}
+{{/if}}
+
+{{if $page.defer_all}}
+<script src="/js/dynamic_css.js" defer></script>
 {{/if}}
 
 {{if $page.calendar}}
@@ -40,7 +46,7 @@ var emps_scripts = [];
 {{/if}}
 <script type="text/javascript" src="/js/jquery-ui-timepicker-addon.js" {{$add_defer}}></script>
 
-<link href="/js/jquery-ui-timepicker-addon.min.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/js/jquery-ui-timepicker-addon.min.css" rel="stylesheet" type="text/css" {{$add_media}} />
 {{if $lang eq "en"}}
 <script type="text/javascript" src="/js/i18n/jquery-ui-timepicker-addon-i18n.js" {{$add_defer}}></script>
 {{else}}
@@ -62,7 +68,7 @@ emps_scripts.push(function(){
 
 {{if $page.newcalendar}}
 
-<link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" {{$add_media}} />
 
 <script type="text/javascript" src="/js/moment.min.js" {{$add_defer}}></script>
 <script type="text/javascript" src="/js/locales/moment/ru.js" {{$add_defer}}></script>
@@ -125,11 +131,11 @@ ng_modules.push('ui.tinymce');
 
 {{if $page.ipbox}}
 <script type="text/javascript" src="/js/ipbox/jquery.ipbox.js" {{$add_defer}}></script>
-<link rel="stylesheet" type="text/css" href="/js/ipbox/css/jquery.ipbox.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/js/ipbox/css/jquery.ipbox.css" {{$add_media}} />
 {{/if}}
 
 {{if $page.simple_file_uploader}}
-<link rel="stylesheet" type="text/css" href="/css/fileupload/jquery.fileupload.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/css/fileupload/jquery.fileupload.css" {{$add_media}} />
 {{/if}}
 
 {{if $page.comments}}
