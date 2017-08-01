@@ -60,6 +60,7 @@ class EMPS_Photos
         }
 
         if (!file_exists($dname) || ($this->bypass_time > filemtime($dname))) {
+            //error_log("modifying image: ".$ra['id']." ".$emps->form_time($this->bypass_time)." / ".$emps->form_time(filemtime($dname)));
             if (strstr($ra['type'], "jpeg")) {
                 $img = imagecreatefromjpeg($fname);
             } elseif (strstr($ra['type'], "png")) {
