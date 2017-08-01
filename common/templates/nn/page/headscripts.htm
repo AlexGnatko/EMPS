@@ -1,3 +1,7 @@
+{{assign var="add_defer" value=""}}
+{{if $page.defer_all}}
+    {{assign var="add_defer" value="defer"}}
+{{/if}}
 <script>
 var emps_scripts = [];
 </script>
@@ -30,19 +34,19 @@ var emps_scripts = [];
 
 {{if $page.calendar}}
 {{if $lang eq "en"}}
-<script type="text/javascript" src="/js/jquery.ui.datepicker-en.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.datepicker-en.js" {{$add_defer}}></script>
 {{else}}
-<script type="text/javascript" src="/js/jquery.ui.datepicker-ru.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.datepicker-ru.js" {{$add_defer}}></script>
 {{/if}}
-<script type="text/javascript" src="/js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-timepicker-addon.js" {{$add_defer}}></script>
 
 <link href="/js/jquery-ui-timepicker-addon.min.css" rel="stylesheet" type="text/css" media="screen" />
 {{if $lang eq "en"}}
-<script type="text/javascript" src="/js/i18n/jquery-ui-timepicker-addon-i18n.js"></script>
+<script type="text/javascript" src="/js/i18n/jquery-ui-timepicker-addon-i18n.js" {{$add_defer}}></script>
 {{else}}
-<script type="text/javascript" src="/js/i18n/jquery-ui-timepicker-ru.js"></script>
+<script type="text/javascript" src="/js/i18n/jquery-ui-timepicker-ru.js" {{$add_defer}}></script>
 {{/if}}
-<script type="text/javascript" src="/js/jquery-ui-sliderAccess.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-sliderAccess.js" {{$add_defer}}></script>
 
 <script type="text/javascript">
 {{if ($lang eq "nn") || ($lang eq "ru")}}
@@ -60,21 +64,21 @@ emps_scripts.push(function(){
 
 <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" media="screen" />
 
-<script type="text/javascript" src="/js/moment.min.js"></script>
-<script type="text/javascript" src="/js/locales/moment/ru.js"></script>
-<script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js"></script>
-<script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.ru.js"></script>
+<script type="text/javascript" src="/js/moment.min.js" {{$add_defer}}></script>
+<script type="text/javascript" src="/js/locales/moment/ru.js" {{$add_defer}}></script>
+<script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js" {{$add_defer}}></script>
+<script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.ru.js" {{$add_defer}}></script>
 
 {{/if}}
 
 {{if $page.autoarray}}
-<script type="text/javascript" src="/js/autoArray.js"></script>
+<script type="text/javascript" src="/js/autoArray.js" {{$add_defer}}></script>
 {{/if}}
 
 {{if $page.ited}}
 <script type="text/javascript" src="/js/objectSelector.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/selector.css" media="screen" />
-<script type="text/javascript" src="/js/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.pack.js" {{$add_defer}}></script>
 <link rel="stylesheet" type="text/css" href="/css/fancybox/jquery.fancybox.css" media="screen" />
 {{/if}}
 
@@ -82,19 +86,19 @@ emps_scripts.push(function(){
 
 {{if $page.use_bower}}
 {{if $page.angular_debug}}
-<script src="/bower_components/angular/angular.js"></script>
+<script src="/bower_components/angular/angular.js" {{$add_defer}}></script>
 {{else}}
-<script src="/bower_components/angular/angular.min.js"></script>
+<script src="/bower_components/angular/angular.min.js" {{$add_defer}}></script>
 {{/if}}
 
     {{if $lang == 'ru'}}
-		<script src="/bower_components/angular-i18n/angular-locale_ru-ru.js"></script>
+		<script src="/bower_components/angular-i18n/angular-locale_ru-ru.js" {{$add_defer}}></script>
     {{/if}}
 
 {{else}}
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.js" {{$add_defer}}></script>
 {{if $lang == 'ru'}}
-<script src="https://code.angularjs.org/1.4.1/i18n/angular-locale_ru-ru.js"></script>
+<script src="https://code.angularjs.org/1.4.1/i18n/angular-locale_ru-ru.js" {{$add_defer}}></script>
 {{/if}}
 {{/if}}
 
@@ -104,9 +108,9 @@ ng_modules = [];
 {{/if}}
 
 {{if $page.tinymce}}
-<script type="text/javascript" src="/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="/js/tinymce/tinymce.min.js" {{$add_defer}}></script>
 {{if $page.tinymce_ng}}
-<script type="text/javascript" src="/js/tinymce/ng/tinymce.js"></script>
+<script type="text/javascript" src="/js/tinymce/ng/tinymce.js" {{$add_defer}}></script>
 <script>
 ng_modules.push('ui.tinymce');
 </script>
@@ -120,7 +124,7 @@ ng_modules.push('ui.tinymce');
 {{/if}}
 
 {{if $page.ipbox}}
-<script type="text/javascript" src="/js/ipbox/jquery.ipbox.js"></script>
+<script type="text/javascript" src="/js/ipbox/jquery.ipbox.js" {{$add_defer}}></script>
 <link rel="stylesheet" type="text/css" href="/js/ipbox/css/jquery.ipbox.css" media="screen" />
 {{/if}}
 
