@@ -11,7 +11,7 @@ class EMPS_ContentEditor extends EMPS_ImprovedTableEditor
 
     public $table_name = "e_content";
 
-    public $credentials = "admin";
+    public $credentials = "admin,copywriter";
 
     public $form_name = "db:_admin/content,form";
 
