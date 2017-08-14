@@ -23,6 +23,7 @@ class EMPS_ContentEditor extends EMPS_ImprovedTableEditor
         'info' => 'Общие сведения',
         'html' => 'HTML',
         'props' => 'Свойства',
+        'uniqtxt' => 'Яндекс',
         'photos' => 'Изображения',
         'files' => 'Файлы',
         'videos' => 'Видео'
