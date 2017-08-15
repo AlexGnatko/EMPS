@@ -21,4 +21,3 @@ function format_size($bytes)
     return sprintf($formats[$logsize], $bytes / pow(1024, $logsize));
 }
 
-?>
