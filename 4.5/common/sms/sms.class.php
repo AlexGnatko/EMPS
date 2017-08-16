@@ -6,6 +6,8 @@ class EMPS_SMS
     public $auth_token;
     public $from;
 
+    public $error_message = "";
+
     public function __construct()
     {
         $this->account_sid = TWILIO_SID;
@@ -45,8 +47,7 @@ class EMPS_SMS
                 'Body' => $msg,
             ));
         } catch (Exception $e) {
-            $error_message = $e->getMessage();
-            echo $error_message . "<br/>";
+            $this->error_message = $e->getMessage();
             $rv = false;
         };
 
