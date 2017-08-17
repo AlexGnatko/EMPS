@@ -2,7 +2,7 @@
 
 if($emps->auth->credentials("admin")){
 
-    $r = $emps->db->query("select * from ".TP."e_sessions order by cdt desc");
+    $r = $emps->db->query("select * from ".TP."e_sessions order by dt desc");
     $lst = [];
     while($ra = $emps->db->fetch_named($r)){
         $ra['user'] = $emps->auth->load_user($ra['user_id']);
