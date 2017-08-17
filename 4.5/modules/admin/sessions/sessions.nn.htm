@@ -1,0 +1,21 @@
+<h1>Access Sessions</h1>
+<table class="table">
+    <tr>
+        <th width="50">Id</th>
+        <th width="200">User</th>
+        <th width="150">IP</th>
+        <th width="250">Browser</th>
+        <th width="120">Created</th>
+        <th width="120">Updated</th>
+    </tr>
+    {{foreach name=i from=$lst item="row"}}
+        <tr>
+            <td>{{$row.id}}</td>
+            <td>{{$row.user.fullname}} ({{$row.user.id}})</td>
+            <td>{{$row.ip}}</td>
+            <td>{{$row.browser.name}}</td>
+            <td>{{$row.cdt|emps:form_time}}</td>
+            <td>{{$row.dt|emps:form_time}}</td>
+        </tr>
+    {{/foreach}}
+</table>
