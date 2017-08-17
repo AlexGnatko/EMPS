@@ -12,7 +12,7 @@
         <tr>
             <td>{{$row.id}}</td>
             <td>{{$row.user.fullname}} ({{$row.user.id}})</td>
-            <td>{{$row.ip}}</td>
+            <td><a target="_blank" href="http://ipgeobase.ru/?address={{$row.ip}}">{{$row.ip}}</a></td>
             <td>{{$row.browser.name}}</td>
             <td>{{$row.cdt|emps:form_time}}</td>
             <td>{{$row.dt|emps:form_time}}</td>
