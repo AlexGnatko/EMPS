@@ -99,12 +99,16 @@ class EMPS_Auth
             unset($_SESSION['session_id']);
             return false;
         } else {
+            $browser = "";
+
             if ($session['dt'] < (time() - 10 * 60)) {
                 $browser_id = $emps->ensure_browser($_SERVER['HTTP_USER_AGENT']);
                 if ($browser_id != $session['browser_id']) {
                     $browser = ", browser_id = " . $browser_id . " ";
                 }
-                $emps->db->query("update " . TP . "e_sessions set dt = " . time() . " where id = " . $session['id']);
+            }
+            if ($session['dt'] < (time() - 60)) {
+                $emps->db->query("update " . TP . "e_sessions set dt = " . time() . $browser . " where id = " . $session['id']);
             }
         }
 
