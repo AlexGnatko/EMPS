@@ -475,14 +475,15 @@ class EMPS extends EMPS_Common
 
     public function ensure_browser($name)
     {
+        global $SET;
         if (isset($this->db)) {
             $row = $this->db->get_row("e_browsers", "name = '" . $this->db->sql_escape($name) . "'");
             if ($row) {
                 return $row['id'];
             } else {
-                $update = [];
-                $update['SET'] = ['name' => $name];
-                $this->db->sql_insert_row("e_browsers", $update);
+                $SET = array();
+                $SET['name'] = $name;
+                $this->db->sql_insert("e_browsers");
                 $id = $this->db->last_insert();
                 return $id;
             }
