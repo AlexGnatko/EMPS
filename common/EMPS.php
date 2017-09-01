@@ -1468,6 +1468,10 @@ class EMPS_Common
         return false;
     }
 
+    public function enumval($code, $enum){
+        return $this->enum_val($enum, $code);
+    }
+
     public function inflection($value)
     {
         return $this->infliction($value);
