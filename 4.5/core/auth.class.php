@@ -108,7 +108,7 @@ class EMPS_Auth
                 }
             }
             if ($session['dt'] < (time() - 60)) {
-                $emps->db->query("update " . TP . "e_sessions set dt = " . time() . $browser . " where id = " . $session['id']);
+                $emps->db->query("update " . TP . "e_sessions set dt = " . time() . $browser . ", ip = '" . $_SERVER['REMOTE_ADDR'] ."' where id = " . $session['id']);
             }
         }
 
