@@ -115,6 +115,15 @@ class EMPS_Uploads
         return $lst;
     }
 
+    public function count_files($context_id){
+        global $emps;
+
+        $r = $emps->db->query("select count(*) from " . TP . "e_files where context_id=" . $context_id);
+        $ra = $emps->db->fetch_row($r);
+
+        return $ra[0];
+    }
+
     public function delete_file($file_id, $mode)
     {
         global $emps;
