@@ -44,7 +44,10 @@ class EMPS_Uploads
     }
 
     public function file_info($file_id){
-        $lst = $this->list_files_ex(['_id' => $file_id, 'ut' => 'f'], ['limit' => 1, 'sort' => ['_id' => -1]]);
+        global $emps;
+
+        $file_id = $emps->db->oid($file_id);
+        $lst = $this->list_files_ex(['_id' => $file_id], ['limit' => 1, 'sort' => ['_id' => -1]]);
         if(count($lst) > 0){
             return $lst[0];
         }

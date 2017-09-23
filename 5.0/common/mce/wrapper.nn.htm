@@ -1,0 +1,22 @@
+
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        {{if $smarty.const.EMPS_BOOTSTRAP != 4}}
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        {{/if}}
+          <h4 class="modal-title" id="tmce_title">{{$tmce.title}}</h4>
+        {{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        {{/if}}
+
+
+      </div>
+      <div class="modal-body" id="tmce_body">
+{{$tmce.body}}      
+      </div>
+      <div class="modal-footer" id="tmce_footer">
+{{$tmce.footer}}            
+      </div>
+    </div>
+  </div>

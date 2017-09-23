@@ -17,7 +17,6 @@ if(count($lst) > 0) {
 if ($file) {
     $id = $emps->db->oid($file['_id']);
 
-
     $thumb_file_id = $photos->ensure_thumb($file, $_GET['size'], $_GET['opts']);
 
     if(!$thumb_file_id){

@@ -50,6 +50,7 @@ $ited->website_ctx = $emps->website_ctx;
 $perpage = 50;
 
 $ited->where = " where context_id = " . $emps->website_ctx;
+$ited->pads = $emps->pad_menu("db:_admin/menu,padmenu");
 
 function import_menu(&$lst, $code, $parent)
 {

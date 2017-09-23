@@ -22,6 +22,81 @@
 {{assign var="str_add_new" value="Добавить запись"}}
 {{/if}}
 
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+
+    {{if $KillForm eq 1}}
+
+      <div class="modal fade" id="tedActionsDeleteModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{{$str_do_you_delete}}{{$vle.id}}?</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p class="text-center"><input class="btn btn-danger btn-lg" type="submit" name="confkill" value="{{$str_yes_sure}}">
+                &nbsp;
+                <a href="." class="btn btn-lg btn-primary">{{$str_oh_no}}</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+          emps_scripts.push(function(){
+              $("#tedActionsDeleteModal").modal("show");
+          });
+      </script>
+
+    {{/if}}
+    {{if $EditMode eq 1}}
+      <form action="." method="post" role="form">
+        <input type="hidden" name="sedit" value="1" />
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white">{{$str_edit}}{{$vle.id}}</div>
+          <div class="card-body">
+              {{include file=$form}}
+          </div>
+          <div class="card-footer">
+
+            <div class="row">
+              <div class="col-sm-6 text-right">
+                <div class="btn-group btn-group-lg">
+                  <a href="{{$DeselectLink}}" class="btn btn-secondary">{{$str_cancel}}</a>
+                    {{if !$nokill}}
+                      <a href="{{$RemoveLink}}" class="btn btn-danger">{{$str_delete}}</a>
+                    {{/if}}
+                </div>
+              </div>
+              <div class="col-sm-6 text-right">
+                <button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="{{$str_wait}}" >{{$str_save_changes}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+
+
+    {{else}}
+      <form action="." method="post" role="form">
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white">{{$str_add_new_record}}</div>
+          <div class="card-body">
+            <input type="hidden" name="sadd" value="1" />
+              {{include file=$form}}
+          </div>
+          <div class="card-footer">
+            <p class="text-right"><button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="{{$str_wait}}" >{{$str_add_new}}</button></p>
+          </div>
+        </div>
+      </form>
+
+    {{/if}}
+
+
+{{else}}
+
+
 {{if $KillForm eq 1}}
 <form action="." method="post">
 <div class="panel panel-danger">
@@ -85,5 +160,7 @@
 </div>
 </div>
 </form>
+
+{{/if}}
 
 {{/if}}

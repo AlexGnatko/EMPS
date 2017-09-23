@@ -1,20 +1,23 @@
+{{if $smarty.const.EMPS_BOOTSTRAP ==4}}
+    {{include file="db:_admin/users,users_bs4"}}
+{{else}}
 <div class="page-header">
 <h1>Users</h1>
 </div>
 {{include file="db:page/paginator"}}
 <table class="table table-striped table-condensed">
 <tr valign="top">
-<th class="lt" width="40">Id</th>
-<th class="lt" width="250">User Name</th>
-<th class="lt" width="650">Name</th>
-<th class="lt" width="150">Actions</th>
+<th width="40">Id</th>
+<th width="250">User Name</th>
+<th width="650">Name</th>
+<th width="150">Actions</th>
 </tr>
 {{section name=i loop=$lst}}
 <tr valign="center">
-<td class="le">{{$lst[i].user_id}}</td>
-<td class="le">{{$lst[i].username}}</td>
-<td class="le">{{$lst[i].fullname}}</td>
-<td class="le">{{include file="db:ted/rowactions"}}</td>
+<td>{{$lst[i].user_id}}</td>
+<td>{{$lst[i].username}}</td>
+<td>{{$lst[i].fullname}}</td>
+<td>{{include file="db:ted/rowactions"}}</td>
 </tr>
 
 {{/section}}
@@ -22,3 +25,4 @@
 {{include file="db:page/paginator"}}
 {{assign var="form" value="db:_admin/users,form"}}
 {{include file="db:ted/actions"}}
+{{/if}}

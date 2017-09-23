@@ -24,5 +24,3 @@ if($user){
 }
 
 //$user = $emps->get_row("emps_users", array('user_id' => 1));
-
-?>

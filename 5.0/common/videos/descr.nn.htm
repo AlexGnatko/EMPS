@@ -1,0 +1,33 @@
+<form action="." method="post" class="form" role="form">
+<input type="hidden" name="post_descr" value="1"/>
+<input type="hidden" name="id" id="id_descr" value="{{$row._id}}"/>
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        {{if $smarty.const.EMPS_BOOTSTRAP != 4}}
+        <button type="button" class="close" onclick="close_modal('enter_descr')" aria-hidden="true">&times;</button>
+        {{/if}}
+        <h4 class="modal-title">Изменить название и описание видео №{{$row._id}}</h4>
+          {{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+            <button type="button" class="close" onclick="close_modal('enter_descr')" aria-hidden="true">&times;</button>
+          {{/if}}
+      </div>
+      <div class="modal-body">
+      
+        <p>
+        <label class="control-label" for="video_name">Заголовок видео:</label>
+        <input class="form-control" id="video_name" type="text" name="name" value="{{$row.name|escape:html}}"/></p>
+              
+        <p><label class="control-label" for="video_descr">Описание видео:</label>
+        <textarea id="video_descr" rows="5" name="description" class="form-control">{{$row.description|escape:html}}</textarea></p>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="close_modal('enter_descr')">Отмена</button>
+        <button type="submit" class="btn btn-primary">Сохранить описание</button>
+      </div>
+    </div>
+  </div>
+</form>   

@@ -1,4 +1,12 @@
-<div class="page-header">
-<h1>Website Settings</h1>
-</div>
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+    <h1 class="display-4 mb-3">
+        Website Settings
+    </h1>
+
+{{else}}
+    <div class="page-header">
+        <h1>Website Settings</h1>
+    </div>
+
+{{/if}}
 {{include file="db:props/editor"}}

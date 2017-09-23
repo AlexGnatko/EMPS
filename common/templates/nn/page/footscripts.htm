@@ -1,7 +1,12 @@
 
 
 {{if !$page.noscripts}}
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" defer></script>
+<script type="text/javascript" src="/bootstrap4/js/bootstrap.min.js" defer></script>
+{{else}}
 <script type="text/javascript" src="/js/bootstrap.min.js" defer></script>
+{{/if}}
 <script type="text/javascript" src="/js/tools.js" defer></script>
 <script>
 {{if $login.status}}

@@ -26,32 +26,59 @@
 
 
 {{if $Zoom}}
-<div class="page-header">
 
-{{include file="db:ited/iactions" mode="inner"}}
 
-<h1><small>{{$str_pages}}:</small>
-<small>{{$row.id}}:</small> {{$row.uri}}</h1>
-</div>
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
 
-<div class="pull-right">
-<a class="btn btn-xs btn-info" href="{{$row.uri}}">{{$str_view}}</a>
-</div>
+
+
+	<div class="pull-right">
+		<a class="btn btn-info" href="{{$row.uri}}">{{$str_view}}</a>
+		&nbsp;
+        {{include file="db:ited/iactions" mode="inner"}}
+	</div>
+	<div class="mb-2 lead">
+        {{$str_pages}}: {{$row.id}}:
+	</div>
+	<h1 class="display-4 mb-3">{{$row.uri}}</h1>
+
+
+
+
+{{else}}
+
+	<div class="page-header">
+
+        {{include file="db:ited/iactions" mode="inner"}}
+
+		<h1><small>{{$str_pages}}:</small>
+			<small>{{$row.id}}:</small> {{$row.uri}}</h1>
+	</div>
+
+	<div class="pull-right">
+		<a class="btn btn-sm btn-info" href="{{$row.uri}}">{{$str_view}}</a>
+	</div>
+
+
+{{/if}}
+
 
 {{include file="db:ited/subted"}}
 
 
 <div id="id_context" style="display:none">{{$row.context_id}}</div>
 {{else}}
-<div class="page-header">
-<h1>{{$str_editor}}</h1>
-</div>
 
+	{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+<h1 class="display-4 mb-3">
+    {{$str_editor}}
+</h1>
+    {{else}}
+		<div class="page-header">
+			<h1>{{$str_editor}}</h1>
+		</div>
+    {{/if}}
 
-
-{{if $Parent}}
-<h2>{{$Parent}}</h2>
-{{/if}}
 {{include file="db:ited/iactions" mode="top"}}
 <div class="pull-right">{{include file="db:page/paginator"}}</div>
 

@@ -126,13 +126,31 @@ class EMPS_ImprovedTableEditor {
 		}
 		return false;
 	}
-	
+
+    public function get_row_by_id($id){
+        global $emps;
+
+        $params = array();
+        $params['query'] = array('id' => $id);
+        $row = $emps->db->get_row($this->table_name, $params);
+        if($row){
+            $row = $emps->db->safe_array($row);
+            return $this->handle_row($row);
+        }
+        return false;
+    }
+
 	public function count_children($id){
 		global $emps;
 		
 		if($id){
 			$params = array();
-			$params['query'] = array('parent' => $emps->db->oid($id));
+			if($this->parent_field == '_id'){
+                $params['query'] = array('parent' => $emps->db->oid($id));
+            }else{
+                $params['query'] = array('parent' => $id);
+            }
+
 			$params['options'] = array();
 			$count = $emps->db->count_rows($this->table_name, $params);
 		}else{
@@ -165,13 +183,23 @@ class EMPS_ImprovedTableEditor {
 		$row['elink'] = $emps->clink("part=edit");
 		$row['klink'] = $emps->clink("part=kill");		
 		$emps->loadvars();
-		
-		$sd = $emps->db->oid_string($row['_id']);
+
+		if($this->parent_field == '_id'){
+            $sd = $emps->db->oid_string($row['_id']);
+        }else{
+            $sd = $row['id'];
+        }
+
 		$row['clink'] = $emps->elink();
 		$emps->loadvars();
 		
 		if($row['parent']){
-			$row['parent_data'] = $this->get_row($row['parent']);
+		    if($this->parent_field == '_id'){
+                $row['parent_data'] = $this->get_row($row['parent']);
+            }else{
+                $row['parent_data'] = $this->get_row_by_id($row['parent']);
+            }
+
 		}
 		
 		$row['children'] = $this->count_children($row['_id']);
@@ -400,6 +428,7 @@ class EMPS_ImprovedTableEditor {
 			$params = array();
 			$params['query'] = $this->where;
 			$params['options'] = array('limit' => $perpage, 'skip' => $start);
+			//echo json_encode($params, JSON_PRETTY_PRINT);
 			$cursor = $emps->db->find($this->table_name, $params);
 		
 			$this->total = $emps->db->found_rows;
@@ -414,7 +443,7 @@ class EMPS_ImprovedTableEditor {
 				$ra = $this->handle_row($ra);
 				$lst[] = $ra;
 			}
-			
+
 			$emps->loadvars();
 			
 			$smarty->assign("lst", $lst);
@@ -462,4 +491,3 @@ class EMPS_ImprovedTableEditor {
 	}
 
 }
-?>

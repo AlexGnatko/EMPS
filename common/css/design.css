@@ -16,9 +16,13 @@ a:hover, a:active, a:focus {
 }
 
 input::-moz-focus-inner /*Remove button padding in FF*/
-{ 
+{
     border: 0;
     padding: 0;
+}
+
+.btn {
+	cursor: pointer;
 }
 
 .pa {

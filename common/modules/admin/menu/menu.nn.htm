@@ -1,4 +1,5 @@
 {{if $lang eq "en"}}
+{{assign var="str_module_title" value="Menu Editor"}}
 {{assign var="str_exim" value="Export/Import Menu"}}
 {{assign var="str_ex_sel" value="Export Selected"}}
 {{assign var="str_json_code" value="JSON-code"}}
@@ -17,6 +18,7 @@
 {{assign var="str_keep" value="Keep menu code if empty here"}}
 
 {{else}}
+{{assign var="str_module_title" value="Редактор меню"}}
 {{assign var="str_exim" value="Экспорт/импорт меню"}}
 {{assign var="str_ex_sel" value="Экспортировать выделенные"}}
 {{assign var="str_json_code" value="JSON-код"}}
@@ -35,129 +37,138 @@
 {{assign var="str_keep" value="Если пусто - не менять код меню"}}
 {{/if}}
 
-{{if $Zoom}}
-<div class="page-header">
-
-{{include file="db:ited/iactions" mode="inner"}}
-
-<h1><small>{{if $lang eq "en"}}Menu item:{{else}}Пункт меню:{{/if}}</small>
-<small>{{$row.id}}:</small> {{$row.uri}}</h1>
-</div>
-{{include file="db:ited/subted"}}
-
-
-<div id="id_context" style="display:none">{{$row.context_id}}</div>
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+{{include file="db:_admin/menu,menu_bs4"}}
 {{else}}
-<div class="page-header">
-{{if $lang eq "en"}}
-<h1>Menu Editor</h1>
-{{else}}
-<h1>Редактор меню</h1>
+
+    {{if $Zoom}}
+
+        {{include file="db:ited/iactions" mode="inner"}}
+
+		<div class="page-header">
+			<h1><small>{{if $lang eq "en"}}Menu item:{{else}}Пункт меню:{{/if}}</small>
+				<small>{{$row.id}}:</small> {{$row.uri}}</h1>
+		</div>
+
+        {{include file="db:ited/subted"}}
+
+
+		<div id="id_context" style="display:none">{{$row.context_id}}</div>
+    {{else}}
+
+		<div class="page-header">
+			<h1 >{{$str_module_title}}</h1>
+		</div>
+
+
+		<ul class="nav nav-pills">
+            {{section name=i loop=$grp}}
+				<li {{if $grp[i].sel}}class="active"{{/if}}><a href="{{$grp[i].link}}">
+                        {{if $grp[i].name == "_nocode"}}
+                            {{if $lang eq "en"}}No code{{else}}Без кода{{/if}}
+                        {{elseif $grp[i].name == "_all"}}
+                            {{if $lang eq "en"}}All{{else}}Все{{/if}}
+                        {{else}}
+                            {{$grp[i].name}}
+                        {{/if}}
+					</a></li>
+            {{/section}}
+		</ul>
+
+		<ol class="breadcrumb upspace">
+			<li><a href="{{$totop}}">
+					<i class="glyphicon glyphicon-arrow-up"></i>
+                    {{if $lang eq "en"}}To top{{else}}На самый верх{{/if}}</a></li>
+            {{function parents row=$parent level=0}}
+                {{if $row.parent_data}}
+                    {{parents row=$row.parent_data level=$level+1}}
+                {{/if}}
+                {{if $level == 0}}
+					<li class="active">
+                        {{$row.name}}
+					</li>
+                {{else}}
+					<li>
+						<a href="{{$row.clink}}">{{$row.name}}</a>
+					</li>
+                {{/if}}
+            {{/function}}
+            {{parents row=$parent level=0}}
+		</ol>
+
+		<div class="">
+            {{include file="db:ited/iactions" mode="top"}}
+
+			<div class="pull-right">{{include file="db:page/paginator"}}</div>
+		</div>
+
+		<table class="table table-striped table-condensed">
+			<tr valign="center">
+				<th width="100">Id</th>
+				<th width="80">{{$str_low}}</th>
+				<th width="150">{{$str_group}}</th>
+				<th width="220">{{$str_page_uri}}</th>
+				<th width="360">{{$str_title}}</th>
+				<th width="150">{{$str_rights}}</th>
+				<th width="140">{{$str_actions}}</th>
+			</tr>
+            {{section name=i loop=$lst}}
+				<tr  {{if !$lst[i].enabled}}class="warning"{{/if}}>
+					<td>{{$lst[i].id}}
+						<span class="badge">{{$lst[i].ord}}</span></td>
+					<td><a href="{{$lst[i].clink}}" class="btn btn-xs btn-primary">{{$lst[i].children|hyp}} &nbsp; <i class="glyphicon glyphicon-arrow-down"></i></a></td>
+					<td><span class="label label-default">{{$lst[i].grp}}</span></td>
+
+					<td><a href="{{$lst[i].nlink}}">{{$lst[i].uri}}</a>
+					</td>
+					<td>{{$lst[i].name}}&nbsp;</td>
+					<td>{{$lst[i].grant}}</td>
+					<td>
+                        {{capture name="extra_actions"}}
+						<li class="divider"></li>
+						<li><a href="{{$lst[i].clink}}"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp; {{$str_submenu}}</a>
+                            {{/capture}}
+                            {{include file="db:ited/rowactions" extra_actions=$smarty.capture.extra_actions}}
+					</td>
+				</tr>
+            {{/section}}
+		</table>
+		<div class="pull-right">{{include file="db:page/paginator"}}</div>
+
+        {{include file="db:ited/iactions" mode="bottom"}}
+
+		<div class="pull-right">
+			<a href="./?export_menu=1" class="btn btn-primary">Export</a>
+		</div>
+		<h4>{{$str_exim}}</h4>
+
+		<form action="." method="post" class="form">
+			<input type="hidden" name="post_import" value="1" />
+			<div class="form-group">
+				<label>{{$str_json_code}}:</label>
+				<textarea rows="5" class="form-control" id="data_ta" name="json">{{$json_data|escape:html}}</textarea>
+				<div class="help-block">{{$str_copy}}</div>
+			</div>
+			<div class="pull-left form-inline">
+				<label>{{$str_replace_code}}:&nbsp;</label>
+				<input type="text" name="grp" class="form-control" />
+				<small>{{$str_keep}}</small>
+			</div>
+			<p class="text-right"><button type="submit" class="btn btn-primary">{{$str_import}}</button></p>
+
+		</form>
+
+    {{/if}}
+
+
 {{/if}}
-</div>
-
-<ul class="nav nav-pills">
-{{section name=i loop=$grp}}
-	<li {{if $grp[i].sel}}class="active"{{/if}}><a href="{{$grp[i].link}}">
-{{if $grp[i].name == "_nocode"}}
-{{if $lang eq "en"}}No code{{else}}Без кода{{/if}}
-{{elseif $grp[i].name == "_all"}}    
-{{if $lang eq "en"}}All{{else}}Все{{/if}}
-{{else}}
-{{$grp[i].name}}
-{{/if}}
-    </a></li>
-{{/section}}
-</ul>
-
-<ol class="breadcrumb upspace">
-<li><a href="{{$totop}}">
-<i class="glyphicon glyphicon-arrow-up"></i>
-{{if $lang eq "en"}}To top{{else}}На самый верх{{/if}}</a></li>
-{{function parents row=$parent level=0}}
-{{if $row.parent_data}}
-{{parents row=$row.parent_data level=$level+1}}
-{{/if}}
-{{if $level == 0}}
-<li class="active">
-{{$row.name}}
-</li>
-{{else}}
-<li>
-<a href="{{$row.clink}}">{{$row.name}}</a>
-</li>
-{{/if}}
-{{/function}}
-{{parents row=$parent level=0}}
-</ol>
-
-<div class="">
-{{include file="db:ited/iactions" mode="top"}}
-
-<div class="pull-right">{{include file="db:page/paginator"}}</div>
-</div>
-
-<table class="table table-striped table-condensed">
-<tr valign="center">
-<th width="100">Id</th>
-<th width="80">{{$str_low}}</th>
-<th width="150">{{$str_group}}</th>
-<th width="220">{{$str_page_uri}}</th>
-<th width="360">{{$str_title}}</th>
-<th width="150">{{$str_rights}}</th>
-<th width="140">{{$str_actions}}</th>
-</tr>
-{{section name=i loop=$lst}}
-<tr  {{if !$lst[i].enabled}}class="warning"{{/if}}>
-<td>{{$lst[i].id}}
-<span class="badge">{{$lst[i].ord}}</span></td>
-<td><a href="{{$lst[i].clink}}" class="btn btn-xs btn-primary">{{$lst[i].children|hyp}} &nbsp; <i class="glyphicon glyphicon-arrow-down"></i></a></td>
-<td><span class="label label-default">{{$lst[i].grp}}</span></td>
-
-<td><a href="{{$lst[i].nlink}}">{{$lst[i].uri}}</a>
-</td>
-<td>{{$lst[i].name}}&nbsp;</td>
-<td>{{$lst[i].grant}}</td>
-<td>
-{{capture name="extra_actions"}}
-<li class="divider"></li>
-<li><a href="{{$lst[i].clink}}"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp; {{$str_submenu}}</a>   
-{{/capture}}
-{{include file="db:ited/rowactions" extra_actions=$smarty.capture.extra_actions}}
-</td>
-</tr>
-{{/section}}
-</table>
-<div class="pull-right">{{include file="db:page/paginator"}}</div>
-
-{{include file="db:ited/iactions" mode="bottom"}}
-
-<div class="pull-right">
-<a href="./?export_menu=1" class="btn btn-primary">Export</a>
-</div>
-<h4>{{$str_exim}}</h4>
-
-<form action="." method="post" class="form">
-<input type="hidden" name="post_import" value="1" />
-<div class="form-group">
-<label>{{$str_json_code}}:</label>
-<textarea rows="5" class="form-control" id="data_ta" name="json">{{$json_data|escape:html}}</textarea>
-<div class="help-block">{{$str_copy}}</div>
-</div>
-<div class="pull-left form-inline">
-<label>{{$str_replace_code}}:&nbsp;</label>
-<input type="text" name="grp" class="form-control" />
-<small>{{$str_keep}}</small>
-</div>
-<p class="text-right"><button type="submit" class="btn btn-primary">{{$str_import}}</button></p>
-
-</form>
 
 <script>
-emps_scripts.push(function(){
-	$("#export_button").click(function(){
-		$("#export_form").submit();
-	});
-});
+    emps_scripts.push(function(){
+        $("#export_button").click(function(){
+            $("#export_form").submit();
+        });
+    });
 </script>
-{{/if}}
+
+

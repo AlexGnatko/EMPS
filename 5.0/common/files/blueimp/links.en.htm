@@ -2,8 +2,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{if $smarty.const.EMPS_BOOTSTRAP != 4 }}
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{/if}}
         <h4 class="modal-title">Links to file #{{$row._id}}</h4>
+          {{if $smarty.const.EMPS_BOOTSTRAP == 4 }}
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{/if}}
+
+
       </div>
       <div class="modal-body">
       <p>File MIME type: <strong>{{$row.content_type}}</strong></p>

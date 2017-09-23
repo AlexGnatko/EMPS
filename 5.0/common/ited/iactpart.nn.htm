@@ -19,8 +19,14 @@
     
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">{{$str_delete}}{{$row.id}}</h4>
+            {{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+                <h4 class="modal-title">{{$str_delete}}{{$row.id}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            {{else}}
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{$str_delete}}{{$row.id}}</h4>
+
+            {{/if}}
         </div>
         <div class="modal-body">
 {{$str_delete2}}{{$row.id}}?

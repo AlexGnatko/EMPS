@@ -10,4 +10,3 @@ $props->ref_id = $this->ref_id;
 
 $props->handle_request();
 
-?>

@@ -1,7 +1,7 @@
 {{if $lang eq "en"}}
 {{assign var="str_pic_descr" value="Enter the description for #"}}
 {{assign var="str_cancel" value="Cancel"}}
-{{assign var="str_save_descr" value="Save description"}}
+{{assign var="str_save_descr" value="Save Description"}}
 {{assign var="str_download" value="Download from another website"}}
 {{assign var="str_many" value="Several URLs can be entered in separate lines"}}
 {{assign var="str_upload" value="Upload"}}
@@ -69,8 +69,13 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  {{if $smarty.const.EMPS_BOOTSTRAP !=4 }}
+			  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  {{/if}}
         <h4 class="modal-title">{{$str_pic_descr}}<span id="descr_id"></span></h4>
+          {{if $smarty.const.EMPS_BOOTSTRAP ==4 }}
+		  	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  {{/if}}
       </div>
       <div class="modal-body">
         <p><textarea name="descr" id="descr_input" rows="5" class="form-control"></textarea></p>
@@ -119,8 +124,13 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
+          {{if $smarty.const.EMPS_BOOTSTRAP != 4 }}
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  {{/if}}
         <h4 class="modal-title">{{$str_download}}<span id="descr_id"></span></h4>
+          {{if $smarty.const.EMPS_BOOTSTRAP == 4 }}
+			  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  {{/if}}
       </div>
       <div class="modal-body">
         <p><textarea name="links" id="descr_input" rows="5" class="form-control" placeholder="{{$str_many}}"></textarea></p>
@@ -144,8 +154,13 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
+          {{if $smarty.const.EMPS_BOOTSTRAP != 4 }}
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  {{/if}}
         <h4 class="modal-title">{{$str_replace}}<span id="upload_id"></span></h4>
+          {{if $smarty.const.EMPS_BOOTSTRAP == 4 }}
+			  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  {{/if}}
       </div>
       <div class="modal-body">
       	<p>{{$str_replace_descr}}</p>
@@ -220,14 +235,14 @@
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
 
-    <div class="row template-upload fade sortable">
+    <div class="row template-upload sortable">
         <div class="col-md-2" align="center">
             <span class="preview"></span>
         </div>
         <div class="col-md-6">
             <p class="name">{%=file.name%}</p>
             {% if (file.error) { %}
-                <div><span class="label label-danger">{{$str_error}}</span> {%=file.error%}</div>
+                <div><span class="badge badge-danger label label-danger">{{$str_error}}</span> {%=file.error%}</div>
             {% } %}
             {% if (!o.files.error && !i && !o.options.autoUpload) { %}
                 <button class="btn btn-primary start">
@@ -258,7 +273,7 @@
 <!-- The template to display files available for download -->
 <script id="template-download" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <div class="row sortable template-download fade" data-id="{%=file.fileId%}">
+    <div class="row sortable template-download" data-id="{%=file.fileId%}">
         <div class="col-md-2" align="center">
             <span class="preview">
                 {% if (file.thumbnailUrl) { %}
@@ -267,14 +282,14 @@
             </span>
         </div>
         <div class="col-md-6">
-            <p class="name">
+            <div class="name">
                 {% if (file.url) { %}
                     <a href="{%=file.url%}" title="{%=file.name%}" target="_blank">{%=file.name%}</a>
                 {% } else { %}
                     <span>{%=file.name%}</span>
                 {% } %}
-				<span class="label label-default">{%=file.fileId%}</span>
-            </p>
+				<span class="badge badge-secondary label label-default">{%=file.fileId%}</span>
+            </div>
 			<p>
 			{% if (file.descr) { %}
 			<span id="file_descr_{%=file.fileId%}" >{%=file.descr%}</span>
@@ -285,14 +300,14 @@
 			<p>
 
 {{if $CanSave}}
-			<a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> {{$str_b_descr}}</a>
+			<a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-sm btn-xs "><i class="glyphicon glyphicon-pencil"></i> {{$str_b_descr}}</a>
 {{if !$pu_set.simple_mode}}
-			<a href="javascript:reupload_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-transfer"></i> {{$str_b_replace}}</a>
+			<a href="javascript:reupload_file('{%=file.fileId%}')" class="btn btn-default btn-secondary btn-sm btn-xs"><i class="glyphicon glyphicon-transfer"></i> {{$str_b_replace}}</a>
 
-			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> {{$str_b_links}}</a>
-			<a href="javascript:watermark_file('{%=file.fileId%}')" id="wm_{%=file.fileId%}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-tint"></i>
-			{{$str_b_wm}}</a>	
-			<a href="javascript:rotate_file('{%=file.fileId%}')" id="rotate_{%=file.fileId%}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-repeat"></i></a>	
+			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-secondary btn-sm btn-xs"><i class="glyphicon glyphicon-share"></i> {{$str_b_links}}</a>
+{{*			<a href="javascript:watermark_file('{%=file.fileId%}')" id="wm_{%=file.fileId%}" class="btn btn-default btn-secondary btn-sm btn-xs"><i class="fa fa-tint glyphicon glyphicon-tint"></i>
+			{{$str_b_wm}}</a>*}}
+{{*			<a href="javascript:rotate_file('{%=file.fileId%}')" id="rotate_{%=file.fileId%}" class="btn btn-default btn-secondary btn-sm btn-xs"><i class="fa fa-repeat glyphicon glyphicon-repeat"></i></a>*}}
 {{/if}}
 {{/if}}			
 
@@ -300,7 +315,7 @@
 
 			</p>
             {% if (file.error) { %}
-                <div><span class="label label-danger">{{$str_error}}</span> {%=file.error%}</div>
+                <div><span class="badge badge-danger label label-danger">{{$str_error}}</span> {%=file.error%}</div>
             {% } %}
         </div>
         <div class="col-md-2">
@@ -308,28 +323,45 @@
 
 {{if $CanSave}}
 {{if !$pu_set.simple_mode}}
-<p style="margin-bottom:20px">{{$str_qual}}: {%=file.qual%}%</p>
-	<div  class="btn-group pull-right">
-  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+<div>{{$str_qual}}: {%=file.qual%}%</div>
+	<div  class="btn-group ">
+  <button class="btn btn-secondary btn-default btn-sm btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
     <i class="glyphicon glyphicon-facetime-video"></i> 16x9 <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
-		<li><a href="javascript:resize_file('{%=file.fileId%}', 'top')" >{{$str_cut_top}}</a></li>
-		<li><a href="javascript:resize_file('{%=file.fileId%}', 'center')" >{{$str_cut_center}}</a></li>		
-		<li><a href="javascript:resize_file('{%=file.fileId%}', 'optimal')" >{{$str_cut_3}}</a></li>				
-		<li><a href="javascript:resize_file('{%=file.fileId%}', 'bottom')" >{{$str_cut_bottom}}</a></li>		
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+		<a class="dropdown-item" href="javascript:resize_file('{%=file.fileId%}', 'top')" >{{$str_cut_top}}</a>
+		<a class="dropdown-item" href="javascript:resize_file('{%=file.fileId%}', 'center')" >{{$str_cut_center}}</a>
+		<a class="dropdown-item" href="javascript:resize_file('{%=file.fileId%}', 'optimal')" >{{$str_cut_3}}</a>
+		<a class="dropdown-item" href="javascript:resize_file('{%=file.fileId%}', 'bottom')" >{{$str_cut_bottom}}</a>
+
+{{else}}
+		<li class="dropdown-item"><a href="javascript:resize_file('{%=file.fileId%}', 'top')" >{{$str_cut_top}}</a></li>
+		<li class="dropdown-item"><a href="javascript:resize_file('{%=file.fileId%}', 'center')" >{{$str_cut_center}}</a></li>
+		<li class="dropdown-item"><a href="javascript:resize_file('{%=file.fileId%}', 'optimal')" >{{$str_cut_3}}</a></li>
+		<li class="dropdown-item"><a href="javascript:resize_file('{%=file.fileId%}', 'bottom')" >{{$str_cut_bottom}}</a></li>
+
+{{/if}}
 	</ul>
 	</div>
-	<div  class="btn-group pull-right">
-  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+	<div  class="btn-group ">
+  <button class="btn btn-secondary btn-default btn-sm btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
     <i class="glyphicon glyphicon-camera"></i> {{$str_qual}} <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
-		<li><a href="javascript:qual_file('{%=file.fileId%}', 100)" >100%</a></li>
-		<li><a href="javascript:qual_file('{%=file.fileId%}', 90)" >90%</a></li>
-		<li><a href="javascript:qual_file('{%=file.fileId%}', 80)" >80%</a></li>		
-		<li><a href="javascript:qual_file('{%=file.fileId%}', 60)" >60%</a></li>				
-		<li><a href="javascript:qual_file('{%=file.fileId%}', 40)" >40%</a></li>		
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+		<a class="dropdown-item" href="javascript:qual_file('{%=file.fileId%}', 100)" >100%</a>
+		<a class="dropdown-item" href="javascript:qual_file('{%=file.fileId%}', 90)" >90%</a>
+		<a class="dropdown-item" href="javascript:qual_file('{%=file.fileId%}', 80)" >80%</a>
+		<a class="dropdown-item" href="javascript:qual_file('{%=file.fileId%}', 60)" >60%</a>
+		<a class="dropdown-item" href="javascript:qual_file('{%=file.fileId%}', 40)" >40%</a>
+{{else}}
+		<li class="dropdown-item"><a href="javascript:qual_file('{%=file.fileId%}', 100)" >100%</a></li>
+		<li class="dropdown-item"><a href="javascript:qual_file('{%=file.fileId%}', 90)" >90%</a></li>
+		<li class="dropdown-item"><a href="javascript:qual_file('{%=file.fileId%}', 80)" >80%</a></li>
+		<li class="dropdown-item"><a href="javascript:qual_file('{%=file.fileId%}', 60)" >60%</a></li>
+		<li class="dropdown-item"><a href="javascript:qual_file('{%=file.fileId%}', 40)" >40%</a></li>
+{{/if}}
 	</ul>
 	</div>
 {{/if}}
@@ -385,7 +417,7 @@ function reset_delete(){
 emps_scripts.push(
 function(){
 	ajax_wait = $('#ajax-wait');
-	ajax_wait.css({ width: $(window).width(), height: $(window).height() });
+	ajax_wait.css({ width: $(window).width(), height: $(window).height(), top: "0", left: "0" });
 {{if $CanSave}}
 	$('.files').sortable({
 		items: '.sortable',

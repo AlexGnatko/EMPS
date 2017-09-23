@@ -1,0 +1,129 @@
+{{if $Zoom}}
+
+    {{include file="db:ited/iactions" mode="inner"}}
+
+    <div class="lead mb-0">
+        {{if $lang eq "en"}}Menu item:{{else}}Пункт меню:{{/if}}
+        #{{$row.id}}:
+    </div>
+        <h1 class="display-4 mb-3 mt-0">{{$row.uri}}</h1>
+
+    {{include file="db:ited/subted"}}
+
+
+    <div id="id_context" style="display:none">{{$row.context_id}}</div>
+{{else}}
+
+    <h1 class="display-4 mb-3">{{$str_module_title}}</h1>
+
+    <ul class="nav nav-pills">
+        {{section name=i loop=$grp}}
+            <li class="nav-item"><a class="nav-link {{if $grp[i].sel}}active{{/if}}" href="{{$grp[i].link}}">
+                    {{if $grp[i].name == "_nocode"}}
+                        {{if $lang eq "en"}}No code{{else}}Без кода{{/if}}
+                    {{elseif $grp[i].name == "_all"}}
+                        {{if $lang eq "en"}}All{{else}}Все{{/if}}
+                    {{else}}
+                        {{$grp[i].name}}
+                    {{/if}}
+                </a></li>
+        {{/section}}
+    </ul>
+
+    <ol class="breadcrumb mt-2">
+        <li class="breadcrumb-item"><a href="{{$totop}}">
+                <i class="glyphicon glyphicon-arrow-up"></i>
+                {{if $lang eq "en"}}To top{{else}}На самый верх{{/if}}</a></li>
+        {{function parents row=$parent level=0}}
+            {{if $row.parent_data}}
+                {{parents row=$row.parent_data level=$level+1}}
+            {{/if}}
+            {{if $level == 0}}
+                <li class="breadcrumb-item active">
+                    {{$row.name}}
+                </li>
+            {{else}}
+                <li class="breadcrumb-item">
+                    <a href="{{$row.clink}}">{{$row.name}}</a>
+                </li>
+            {{/if}}
+        {{/function}}
+        {{parents row=$parent level=0}}
+    </ol>
+
+    <div class="">
+        {{include file="db:ited/iactions" mode="top"}}
+
+        <div class="text-right">{{include file="db:page/paginator"}}</div>
+    </div>
+
+    <table class="table table-striped table-condensed">
+        <tr valign="center">
+            <th width="100">Id</th>
+            <th width="80">{{$str_low}}</th>
+            <th width="150">{{$str_group}}</th>
+            <th width="220">{{$str_page_uri}}</th>
+            <th width="360">{{$str_title}}</th>
+            <th width="150">{{$str_rights}}</th>
+            <th width="140" class="text-right">{{$str_actions}}</th>
+        </tr>
+        {{section name=i loop=$lst}}
+            <tr  {{if !$lst[i].enabled}}class="warning"{{/if}}>
+                <td>{{$lst[i].id}}
+                    <span class="badge">{{$lst[i].ord}}</span></td>
+                <td><a href="{{$lst[i].clink}}" class="btn btn-xs btn-primary">{{$lst[i].children|hyp}} &nbsp; <i class="glyphicon glyphicon-arrow-down"></i></a></td>
+                <td><span class="label label-default">{{$lst[i].grp}}</span></td>
+
+                <td><a href="{{$lst[i].nlink}}">{{$lst[i].uri}}</a>
+                </td>
+                <td>{{$lst[i].name}}&nbsp;</td>
+                <td>{{$lst[i].grant}}</td>
+                <td class="text-right">
+                    {{capture name="extra_actions"}}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{$lst[i].clink}}"><span class="fa fa-arrow-down"></span>&nbsp; {{$str_submenu}}</a>
+                        {{/capture}}
+                        {{include file="db:ited/rowactions" extra_actions=$smarty.capture.extra_actions}}
+                </td>
+            </tr>
+        {{/section}}
+    </table>
+    <div class="text-right">{{include file="db:page/paginator"}}</div>
+
+    {{include file="db:ited/iactions" mode="bottom"}}
+
+    <div class="pull-right">
+        <a href="./?export_menu=1" class="btn btn-primary">Export</a>
+    </div>
+    <h4>{{$str_exim}}</h4>
+
+    <form action="." method="post" class="form">
+        <input type="hidden" name="post_import" value="1" />
+
+
+
+        <div class="form-group">
+            <label>{{$str_json_code}}:</label>
+            <textarea rows="5" class="form-control" id="data_ta" name="json">{{$json_data|escape:html}}</textarea>
+            <div class="form-text">{{$str_copy}}</div>
+        </div>
+
+        <div class="form-row align-items-center">
+            <div class="col-auto">
+                {{$str_replace_code}}:
+            </div>
+            <div class="col-auto">
+                <input type="text" name="grp" class="form-control" />
+            </div>
+            <div class="col-auto">
+                {{$str_keep}}
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">{{$str_import}}</button>
+            </div>
+        </div>
+
+
+    </form>
+
+{{/if}}

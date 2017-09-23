@@ -1,0 +1,10 @@
+<div class="ip-video-box">
+<img src="/i/16x9.png" style="width:100%" />
+{{if $video.screencast_url}}
+<iframe class="pa tscplayer_inline embeddedObject" style="top:0;left:0" name="tsc_player" scrolling="no" frameborder="0" type="text/html" style="overflow:hidden;" src="{{$video.screencast_url}}" height="100%" width="100%" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
+{{else}}
+<iframe class="pa" style="top:0;left:0" src="{{if $video.youtube_id}}//www.youtube.com/embed/{{$video.youtube_id}}{{elseif $video.vimeo_id}}//player.vimeo.com/video/{{$video.vimeo_id}}{{elseif $video.rutube_id}}{{$video.embed_url}}{{/if}}" width="100%" height="100%" frameborder="0" allowfullscreen=""></iframe>
+{{/if}}
+</div>
+
+

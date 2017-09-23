@@ -1026,6 +1026,14 @@ class EMPS_Common
         return $fn;
     }
 
+    public function pad_menu($template){
+        global $smarty;
+        $smarty->assign("lang", $this->lang);
+        $json = $smarty->fetch($template);
+        $menu = json_decode($json, true);
+        return $menu;
+    }
+
     public function not_found()
     {
         global $smarty;
@@ -1889,5 +1897,11 @@ class EMPS_Common
         }
 
         return $rv;
+    }
+
+    public function json_dump($data){
+        echo "<pre>";
+        echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        echo "</pre>";
     }
 }

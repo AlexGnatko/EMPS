@@ -15,9 +15,8 @@ if(count($lst) > 0) {
 }
 
 if ($file) {
-
-    if ($file['wmark']) {
-        $file = $up->file_info($file['watermarked_id']);
+    if ($file['view__id']) {
+        $file = $up->file_info($file['view__id']);
     }
 
     $id = $emps->db->oid($file['_id']);

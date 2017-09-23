@@ -15,6 +15,8 @@ class EMPS_MenuEditor extends EMPS_ImprovedTableEditor {
 	public $v;	
 	
 	public $multilevel = true;
+
+	public $parent_filed = "id";
 	
 	public $pads = array(
 		'info'=>'Общие сведения',
@@ -40,6 +42,10 @@ $ited->ref_id = $key;
 $ited->website_ctx = $emps->website_ctx;
 $ited->use_context = true;
 
+$ited->doc_filter = "ord:i,enabled:i,parent:i";
+
+$ited->pads = $emps->pad_menu("db:_admin/menu,padmenu");
+
 $perpage = 50;
 
 $ited->where = array('website_ctx' => $emps->website_ctx);
@@ -58,15 +64,23 @@ if($sk){
 }
 
 if($sd){
-	$ited->where['parent'] = $emps->db->oid($sd);
+	$ited->where['parent'] = intval($sd);
 	
 	$parent = $ited->get_row($ited->where['parent']);
 	
 	$smarty->assign("parent", $parent);
 	
 }else{
-	$ited->where['parent'] = array('$exists' => false);
+    $ited->where['$or'] = [
+            ['parent' =>
+                ['$exists' => false]
+            ],
+            ['parent' => 0]
+        ];
+	//$ited->where['parent'] = array('$exists' => false);
 }
+
+//dump($ited->where);
 
 $sd = "";
 $smarty->assign("totop", $emps->elink());
@@ -159,4 +173,3 @@ if($sd){
 $ited->add_pad_template("admin/menu/pads,%s");
 
 $ited->handle_request();
-?>

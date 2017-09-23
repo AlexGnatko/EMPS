@@ -2,18 +2,23 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{if $smarty.const.EMPS_BOOTSTRAP != 4 }}
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{/if}}
         <h4 class="modal-title">Ссылки на фотографию №{{$row.id}}</h4>
+          {{if $smarty.const.EMPS_BOOTSTRAP == 4 }}
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{/if}}
       </div>
       <div class="modal-body">
       
         <p>
         <label class="control-label" for="link_relative">Относительная:</label>
-        <input class="form-control" id="link_relative" type="text" value="/pic/{{$row.md5}}.{{$row.ext}}"/></p>
+        <input class="form-control" id="link_relative" type="text" value="/pic/{{$row.filename}}/{{$row.orig_filename}}"/></p>
 
         <p>
         <label class="control-label" for="link_full">Абсолютная:</label>
-        <input class="form-control" id="link_full" type="text" value="{{$BaseURL}}/pic/{{$row.md5}}.{{$row.ext}}"/></p>
+        <input class="form-control" id="link_full" type="text" value="{{$BaseURL}}/pic/{{$row.filename}}/{{$row.orig_filename}}"/></p>
 
       </div>
       <div class="modal-footer">

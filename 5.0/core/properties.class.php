@@ -52,5 +52,23 @@ class EMPS_Properties {
         $this->cleanups[] = $call;
         return true;
     }
+
+    public function delete_context($context_id)
+    {
+        global $emps;
+        reset($this->cleanups);
+        foreach($this->cleanups as $v) {
+            $callme = "";
+            if (is_callable($v, false, $callme)) {
+                $obj = $v[0];
+                $method = $v[1];
+                $obj->$method($context_id);
+            }
+        }
+        $params = [];
+        $params['query'] = ['context_id' => $emps->db->oid($context_id)];
+        $emps->db->delete_one("emps_contexts", $params);
+        //$emps->db->query('delete from ' . TP . "e_contexts where id=$context_id");
+    }
 }
 

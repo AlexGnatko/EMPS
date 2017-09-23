@@ -24,7 +24,7 @@ class EMPS_BlueimpUploader {
 				$_REQUEST['type']=$v['type'];
 				$_REQUEST['size']=$v['size'];
 				$_REQUEST['thumb']=EMPS_PHOTO_SIZE;
-				$_REQUEST['context_id']=$this->context_id;
+				$_REQUEST['context_id'] = $emps->db->oid($this->context_id);
 				$_REQUEST['dt'] = time();
 				$emps->db->sql_update("e_uploads","id=".$id);
 				$oname=$this->p->up->upload_filename($id,DT_IMAGE);
@@ -47,7 +47,7 @@ class EMPS_BlueimpUploader {
 				$SET['ord']=$_POST['ord'][$n];
 				$emps->db->sql_update("e_uploads","id=$n");
 			}
-			$emps->redirect_elink();exit();
+			$emps->redirect_elink();exit;
 		}
 				
 		if($_POST['postkill']){
@@ -59,10 +59,10 @@ class EMPS_BlueimpUploader {
 		}
 		
 		if($_POST['post_descr']){
-			$id = intval($_POST['id']);
+			$id = $_POST['id'];
 			if($id){
-				$emps->db->query("update ".TP."e_uploads set descr='".$emps->db->sql_escape($_POST['descr'])."' where id=".$id);
-				$emps->redirect_elink();exit();
+                $this->p->up->update_file($id, ['descr' => $_POST['descr']]);
+				$emps->redirect_elink();exit;
 			}
 		}
 		
@@ -70,7 +70,7 @@ class EMPS_BlueimpUploader {
 			$id = intval($_POST['id']);
 			if($id){
 				$this->handle_reupload($id);
-				$emps->redirect_elink();exit();
+				$emps->redirect_elink();exit;
 			}
 		}
 		
@@ -82,7 +82,7 @@ class EMPS_BlueimpUploader {
 					$this->p->download_image($this->context_id, $v);
 				}
 			}
-			$emps->redirect_elink();exit();			
+			$emps->redirect_elink();exit;
 		}
 		
 		if($_POST['upload']){
@@ -176,24 +176,23 @@ class EMPS_BlueimpUploader {
 			if($_GET['links']){
 				$emps->no_smarty = true;
 				
-				$id = intval($_GET['links']);
-				$row = $emps->db->get_row("e_uploads","id=$id");
-				$row = $this->p->image_extension($row);			
-				$smarty->assign("row",$row);
+				$id = $_GET['links'];
+                $row = $this->p->up->file_info($id);
+				$smarty->assign("row", $row);
 				$smarty->assign("BaseURL", EMPS_SCRIPT_WEB);
 				$smarty->display("db:photos/blueimp/links");
 				exit();
 			}
 			
 			if($_GET['resize16x9']){
-				$id = intval($_GET['resize16x9']);
+				$id = $_GET['resize16x9'];
 				$mode = $_GET['mode'];
 				$this->p->resize_16x9($id, $mode);
 				$emps->redirect_elink();exit();
 			}
 			
 			if($_GET['qual']){
-				$id = intval($_GET['qual']);
+				$id = $_GET['qual'];
 				$mode = intval($_GET['mode']);
 				$this->p->set_quality($id, $mode);
 				$emps->redirect_elink();exit();

@@ -9,8 +9,13 @@
 var emps_scripts = [];
 </script>
 
-<link href="/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-<link href="/css/bootstrap-theme.min.css" rel="stylesheet" {{$add_media}} />
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+    <link href="/bootstrap4/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
+{{else}}
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="/css/bootstrap-theme.min.css" rel="stylesheet" {{$add_media}} />
+{{/if}}
 
 <link href="/css/default.css" rel="stylesheet" type="text/css" {{$add_media}} />
 <link href="/css/engine.css" rel="stylesheet" type="text/css" {{$add_media}} />

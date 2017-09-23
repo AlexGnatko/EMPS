@@ -1,0 +1,48 @@
+{{if $lang eq "en"}}
+{{assign var="str_title" value="Insert photos as a gallery (strip)"}}
+{{assign var="str_back" value="Back"}}
+{{assign var="str_cancel" value="Cancel"}}
+{{assign var="str_insert_all" value="Insert all images"}}
+{{assign var="str_insert_selected" value="Insert selected"}}
+{{else}}
+{{assign var="str_title" value="Вставка фотогалереи из иллюстраций (полоска)"}}
+{{assign var="str_back" value="Назад"}}
+{{assign var="str_cancel" value="Отмена"}}
+{{assign var="str_insert_all" value="Вставить все изображения в блок"}}
+{{assign var="str_insert_selected" value="Вставить выбранные"}}
+{{/if}}
+{{if $mode == 'title'}}
+{{$str_title}}
+{{elseif $mode == 'footer'}}
+{{if $back}}
+        <button type="button" class="btn btn-primary" onclick="{{$onclick}}" id="tmce_action"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp; {{$str_back}}</button>
+{{/if}}        
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
+
+{{elseif $mode == 'body'}}
+
+
+{{section name=i loop=$lst}}<div class="picpick">
+<a href="javascript:voidClick()" class="piclick" title="{{$lst[i].descr|escape:html}}" data-link="{{$lst[i].id}}"><img src="/freepic/{{$lst[i].md5}}.{{$lst[i].ext}}?size=130x95" width="130" height="95"/></a>
+</div>{{/section}}
+
+<script>
+$(".piclick").click(function(e){
+	tmce_toggle_image(e.currentTarget);
+});
+
+tmce_selected = [];
+</script>
+
+<div class="row upspace">
+<div class="col-md-6">
+<p align="left"><a href="javascript:tmce_montage_answer('all')" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>&nbsp; {{$str_insert_all}}</a></p>
+</div>
+<div class="col-md-6">
+<p align="right"><a href="javascript:tmce_montage_answer('selected')" class="btn btn-primary "><i class="glyphicon glyphicon-hand-left"></i>
+&nbsp; {{$str_insert_selected}}</a></p>
+</div>
+</div>
+
+{{else}}
+{{/if}}

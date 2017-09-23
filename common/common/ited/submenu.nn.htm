@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs">
 {{section name=k loop=$smenu}}
-<li {{if $smenu[k].sel}}class="active"{{/if}}><a href="{{$smenu[k].link}}">{{$smenu[k].name}}</a></li>
+<li class="nav-item"><a class="nav-link {{if $smenu[k].sel}}active{{/if}}" href="{{$smenu[k].link}}">{{$smenu[k].name}}</a></li>
 {{/section}}
 </ul>

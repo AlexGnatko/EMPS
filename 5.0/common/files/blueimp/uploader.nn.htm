@@ -63,8 +63,13 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{if $smarty.const.EMPS_BOOTSTRAP != 4 }}
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{/if}}
         <h4 class="modal-title">{{$str_file_descr}}<span id="descr_id"></span></h4>
+          {{if $smarty.const.EMPS_BOOTSTRAP == 4 }}
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{/if}}
       </div>
       <div class="modal-body">
         <p><textarea name="descr" id="descr_input" rows="5" class="form-control"></textarea></p>
@@ -96,8 +101,14 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">{{$str_download}}<span id="descr_id"></span></h4>
+          {{if $smarty.const.EMPS_BOOTSTRAP != 4 }}
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{/if}}
+          <h4 class="modal-title">{{$str_download}}<span id="descr_id"></span></h4>
+          {{if $smarty.const.EMPS_BOOTSTRAP == 4 }}
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{/if}}
+
       </div>
       <div class="modal-body">
         <p><textarea name="links" id="descr_input" rows="5" class="form-control" placeholder="{{$str_many}}"></textarea></p>
@@ -121,8 +132,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">{{$str_replace}}<span id="upload_id"></span></h4>
+          {{if $smarty.const.EMPS_BOOTSTRAP != 4 }}
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{/if}}
+          <h4 class="modal-title">{{$str_replace}}<span id="upload_id"></span></h4>
+          {{if $smarty.const.EMPS_BOOTSTRAP == 4 }}
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {{/if}}
+
+
       </div>
       <div class="modal-body">
       	<p>{{$str_replace_descr}}</p>
@@ -198,7 +216,7 @@
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
 
-    <div class="row template-upload fade sortable">
+    <div class="row template-upload sortable">
         <div class="col-md-7">
             <p class="name">{%=file.name%}</p>
             {% if (file.error) { %}
@@ -233,7 +251,7 @@
 <!-- The template to display files available for download -->
 <script id="template-download" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <div class="row sortable template-download fade" data-id="{%=file.fileId%}">
+    <div class="row sortable template-download " data-id="{%=file.fileId%}">
         <div class="col-md-7">
             <p class="name">
                 {% if (file.url) { %}
@@ -256,9 +274,17 @@
 			{% } %}</p>
 {{if $CanSave}}
 			<p>
-			<a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> {{$str_b_descr}}</a>
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+            <a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i> {{$str_b_descr}}</a>
+			<a href="javascript:reupload_file('{%=file.fileId%}')" class="btn btn-secondary btn-sm"><i class="glyphicon glyphicon-transfer"></i> {{$str_b_replace}}</a>
+			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-secondary btn-sm"><i class="glyphicon glyphicon-share"></i> {{$str_b_links}}</a>
+
+{{else}}
+            <a href="javascript:enter_descr('{%=file.fileId%}')" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> {{$str_b_descr}}</a>
 			<a href="javascript:reupload_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-transfer"></i> {{$str_b_replace}}</a>
-			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> {{$str_b_links}}</a>			
+			<a href="javascript:links_file('{%=file.fileId%}')" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-share"></i> {{$str_b_links}}</a>
+
+{{/if}}
 			</p>
 {{/if}}
             {% if (file.error) { %}

@@ -77,7 +77,7 @@ class EMPS_Photos
         }
 
         $z = explode("x", $size);
-        $opts = explode(",", $opts);
+        $opts = explode(",", $thumb_opts);
 
         $tx = $z[0];
         $ty = $z[1];
@@ -130,16 +130,15 @@ class EMPS_Photos
         $thumb_data = [];
         $emps->copy_values($thumb_data, $ra, "uniq_md5,context_id,orig_filename,ord,user_id");
 
+        $thumb_data['context_id'] = $emps->db->oid($thumb_data['context_id']);
+
         $thumb_data['ut'] = "t";
         $thumb_data['filename'] = $thumb_gfs;
         $thumb_data['orig_filename'] = $thumb_data['orig_filename']."-".$size."-".$thumb_opts.".jpg";
         $thumb_data['content_type'] = "image/jpeg";
         $thumb_data['ext'] = "jpg";
-        $thumb_data['thumb'] = $size."|".$thumb_opts;
         $thumb_data['qual'] = 100;
         $thumb_data['photo__id'] = $emps->db->oid($ra['_id']);
-
-
 
         $thumb_file_id = $this->up->new_file($thumb_fname, $thumb_data);
 
@@ -162,7 +161,7 @@ class EMPS_Photos
 
         $photo_id = $emps->db->oid($photo_id);
 
-        $lst = $this->up->list_files_ex(['photo__id' => $photo_id, 'ut' => 't'], ['limit' => 0]);
+        $lst = $this->up->list_files_ex(['photo__id' => $photo_id], ['limit' => 0]);
         foreach($lst as $file){
             $this->up->delete_file($emps->db->oid($file['_id']));
         }
@@ -309,10 +308,14 @@ class EMPS_Photos
 
         imagejpeg($dst, $thumb_fname, 100);
 
+        $data['width'] = round($px, 0);
+        $data['height'] = round($py, 0);
+
         $file_id = $this->up->new_file($main_fname, $data);
 
         $thumb_data = [];
         $emps->copy_values($thumb_data, $data, "uniq_md5,context_id,ord");
+        $thumb_data['context_id'] = $emps->db->oid($thumb_data['context_id']);
         $thumb_data = $data;
         $thumb_data['ut'] = "t";
         $thumb_data['filename'] = $thumb_data['uniq_md5']."-".$thumb_data['ut']."-".$thumb_dims."-".$img_opts;
@@ -343,29 +346,19 @@ class EMPS_Photos
     public function first_pic($context_id)
     {
         global $emps;
-        $r = $emps->db->query("select * from " . TP . "e_uploads where context_id=$context_id order by ord asc limit 1");
-        $ra = $emps->db->fetch_named($r);
-        if ($ra) {
-            $ra = $this->image_extension($ra);
+
+        $lst = $this->up->list_files_ex(['context_id' => $emps->db->oid($context_id), 'ut' => 'i'], ['limit' => 1, 'sort' => ['ord' => 1]]);
+        if(count($lst) > 0){
+            return $lst[0];
         }
-        return $ra;
+
+        return [];
     }
 
     public function list_pics($context_id, $limit)
     {
         global $emps;
         return $this->up->list_files_ex(['context_id' => $emps->db->oid($context_id), 'ut' => 'i'], ['limit' => $limit, 'sort' => ['ord' => 1]]);
-    }
-
-    public function pixel_size($upload_id)
-    {
-        global $emps;
-        $file_name = $this->up->upload_filename($upload_id, DT_IMAGE);
-        if (!file_exists($file_name)) return false;
-        $s = getimagesize($file_name);
-        $psize = $s[0] . "x" . $s[1];
-        $emps->db->query("update " . TP . "e_uploads set psize='$psize' where id=$upload_id");
-        return $psize;
     }
 
     public function import_photos($context_id, $data)
@@ -406,7 +399,7 @@ class EMPS_Photos
                 $_REQUEST['type'] = $type;
                 $_REQUEST['size'] = $size;
                 $_REQUEST['thumb'] = EMPS_PHOTO_SIZE;
-                $_REQUEST['context_id'] = $context_id;
+                $_REQUEST['context_id'] = $emps->db->oid($context_id);
                 $_REQUEST['ord'] = $ord;
                 $emps->db->sql_insert("e_uploads");
                 $file_id = $emps->db->last_insert();
@@ -469,10 +462,9 @@ class EMPS_Photos
 
     public function delete_photos_context($context_id)
     {
-        global $emps;
-        $r = $emps->db->query("select * from " . TP . "e_uploads where context_id=$context_id");
-        while ($ra = $emps->db->fetch_named($r)) {
-            $this->up->delete_file($ra['id'], DT_IMAGE);
+        $lst = $this->up->list_files($context_id, 'i', 0);
+        foreach($lst as $file){
+            $this->delete_photo($file['_id']);
         }
     }
 
@@ -505,15 +497,6 @@ class EMPS_Photos
             $ra['qual'] = 100;
         }
 
-        return $ra;
-    }
-
-    public function image_sizes($ra)
-    {
-        $ps = $this->pixel_size($ra['id']);
-        $x = explode("x", $ps);
-        $ra['width'] = $x[0];
-        $ra['height'] = $x[1];
         return $ra;
     }
 
@@ -879,37 +862,74 @@ class EMPS_Photos
     {
         global $emps;
 
-        $ra = $emps->db->get_row("e_uploads", "id = " . $file_id);
-        if ($ra) {
-            $emps->db->query("update " . TP . "e_uploads set qual = $mode where id = " . $file_id);
-            $ra['qual'] = $mode;
+        $photo_id = $emps->db->oid($file_id);
 
-            $fname = $this->up->upload_filename($file_id, DT_IMAGE);
+        $lst = $this->up->list_files_ex(['_id' => $photo_id, 'ut' => 'i'], ['limit' => 1, 'sort' => ['ord' => 1, '_id' => 1]]);
+        if(count($lst) > 0){
+            $pic = $lst[0];
+        }
+        if($pic){
 
-            $orig_name = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-orig.dat";
-            if (!file_exists($orig_name)) {
-                copy($fname, $orig_name);
+            $lst = $this->up->list_files_ex(['photo__id' => $photo_id, 'ut' => 'q'], ['limit' => 1, 'sort' => ['ord' => 1, '_id' => 1]]);
+            if(count($lst) > 0){
+                foreach($lst as $eq){
+                    $this->up->delete_file($eq['_id']);
+                }
             }
 
-            if (strstr($ra['type'], "jpeg")) {
-                $img = imagecreatefromjpeg($orig_name);
-            } elseif (strstr($ra['type'], "png")) {
-                $img = imagecreatefrompng($orig_name);
-            } elseif (strstr($ra['type'], "gif")) {
-                $img = imagecreatefromgif($orig_name);
+            $file_gfs = $pic['uniq_md5']."-q-".$mode;
+            $main_fname = tempnam($this->tmppath, "emps_photo_main");
+            $qual_fname = tempnam($this->tmppath, "emps_photo_qual");
+
+            $file = fopen($main_fname, 'wb');
+
+            $this->up->bucket->downloadToStream($photo_id, $file);
+            fclose($file);
+
+
+            if (strstr($pic['content_type'], "jpeg")) {
+                $img = imagecreatefromjpeg($main_fname);
+            } elseif (strstr($pic['type'], "png")) {
+                $img = imagecreatefrompng($main_fname);
+            } elseif (strstr($pic['type'], "gif")) {
+                $img = imagecreatefromgif($main_fname);
             } else {
                 return;
             }
 
-            imagejpeg($img, $fname, $mode);
+            imagejpeg($img, $qual_fname, $mode);
 
-            $size = filesize($fname);
-            $emps->db->query("update " . TP . "e_uploads set size=$size where id=" . $file_id);
+            $size = filesize($qual_fname);
+
+            // INSERT
+            $thumb_data = [];
+            $emps->copy_values($thumb_data, $pic, "uniq_md5,context_id,orig_filename,user_id");
+
+            $thumb_data['context_id'] = $emps->db->oid($thumb_data['context_id']);
+
+            $thumb_data['ut'] = "q";
+            $thumb_data['filename'] = $file_gfs;
+            $thumb_data['orig_filename'] = $thumb_data['orig_filename']."-q-".$mode.".jpg";
+            $thumb_data['content_type'] = "image/jpeg";
+            $thumb_data['ext'] = "jpg";
+            $thumb_data['qual'] = $mode;
+            $thumb_data['photo__id'] = $emps->db->oid($pic['_id']);
+
+            $qual_file_id = $this->up->new_file($qual_fname, $thumb_data);
+
+            $this->up->update_file($pic['_id'], ['view__id' => $qual_file_id, 'qual' => $mode]);
 
             if (is_resource($img)) {
                 imagedestroy($img);
             }
+
+            unlink($main_fname);
+            unlink($qual_fname);
+
+            return $qual_file_id;
         }
+
+        return false;
     }
 }
 

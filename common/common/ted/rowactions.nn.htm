@@ -6,6 +6,21 @@
 {{assign var="str_delete" value="Удалить"}}
 {{/if}}
 
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+  <div class="btn-group btn-group-sm">
+    <a href="{{$lst[i].ilink}}" class="btn btn-primary"><span class="fa fa-pencil"></span>&nbsp; {{$str_edit}}</a>
+
+    <button type="button" class="btn btn-primary dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a class="dropdown-item" href="{{$lst[i].klink}}">&times; &nbsp; {{$str_delete}}</a>
+    </div>
+
+  </div>
+
+{{else}}
+
 
 <div class="btn-group">
   <a href="{{$lst[i].ilink}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp; {{$str_edit}}</a>
@@ -16,3 +31,5 @@
     <li><a href="{{$lst[i].klink}}">&times; &nbsp; {{$str_delete}}</a></li>
   </ul>
 </div>
+
+{{/if}}

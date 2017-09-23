@@ -152,15 +152,21 @@ class EMPS extends EMPS_Common {
 		$query['grp'] = $code;
 		$query['enabled'] = 1;
 		if($parent){
-			$query['parent'] = $this->db->oid($parent);
+			$query['parent'] = intval($parent);
 		}else{
-			$query['parent'] = array('$exists' => false);
-		}
-		
+            $query['$or'] = [
+                ['parent' =>
+                    ['$exists' => false]
+                ],
+                ['parent' => 0]
+            ];
+
+        }
 		$params = array();
 		$params['query'] = $query;
 		$params['options'] = array('sort' => array('ord' => 1));
 		$cursor = $this->db->find("emps_menu", $params);
+		//$this->json_dump($params);
 		
 		$mlst = array();
 		foreach($cursor as $ra){
@@ -179,9 +185,14 @@ class EMPS extends EMPS_Common {
 			$query['grp'] = $code;
 			$query['enabled'] = 1;
 			if($use_parent){
-				$query['parent'] = $this->db->oid($use_parent);
+				$query['parent'] = intval($use_parent);
 			}else{
-				$query['parent'] = array('$exists' => false);
+                $query['$or'] = [
+                    ['parent' =>
+                        ['$exists' => false]
+                    ],
+                    ['parent' => 0]
+                ];
 			}
 			
 			$params = array();
@@ -192,7 +203,7 @@ class EMPS extends EMPS_Common {
 			$dlst = array();
 			foreach($cursor as $ra){
 				$ra = $this->db->safe_array($ra);
-				$ra['default_id'] = $ra['_id'];
+				$ra['default_id'] = $ra['id'];
 				$dlst[] = $ra;
 			}
 
@@ -202,7 +213,7 @@ class EMPS extends EMPS_Common {
 				$add = true;
 				while(list($nn, $vv) = each($mlst)){
 					if($vv['uri'] == $v['uri'] && $vv['grp'] == $v['grp']){
-						$mlst[$nn]['default_id'] = $v['_id'];
+						$mlst[$nn]['default_id'] = $v['id'];
 						$add = false;
 					}
 				}
@@ -277,7 +288,7 @@ class EMPS extends EMPS_Common {
 				if($this->auth->USER_ID) continue;
 			}
 	
-			$smenu = $this->section_menu_ex($code, $ra['_id'], $ra['default_id']);
+			$smenu = $this->section_menu_ex($code, $ra['id'], $ra['default_id']);
 	
 			$ra['sub'] = $smenu;
 			$ra['md'] = $md;

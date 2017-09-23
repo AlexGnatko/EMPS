@@ -1,0 +1,131 @@
+<div class="modal" id="enter_descr">
+</div>
+
+<div class="modal" id="links_video">
+</div>
+
+<div class="videos col-md-12" >
+{{section name=i loop=$lst}}
+
+    <div class="row sortable" data-id="{{$lst[i].id}}">
+        <div class="col-md-2" align="center">
+            <span class="preview">
+                    <a href="{{$lst[i].vslink}}" rel="uploaded" title="{{$lst[i].name}}" target="_blank"><img src="/thumb/{{$lst[i].pic.filename}}/{{$lst[i].pic.orig_filename}}"></a>
+            </span>
+        </div>
+        <div class="col-md-8">
+            <p class="name">
+                <a href="{{$lst[i].vslink}}" title="{{$lst[i].name}}" target="_blank"><strong>{{$lst[i].name}}</strong></a>
+				<span class="label label-default">{{$lst[i].id}}</span>
+            </p>
+			<p>
+{{if $lst[i].description}}
+			<span id="video_descr_{{$lst[i].id}}" >{{$lst[i].description|escape:html|nl2br}}</span>
+{{else}}
+			<span>(нет описания)</span>			
+{{/if}}</p>
+			<p>
+
+			<a href="javascript:enter_descr('{{$lst[i]._id}}')" class="btn btn-primary btn-sm btn-xs"><i class="glyphicon glyphicon-pencil"></i> Description</a>
+			<a href="javascript:ask_do('Re-process the video? (update the thumbnail picture and description from YouTube)','?process={{$lst[i]._id}}')" class="btn btn-info btn-sm btn-xs"><i class="glyphicon glyphicon-repeat"></i> Re-process</a>
+			<a href="javascript:links_video('{{$lst[i]._id}}')" class="btn btn-secondary btn-default btn-sm btn-xs"><i class="glyphicon glyphicon-share"></i> Links and embedding code</a>
+
+			</p>
+        </div>
+        <div class="col-md-2 video-sorting" >
+            <p><span class="size"><strong>{{$lst[i].dur}}</strong></span><br />
+{{$lst[i].time}}</p>
+<p>                <a class="btn btn-danger" href="javascript:ask_do('Remove this video from this website?','./?delete={{$lst[i]._id}}')">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Remove</span>
+                </a></p>
+        </div>
+    </div>
+
+
+{{/section}}
+</div>
+
+<div class="row">
+<div class="col-md-12">
+<form action="." method="post" class="form" role="form">
+<div class="card panel panel-primary">
+<div class="card-header panel-heading">Add New Video</div>
+<div class="card-body panel-body">
+<input type="hidden" name="post_new" value="1" /> 
+
+<p>
+<label for="video_name">Title:</label>
+<input type="text" class="form-control" id="video_name" name="name" placeholder="Great New Video" />
+<div class="help-block">(you can keep this field empty to take the title from YouTube)</div>
+</p>
+
+<p>
+<label for="video_descr">Description:</label>
+<textarea class="form-control" rows="4" id="video_descr" name="descr"></textarea>
+<div class="help-block">(as with the title, you can keep this one empty)</div>
+</p>
+
+<p>
+<label for="video_link">Link to YouTube page of the video:</label>
+<input type="text" class="form-control" id="video_link" name="url" placeholder="http://www.youtube.com/watch?v=VideoCode" />
+<div class="help-block">Please enter the full URL of the YouTube page that contains the video.<br />
+It should look like: <strong>http://www.youtube.com/watch?v=<span style="color:#333366">VideoCode</span></strong><span style="color:#CCCCCC">&amp;extra parameters</span><br />
+Please do not use the short <b>youtu.be</b> links! Use the full <b>youtube.com</b> ones.
+</div>
+</p>
+
+</div>
+<div class="card-footer panel-footer">
+<div class="row">
+<div class="col-md-9">
+</div>
+<div class="col-md-3">
+<p><button type="submit" class="pull-right btn btn-primary btn-lg" data-loading-text="Wait..." >Add Video</button></p>
+</div>
+</div>
+</div>
+</form>
+</div>
+</div>
+
+<script>
+var ajax_wait;
+$(function(){
+	ajax_wait = $('#ajax-wait');
+	ajax_wait.css({ width: $(window).width(), height: $(window).height() });
+	$('.videos').sortable({
+        handle: '.video-sorting',		
+		items: '.sortable',
+		update: function(e,ui) {
+			var ids = [];
+			$('.videos').find('.sortable').each(function(){
+				var file_id = $(this).data('id');
+				if(file_id != undefined)
+					ids.push(file_id);
+			});
+			$.ajax({
+				beforeSend: function() { ajax_wait.fadeIn(); },
+				complete: function() { ajax_wait.fadeOut(); },
+				url: './?reorder_videos=true',
+				data: {p: ids}
+			});
+		}
+	});
+});
+
+function links_video(id){
+	$("#links_video").load("./?links="+id);
+	$("#links_video").modal("show");
+}
+
+function enter_descr(id){
+	$("#enter_descr").load("./?descr="+id);	
+	$("#enter_descr").modal("show");
+}
+
+function close_modal(id){
+    $("#"+id).modal("hide");
+}
+</script>
+
