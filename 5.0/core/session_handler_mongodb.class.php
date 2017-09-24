@@ -40,7 +40,6 @@ class EMPS_SessionHandler implements SessionHandlerInterface
         $params['query'] = ['sess_id' => $id];
         $row = $emps->db->get_row("emps_php_sessions", $params);
 
-        //dump($row); exit;
         if($row === false){
             $doc = [];
             $doc['sess_id'] = $id;
@@ -95,16 +94,19 @@ class EMPS_SessionHandler implements SessionHandlerInterface
             $params = [];
             $params['query'] = ['sess_id' => $id];
             $row = $emps->db->get_row("e_php_sessions", $params);
-            if ($row) {
-                $params = array();
-                $params['query'] = array("_id" => $emps->db->oid($row['_id']));
-                $params['update'] = array('$set' => $doc);
-                $emps->db->update_one("emps_php_sessions", $params);
-            } else {
+            dump($row); exit;
+            if ($row === false) {
                 $doc['sess_id'] = $id;
                 $params = array();
                 $params['doc'] = $doc;
                 $emps->db->insert("emps_php_sessions", $params);
+
+            } else {
+                $params = array();
+                $params['query'] = array("_id" => $emps->db->oid($row['_id']));
+                $params['update'] = array('$set' => $doc);
+                $emps->db->update_one("emps_php_sessions", $params);
+
             }
         }
 
