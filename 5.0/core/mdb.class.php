@@ -12,8 +12,10 @@ class EMPS_MongoDB {
 	
 	public function __construct(){
 		global $emps_mongodb_config;
-		
-		$this->mongo = new MongoDB\Driver\Manager($emps_mongodb_config['url'], $emps_mongodb_config['options']);
+
+		$options = $emps_mongodb_config['options'];
+		//$options['readConcernLevel'] = "linearizable";
+		$this->mongo = new MongoDB\Driver\Manager($emps_mongodb_config['url'], $options);
 		$this->mdb = new MongoDB\Database($this->mongo, $emps_mongodb_config['database']);
 		$this->database_name = $emps_mongodb_config['database'];
 
@@ -45,7 +47,9 @@ class EMPS_MongoDB {
 		if(isset($this->collection_cache[$collection_name])){
 			return $this->collection_cache[$collection_name];
 		}
-		$collection = new MongoDB\Collection($this->mongo, $this->database_name, $collection_name);
+		$options['readConcern'] = new MongoDB\Driver\ReadConcern("local");
+		//var_dump($options);
+		$collection = new MongoDB\Collection($this->mongo, $this->database_name, $collection_name, $options);
 		$this->collection_cache[$collection_name] = $collection;
 		return $collection;
 	}
@@ -62,6 +66,8 @@ class EMPS_MongoDB {
 	}
 	
 	public function find($collection_name, $params){
+	    global $emps;
+
 		$collection = $this->collection($collection_name);
 
 		if(!$collection){
@@ -73,6 +79,18 @@ class EMPS_MongoDB {
 		}else{
 			$options = $params['options'];
 		}
+
+
+		//$concern = $collection->getReadConcern();
+		//var_dump($concern);
+		//echo "<br/>LEVEL: ".$concern->getLevel()."<br/>";
+
+		if(!isset($options['readConcern'])) {
+            //$options['readConcern'] = $this->mongo->getReadConcern();
+//            $options['readConcern'] = new MongoDB\Driver\ReadConcern("linearizable");
+        }
+        //var_dump($options);
+        //$emps->json_dump($options);
 		
 		$cursor = $collection->find($params['query'], $options);
 		
