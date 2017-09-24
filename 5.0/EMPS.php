@@ -366,5 +366,25 @@ class EMPS extends EMPS_Common {
 		
 		return $new_doc;
 	}
+
+    public function ensure_browser($name)
+    {
+        if (isset($this->db)) {
+            $params = [];
+            $params['query'] = ['name' => $name];
+            $row = $this->db->get_row("emps_browsers", $params);
+            if ($row) {
+                return $this->db->oid($row['_id']);
+            } else {
+                $params = array();
+                $params['doc'] = ['name' => $name];
+                $this->db->insert("emps_browsers", $params);
+
+                return $this->db->last_id;
+            }
+        } else {
+            return null;
+        }
+    }
 }
 
