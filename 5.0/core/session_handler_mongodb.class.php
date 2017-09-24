@@ -93,8 +93,7 @@ class EMPS_SessionHandler implements SessionHandlerInterface
 
             $params = [];
             $params['query'] = ['sess_id' => $id];
-            $row = $emps->db->get_row("e_php_sessions", $params);
-            dump($row); exit;
+            $row = $emps->db->get_row("emps_php_sessions", $params);
             if ($row === false) {
                 $doc['sess_id'] = $id;
                 $params = array();
