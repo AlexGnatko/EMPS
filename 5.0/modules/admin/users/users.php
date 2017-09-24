@@ -33,7 +33,9 @@ if($emps->auth->credentials("root")):
 			$emps->auth->ensure_fullname($user);
 		}
 		
-		public function pre_save(){
+		public function pre_save($id){
+		    global $emps;
+
 			$x = explode(",", $_POST['grp']);
 			$a = array();
 			foreach($x as $v){
