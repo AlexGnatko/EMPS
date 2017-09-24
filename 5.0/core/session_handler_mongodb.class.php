@@ -40,8 +40,8 @@ class EMPS_SessionHandler implements SessionHandlerInterface
         $params['query'] = ['sess_id' => $id];
         $row = $emps->db->get_row("emps_php_sessions", $params);
 
-        dump($row); exit;
-        if(!$row){
+        //dump($row); exit;
+        if($row === false){
             $doc = [];
             $doc['sess_id'] = $id;
             $doc['ip'] = $_SERVER['REMOTE_ADDR'];
