@@ -61,4 +61,3 @@ class EMPS_Auth_Common
     }
 }
 
-?>

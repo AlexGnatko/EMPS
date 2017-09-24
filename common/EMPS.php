@@ -633,9 +633,12 @@ class EMPS_Common
             $xx = explode("=", $v, 3);
             $e = array();
             $e['code'] = trim($xx[0]);
+            if(intval($e['code']) == $e['code']){
+                $e['code'] = intval($e['code']);
+            }
             $e['value'] = $xx[1];
             $dx = explode(",", $xx[2]);
-            while (list($nn, $vv) = each($dx)) {
+            foreach($dx as $vv){
                 $e[$vv] = 1;
             }
             $lst[] = $e;
@@ -1457,6 +1460,18 @@ class EMPS_Common
                 $file_list[$file] = true;
             }
             $file = $this->common_module_ex("config/enum." . $this->lang . ".txt", $i);
+            if (!isset($file_list[$file])) {
+//				echo $file."<br/>";
+                $this->load_enums_from_file_ex($file);
+                $file_list[$file] = true;
+            }
+
+            $file = $this->common_module_ex("config/project/enum.nn.txt", $i);
+            if (!isset($file_list[$file])) {
+                $this->load_enums_from_file_ex($file);
+                $file_list[$file] = true;
+            }
+            $file = $this->common_module_ex("config/project/enum." . $this->lang . ".txt", $i);
             if (!isset($file_list[$file])) {
 //				echo $file."<br/>";
                 $this->load_enums_from_file_ex($file);
