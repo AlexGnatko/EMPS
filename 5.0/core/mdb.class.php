@@ -47,9 +47,9 @@ class EMPS_MongoDB {
 		if(isset($this->collection_cache[$collection_name])){
 			return $this->collection_cache[$collection_name];
 		}
-		$options['readConcern'] = new MongoDB\Driver\ReadConcern("local");
+		//$options['readConcern'] = new MongoDB\Driver\ReadConcern("local");
 		//var_dump($options);
-		$collection = new MongoDB\Collection($this->mongo, $this->database_name, $collection_name, $options);
+		$collection = new MongoDB\Collection($this->mongo, $this->database_name, $collection_name);
 		$this->collection_cache[$collection_name] = $collection;
 		return $collection;
 	}
