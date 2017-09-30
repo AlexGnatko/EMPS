@@ -633,7 +633,7 @@ class EMPS_Common
             $xx = explode("=", $v, 3);
             $e = array();
             $e['code'] = trim($xx[0]);
-            if(intval($e['code']) == $e['code']){
+            if(strval(intval($e['code'])) == $e['code']){
                 $e['code'] = intval($e['code']);
             }
             $e['value'] = $xx[1];
