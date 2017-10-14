@@ -11,7 +11,7 @@ class EMPS_Properties
 
     public function save_property($context_id, $code, $datatype, $value, $history, $idx)
     {
-        global $SET, $emps;
+        global $emps;
 
         $SET = array();
         $SET['context_id'] = $context_id;
@@ -44,10 +44,10 @@ class EMPS_Properties
 
         $row = $emps->db->get_row("e_properties", "context_id = ".$context_id." and code = '".$code."' and status = 0 and idx = ".$idx);
         if (!$row) {
-            $emps->db->sql_insert("e_properties");
+            $emps->db->sql_insert_row("e_properties", ['SET' => $SET]);
         } else {
             if (!$history) {
-                $emps->db->sql_update("e_properties", "id=" . $row['id']);
+                $emps->db->sql_update_row("e_properties", ['SET' => $SET], "id=" . $row['id']);
                 $emps->db->query("delete from ".TP."e_properties where context_id = ".$context_id." and code = '".$code."' and status = 0 and idx = ".$idx." and id <> ".$row['id']);
             } else {
                 if ($row[$field] == $value) {
@@ -55,9 +55,9 @@ class EMPS_Properties
                     $S = $SET;
                     $SET = array();
                     $SET['status'] = 1;
-                    $emps->db->sql_update("e_properties", "id=" . $row['id']);
+                    $emps->db->sql_update_row("e_properties", ['SET' => $SET], "id=" . $row['id']);
                     $SET = $S;
-                    $emps->db->sql_insert("e_properties");
+                    $emps->db->sql_insert_row("e_properties", ['SET' => $SET]);
                 }
             }
         }
@@ -99,7 +99,7 @@ class EMPS_Properties
         global $emps;
 
         $x = explode(",", $props);
-        while (list($n, $v) = each($x)) {
+        foreach ($x as $n => $v) {
             $v = trim($v);
             $xv = explode(":", $v);
             $xv[0] = trim($xv[0]);

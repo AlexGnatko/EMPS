@@ -121,9 +121,19 @@ ng_modules = [];
 {{/if}}
 
 {{if $page.tinymce}}
-<script type="text/javascript" src="/js/tinymce/tinymce.min.js" {{$add_defer}}></script>
+    {{if $page.use_bower}}
+        <script type="text/javascript" src="/bower_components/tinymce/tinymce.min.js" {{$add_defer}}></script>
+    {{else}}
+        <script type="text/javascript" src="/js/tinymce/tinymce.min.js" {{$add_defer}}></script>
+    {{/if}}
+
 {{if $page.tinymce_ng}}
-<script type="text/javascript" src="/js/tinymce/ng/tinymce.js" {{$add_defer}}></script>
+    {{if $page.use_bower}}
+        <script type="text/javascript" src="/bower_components/angular-ui-tinymce/dist/tinymce.min.js" {{$add_defer}}></script>
+    {{else}}
+        <script type="text/javascript" src="/js/tinymce/ng/tinymce.js" {{$add_defer}}></script>
+    {{/if}}
+
 <script>
 ng_modules.push('ui.tinymce');
 </script>
