@@ -520,7 +520,7 @@ class EMPS_Auth
 
             $result = file_get_contents($url);
 
-            error_log($result);
+            error_log("Result: '".$result."'");
 
             $user = json_decode($result)[0];
             if (isset($user->uid)) {
