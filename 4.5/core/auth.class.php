@@ -501,7 +501,7 @@ class EMPS_Auth
         }
 
         if ($target == 'mailru') {
-            //error_log("TARGET: Mail.ru");
+            error_log("TARGET: Mail.ru");
 
             $params = array(
                 "app_id=" . OAUTH_MAILRU_ID,
@@ -516,11 +516,11 @@ class EMPS_Auth
             $sig = md5($sigq . OAUTH_MAILRU_SECRET);
 
             $url = "http://www.appsmail.ru/platform/api?" . $query . "&sig=" . $sig;
-            //error_log($url);
+            error_log($url);
 
             $result = file_get_contents($url);
 
-            //error_log($result);
+            error_log($result);
 
             $user = json_decode($result)[0];
             if (isset($user->uid)) {
