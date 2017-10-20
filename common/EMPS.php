@@ -1205,6 +1205,9 @@ class EMPS_Common
             $a['next'] = $npl[$selitem]['next'];
         }
 
+        $GLOBALS[$this->page_var] = "all";
+        $a['all'] = ['start' => 'all', 'link' => $this->clink($this->page_clink)];
+
         $GLOBALS[$this->page_var] = $cs;
 
         $a['pl'] = $npl;
