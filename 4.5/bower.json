@@ -12,6 +12,7 @@
 	"jquery-ui": "latest",
 	"clipboard": "latest",
 	"flag-icon-css": "latest",
-	"angular-ui-tinymce": "latest"
+	"angular-ui-tinymce": "latest",
+    "angular-ui-tree": "latest"
   }
 }
