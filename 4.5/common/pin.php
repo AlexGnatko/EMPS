@@ -14,6 +14,8 @@ if (!$number) {
     $number = "0000000";
 }
 
+$nodir = $emps->get_setting("straight_captcha");
+
 header("Content-Type: image/png");
 $im = imagecreatetruecolor(7 * 36, 48);
 imagealphablending($im, true);
@@ -43,8 +45,10 @@ for ($i = 0; $i < $l; $i++) {
     $ci = imagecreatefrompng($fn);
 //	imagepalettecopy($im,$ci);
 
-    if ($direction == 1) {
-        imageflip($ci, IMG_FLIP_HORIZONTAL);
+    if(!$nodir) {
+        if ($direction == 1) {
+            imageflip($ci, IMG_FLIP_HORIZONTAL);
+        }
     }
 
     imagecopy($im, $ci, $i * 36, 0, 0, 0, 36, 48);
