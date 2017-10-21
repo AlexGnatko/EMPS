@@ -162,6 +162,20 @@ class EMPS_DB
         }
     }
 
+    public function where_clause($query){
+        $parts = [];
+        foreach($query as $n => $v){
+            $part = "`{$n}` = ";
+            if(is_numeric($v) || is_float($v)){
+                $part .= $v;
+            }else{
+                $v = $this->sql_escape($v);
+                $part .= "'{$v}'";
+            }
+            $parts[] = $part;
+        }
+        return impode(" and ", $parts);
+    }
 
     public function sql_insert($table)
     {
