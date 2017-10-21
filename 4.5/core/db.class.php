@@ -174,7 +174,7 @@ class EMPS_DB
             }
             $parts[] = $part;
         }
-        return impode(" and ", $parts);
+        return implode(" and ", $parts);
     }
 
     public function sql_insert($table)
