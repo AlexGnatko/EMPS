@@ -1922,4 +1922,12 @@ class EMPS_Common
         echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         echo "</pre>";
     }
+
+    public function amount($number){
+        $str = number_format($number, 10, ",", "");
+
+        $str = preg_replace('~\,0+$~','', $str);
+
+        return $str;
+    }
 }
