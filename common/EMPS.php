@@ -1926,7 +1926,7 @@ class EMPS_Common
     public function amount($number){
         $str = number_format($number, 10, ",", "");
 
-        $str = preg_replace('~\,0+$~','', $str);
+        $str = preg_replace('~0+$~','', $str);
 
         return $str;
     }
