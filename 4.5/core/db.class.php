@@ -337,6 +337,10 @@ class EMPS_DB
         return mysqli_real_escape_string($this->db, $txt);
     }
 
+    public function sql_rewind($r){
+        return mysqli_data_seek($r, 0);
+    }
+
     public function free($r)
     {
         return mysqli_free_result($r);
