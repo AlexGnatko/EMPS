@@ -333,7 +333,8 @@ class EMPS_Auth
                     if (strlen($client->access_token)) {
 //                        error_log("OAUTH: access_token = true");
 
-                        if($this->credentials("users")){
+                        if($this->USER_ID > 0){
+                            error_log("USER_ID: {$this->USER_ID}");
                             $data = $this->oauth_user_data($client, $target);
 
                             if($data['user_id']){
@@ -343,6 +344,7 @@ class EMPS_Auth
                             }
 
                         }else{
+                            error_log("NO USER_ID");
                             $data = $this->oauth_user_data($client, $target);
 
                             if ($data['user_id']) {
