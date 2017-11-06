@@ -335,7 +335,7 @@ class EMPS_Auth
                         $this->check_session();
 
                         if($this->USER_ID > 0){
-                            error_log("USER_ID: {$this->USER_ID}");
+                            //error_log("USER_ID: {$this->USER_ID}");
                             $data = $this->oauth_user_data($client, $target);
 
                             if($data['user_id']){
@@ -345,7 +345,7 @@ class EMPS_Auth
                             }
 
                         }else{
-                            error_log("NO USER_ID");
+                            //error_log("NO USER_ID");
                             $data = $this->oauth_user_data($client, $target);
 
                             if ($data['user_id']) {
@@ -359,7 +359,7 @@ class EMPS_Auth
 
                                 $oauth_id = $this->oauth_id($userword);
                                 if ($oauth_id) {
-                                    error_log("OAUTH: oauth_id: ".$oauth_id['user_id']);
+                                    //error_log("OAUTH: oauth_id: ".$oauth_id['user_id']);
                                     $user = $this->load_user($oauth_id['user_id']);
                                     if ($user) {
                                         $this->create_session($user['username'], '', 1);
@@ -371,7 +371,7 @@ class EMPS_Auth
 
                                 }
                                 if(!$oauth_id) {
-                                    error_log("OAUTH: no oauth_id {$userword}");
+                                    //error_log("OAUTH: no oauth_id {$userword}");
                                     if (!$this->taken_user($userword)) {
 
                                         $password = $this->generate_password();
@@ -401,7 +401,7 @@ class EMPS_Auth
                                         $this->create_session($userword, '', 1);
                                         $this->check_session();
 
-                                        error_log("LOGGING IN: ".$this->USER_ID.", ensuring identity {$userword}");
+                                        //error_log("LOGGING IN: ".$this->USER_ID.", ensuring identity {$userword}");
                                         if($this->USER_ID > 0){
                                             $this->ensure_identity($userword, $this->USER_ID, $target, $data);
                                         }
