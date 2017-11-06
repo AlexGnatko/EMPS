@@ -365,9 +365,12 @@ class EMPS_Auth
                                         $this->create_session($user['username'], '', 1);
                                         $emps->redirect_page($path);
                                         exit();
+                                    }else{
+                                        $oauth_id = false;
                                     }
 
-                                } else {
+                                }
+                                if(!$oauth_id) {
                                     error_log("OAUTH: no oauth_id {$userword}");
                                     if (!$this->taken_user($userword)) {
 
