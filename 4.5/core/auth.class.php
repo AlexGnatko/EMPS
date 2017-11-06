@@ -332,6 +332,7 @@ class EMPS_Auth
 //                    error_log("OAUTH: Process = true");
                     if (strlen($client->access_token)) {
 //                        error_log("OAUTH: access_token = true");
+                        $this->check_session();
 
                         if($this->USER_ID > 0){
                             error_log("USER_ID: {$this->USER_ID}");
