@@ -521,6 +521,7 @@ class EMPS_Dates
         $ti['rfmonthi'] = $this->rfmonthsi[$month - 1];
 
         $ti['minutes'] = date("H:i", $dt);
+        $ti['seconds'] = date("H:i:s", $dt);
         $ti['year'] = date("Y", $dt);
 
         return $ti;
