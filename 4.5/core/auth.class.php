@@ -394,8 +394,14 @@ class EMPS_Auth
                                         }
 
                                     } else {
-                                        $this->ensure_identity($userword, $this->USER_ID, $target, $data);
+
                                         $this->create_session($userword, '', 1);
+                                        $this->check_session();
+
+                                        error_log("LOGGING IN: ".$this->USER_ID.", ensuring identity {$userword}");
+                                        if($this->USER_ID > 0){
+                                            $this->ensure_identity($userword, $this->USER_ID, $target, $data);
+                                        }
                                         $emps->redirect_page($path);
                                         exit();
                                     }
