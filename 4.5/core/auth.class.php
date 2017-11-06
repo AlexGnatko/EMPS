@@ -411,7 +411,12 @@ class EMPS_Auth
         }
 
         if($redirect){
-            $emps->redirect_elink(); exit;
+            if ($_SESSION['oauth_back_redirect']) {
+                $path = $_SESSION['oauth_back_redirect'];
+                unset($_SESSION['oauth_back_redirect']);
+            }
+
+            $emps->redirect_page($path); exit;
         }
 
 
