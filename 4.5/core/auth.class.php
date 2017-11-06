@@ -356,7 +356,7 @@ class EMPS_Auth
 
                                 $oauth_id = $this->oauth_id($userword);
                                 if ($oauth_id) {
-                                    error_log("OAUTH: oauth_id: ".$oauth_id['user_id']);
+                                    //error_log("OAUTH: oauth_id: ".$oauth_id['user_id']);
                                     $user = $this->load_user($oauth_id['user_id']);
                                     if ($user) {
                                         $this->create_session($user['username'], '', 1);
@@ -365,7 +365,7 @@ class EMPS_Auth
                                     }
 
                                 } else {
-                                    error_log("OAUTH: no oauth_id");
+                                    //error_log("OAUTH: no oauth_id");
                                     if (!$this->taken_user($userword)) {
 
                                         $password = $this->generate_password();
