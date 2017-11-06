@@ -296,14 +296,16 @@ class EMPS_Auth
                 return false;
         }
 
+        $paramname = "provider";
+
         $host = $_SERVER['SERVER_NAME'];
         $x = explode("?", $_SERVER['REQUEST_URI'], 2);
         $path = $x[0];
-        $url = $proto . "://" . $host . $path . "?provider=" . $target;
+        $url = $proto . "://" . $host . $path . "?{$paramname}=" . $target;
 
         if (($target == 'ok' || $target == 'google' || $target == 'facebook' || $target == 'yandex') && $mode == 'start') {
             $_SESSION['oauth_back_redirect'] = $path;
-            $url = $proto . "://" . $host . "/" . "?provider=" . $target;
+            $url = $proto . "://" . $host . "/" . "?{$paramname}=" . $target;
         }
 
         $client->redirect_uri = $url;
@@ -320,6 +322,8 @@ class EMPS_Auth
             }
         }
 
+        $redirect = false;
+
         if ($mode == 'finish') {
             //error_log("OAUTH: mode: finish");
             if (($success = $client->Initialize())) {
@@ -328,65 +332,85 @@ class EMPS_Auth
 //                    error_log("OAUTH: Process = true");
                     if (strlen($client->access_token)) {
 //                        error_log("OAUTH: access_token = true");
-                        $data = $this->oauth_user_data($client, $target);
 
-                        if ($data['user_id']) {
-//                            error_log("OAUTH: data user_id is set");
-                            $userword = $target . '-' . $data['user_id'];
+                        if($this->credentials("users")){
+                            $data = $this->oauth_user_data($client, $target);
 
-                            if ($_SESSION['oauth_back_redirect']) {
-                                $path = $_SESSION['oauth_back_redirect'];
-                                unset($_SESSION['oauth_back_redirect']);
+                            if($data['user_id']){
+                                $userword = $target.'-'.$data['user_id'];
+                                $this->new_identity($userword, $this->USER_ID, $target, $data);
+                                $redirect = true;
                             }
 
-                            $oauth_id = $this->oauth_id($userword);
-                            if ($oauth_id) {
-                                error_log("OAUTH: oauth_id: ".$oauth_id['user_id']);
-                                $user = $this->load_user($oauth_id['user_id']);
-                                if ($user) {
-                                    $this->create_session($user['username'], '', 1);
-                                    $emps->redirect_page($path);
-                                    exit();
+                        }else{
+                            $data = $this->oauth_user_data($client, $target);
+
+                            if ($data['user_id']) {
+//                            error_log("OAUTH: data user_id is set");
+                                $userword = $target . '-' . $data['user_id'];
+
+                                if ($_SESSION['oauth_back_redirect']) {
+                                    $path = $_SESSION['oauth_back_redirect'];
+                                    unset($_SESSION['oauth_back_redirect']);
                                 }
 
-                            } else {
-                                error_log("OAUTH: no oauth_id");
-                                if (!$this->taken_user($userword)) {
-
-                                    $password = $this->generate_password();
-
-                                    $data['no_activation'] = true;
-
-                                    $user_id = $this->register_user($userword, $password, $data);
-
-                                    if ($user_id) {
-
-                                        $emps->db->query("update " . TP . "e_users set site=1 where id=" . $user_id);
-                                        if ($target == "twitter") {
-                                            $emps->db->query("update " . TP . "e_users set twitter_id = " . $data['user_id'] . ", profile_name='" . $data['twitter'] . "' where id=" . $user_id);
-                                        }
-
-                                        $this->new_identity($userword, $user_id, $target, $data);
-
-                                        $this->activate_account($user_id);
-                                        $this->create_session($userword, '', 1);
+                                $oauth_id = $this->oauth_id($userword);
+                                if ($oauth_id) {
+                                    error_log("OAUTH: oauth_id: ".$oauth_id['user_id']);
+                                    $user = $this->load_user($oauth_id['user_id']);
+                                    if ($user) {
+                                        $this->create_session($user['username'], '', 1);
                                         $emps->redirect_page($path);
                                         exit();
-
                                     }
 
                                 } else {
-                                    $this->create_session($userword, '', 1);
-                                    $emps->redirect_page($path);
-                                    exit();
+                                    error_log("OAUTH: no oauth_id");
+                                    if (!$this->taken_user($userword)) {
+
+                                        $password = $this->generate_password();
+
+                                        $data['no_activation'] = true;
+
+                                        $user_id = $this->register_user($userword, $password, $data);
+
+                                        if ($user_id) {
+
+                                            $emps->db->query("update " . TP . "e_users set site=1 where id=" . $user_id);
+                                            if ($target == "twitter") {
+                                                $emps->db->query("update " . TP . "e_users set twitter_id = " . $data['user_id'] . ", profile_name='" . $data['twitter'] . "' where id=" . $user_id);
+                                            }
+
+                                            $this->new_identity($userword, $user_id, $target, $data);
+
+                                            $this->activate_account($user_id);
+                                            $this->create_session($userword, '', 1);
+                                            $emps->redirect_page($path);
+                                            exit();
+
+                                        }
+
+                                    } else {
+                                        $this->ensure_identity($userword, $this->USER_ID, $target, $data);
+                                        $this->create_session($userword, '', 1);
+                                        $emps->redirect_page($path);
+                                        exit();
+                                    }
                                 }
                             }
                         }
+
+
                     }
                     $success = $client->Finalize($success);
                 }
             }
         }
+
+        if($redirect){
+            $emps->redirect_elink(); exit;
+        }
+
 
         if ($client->exit) {
             exit;
@@ -626,6 +650,22 @@ class EMPS_Auth
             $emps->db->sql_update("e_identities", "id = " . $row['id']);
         } else {
             $emps->db->sql_insert("e_identities");
+        }
+    }
+
+    public function ensure_identity($userword, $user_id, $target, $data)
+    {
+        global $emps;
+
+        $row = $emps->db->get_row("e_identities", "identity = '" . $userword . "'");
+        if($row){
+            $nr = [];
+            $nr['data'] = serialize($data);
+            $nr['user_id'] = $user_id;
+            $update = ['SET' => $nr];
+            $emps->db->sql_update_row("e_identities", $update, "id = ".$row['id']);
+        }else{
+            $this->new_identity($userword, $user_id, $target, $data);
         }
     }
 
