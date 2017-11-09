@@ -79,6 +79,7 @@ table_class_list: [
     {{else}}
 table_class_list: [
     {title: 'Нет', value: ''},
+    {title: 'Таблица для смартфона', value: 'table table-columns'},
     {title: 'Горизонтальные границы', value: 'table'},
     {title: 'Чередование', value: 'table table-striped'},
     {title: 'Клетки', value: 'table table-bordered'}
