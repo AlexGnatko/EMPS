@@ -9,6 +9,8 @@ class EMPS_Properties
 
     public $default_ctx = false;
 
+    public $no_full = false;
+
     public function save_property($context_id, $code, $datatype, $value, $history, $idx)
     {
         global $emps;
