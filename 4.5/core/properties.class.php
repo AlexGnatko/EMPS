@@ -173,7 +173,9 @@ class EMPS_Properties
             $row[$ra['code'] . '_idx'][$ra['idx']] = $value;
             if (!$row[$ra['code'] . '_count']) $row[$ra['code'] . '_count'] = 0;
             $row[$ra['code'] . '_count']++;
-            $row['_full'][$ra['code']] = $ra;
+            if(!$this->no_full){
+                $row['_full'][$ra['code']] = $ra;
+            }
         }
         return $row;
     }
