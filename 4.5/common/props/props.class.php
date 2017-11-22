@@ -1,5 +1,7 @@
 <?php
 
+$emps->p->no_full = false;
+
 class EMPS_PropertiesEditor
 {
     public $context_id = 0;
