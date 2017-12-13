@@ -25,13 +25,15 @@
 {{if $timing}}
 <table class="table table-condensed">
 <tr valign="top">
-<th  width="900">Query</th>
-<th  width="100">Time</th>
+<th  width="700">Query</th>
+<th  width="100">Query Time</th>
+    <th  width="200">Total Time</th>
 </tr>
 {{section name=i loop=$timing}}
 <tr valign="top">
 <td >{{$timing[i].query}}</td>
 <td >{{$timing[i].ms}} ms</td>
+<td >{{$timing[i].ams}} ms</td>
 </tr>
 {{/section}}
 </table>

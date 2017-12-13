@@ -47,6 +47,8 @@ class EMPS_DB
 
     public function query($query)
     {
+        global $emps;
+
         if (EMPS_TIMING) {
             $s = emps_microtime_float(microtime());
         }
@@ -81,6 +83,7 @@ class EMPS_DB
 
         if (EMPS_TIMING && !$this->no_caching) {
             $log['ms'] = $l;
+            $log['ams'] = ($e - $emps->start_time) * 1000;
             $this->sql_timing[] = $log;
             $this->sql_time += $l;
         }
