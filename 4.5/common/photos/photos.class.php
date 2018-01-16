@@ -585,7 +585,17 @@ class EMPS_Photos
         $max = $ox;
         if ($max < $oy) $max = $oy;
 
-        if ($max < EMPS_MIN_WATERMARKED) {
+        $min_watermarked = intval($emps->get_setting("emps_min_watermarked"));
+        if(!$min_watermarked){
+            $min_watermarked = EMPS_MIN_WATERMARKED;
+        }
+
+        $wm_pos = $emps->get_setting("emps_watermark_pos");
+        if(!$wm_pos){
+            $wm_pos = "br";
+        }
+
+        if ($max < $min_watermarked) {
             return $img;
         }
 
@@ -605,7 +615,12 @@ class EMPS_Photos
         if ($wmimg) {
             $dst = imagecreatetruecolor($x, $y);
             imagecopy($dst, $img, 0, 0, 0, 0, $x, $y);
-            imagecopyresampled($dst, $wmimg, $x - $tx, $y - $ty, 0, 0, $tx, $ty, $sx, $sy);
+            if($wm_pos == 'br'){
+                imagecopyresampled($dst, $wmimg, $x - $tx, $y - $ty, 0, 0, $tx, $ty, $sx, $sy);
+            }
+            if($wm_pos == 'bl'){
+                imagecopyresampled($dst, $wmimg, 0, $y - $ty, 0, 0, $tx, $ty, $sx, $sy);
+            }
 
             if (is_resource($img)) {
                 imagedestroy($img);
