@@ -599,7 +599,10 @@ class EMPS_Photos
             return $img;
         }
 
-        $tx = ceil($x / 10);
+        $tx = $emps->get_setting("emps_watermark_fixed_size");
+        if(!$tx){
+            $tx = ceil($x / 10);
+        }
 
         $wm = EMPS_SCRIPT_PATH . "/i/watermark.png";
 
@@ -610,16 +613,21 @@ class EMPS_Photos
 
         $ty = ($sx / $sy) * $tx;
 
+        $padding = $emps->get_setting("emps_watermark_fixed_padding");
+        if(!$padding){
+            $padding = 5;
+        }
+
 //		echo "sx: $sx, sy: $sy, tx: $tx, ty: $ty, x: $x, y: $y ";exit();
 
         if ($wmimg) {
             $dst = imagecreatetruecolor($x, $y);
             imagecopy($dst, $img, 0, 0, 0, 0, $x, $y);
             if($wm_pos == 'br'){
-                imagecopyresampled($dst, $wmimg, $x - $tx, $y - $ty, 0, 0, $tx, $ty, $sx, $sy);
+                imagecopyresampled($dst, $wmimg, $x - $tx - $padding, $y - $ty - $padding, 0, 0, $tx, $ty, $sx, $sy);
             }
             if($wm_pos == 'bl'){
-                imagecopyresampled($dst, $wmimg, 0, $y - $ty, 0, 0, $tx, $ty, $sx, $sy);
+                imagecopyresampled($dst, $wmimg, $padding, $y - $ty - $padding, 0, 0, $tx, $ty, $sx, $sy);
             }
 
             if (is_resource($img)) {
