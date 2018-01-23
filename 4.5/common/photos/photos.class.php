@@ -55,7 +55,10 @@ class EMPS_Photos
         $dname = $this->up->UPLOAD_PATH . $ra['folder'] . "/thumb/" . $ra['id'] . "_" . $size . ".dat";
 
         $orig_name = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-orig.dat";
-        if (file_exists($orig_name)) {
+
+        $use_wm = $emps->get_setting("emps_watermark_thumbs");
+
+        if (file_exists($orig_name) && !$use_wm) {
             $fname = $orig_name;
         }
 
