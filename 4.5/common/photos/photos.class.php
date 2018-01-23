@@ -52,14 +52,21 @@ class EMPS_Photos
     {
         global $emps;
         $fname = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-img.dat";
+        $fname_wm = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-wm.dat";
         $dname = $this->up->UPLOAD_PATH . $ra['folder'] . "/thumb/" . $ra['id'] . "_" . $size . ".dat";
 
         $orig_name = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-orig.dat";
 
         $use_wm = $emps->get_setting("emps_watermark_thumbs");
 
-        if (file_exists($orig_name) && !$use_wm) {
-            $fname = $orig_name;
+        if($use_wm){
+            if (file_exists($fname_wm)) {
+                $fname = $fname_wm;
+            }
+        }else{
+            if (file_exists($orig_name)) {
+                $fname = $orig_name;
+            }
         }
 
         $thumb_row = $emps->db->get_row("e_thumbs", "size='{$size}' and upload_id = {$ra['id']} limit 1");
