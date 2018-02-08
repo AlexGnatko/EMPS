@@ -423,8 +423,6 @@ class EMPS_Common
         reset($menu);
         $mr = 0;
 
-        $found_one = false;
-
         while (list($n, $v) = each($menu)) {
             $obtained_spath = array();
             if ($v['sub']) {
@@ -441,12 +439,14 @@ class EMPS_Common
                 if ($res > 0) $mr = 1;
             }
             if ($v['sel'] > 0) {
-                $this->add_to_spath($v);
-                foreach ($obtained_spath as $spv) {
-                    $this->add_to_spath($spv);
+                if(!$this->no_spath[$v['grp']]){
+                    $this->add_to_spath($v);
+                    foreach ($obtained_spath as $spv) {
+                        $this->add_to_spath($spv);
+                    }
+
                 }
 
-                $found_one = true;
                 $mr = 1;
             }
         }
@@ -523,6 +523,13 @@ class EMPS_Common
         if (!$r) {
             return false;
         }
+        $nsr = $this->get_setting('no_spath_menus');
+        $x = explode(',', $nsr);
+        $no_spath = [];
+        foreach($x as $ns_code){
+            $no_spath[$ns_code] = true;
+        }
+        $this->no_spath = $no_spath;
 
         $x = explode(',', $r);
         while (list($n, $v) = each($x)) {
