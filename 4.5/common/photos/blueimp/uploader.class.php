@@ -154,9 +154,11 @@ class EMPS_BlueimpUploader {
 
 		$a = array();
 		$a['files'] = $this->jlst;
-		echo json_encode($a);		
-		exit();
-//						file_put_contents(EMPS_SCRIPT_PATH.'/POST2.txt',ob_get_clean(),FILE_APPEND);			
+		echo json_encode($a);
+		if(!$emps_no_exit){
+		    exit;
+        }
+//						file_put_contents(EMPS_SCRIPT_PATH.'/POST2.txt',ob_get_clean(),FILE_APPEND);
 	}		
 
 	public function handle_request($context_id){
