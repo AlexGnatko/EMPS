@@ -24,5 +24,10 @@
 {{include file="db:inc/inlinelogin"}}
 
 {{else}}
+{{if $use_sape_context}}
+{{include file=$main_body assign="main_body_html"}}
+{{emps plugin="sapecontext" text=$main_body_html}}
+{{else}}
 {{include file=$main_body}}
+{{/if}}
 {{/if}}

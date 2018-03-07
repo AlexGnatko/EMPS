@@ -93,7 +93,7 @@ class EMPS_BlueimpUploader {
 	
 	public function handle_upload(){
 		global $emps, $emps_no_exit;
-		
+
 		
 		while(list($n,$v)=each($_FILES)){
 //			echo "D: \r\n";
@@ -301,4 +301,3 @@ class EMPS_BlueimpUploader {
 	}
 }
 
-?>
