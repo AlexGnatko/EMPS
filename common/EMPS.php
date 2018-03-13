@@ -636,6 +636,7 @@ class EMPS_Common
     {
         $lst = array();
         $x = explode(";", $list);
+
         while (list($n, $v) = each($x)) {
             $xx = explode("=", $v, 3);
             $e = array();

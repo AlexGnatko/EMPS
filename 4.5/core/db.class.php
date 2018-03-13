@@ -219,6 +219,8 @@ class EMPS_DB
         $t = implode(",", $this->sql_take);
         $v = implode(",", $this->sql_value);
         $q = "insert into " . TP . "$table ($t) values ($v)";
+//        error_log(json_encode($row));
+//        error_log($q);
         $r = $this->query($q);
         return $r;
     }
@@ -268,6 +270,21 @@ class EMPS_DB
         $t .= " where " . $cond;
         $r = $this->query($t);
         return $r;
+    }
+
+    public function sql_ensure_row($table, $row){
+
+        $where = $this->where_clause($row);
+        //error_log($table." > ".$where);
+        $existing_row = $this->get_row($table, $where);
+        if($existing_row){
+            return $existing_row;
+        }
+        $update = ['SET' => $row];
+        $this->sql_insert_row($table, $update);
+        $id = $this->last_insert();
+        $row = $this->get_row($table, "id = {$id}");
+        return $row;
     }
 
     public function found_rows()
