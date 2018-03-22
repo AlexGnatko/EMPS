@@ -273,6 +273,7 @@ class EMPS_Auth
                 $client->client_secret = OAUTH_FB_SECRET;
                 $client->server = 'Facebook';
                 $client->scope = '';
+                $proto = "https";
                 break;
             case 'yandex':
                 $client->client_id = OAUTH_YANDEX_ID;
