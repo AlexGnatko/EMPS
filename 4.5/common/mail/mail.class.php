@@ -1,5 +1,7 @@
 <?php
-require_once 'PHPMailer/PHPMailerAutoload.php';
+//require_once 'PHPMailer/PHPMailerAutoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class EMPS_Mail
 {
@@ -25,9 +27,11 @@ class EMPS_Mail
             // 0 = off (for production use)
             // 1 = client messages
             // 2 = client and server messages
-            $mail->SMTPDebug = 2;
+            $mail->SMTPDebug = 3;
             //Ask for HTML-friendly debug output
             $mail->Debugoutput = 'echo';
+
+            $mail->SMTPOptions = ['ssl'=> ['allow_self_signed' => true]];
 
             $host = $smtp_data['host'];
             $x = explode("://", $host);
