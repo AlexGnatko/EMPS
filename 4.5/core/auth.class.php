@@ -852,8 +852,12 @@ class EMPS_Auth
         if ($ra['lastname']) {
             $parts[] = $ra['lastname'];
         }
+        if(count($parts) == 0){
+            $ra['fullname'] = $ra['username'];
+        }else{
+            $ra['fullname'] = implode(" ", $parts);
+        }
 
-        $ra['fullname'] = implode(" ", $parts);
         return $ra;
     }
 
