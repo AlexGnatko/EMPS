@@ -326,17 +326,17 @@ class EMPS_Auth
         $redirect = false;
 
         if ($mode == 'finish') {
-            error_log("OAUTH: mode: finish");
+            //error_log("OAUTH: mode: finish");
             if (($success = $client->Initialize())) {
-                error_log("OAUTH: Initialize = true");
+//                error_log("OAUTH: Initialize = true");
                 if (($success = $client->Process())) {
-                    error_log("OAUTH: Process = true");
+//                    error_log("OAUTH: Process = true");
                     if (strlen($client->access_token)) {
-                        error_log("OAUTH: access_token = true");
+//                        error_log("OAUTH: access_token = true");
                         $this->check_session();
 
                         if($this->USER_ID > 0){
-                            error_log("USER_ID: {$this->USER_ID}");
+//                            error_log("USER_ID: {$this->USER_ID}");
                             $data = $this->oauth_user_data($client, $target);
 
                             if($data['user_id']){
@@ -346,11 +346,11 @@ class EMPS_Auth
                             }
 
                         }else{
-                            error_log("NO USER_ID");
+//                            error_log("NO USER_ID");
                             $data = $this->oauth_user_data($client, $target);
 
                             if ($data['user_id']) {
-                            error_log("OAUTH: data user_id is set");
+//                            error_log("OAUTH: data user_id is set");
                                 $userword = $target . '-' . $data['user_id'];
 
                                 if ($_SESSION['oauth_back_redirect']) {
@@ -360,7 +360,7 @@ class EMPS_Auth
 
                                 $oauth_id = $this->oauth_id($userword);
                                 if ($oauth_id) {
-                                    error_log("OAUTH: oauth_id: ".$oauth_id['user_id']);
+//                                    error_log("OAUTH: oauth_id: ".$oauth_id['user_id']);
                                     $user = $this->load_user($oauth_id['user_id']);
                                     if ($user) {
                                         $this->create_session($user['username'], '', 1);
@@ -372,7 +372,7 @@ class EMPS_Auth
 
                                 }
                                 if(!$oauth_id) {
-                                    error_log("OAUTH: no oauth_id {$userword}");
+//                                    error_log("OAUTH: no oauth_id {$userword}");
                                     if (!$this->taken_user($userword)) {
 
                                         $password = $this->generate_password();
@@ -402,7 +402,7 @@ class EMPS_Auth
                                         $this->create_session($userword, '', 1);
                                         $this->check_session();
 
-                                        error_log("LOGGING IN: ".$this->USER_ID.", ensuring identity {$userword}");
+//                                        error_log("LOGGING IN: ".$this->USER_ID.", ensuring identity {$userword}");
                                         if($this->USER_ID > 0){
                                             $this->ensure_identity($userword, $this->USER_ID, $target, $data);
                                         }
@@ -588,10 +588,10 @@ class EMPS_Auth
             if ($target == 'vk') {
 //				dump($user);exit();
 
-                error_log(json_encode($user));
+//                error_log(json_encode($user));
                 $resp = $user->response[0];
 
-                $data['user_id'] = $resp->uid;
+                $data['user_id'] = $resp->id;
                 $data['firstname'] = $resp->first_name;
                 $data['lastname'] = $resp->last_name;
                 $data['gender'] = $resp->sex;
