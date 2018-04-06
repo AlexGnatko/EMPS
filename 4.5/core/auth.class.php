@@ -588,8 +588,9 @@ class EMPS_Auth
             if ($target == 'vk') {
 //				dump($user);exit();
 
+                error_log(json_encode($user));
                 $resp = $user->response[0];
-                error_log(json_encode($resp));
+
                 $data['user_id'] = $resp->uid;
                 $data['firstname'] = $resp->first_name;
                 $data['lastname'] = $resp->last_name;
