@@ -497,8 +497,7 @@ class EMPS_Auth
         if ($target == 'vk') {
             $success = $client->CallAPI(
                 'https://api.vk.com/method/users.get',
-                'GET', array("fields" => "id,first_name,last_name,sex,photo_50"), array('FailOnAccessError' => true),
-                ['v' => '5.74'], $user);
+                'GET', array("fields" => "id,first_name,last_name,sex,photo_50", "v" => "5.74"), array('FailOnAccessError' => true), $user);
         }
 
         if ($target == 'facebook') {
