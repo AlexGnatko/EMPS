@@ -359,7 +359,7 @@ class EMPS_Photos
                 $ra['w'] = $w;
 //            }
 
-            $lst[] = $ra;
+            //$lst[] = $ra;
         }
         return $lst;
     }
