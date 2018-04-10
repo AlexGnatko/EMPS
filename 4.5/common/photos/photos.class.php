@@ -358,6 +358,7 @@ class EMPS_Photos
                 $ra['h'] = $h;
                 $ra['w'] = $w;
             }
+            $ra['psize'] = "TEST";
 
             $lst[] = $ra;
         }
