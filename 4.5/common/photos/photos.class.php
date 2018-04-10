@@ -355,6 +355,8 @@ class EMPS_Photos
                 if($h > $w){
                     $ra['vert'] = true;
                 }
+                $ra['h'] = $h;
+                $ra['w'] = $w;
             }
 
             $lst[] = $ra;

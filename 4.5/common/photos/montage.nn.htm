@@ -9,7 +9,8 @@
            rel="{{$rel}}"
            href="/pic/{{$pic.md5}}/{{$pic.filename}}"
            title="{{$pic.descr}}"
-           style="background-image: url('/freepic/{{$pic.md5}}/{{$pic.filename}}?size=600x600&opts=inner&vert={{$pic.vert}}&psize={{$pic.psize}}"
+           info="vert={{$pic.vert}}&psize={{$pic.psize}}&x={{$pic.x}}&y={{$pic.y}}"
+           style="background-image: url('/freepic/{{$pic.md5}}/{{$pic.filename}}?size=600x600&opts=inner"
         >{{if $use_vert}}<img src="/i/3x4.png" />{{else}}<img src="/i/{{$use_hor}}.png" />{{/if}}</a>
     {{/foreach}}
 </div>
