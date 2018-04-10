@@ -349,7 +349,7 @@ class EMPS_Photos
             $psize = $ra['psize'];
             $ra = $this->image_extension($ra);
             $x = explode("x", $psize);
-            //if(count($x) >= 2){
+            if(count($x) >= 2){
                 $w = intval($x[0]);
                 $h = intval($x[1]);
                 if($h > $w){
@@ -357,9 +357,9 @@ class EMPS_Photos
                 }
                 $ra['h'] = $h;
                 $ra['w'] = $w;
-//            }
+            }
 
-            //$lst[] = $ra;
+            $lst[] = $ra;
         }
         return $lst;
     }
