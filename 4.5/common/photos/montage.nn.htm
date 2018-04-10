@@ -1,7 +1,6 @@
 <div class="emps-montage-container">
     {{foreach from=$pset|@array_reverse:true item="pic"}}
         {{$use_vert = $vert}}
-        {{if $pic.
         <a class="emps-montage-item ipbox"
            rel="{{$rel}}"
            href="/pic/{{$pic.md5}}/{{$pic.filename}}"
