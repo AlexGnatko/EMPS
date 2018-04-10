@@ -308,8 +308,10 @@ class EMPS_Photos
 
         imagejpeg($dst, $fname, 100);
 
+        $psize = $sx."x".$sy;
+
         $size = filesize($fname);
-        $emps->db->query("update " . TP . "e_uploads set size=$size where id=" . $ra['id']);
+        $emps->db->query("update " . TP . "e_uploads set size=$size, psize='$psize' where id=" . $ra['id']);
 
         if (is_resource($dst2)) {
             imagedestroy($dst2);
@@ -345,6 +347,16 @@ class EMPS_Photos
         $r = $emps->db->query("select * from " . TP . "e_uploads where context_id=$context_id order by ord $sql_limit");
         while ($ra = $emps->db->fetch_named($r)) {
             $ra = $this->image_extension($ra);
+            $psize = $ra['psize'];
+            $x = explode("x", $psize);
+            if(count($x) == 2){
+                $w = intval($x[0]);
+                $h = intval($x[1]);
+                if($h > $w){
+                    $ra['vert'] = true;
+                }
+            }
+
             $lst[] = $ra;
         }
         return $lst;
