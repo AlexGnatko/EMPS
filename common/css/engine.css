@@ -32,6 +32,10 @@
 	margin:0 4px 4px 0;
 }
 
+.picpick a.piclick {
+	display: inline-block;
+}
+
 .picpick a:hover img {
 	box-shadow:0 0 5px rgba(0,128,255,0.7);
 }
