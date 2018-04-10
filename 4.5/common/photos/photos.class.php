@@ -346,10 +346,10 @@ class EMPS_Photos
         }
         $r = $emps->db->query("select * from " . TP . "e_uploads where context_id=$context_id order by ord $sql_limit");
         while ($ra = $emps->db->fetch_named($r)) {
-            $ra = $this->image_extension($ra);
             $psize = $ra['psize'];
+            $ra = $this->image_extension($ra);
             $x = explode("x", $psize);
-            if(count($x) == 2){
+            if(count($x) >= 2){
                 $w = intval($x[0]);
                 $h = intval($x[1]);
                 if($h > $w){
