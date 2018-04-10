@@ -23,7 +23,7 @@
 
 
 {{section name=i loop=$lst}}<div class="picpick">
-<a href="javascript:voidClick()" class="picpick" title="{{$lst[i].descr|escape:html}}" data-link="{{$lst[i].id}}"><img src="/freepic/{{$lst[i].md5}}.{{$lst[i].ext}}?size=130x95" width="130" height="95"/></a>
+<a href="javascript:voidClick()" class="piclick" title="{{$lst[i].descr|escape:html}}" data-link="{{$lst[i].id}}"><img src="/freepic/{{$lst[i].md5}}.{{$lst[i].ext}}?size=130x95" width="130" height="95"/></a>
 </div>{{/section}}
 
 <script>
