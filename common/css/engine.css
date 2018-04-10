@@ -155,3 +155,9 @@ a.emps-montage-item img {
 	width:100%;
 
 }
+
+@media (max-width: 767px) {
+	a.emps-montage-item {
+		min-width:50%;
+	}
+}
