@@ -61,6 +61,7 @@ function smarty_common_photoreport($params)
             $pic = $emps->db->get_row("e_uploads", "id = " . intval($v));
             $cl .= "." . $v;
             if ($pic) {
+                $pic = $sp_photos->explain_pic($pic);
                 $ps[] = $pic;
             }
         }

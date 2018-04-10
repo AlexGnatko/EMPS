@@ -336,6 +336,22 @@ class EMPS_Photos
         return $ra;
     }
 
+    public function explain_pic($ra){
+        $psize = $ra['psize'];
+        $ra = $this->image_extension($ra);
+        $x = explode("x", $psize);
+        if(count($x) >= 2){
+            $w = intval($x[0]);
+            $h = intval($x[1]);
+            if($h > $w){
+                $ra['vert'] = true;
+            }
+            $ra['h'] = $h;
+            $ra['w'] = $w;
+        }
+        return $ra;
+    }
+
     public function list_pics($context_id, $limit)
     {
         global $emps;
@@ -346,20 +362,7 @@ class EMPS_Photos
         }
         $r = $emps->db->query("select * from " . TP . "e_uploads where context_id=$context_id order by ord $sql_limit");
         while ($ra = $emps->db->fetch_named($r)) {
-            $psize = $ra['psize'];
-            $ra = $this->image_extension($ra);
-            $x = explode("x", $psize);
-            if(count($x) >= 2){
-                $w = intval($x[0]);
-                $h = intval($x[1]);
-                if($h > $w){
-                    $ra['vert'] = true;
-                }
-                $ra['h'] = $h;
-                $ra['w'] = $w;
-            }
-            $ra['psize'] = "TEST";
-
+            $ra = $this->explain_pic($ra);
             $lst[] = $ra;
         }
         return $lst;
