@@ -13,6 +13,7 @@
 	"clipboard": "latest",
 	"flag-icon-css": "latest",
 	"angular-ui-tinymce": "latest",
-    "angular-ui-tree": "latest"
+    "angular-ui-tree": "latest",
+    "eonasdan-bootstrap-datetimepicker": "latest"
   }
 }

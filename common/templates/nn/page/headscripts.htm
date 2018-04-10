@@ -75,12 +75,24 @@ emps_scripts.push(function(){
 
 {{if $page.newcalendar}}
 
+
+{{if $page.use_bower}}
+<script type="text/javascript" src="/js/moment.min.js" {{$add_defer}}></script>
+<script type="text/javascript" src="/js/locales/moment/ru.js" {{$add_defer}}></script>
+
+<script type="text/javascript" src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" {{$add_defer}}></script>
+<link href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" {{$add_media}} />
+<script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.ru.js" {{$add_defer}}></script>
+
+{{else}}
+
 <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" {{$add_media}} />
 
 <script type="text/javascript" src="/js/moment.min.js" {{$add_defer}}></script>
 <script type="text/javascript" src="/js/locales/moment/ru.js" {{$add_defer}}></script>
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js" {{$add_defer}}></script>
 <script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.ru.js" {{$add_defer}}></script>
+{{/if}}
 
 {{/if}}
 
