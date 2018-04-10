@@ -134,3 +134,24 @@ ins {
 	height:100%;
 	width:100%;
 }
+
+.emps-montage-container {
+	display: flex;
+	flex-wrap: wrap-reverse;
+}
+
+
+a.emps-montage-item {
+	flex:1;
+	display:block;
+	min-width:25%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	border:0.5px solid white;
+}
+
+a.emps-montage-item img {
+	width:100%;
+
+}

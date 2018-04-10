@@ -1,3 +1,17 @@
+<div class="emps-montage-container">
+    {{foreach from=$pset item="pic"}}
+        <a class="emps-montage-item ipbox"
+           rel="{{$rel}}"
+           href="/pic/{{$pic.md5}}/{{$pic.filename}}"
+           title="{{$pic.descr}}"
+           style="background-image: url('/freepic/{{$pic.md5}}/{{$pic.filename}}?size=600x600&opts=inner"
+        >{{if $vert}}<img src="/i/3x4.png" />{{else}}<img src="/i/16x9.png" />{{/if}}</a>
+    {{/foreach}}
+</div>
+
+
+{{*
+
 <div class="ip-photoreport">
 <div class="ip-pr-shade"></div>
 <div class="ip-pr-tag">Фоторепортаж</div>
@@ -14,3 +28,4 @@
 </div>
 </div>
 
+*}}
