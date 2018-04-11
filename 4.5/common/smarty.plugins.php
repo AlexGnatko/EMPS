@@ -76,6 +76,7 @@ function smarty_common_photoreport($params)
     $smarty->assign("vert", $params['vert']);
     $smarty->assign("fullpic", $params['fullpic']);
     $smarty->assign("size", $params['size']);
+    $smarty->assign("pretitle", $params['pretitle']);
 
     $smarty->assign("pset", $ps);
 
