@@ -1,0 +1,6 @@
+{{foreach from=$lst item="item"}}
+    <sitemap>
+        <loc>{{$BaseURL}}/sitemap/{{$item.name}}</loc>
+        <lastmod>{{$item.time}}</lastmod>
+    </sitemap>
+{{/foreach}}

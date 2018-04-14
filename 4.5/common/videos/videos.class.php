@@ -71,13 +71,15 @@ class EMPS_Videos
         if ($video['youtube_id'] && defined('GOOGLE_KEY_YOUTUBE')) {
 
             $url = "https://www.googleapis.com/youtube/v3/videos?key=" . GOOGLE_KEY_YOUTUBE . "&part=snippet,contentDetails&id=" . $video['youtube_id'];
+            //echo $url;
             $data = file_get_contents($url);
+            //echo $data;
             $json = json_decode($data, true);
 
             $snip = $json['items'][0]['snippet'];
             $data = $json['items'][0]['contentDetails'];
-//			dump($json['items'][0]);
-//			dump($data);
+			//dump($json['items'][0]);
+			//dump($data);
             $SET['name'] = $snip['title'];
             $SET['description'] = $snip['description'];
             $SET['duration'] = $this->covtime($data['duration']);
