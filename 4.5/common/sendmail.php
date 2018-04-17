@@ -15,6 +15,9 @@ for($i = 0; $i < 20; $i++){
     $mail = new EMPS_Mail;
 
     while ($ra = $emps->db->fetch_named($r)) {
+        if($ra['sdt'] > (time() - 60)){
+            continue;
+        }
         $to = $ra['to'];
         $msg_id = $ra['id'];
         $status = $ra['status'];
