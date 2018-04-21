@@ -22,9 +22,41 @@
 <meta property="og:url" content="{{$page.canonical}}" />
 {{/if}}
 
+{{$sitename = "page/mainhead"|emps:get_setting}}
+{{if $sitename}}
+<meta property="og:site_name" content="{{$sitename}}" />
+{{/if}}
+
 {{if $page.image_src}}
 <link rel="image_src" href="{{$page.image_src}}" />
 <meta property="og:image" content="{{$page.image_src}}" />
+{{/if}}
+
+{{if $page.title}}
+<meta property="og:title" content="{{$page.title}}" />
+{{/if}}
+
+{{if $page.descr}}
+<meta property="og:description" content="{{$page.descr}}" />
+{{/if}}
+
+{{if "twitter_metatags"|emps:get_setting}}
+    {{if $page.image_src}}
+    <meta name="twitter:card" content="summary_large_image">
+    {{else}}
+    <meta name="twitter:card" content="summary">
+    {{/if}}
+    <meta name="twitter:site" content="@">
+    {{if $page.title}}
+    <meta name="twitter:title" content="{{$page.title}}">
+    {{/if}}
+    {{if $page.descr}}
+    <meta name="twitter:description" content="{{$page.descr}}">
+    {{/if}}
+    <meta name="twitter:creator" content="@">
+    {{if $page.image_src}}
+    <meta name="twitter:image" content="{{$page.image_src}}">
+    {{/if}}
 {{/if}}
 
 {{include file="db:page/extraheadtags"}}
