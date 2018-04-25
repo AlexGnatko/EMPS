@@ -24,7 +24,7 @@
 
 {{$sitename = "page/mainhead"|emps:get_setting}}
 {{if $sitename}}
-<meta property="og:site_name" content="{{$sitename}}" />
+<meta property="og:site_name" content="{{$sitename|escape:html}}" />
 {{/if}}
 
 {{if $page.image_src}}
@@ -33,11 +33,11 @@
 {{/if}}
 
 {{if $page.title}}
-<meta property="og:title" content="{{$page.title}}" />
+<meta property="og:title" content="{{$page.title|escape:html}}" />
 {{/if}}
 
 {{if $page.descr}}
-<meta property="og:description" content="{{$page.descr}}" />
+<meta property="og:description" content="{{$page.descr|escape:html}}" />
 {{/if}}
 
 {{if "twitter_metatags"|emps:get_setting}}
@@ -48,10 +48,10 @@
     {{/if}}
     <meta name="twitter:site" content="@">
     {{if $page.title}}
-    <meta name="twitter:title" content="{{$page.title}}">
+    <meta name="twitter:title" content="{{$page.title|escape:html}}">
     {{/if}}
     {{if $page.descr}}
-    <meta name="twitter:description" content="{{$page.descr}}">
+    <meta name="twitter:description" content="{{$page.descr|escape:html}}">
     {{/if}}
     <meta name="twitter:creator" content="@">
     {{if $page.image_src}}
