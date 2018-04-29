@@ -1,0 +1,83 @@
+<form action="." method="post" class="form" role="form" id="main_form">
+<input type="hidden" name="post_save" value="1" />
+
+<div class="row">
+<div class="col-md-9">
+
+<div class="form-group">
+<label for="item_name" class="control-label">Название:</label>
+<input class="form-control" type="text" name="name" id="item_name" value="{{$row.name|escape:html}}" style="background-color:#FFF0EE;font-size:16px;" />
+</div>
+
+
+
+<div class="form-group">
+<label for="item_url" class="control-label">Код URL:</label>
+    <div class="input-group">
+<input class="form-control" type="text" name="url" id="item_url" placeholder="" value="{{$row.url|escape:html}}" />
+          <span class="input-group-btn">
+        <button class="btn btn-info" type="button" onClick="auto_url()">Авто</button>
+      </span>
+	</div>
+</div>
+
+    <div class="form-group">
+        <label>Краткое описание (для списка объектов):</label>
+        <textarea class="form-control" name="descr" rows="3">{{$row.descr|escape:html}}</textarea>
+    </div>
+
+    {{include file="db:_items,item_form"}}
+
+    <div class="form-group">
+        <label>SEO краткое описание (meta description):</label>
+        <textarea class="form-control" name="meta_descr" rows="3">{{$row.meta_descr|escape:html}}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Ключевые слова (meta keywords):</label>
+        <textarea class="form-control" name="meta_keywords" rows="2">{{$row.meta_keywords|escape:html}}</textarea>
+
+    </div>
+
+<p><strong>Принадлежность к категориям:</strong></p>
+
+{{section name=i loop=$row.nodes}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="savenode_`$row.nodes[i].id`" type="ws_structure" name="savenode[`$row.nodes[i].id`]" value=$row.nodes[i].id}}
+{{/section}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_0" type="ws_structure" name="newnode[0]" }}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_1" type="ws_structure" name="newnode[1]" }}
+
+<p>&nbsp;</p>
+
+
+
+
+    <p><button type="submit" class="btn btn-primary btn-lg">Сохранить изменения</button></p>
+
+
+</div> {{*col*}}
+
+<div class="col-md-3">
+
+<div class="form-group">
+<label for="item_pub" class="control-label">Публикуется:</label>
+{{include file="db:enum/pickenum" xenum="publish" name="pub" value=$row.pub id="item_pub" class="form-control"}}
+</div>
+
+<div class="form-group">
+<label for="item_ord" class="control-label">Балл сортировки:</label>
+<input class="form-control" type="text" name="ord" id="item_ord" value="{{$row.ord|escape:html}}"  />
+</div>
+
+
+</div>
+
+</div>
+</form>
+
+<script>
+function auto_url(){
+	transliterate_url("item_name","item_url");
+}
+
+</script>

@@ -1,0 +1,29 @@
+<h5 class="subhead">Объекты в этой категории</h5>
+
+<table class="table table-striped table-condensed">
+    <tr valign="center">
+        <th class="lt" width="50">Id</th>
+        <th class="lt" width="90">Фото</th>
+        <th class="lt" width="700">Название объекта, описание</th>
+        <th width="140">Действия</th>
+    </tr>
+    {{foreach from=$lst item="obj"}}
+    <tr valign="top">
+        <td class="le">{{$obj.id}}<br/>
+            {{if $obj.pub != 10}}
+            <span class="label label-warning"><small><i class="fa fa-remove"></i></small></span>
+            {{else}}
+            <span class="label label-success"><small><i class="fa fa-check"></i></small></span>
+            {{/if}}
+        </td>
+
+        <td class="le">{{if $obj.pics.0}}
+            <a href="/pic/{{$obj.pics.0.md5}}.jpg" class="fancybox"><img src="/freepic/{{$obj.pics.0.md5}}.jpg?size=100x100&opts=inner" width="90" border="0" /></a>
+            {{/if}}</td>
+        <td class="le"><a href="{{$obj.nlink}}"><big>{{$obj.name}}</big></a><br />
+            {{$obj.announce}}<br />
+            <small><span class="badge">{{$obj.ord}}</span></small>
+        </td>
+    </tr>
+    {{/foreach}}
+</table><br/>

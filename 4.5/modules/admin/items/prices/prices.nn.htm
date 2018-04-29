@@ -1,0 +1,110 @@
+<div class="page-header">
+<h1>Редактор цен на услуги</h1>
+</div>
+
+<form action="." method="post" class="form" role="form" >
+<input type="hidden" name="post_filter" value="1" />
+
+    <div class="flex">
+        <div class="flex-col form-group" style="flex: 3">
+            {{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="nodefilter" type="ws_structure" name="filt[node_id]" value=$filt.node_id }}
+        </div>
+        <div class="flex-col form-group">
+            <button type="submit" class="btn btn-primary btn-block">Выбрать раздел каталога</button>
+        </div>
+        <div class="flex-col form-group text-right">
+            {{include file="db:page/paginator"}}
+        </div>
+    </div>
+
+
+</form>
+
+
+
+<form action="." method="post" class="form" role="form" style="clear:both">
+<input type="hidden" name="post_values" value="1" />
+
+
+<table class="table table-striped table-condensed" style="clear:both">
+<tr valign="center">
+<th width="70">Id / @</th>
+<th width="900">Название / Цены</th>
+</tr>
+{{section name=i loop=$lst}}
+<input type="hidden" name="item[{{$lst[i].id}}]" value="1"/>
+<tr>
+<td rowspan="2">
+
+
+{{if $lst[i].pic}}<p><a href="/pic/{{$lst[i].pic.md5}}.jpg" class="fancybox" title="{{$lst[i].id}}: {{$lst[i].name}}"><img src="/freepic/{{$lst[i].pic.md5}}.jpg?size=62x62" /></a></p>{{/if}}
+{{*<span class="badge">{{$lst[i].id}}</span>*}}
+</td>
+<td>
+
+<strong>{{$lst[i].name}}</strong> <span class="badge">{{$lst[i].id}}</span>
+<a href="/admin-items-detailed/{{$lst[i].id}}/-/info/" class="btn btn-info btn-sm" target="_blank">Редактировать услугу</a>
+</td>
+</tr>
+<tr>
+<td>
+{{section name=s loop=$sects}}
+<div class="pull-left" style="margin-right:4px;margin-bottom:4px;">
+<div class="input-group">
+{{assign var="num" value=$sects[s].num}}
+<span class="input-group-addon">{{$num}}</span>
+<input type="text" class="form-control" name="price[{{$lst[i].id}}][{{$num}}]" value="{{$lst[i].price.$num}}" style="width:70px"/>
+</div>
+</div>
+{{/section}}
+</td>
+</tr>
+{{*
+<input type="text" class="form-control" name="name[{{$lst[i].id}}]" id="id_name_{{$lst[i].id}}" value="{{$lst[i].name|escape:html}}"/>
+<div class="input-group" style="margin-top:4px">
+<input id="id_url_{{$lst[i].id}}" type="text" class="form-control" name="url[{{$lst[i].id}}]" value="{{$lst[i].url|escape:html}}" />
+          <span class="input-group-btn">
+        <button class="btn btn-info" type="button" onClick="transliterate_url('id_name_{{$lst[i].id}}','id_url_{{$lst[i].id}}');">Авто</button>
+      </span>
+</div>
+</td>
+<td>
+<input type="text" class="form-control" name="country[{{$lst[i].id}}]" value="{{$lst[i].country.name|escape:html}}"/>
+<div class="tbl-half">
+<div class="input-group">
+<input type="text" class="form-control" name="price[{{$lst[i].id}}]" value="{{$lst[i].price|escape:html}}" style="text-align:right"/>
+<span class="input-group-addon">р</span>
+</div>
+</div>
+
+<div class="tbl-half">
+<div class="input-group">
+<span class="input-group-addon">за</span>
+{{include file="db:enum/pickenum" xenum="units" name="units[`$lst[i].id`]" value=$lst[i].units class="form-control" }}  
+</div>
+
+</div>
+
+</td>
+<td>
+<input type="text" class="form-control" name="mass[{{$lst[i].id}}]" value="{{$lst[i].mass|escape:html}}"/>
+<div style="margin-top:4px">
+{{include file="db:enum/pickenum" xenum="weight" name="munits[`$lst[i].id`]" class="form-control" value=$lst[i].munits}}
+</div>
+</td>
+<td>
+<input type="text" class="form-control" name="defqty[{{$lst[i].id}}]" value="{{$lst[i].defqty|escape:html}}"/>
+<div style="margin-top:4px">
+<a href="/admin-items/?item={{$lst[i].id}}" target="_blank" class="btn btn-info ">Редактировать...</a>
+</div>
+</td>
+</tr>
+*}}
+{{/section}}
+</table>
+
+<div class="pull-right">{{include file="db:page/paginator"}}</div>
+
+<p><button type="submit" class="btn btn-primary btn-lg">Сохранить изменения</button></p>
+
+</form>

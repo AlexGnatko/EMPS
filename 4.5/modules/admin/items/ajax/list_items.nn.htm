@@ -1,0 +1,249 @@
+{{if $AddSinkMode}}
+<body>
+<script type="application/javascript">
+window.parent.loadPagePart("#itemwindow","{{$editlink}}");
+</script>
+</body>
+{{elseif $SaveSinkMode}}
+<body>
+<script type="application/javascript">
+window.parent.loadPagePart("#itemwindow","{{$editlink}}");
+</script>
+</body>
+
+{{elseif $ReturnSinkMode}}
+<body>
+<script type="application/javascript">
+window.parent.loadPagePart("#itemwindow","{{$backlink}}");
+</script>
+</body>
+{{elseif $EditMode}}
+<form action="{{$elink}}" method="post" target="ajax_sink" id="kill_form">
+<input type="hidden" name="post_kill" value="1" />
+</form>
+<form action="{{$elink}}" method="post" target="ajax_sink" class="form" role="form" id="edit_form" enctype="multipart/form-data">
+<input type="hidden" name="post_save" value="1" />
+<input type="hidden" name="upload" value="1" />
+<div class="btn-group tree-right-btn">
+<a href="javascript:submit_form(this,'edit_form')" class="btn btn-default"><i class="glyphicon glyphicon-floppy-save"></i> Сохранить изменения</a>
+<a href="javascript:loadPagePart('#itemwindow','{{$backlink}}')" class="btn btn-default"><i class="glyphicon glyphicon-arrow-left"></i> Вернуться в список</a>
+<a href="javascript:ask_form('Удалить?','kill_form')" class="btn btn-default"><i class="glyphicon glyphicon-remove"></i> Удалить</a>
+<a href="javascript:loadPagePart('#itemwindow','{{$elink}}')" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i> Обновить форму</a>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Редактировать объект #{{$row.id}}</h3>
+  </div>
+
+<div class="panel-body">
+
+<table cellpadding="0" cellspacing="0" border="0" class="dspace">
+<tr>
+<td>
+<strong>Дата/время публикации:</strong> &nbsp; 
+</td>
+<td>
+<input type="text" class="form-control timepicker" id="li_time" style="width:150px" name="time" value="{{$row.time|escape:html}}" />
+</td>
+<td>
+
+</td>
+</tr>
+</table>
+
+<script>
+$("#li_time").datetimepicker();
+</script>
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Балл сортировки:</label>
+                <input type="text" class="form-control" name="ord" value="{{$row.ord}}" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="item_pub" class="control-label">Публикуется:</label>
+                {{include file="db:enum/pickenum" xenum="publish" name="pub" value=$row.pub id="item_pub" class="form-control"}}
+            </div>
+        </div>
+
+    </div>
+
+<div class="form-group">
+<label for="item_name" class="control-label">Название:</label>
+<input class="form-control" type="text" name="name" id="item_name" value="{{$row.name|escape:html}}" style="background-color:#FFF0EE;font-size:16px;" />
+</div>
+
+
+<div class="form-group">
+<label for="item_url" class="control-label">Код URL:</label>
+    <div class="input-group">
+<input class="form-control" type="text" name="url" id="item_url" placeholder="shesternya-kolenvala-raspredelitelynaya" value="{{$row.url|escape:html}}" />
+          <span class="input-group-btn">
+        <button class="btn btn-info" type="button" onClick="auto_url()">Авто</button>
+      </span>
+	</div>
+</div>
+
+    <div class="form-group">
+        <label>Краткое описание (для списка объектов):</label>
+        <textarea class="form-control" name="descr" rows="3">{{$row.descr|escape:html}}</textarea>
+    </div>
+
+    {{include file="db:_items,item_form"}}
+
+    <p><a href="/admin-items-detailed/{{$row.id}}/-/info/" class="btn btn-primary">Полный редактор объектов &nbsp;<i class="glyphicon glyphicon-arrow-right"></i></a>
+
+        &nbsp; &mdash; редактирование описания и загрузка фото
+    </p>
+
+
+<p><strong>Принадлежность к категориям:</strong></p>
+
+{{section name=i loop=$row.nodes}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="savenode_`$row.nodes[i].id`" type="ws_structure" name="savenode[`$row.nodes[i].id`]" value=$row.nodes[i].id}}
+{{/section}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_0" type="ws_structure" name="newnode[0]" }}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_1" type="ws_structure" name="newnode[1]" }}
+
+
+<div class="upspace">
+
+<h4>Картинки:</h4>
+<div class="row">
+{{section name=i loop=$row.pics}}
+<div class="col-md-6 ieitempicblock">
+<div class="row">
+<div class="col-md-4">
+<a class="fancybox itempica" href="/pic/{{$row.pics[i].md5}}/{{$row.pics[i].md5}}.jpg" title="{{$row.name}}, арт. {{$row.article}}"><img src="/thumb/{{$row.pics[i].md5}}/" width="100" height="100" border="0"></a>
+</div>
+<div class="col-md-8">
+<input type="hidden" name="pic_take[{{$row.pics[i].id}}]" value="1" />
+<div class="input-group">
+
+<input type="text" class="form-control" name="pic_descr[{{$row.pics[i].id}}]" value="{{$row.pics[i].descr}}" />
+<span class="input-group-btn">
+<a class="btn btn-default" href="javascript:ask_call('Удалить картинку?','loadPagePart(\'#itemwindow\',\'{{$elink}}&kill_pic={{$row.pics[i].id}}\');')" type="button"><i class="glyphicon glyphicon-remove"></i></a>
+</span>
+</div>
+<br/>
+<div class="input-group">
+  <span class="input-group-addon">Порядок: </span>
+<input class="form-control" type="text" name="pic_ord[{{$row.pics[i].id}}]" value="{{$row.pics[i].ord}}" />
+</div>
+
+</div>
+</div>
+</div>
+{{/section}}
+</div>
+<div class="bfl cb">
+<h4>Загрузить новую картинку:</h4>
+<p>
+{{section name=i loop=$fl max=1}}
+<input type="file" name="file_{{$fl[i].id}}" class="input file" style="width:280px"/><br/>
+{{/section}}
+</p>
+</div>
+
+</div>
+<div class="bfl cb">
+<p><input type="submit" name="post_save_return" value="Сохранить и вернуться в список" class="btn btn-primary"/></p>
+</div>
+
+</div>
+</div>
+
+</form>
+
+<script>
+function auto_url(){
+	transliterate_url("item_name","item_url");
+}
+
+emps_scripts.push(function(){
+    $(".fancybox").EMPS_IPBox({one_row: true, with_text: true});
+});
+
+</script>
+
+
+
+{{include file="db:ited/ajaxsink"}}
+
+{{else}}
+<form action="{{$elink}}" method="post" target="ajax_sink" id="add_form">
+<input type="hidden" name="post_add" value="1" />
+<div class="btn-group tree-right-btn">
+<a href="javascript:submit_form(this,'add_form')" class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i> Добавить</a>
+<a href="javascript:loadPagePart('#itemwindow','{{$alink}}')" class="btn btn-default"><i class="glyphicon glyphicon-th-list"></i> Полный список</a>
+<a data-toggle="modal" href="#itemsSearch" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Поиск</a>
+
+<a href="javascript:set_all_boxes()" class="btn btn-default"><i class="glyphicon glyphicon-ok"></i> Пометить все</a>
+</div>
+</form>
+
+{{if $lst}}
+
+{{if $node_id eq 0}}
+<h5>Полный список:</h5>
+{{/if}}
+<ul class="pagination dspace">
+{{section name=p loop=$pages.pl}}
+<li {{if $pages.pl[p].sel}}class="active"{{/if}}><a href="javascript:loadPagePart('#itemwindow','{{$pages.pl[p].link}}')">{{if $pages.pl[p].sel}}{{/if}}{{$pages.pl[p].fi}}-{{$pages.pl[p].li}}{{if $pages.pl[p].sel}}{{/if}}</a></li>
+{{/section}}
+</ul>
+<form action="{{$elink}}" method="post" class="form" role="form" target="ajax_sink" id="copy_form">
+<input type="hidden" name="post_copy" value="1" />
+{{section name=i loop=$lst}}
+<div class="ieitem {{if $lst[i].pub eq 10}}ieitemgreen{{else}}ieitemred{{/if}}">
+<a class="ieitemlistpic" href="javascript:loadPagePart('#itemwindow','{{$lst[i].editlink}}')"><img src="{{if $lst[i].pic}}/freepic/{{$lst[i].pic.md5}}.jpg?size=62x62{{else}}/i/b.gif{{/if}}" width="62" height="62" border="0" /></a>
+
+<div class="ieright">
+<input type="checkbox" name="sel[{{$lst[i].id}}]" /><br>
+{{if $node_id == -1 }}
+<a href="javascript:ask_call('Удалить?','loadPagePart(\'#itemwindow\',\'{{$lst[i].editlink}}&kill=1\');')" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-remove"></i> Удалить</a>
+{{else}}
+<a href="javascript:ask_call('Убрать из этой категории? (без удаления)','loadPagePart(\'#itemwindow\',\'{{$lst[i].editlink}}&remove=1\');')" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-remove"></i> Убрать</a>
+{{/if}}
+</div>
+
+<a class="ieitemlink" href="javascript:loadPagePart('#itemwindow','{{$lst[i].editlink}}')">{{$lst[i].name}}</a><br/>
+<span>{{$lst[i].id}}, код: {{$lst[i].article}}
+&nbsp;
+&nbsp;
+{{include file="db:_items,app" row=$lst[i]}}
+<br/>
+<strong>{{$lst[i].final_price}}</strong> руб.</span>
+
+
+</div>
+<div class="ieitembrd"></div>
+{{/section}}
+<div class="form-group" style="clear:both;margin-top:5px">
+
+<h5>Выбранные объекты копировать в другие категории:</h5>
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="othernode_0" type="ws_structure" name="othernode[0]"}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="othernode_1" type="ws_structure" name="othernode[1]"}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="othernode_2" type="ws_structure" name="othernode[2]"}}<br/>
+
+
+<input type="submit" value="Копировать" class="btn btn-default" />
+    <input type="submit" value="Убрать из выбранных" name="removesel" class="btn btn-default"/>
+<input type="submit" value="Убрать из всех" name="removeall" class="btn btn-default"/>
+
+
+</div>
+</form>
+
+{{else}}
+В данной категории пока нет объектов.
+{{/if}}
+
+{{include file="db:ited/ajaxsink"}}
+{{/if}}

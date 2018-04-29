@@ -1,0 +1,84 @@
+{{if $Zoom}}
+<div class="page-header">
+
+{{include file="db:ited/iactions" mode="inner"}}
+
+<h1><small>Объект:</small>
+<small>{{$row.id}}:</small> {{$row.name}}</h1>
+</div>
+<div class="pull-right">
+<a class="btn btn-info" href="{{$row.xelink}}">Просмотр</a>
+</div>
+{{include file="db:ited/subted"}}
+
+<div id="id_context" style="display:none">{{$row.context_id}}</div>
+{{else}}
+<div class="page-header">
+<h1>Подробный редактор объектов</h1>
+</div>
+
+<div class="row">
+<div class="col-md-6">
+<form class="form" method="post" action=".">
+<input type="hidden" name="post_search" value="1" />
+<div class="form-group">
+    <div class="input-group">
+      <input type="text" class="form-control" name="search" placeholder="Поиск по названию или описанию" value="{{$search|escape:html}}" />
+      <span class="input-group-btn">
+<a href="./?clear_search=1" class="btn btn-default"><i class="glyphicon glyphicon-remove"></i></a>
+        <button class="btn btn-primary" type="submit">Найти</button>
+      </span>
+    </div>
+</div>
+</form>
+
+</div>
+<div class="col-md-6">
+
+<form class="form" method="post" action=".">
+<input type="hidden" name="post_filt" value="1" />
+<div class="form-group">
+
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" id="tour" typename="Категория" type="ws_structure" name="filt[category]" value=$filt.category nolink=1 placeholder="Фильтр по категории" submit="Фильтровать"}}
+
+</div>
+</form>
+</div>
+</div>
+
+{{include file="db:ited/iactions" mode="top"}}
+<div class="pull-right">{{include file="db:page/paginator"}}</div>
+
+<table class="table table-striped table-condensed">
+<tr valign="center">
+<th class="lt" width="50">Id</th>
+<th class="lt" width="90">Фото</th>
+<th class="lt" width="700">Название объекта, описание</th>
+<th width="140">Действия</th>
+</tr>
+{{section name=i loop=$lst}}
+<tr valign="top">
+<td class="le">{{$lst[i].id}}<br/>
+{{if $lst[i].pub != 10}}
+<span class="label label-warning"><small><i class="fa fa-remove"></i></small></span>
+{{else}}
+<span class="label label-success"><small><i class="fa fa-check"></i></small></span>
+{{/if}}
+</td>
+
+<td class="le">{{if $lst[i].pics.0}}
+<a href="/pic/{{$lst[i].pics.0.md5}}.jpg" class="fancybox"><img src="/freepic/{{$lst[i].pics.0.md5}}.jpg?size=100x100&opts=inner" width="90" border="0" /></a>
+{{/if}}</td>
+<td class="le"><a href="{{$lst[i].nlink}}"><big>{{$lst[i].name}}</big></a><br />
+{{$lst[i].announce}}<br />
+<small><span class="badge">{{$lst[i].ord}}</span></small>
+</td>
+<td>
+{{include file="db:ited/rowactions" row_html=true}}
+</td>
+</tr>
+{{/section}}
+</table><br/>
+<div class="pull-right">{{include file="db:page/paginator"}}</div>
+
+{{/if}}

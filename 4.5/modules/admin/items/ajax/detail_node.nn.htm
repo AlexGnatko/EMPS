@@ -1,0 +1,72 @@
+{{if $SinkMode}}
+<body>
+<script type="application/javascript">
+window.parent.detailDone();
+</script>
+</body>
+{{else}}
+<form action="{{$elink}}" target="ajax_sink" method="post" id="detail_form" enctype="multipart/form-data" class="form" role="form">
+<input type="hidden" name="upload" value="1" />
+<input type="hidden" name="post_save" value="1" />
+<div class="btn-group tree-right-btn">
+<a href="javascript:submit_form(this,'detail_form')" class="btn btn-default"><i class="glyphicon glyphicon-floppy-save"></i> Сохранить изменения</a>
+<a href="/admin-structure/{{$row.id}}/-/info/" class="btn btn-default"><i class="glyphicon glyphicon-arrow-right"></i> Полный редактор</a>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Редактировать раздел каталога #{{$row.id}}</h3>
+  </div>
+
+<div class="panel-body">
+
+
+<div class="form-group">
+<label for="detail_name" class="control-label">Название раздела:</label>
+<input class="form-control" type="text" name="name" id="detail_name" value="{{$row.name|escape:html}}">
+</div>
+
+  <div class="form-group">
+    <label for="detail_url" class="control-label">Код URL раздела:</label>
+    <input class="form-control" type="text" name="url" placeholder="new-year" id="detail_url" value="{{$row.url|escape:html}}">
+      {{*
+      <p class="help-block">
+      (например, <strong>new-year</strong>)
+      </p>
+      *}}
+  </div>
+
+  <div class="form-group">
+    <label>Краткое описание (для списка разделов):</label>
+    <textarea class="form-control" name="descr" rows="3">{{$row.descr|escape:html}}</textarea>
+  </div>
+
+  <div class="row">
+
+  <div class="col-md-6 form-group">
+<label for="detail_ord" class="control-label">Порядок сортировки:</label>
+<input class="form-control" type="text" name="ord" placeholder="100" id="detail_ord" value="{{$row.ord|escape:html}}">
+</div>
+<div class="col-md-6 form-group">
+<label for="detail_pub" class="control-label">Публикуется:</label>
+{{include file="db:enum/pickenum" xenum="publish" id="detail_pub" class="form-control" name="pub" value=$row.pub}}
+</div>
+</div>
+
+<div class="form-group">
+<label for="detail_object" class="control-label">Принадлежит разделу:</label>
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Разделы каталога" id="object" type="ws_structure|id<>`$row.id`" name="parent" value=$row.parent textmode=1}}
+</div>
+
+
+</div>
+</div>
+
+<script>
+tinyMCE.editors=new Array();
+tinyMCE.execCommand("mceAddControl",true,"id_descr");
+</script>
+
+</form>
+{{include file="db:ited/ajaxsink"}}
+{{/if}}

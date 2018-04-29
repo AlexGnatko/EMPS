@@ -1,0 +1,143 @@
+<div class="page-header">
+<h1>Редактор объектов</h1>
+</div>
+<div class="row">
+<div id="itemsleft" class="col-lg-4 col-md-5">
+<div class="btn-group">
+<a href="javascript:treeVoid()" onclick="createNode(this,'itemstree')" class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i> Добавить раздел</a>
+<a href="javascript:treeVoid()" onclick="reloadTree(this)" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i> Обновить</a>
+</div>
+
+<div class="row">
+<div id="itemstree" class="treeview">
+</div>
+</div>
+
+
+</div>
+<div id="itemsright" class="col-lg-8 col-md-7">
+
+<div id="itemwindow">
+</div>
+</div>
+
+
+</div>
+
+<script>
+$('#itemstree').EMPSTreeView({
+	'onSelect' 		: selectCategory,
+	'onDeselect'	: deselectCategory,
+	'onDetail'		: detailCategory,
+	'peerView'		: '#itemwindow',
+	'sourceURL' 	: '/admin-items/ajax/list-nodes/',
+	'sourceVar'		: 'node',
+	'deleteURL' 	: '/admin-items/ajax/delete-node/',
+	'deleteVar'		: 'node',				
+	'createURL'		: '/admin-items/ajax/create-node/',
+	'createVar'		: 'parent',
+	'dataURL'		: '/admin-items/ajax/node-data/',
+	'dataVar'		: 'node',
+	'listURL'		: '/admin-items/ajax/list-items/',
+	'listVar'		: 'node',
+	'detailURL'		: '/admin-items/ajax/detail-node/',
+	'detailVar'		: 'node'	
+	});
+	
+var _current_tree_node = false;
+	
+function selectCategory(o){
+	_current_tree_node = o;
+	var id=o.attr('rel');
+}
+
+function deselectCategory(){
+	_current_tree_node = false;
+}
+
+function detailCategory(link){
+	var o=$(link);
+	
+	var p=o.parents('.treeview');
+	p.EMPSTreeView('detail',{'link':o.get()});
+}
+
+function createNode(o,tree_id){
+	var parent=0;
+	
+	if(_current_tree_node){
+		parent=parseInt($(_current_tree_node).attr('rel'),10);
+	}
+	
+	$("#"+tree_id).EMPSTreeView('create',{'parent':parent,'po':_current_tree_node});
+	
+	if(o){
+		o.blur();
+		return false;
+	}
+}
+	
+function reloadTree(o){
+	$("#itemstree").EMPSTreeView('load',{'container':$("#itemstree").get(),'parent':0});
+	if(o){
+		o.blur();
+		return false;
+	}
+}
+
+function detailDone(){
+	$('#itemstree').EMPSTreeView('update');
+}
+
+function afterPagePartLoad(){
+	var data=$('#itemstree').data('tree_data');
+	if(data){
+		var pv=$(data['peerView']);
+		if(pv){
+			$('#itemstree').css('height',pv.height()+'px');
+		}	
+	}
+}
+
+reloadTree(false);
+
+$('#itemstree').EMPSTreeView('list',{vars:{'start':0}});
+
+{{section name=i loop=$nlst}}
+{{if $nlst[i].id}}
+$("#itemstree").EMPSTreeView('findnode',{'node': {{$nlst[i].id}} });
+{{/if}}
+{{/section}}
+
+{{if $node_id || $item_id}}
+setTimeout('loadPagePart("#itemwindow","/admin-items/ajax/list-items/?node={{$node_id}}&item={{$item_id}}")',500);
+{{/if}}
+
+</script>
+
+  <div class="modal fade" id="itemsSearch" tabindex="-1" role="dialog" aria-hidden="true" style="overflow:hidden">
+<form action="/admin-items/ajax/list-items/?set_search=1" method="post" class="form-horizontal" role="form" id="item_search_form" target="ajax_sink">  
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Искать</h4>
+        </div>
+        <div class="modal-body">
+<input type="text" class="form-control" name="search" value="" placeholder="Введите слова..." />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+          <button type="submit" class="btn btn-primary">Искать</button>
+        </div>
+      </div>
+    </div>
+</form>    
+  </div>
+
+<script>
+$("#item_search_form").on('submit', function(e){
+	$("#itemsSearch").modal('hide');
+	return true;
+});
+</script>

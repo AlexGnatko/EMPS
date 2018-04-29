@@ -991,10 +991,30 @@ class EMPS_Common
         return $this->common_module_ex($file_name, 0);
     }
 
+
+    public function try_core_script($path, $file_name)
+    {
+        if (isset($this->require_cache['common_script_try'][$path][$file_name])) {
+            return $this->require_cache['common_script_try'][$path][$file_name];
+        }
+        $fn = stream_resolve_include_path($path . "/core/" . $file_name . ".php");
+
+        if (!file_exists($fn)) {
+            $fn = false;
+        }
+        $this->require_cache['common_script_try'][$path][$file_name] = $fn;
+        return $fn;
+    }
+
+
     public function core_module($file_name)
     {
-        // for now it's a stub
-        return EMPS_COMMON_PATH_PREFIX . "/core/" . $file_name . ".php";
+
+        $fn = $this->try_core_script(EMPS_PATH_PREFIX, $file_name);
+        if (!$fn) {
+            $fn = $this->try_core_script(EMPS_COMMON_PATH_PREFIX, $file_name);
+        }
+        return $fn;
     }
 
     public function try_plain_file($path, $file_name)
@@ -1245,6 +1265,9 @@ class EMPS_Common
         $v = rawurlencode($vle);
         $v = str_replace("%2F", "-", $v);
         $v = str_replace("%2C", ",", $v);
+        $v = str_replace("%3D", "=", $v);
+        $v = str_replace("%3B", ";", $v);
+
         return $v;
     }
 
@@ -1350,6 +1373,7 @@ class EMPS_Common
         $l = strlen($txt);
         $res = "";
         $intag = false;
+        $cnt = 0;
         for ($i = 0; $i < $l; $i++) {
             $c = $txt{$i};
 

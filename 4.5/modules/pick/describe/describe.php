@@ -26,6 +26,12 @@ if ($object) {
     if ($object['parent']) {
         $object['name'] .= $tables->text_parents($type, $object['parent']);
     }
+    if($type == "ws_structure"){
+        $object['link'] = "/admin-structure/" . $object['id']. "/-/info/";
+    }
+    if($type == "ws_item"){
+        $object['link'] = "/admin-items-detailed/" . $object['id']. "/-/info/";
+    }
     $fn = $emps->page_file_name('_pick/describe,descr_modifier', 'controller');
     if (file_exists($fn)) {
         require_once $fn;
