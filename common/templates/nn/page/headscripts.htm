@@ -152,6 +152,9 @@ ng_modules.push('ui.tinymce');
 {{/if}}
 {{/if}}
 
+{{if $page.ng_sortable}}
+    <script type="text/javascript" src="/bower_components/angular-ui-sortable/sortable.min.js" {{$add_defer}}></script>
+{{/if}}
 
 {{if $page.treeview}}
 <link href="/css/tree.css" rel="stylesheet" type="text/css" {{$add_media}}/>
