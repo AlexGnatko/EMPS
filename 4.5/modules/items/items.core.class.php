@@ -32,6 +32,8 @@ class EMPS_Items_Base
 
     public $country_code;
 
+    public $explain_list_nodes = false;
+
     public function __construct()
     {
         global $emps;
@@ -234,6 +236,9 @@ class EMPS_Items_Base
 
         while($ra = $emps->db->fetch_named($r)){
             $ra['level'] = (strlen($ra['full_id']) / 4) - 1;
+            if($this->explain_list_nodes){
+                $ra = $this->explain_structure_node($ra);
+            }
             $lst[] = $ra;
         }
 

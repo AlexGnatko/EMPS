@@ -287,6 +287,16 @@ class EMPS_DB
         return $row;
     }
 
+    public function get_max($table, $field, $where){
+        $addwhere = "";
+        if($where){
+            $addwhere = " where {$where} ";
+        }
+        $r = $this->query("select max(`{$field}`) from ".TP.$table.$addwhere);
+        $ra = $r->fetch_row($r);
+        return $ra[0];
+    }
+
     public function found_rows()
     {
         $r = $this->query("select found_rows()");
@@ -294,7 +304,7 @@ class EMPS_DB
         return $ra[0];
     }
 
-    private function get_row_plain($table, $where)
+    public function get_row_plain($table, $where)
     {
         $r = $this->query('select * from ' . $table . ' where ' . $where);
         if ($r) {
@@ -309,7 +319,7 @@ class EMPS_DB
         }
     }
 
-    private function get_row_plain_cache($table, $where)
+    public function get_row_plain_cache($table, $where)
     {
         if (isset($this->row_cache[$table][$where])) {
             return $this->row_cache[$table][$where];
