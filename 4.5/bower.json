@@ -15,6 +15,7 @@
 	"angular-ui-tinymce": "latest",
     "angular-ui-tree": "latest",
     "angular-ui-sortable": "latest",
+    "angular-ui-switch": "latest",
     "eonasdan-bootstrap-datetimepicker": "latest"
   }
 }

@@ -156,6 +156,11 @@ ng_modules.push('ui.tinymce');
     <script type="text/javascript" src="/bower_components/angular-ui-sortable/sortable.min.js" {{$add_defer}}></script>
 {{/if}}
 
+{{if $page.ng_switch}}
+    <link href="/bower_components/angular-ui-switch/angular-ui-switch.min.css" rel="stylesheet" type="text/css" {{$add_media}}/>
+    <script type="text/javascript" src="/bower_components/angular-ui-switch/angular-ui-switch.min.js" {{$add_defer}}></script>
+{{/if}}
+
 {{if $page.treeview}}
 <link href="/css/tree.css" rel="stylesheet" type="text/css" {{$add_media}}/>
 <script type="text/javascript" src="/js/treeView.js" {{$add_defer}}></script>
