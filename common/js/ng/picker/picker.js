@@ -52,11 +52,9 @@ app.controller('item_picker', function($rootScope, $scope, $http, $timeout) {
         $scope.input_changed();
     };
 
-
-
     $scope.select_row = function(key){
         $scope.selected_row = $scope.rows[key];
-        $scope.$parent.$broadcast('picker_result', {id: $scope.picker_id, pvar: $scope.pvar, row: angular.copy($scope.selected_row)});
+        $rootScope.$broadcast('picker_result', {id: $scope.picker_id, pvar: $scope.pvar, row: angular.copy($scope.selected_row)});
         $timeout(function(){
             $("#picker-modal-" + $scope.pvar).modal("hide");
         }, 100);

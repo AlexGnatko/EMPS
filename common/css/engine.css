@@ -138,6 +138,7 @@ ins {
 .emps-montage-container {
 	display: flex;
 	flex-wrap: wrap-reverse;
+	flex-direction: row-reverse;
 }
 
 

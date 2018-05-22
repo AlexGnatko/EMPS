@@ -8,6 +8,8 @@ class EMPS_BlueimpUploader {
 	public $can_save = true;
 	
 	public $jlst;
+
+	public $thumb_size = "120x90";
 	
 	public function __construct(){
 		$this->p = new EMPS_Photos;
@@ -134,7 +136,7 @@ class EMPS_BlueimpUploader {
 							$j['name']=$row['filename'];
 							$j['size']=$row['size']+0;
 							$j['url']="/pic/".$row['md5'].".".$row['ext']."&dt=".$row['dt'];
-							$j['thumbnailUrl']="/freepic/".$row['md5'].".".$row['ext']."?size=120x90&opts=inner&dt=".$row['dt'];
+							$j['thumbnailUrl']="/freepic/".$row['md5'].".".$row['ext']."?size=".$this->thumb_size."&opts=inner&dt=".$row['dt'];
 							$j['deleteUrl']="./?delete_photo=".$row['id'];
 							$j['fileId']=$row['id'];
 							$j['deleteType']="GET";
@@ -275,7 +277,7 @@ class EMPS_BlueimpUploader {
 			$j['size']=$ra['size']+0;
 			$j['url']="/pic/".$ra['md5'].".".$ra['ext']."&dt=".$ra['dt'];
 			$j['fileId']=$ra['id'];
-			$j['thumbnailUrl']="/freepic/".$ra['md5'].".".$ra['ext']."?size=120x90&opts=inner&dt=".$ra['dt'];
+			$j['thumbnailUrl']="/freepic/".$ra['md5'].".".$ra['ext']."?size=".$this->thumb_size."&opts=inner&dt=".$ra['dt'];
 			$j['deleteUrl']="./?delete_photo=".$ra['id'];
 			$j['deleteType']="GET";
 			$j['descr']=$ra['descr'];

@@ -19,6 +19,8 @@ class EMPS_DB
 
     public $no_caching = false;
 
+    public $always_use_wt = false;
+
     public function connect()
     {
         global $emps_db_config;
@@ -319,6 +321,42 @@ class EMPS_DB
         }
     }
 
+
+    public function get_row_wt_plain($table, $where)
+    {
+        $row = $this->get_row_plain($table, $where);
+
+        if($row){
+            $row = $this->row_types_plain($table, $row);
+        }
+
+        return $row;
+    }
+
+    public function row_types_plain($table, $row){
+        $columns = $this->table_columns($table);
+        foreach($columns as $v) {
+            $name = $v[0];
+            $type = mb_strtolower($v[1]);
+            $v = $row[$name];
+            if(strpos($type, "int") !== false){
+                $v = intval($v);
+            }
+            if(strpos($type, "decimal") !== false){
+                $v = floatval($v);
+            }
+            if(strpos($type, "float") !== false){
+                $v = floatval($v);
+            }
+            $row[$name] = $v;
+        }
+        return $row;
+    }
+
+    public function row_types($table, $row){
+        return $this->row_types_plain(TP . $table, $row);
+    }
+
     public function get_row_plain_cache($table, $where)
     {
         if (isset($this->row_cache[$table][$where])) {
@@ -331,7 +369,15 @@ class EMPS_DB
 
     public function get_row($table, $where)
     {
+        if($this->always_use_wt){
+            return $this->get_row_wt_plain(TP . $table, $where);
+        }
         return $this->get_row_plain(TP . $table, $where);
+    }
+
+    public function get_row_wt($table, $where)
+    {
+        return $this->get_row_wt_plain(TP . $table, $where);
     }
 
     public function get_row_cache($table, $where)
