@@ -16,7 +16,8 @@ function dump($var)
 function format_size($bytes)
 {
     if ($bytes <= 0) return $bytes;
-    $formats = array("%d байт", "%.1f Кб", "%.1f Мб", "%.1f Гб", "%.1f Тб");
+    $formats = array("%d bytes", "%.1f KB", "%.1f MB", "%.1f GB", "%.1f TB");
+
     $logsize = min((int)(log($bytes) / log(1024)), count($formats) - 1);
     return sprintf($formats[$logsize], $bytes / pow(1024, $logsize));
 }

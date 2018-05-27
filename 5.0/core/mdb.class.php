@@ -132,6 +132,18 @@ class EMPS_MongoDB {
 		
 		return $collection->count($params['query'], $options);
 	}
+
+	public function ensure_row($collection_name, $nr){
+	    $params = ['query' => $nr];
+
+	    $row = $this->get_row($collection_name, $params);
+	    if(!$row){
+	        $this->insert($collection_name, ['doc' => $nr]);
+	        $id = $this->last_id;
+            $row = $this->get_row($collection_name, ['query' => ['_id' => $id]]);
+        }
+        return $row;
+    }
 	
 	public function get_row($collection_name, $params){
 		
@@ -216,6 +228,25 @@ class EMPS_MongoDB {
 		$result = $collection->updateOne($params['query'], $update);
 		return $result;
 	}
+
+    public function update($collection_name, $params){
+        $collection = $this->collection($collection_name);
+        $update = $params['update'];
+        $update['$set']['dt'] = time();
+        $result = $collection->updateMany($params['query'], $update);
+        return $result;
+    }
+
+	public function create_index($collection_name, $params){
+        $collection = $this->collection($collection_name);
+        $keys = $params['keys'];
+        $options = $params['options'];
+        if(!$options){
+            $options = [];
+        }
+        $result = $collection->createIndex($keys, $options);
+        return $result;
+    }
 	
 	public function get_array($obj){
 		if(!$obj){

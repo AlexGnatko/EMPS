@@ -208,10 +208,10 @@ class EMPS extends EMPS_Common {
 			}
 
 			$ndlst = array();
-			while(list($n, $v) = each($dlst)){
+			foreach($dlst as $v){
 				reset($mlst);
 				$add = true;
-				while(list($nn, $vv) = each($mlst)){
+				foreach($mlst as $nn => $vv){
 					if($vv['uri'] == $v['uri'] && $vv['grp'] == $v['grp']){
 						$mlst[$nn]['default_id'] = $v['id'];
 						$add = false;
@@ -223,7 +223,7 @@ class EMPS extends EMPS_Common {
 			}
 			if($ndlst){
 				reset($ndlst);
-				while(list($nn,$vv) = each($ndlst)){
+				foreach($ndlst as $vv){
 					$mlst[] = $vv;
 				}
 				
@@ -231,7 +231,7 @@ class EMPS extends EMPS_Common {
 			}
 		}
 		reset($mlst);
-		while(list($n,$ra) = each($mlst)){
+		foreach($mlst as $ra){
 			$md = $ra;
 			
 			$ra['link'] = $ra['uri'];

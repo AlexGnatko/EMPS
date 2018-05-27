@@ -17,4 +17,3 @@ else:
 	$emps->deny_access("AdminNeeded");
 endif;
 
-?>

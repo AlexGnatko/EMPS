@@ -45,7 +45,7 @@ class EMPS_ImprovedTableEditor {
 		$emps->loadvars();
 
 		reset($this->pad_templates);
-		while(list($n,$v)=each($this->pad_templates)){
+		foreach($this->pad_templates as $v){
 			$uv = sprintf($v,$ss);
 			if($type == 'view'){
 				$fn = $emps->page_file_name('_'.$uv,'view');

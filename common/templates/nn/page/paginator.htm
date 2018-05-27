@@ -1,3 +1,26 @@
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+
+    {{if $pages.count > 1}}
+      <ul class="pagination {{if $size == "lg"}}pagination-lg{{/if}} {{$addclass}}">
+          {{if $all_link}}
+            <li class="page-item"><a class="page-link" href="{{$all_link}}"{{$linkextra}}>Все</a></li>
+          {{/if}}
+        <li class="page-item"><a class="page-link" href="{{$pages.first.link}}"{{$linkextra}}><i class="fa fa-fast-backward"></i></a></li>
+          {{if $pmode != "short"}}
+            <li class="page-item"><a class="page-link" href="{{$pages.prev.link}}"{{$linkextra}}><i class="fa fa-backward"></i></a></li>
+          {{/if}}
+          {{section name=pg loop=$pages.pl}}
+            <li class="page-item {{if $pages.pl[pg].sel}}active{{/if}}" ><a class="page-link" href="{{$pages.pl[pg].link}}"{{$linkextra}}>{{$pages.pl[pg].page}}</a></li>
+          {{/section}}
+          {{if $pmode != "short"}}
+            <li class="page-item"><a class="page-link" href="{{$pages.next.link}}"{{$linkextra}}><i class="fa fa-forward"></i></a></li>
+          {{/if}}
+        <li class="page-item"><a class="page-link" href="{{$pages.last.link}}"{{$linkextra}}><i class="fa fa-fast-forward"></i></a></li>
+      </ul>
+    {{/if}}
+
+{{else}}
+
 {{if $pages.count > 1}}
 <ul class="pagination {{if $size == "lg"}}pagination-lg{{/if}}">
 {{if $all_link}}
@@ -15,4 +38,6 @@
 {{/if}}
   <li><a href="{{$pages.last.link}}"{{$linkextra}}><i class="glyphicon glyphicon-fast-forward"></i></a></li>
 </ul>
+{{/if}}
+
 {{/if}}

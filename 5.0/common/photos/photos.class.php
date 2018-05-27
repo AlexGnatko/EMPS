@@ -504,8 +504,8 @@ class EMPS_Photos
     {
         global $emps, $SET;
 
-        $data = file_get_contents($url);
-        if ($data === FALSE) {
+        $bin_data = file_get_contents($url);
+        if ($bin_data === FALSE) {
             return false;
         }
 
@@ -546,28 +546,26 @@ class EMPS_Photos
             }
         }
 
-        $SET = array();
-        $SET['md5'] = md5(uniqid(time()));
-        $SET['filename'] = $filename;
-        $SET['type'] = $type;
-        $SET['thumb'] = "1600x1600|100x100|inner";
-        $SET['context_id'] = $context_id;
-        $SET['ord'] = $this->ord;
-        $SET['descr'] = $this->descr;
-        $emps->db->sql_insert("e_uploads");
-        $file_id = $emps->db->last_insert();
+        $size = strlen($bin_data);
 
-        $oname = $this->up->upload_filename($file_id, DT_IMAGE);
-        file_put_contents($oname, $data);
+        $data = [];
+        $data['ut'] = 'i';
+        $data['uniq_md5'] = md5(uniqid(time().$filename.$type.$size));
+        $data['filename'] = $data['uniq_md5']."-".$data['ut'];
+        $data['orig_filename'] = $filename;
+        $data = $this->up->file_extension($data);
+        $data['context_id'] = $emps->db->oid($context_id);
+        $data['content_type'] = $type;
+        $data['user_id'] = $emps->auth->USER_ID;
+        $data['qual'] = 100;
+        $data['thumb'] = EMPS_PHOTO_SIZE;
+        $data['ord'] = $this->ord;
 
-        $row = $emps->db->get_row("e_uploads", "id=$file_id");
-        $tname = $this->thumb_filename($file_id);
-        $this->treat_upload($oname, $tname, $row);
+        $download_fname = tempnam($this->tmppath, "emps_photo_download");
+        file_put_contents($download_fname, $bin_data);
 
-        $size = filesize($oname);
-        $emps->db->query("update " . TP . "e_uploads set size=$size where id=" . $file_id);
+        $this->downloaded_file_id = $this->new_photo($download_fname, $data);
 
-//		var_dump($row);echo "\r\n";
         return true;
     }
 

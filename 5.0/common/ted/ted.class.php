@@ -11,12 +11,16 @@ class EMPS_TableEditor {
 	public $website_ctx = 1;
 	
 	public $total, $pages;
+
+	public $sort = [];
 	
 	public function handle_post(){
 		global $emps, $key;
 
 		if($_POST['sadd'] || $_POST['sedit']){
-			$this->pre_save();
+		    if($key){
+                $this->pre_save($id = $emps->db->oid($key));
+            }
 		}
 		
 		if($_POST['sadd']){
@@ -114,7 +118,7 @@ class EMPS_TableEditor {
 		
 		$params = array();
 		$params['query'] = array();
-		$params['options'] = array('limit' => $perpage, 'skip' => $start);
+		$params['options'] = array('limit' => $perpage, 'skip' => $start, 'sort' => $this->sort);
 		$cursor = $emps->db->find($this->table_name, $params);
 	
 
@@ -152,4 +156,3 @@ class EMPS_TableEditor {
 		};
 	}
 }
-?>
