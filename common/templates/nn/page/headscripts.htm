@@ -174,6 +174,10 @@ ng_modules.push('ui.tinymce');
 <link rel="stylesheet" type="text/css" href="/js/ipbox/css/jquery.ipbox.css" {{$add_media}} />
 {{/if}}
 
+{{if $page.ngstorage}}
+    <script type="text/javascript" src="/bower_components/ngstorage/ngStorage.min.js" {{$add_defer}}></script>
+{{/if}}
+
 {{if $page.simple_file_uploader}}
 <link rel="stylesheet" type="text/css" href="/css/fileupload/jquery.fileupload.css" {{$add_media}} />
 {{/if}}
