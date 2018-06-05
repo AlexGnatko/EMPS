@@ -29,9 +29,16 @@ var emps_scripts = [];
 
 {{if !$page.noscripts}}
 {{if $page.use_bower}}
-<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js" {{$add_defer}}></script>
-<script src="/bower_components/jquery-ui/jquery-ui.min.js" {{$add_defer}}></script>
-<link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet" {{$add_media}}>
+    {{if "jquery_debug"|emps:get_setting == 1}}
+        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.js" {{$add_defer}}></script>
+        <script src="/bower_components/jquery-ui/jquery-ui.js" {{$add_defer}}></script>
+        <link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet" {{$add_media}}>
+    {{else}}
+        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js" {{$add_defer}}></script>
+        <script src="/bower_components/jquery-ui/jquery-ui.min.js" {{$add_defer}}></script>
+        <link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet" {{$add_media}}>
+
+    {{/if}}
 {{else}}
 <script type="text/javascript" src="/js/jquery.js" {{$add_defer}}></script>
 <script src="/js/jquery.ui.js" {{$add_defer}}></script>

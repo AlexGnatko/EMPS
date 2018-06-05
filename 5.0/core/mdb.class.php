@@ -244,8 +244,23 @@ class EMPS_MongoDB {
         if(!$options){
             $options = [];
         }
+        if($this->verbose_index){
+            echo "Created index: {";
+            foreach($keys as $n => $v){
+                echo "{$n}: $v, ";
+            }
+            echo "}\r\n";
+        }
         $result = $collection->createIndex($keys, $options);
         return $result;
+    }
+
+    public function create_single_indices($collection_name, $ind){
+	    foreach($ind as $v){
+            $params = [];
+            $params['keys'] = [$v => 1];
+            $this->create_index($collection_name, $params);
+        }
     }
 	
 	public function get_array($obj){
