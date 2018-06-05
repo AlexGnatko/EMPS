@@ -97,7 +97,7 @@ emps_global_nginputs.{{$pad}}.push(function($rootScope, $scope, $http, $location
 	
 	$scope.$watch('{{$model}}', function(newData, oldData){
 		
-//{{* describe new value *}}
+{{* describe new value *}}
 		if(typeof newData != "undefined"){
 			if(newData > 0){
 				$http.get('{{$descriptor}}{{$type}}/'+newData+'/').success(function (response) {
