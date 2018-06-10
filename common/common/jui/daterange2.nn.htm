@@ -20,6 +20,9 @@ emps_scripts.push(function(){
 	{{if $start_date}}
 		"startDate": "{{$start_date}}",
 	{{/if}}
+	{{if $min_date}}
+		"minDate": moment("{{$min_date|emps:form_date}}", "DD.MM.YYYY"),
+	{{/if}}
 	{{if $end_date}}
 		"endDate": "{{$end_date}}",
 	{{/if}}
