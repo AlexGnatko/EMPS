@@ -97,7 +97,7 @@ $("#li_time").datetimepicker();
 
     {{include file="db:_items,item_form"}}
 
-    <p><a href="/admin-items-detailed/{{$row.id}}/-/info/" class="btn btn-primary">Полный редактор объектов &nbsp;<i class="glyphicon glyphicon-arrow-right"></i></a>
+    <p><a href="/{{$full_items_pp}}/{{$row.id}}/-/info/" class="btn btn-primary">Полный редактор объектов &nbsp;<i class="glyphicon glyphicon-arrow-right"></i></a>
 
         &nbsp; &mdash; редактирование описания и загрузка фото
     </p>
@@ -106,10 +106,10 @@ $("#li_time").datetimepicker();
 <p><strong>Принадлежность к категориям:</strong></p>
 
 {{section name=i loop=$row.nodes}}
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="savenode_`$row.nodes[i].id`" type="ws_structure" name="savenode[`$row.nodes[i].id`]" value=$row.nodes[i].id}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="savenode_`$row.nodes[i].id`" type=$structure_table name="savenode[`$row.nodes[i].id`]" value=$row.nodes[i].id}}
 {{/section}}
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_0" type="ws_structure" name="newnode[0]" }}
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_1" type="ws_structure" name="newnode[1]" }}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_0" type=$structure_table name="newnode[0]" }}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_1" type=$structure_table name="newnode[1]" }}
 
 
 <div class="upspace">
@@ -228,9 +228,9 @@ emps_scripts.push(function(){
 <div class="form-group" style="clear:both;margin-top:5px">
 
 <h5>Выбранные объекты копировать в другие категории:</h5>
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="othernode_0" type="ws_structure" name="othernode[0]"}}
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="othernode_1" type="ws_structure" name="othernode[1]"}}
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="othernode_2" type="ws_structure" name="othernode[2]"}}<br/>
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="othernode_0" type=$structure_table name="othernode[0]"}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="othernode_1" type=$structure_table name="othernode[1]"}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="othernode_2" type=$structure_table name="othernode[2]"}}<br/>
 
 
 <input type="submit" value="Копировать" class="btn btn-default" />

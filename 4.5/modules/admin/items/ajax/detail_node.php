@@ -11,9 +11,9 @@ if($_POST['post_save']){
 	$smarty->assign("SinkMode",1);
 	$emps->db->sql_update($this->structure_table_name,"id=".$node);
 
-	$ctx=$emps->p->get_context(DT_WS_STRUCTURE,1,$node);	
+	$ctx=$emps->p->get_context($this->ref_structure_type, 1, $node);
 	
-	$emps->p->save_properties($_POST,$ctx,P_WS_STRUCTURE);
+	$emps->p->save_properties($_POST,$ctx, $this->track_structure_props);
 
 	if(isset($_FILES)){
 		$small=$_FILES['file_0'];
@@ -37,8 +37,6 @@ if($_POST['post_save']){
 				$_REQUEST['descr']=$od;	
 
 
-echo "context: $ctx ";				
-echo "Request handled";exit();				
 			}
 		}
 	}	
@@ -58,4 +56,3 @@ if($node){
 	echo "Error! Node not found by ID.";
 }
 
-?>

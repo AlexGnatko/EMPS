@@ -26,7 +26,7 @@
         <textarea class="form-control" name="descr" rows="3">{{$row.descr|escape:html}}</textarea>
     </div>
 
-    {{include file="db:_items,item_form"}}
+    {{include file=$item_form}}
 
     <div class="form-group">
         <label>SEO краткое описание (meta description):</label>
@@ -42,10 +42,10 @@
 <p><strong>Принадлежность к категориям:</strong></p>
 
 {{section name=i loop=$row.nodes}}
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="savenode_`$row.nodes[i].id`" type="ws_structure" name="savenode[`$row.nodes[i].id`]" value=$row.nodes[i].id}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="savenode_`$row.nodes[i].id`" type=$structure_table name="savenode[`$row.nodes[i].id`]" value=$row.nodes[i].id}}
 {{/section}}
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_0" type="ws_structure" name="newnode[0]" }}
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_1" type="ws_structure" name="newnode[1]" }}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_0" type=$structure_table name="newnode[0]" }}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Каталог" id="newnode_1" type=$structure_table name="newnode[1]" }}
 
 <p>&nbsp;</p>
 

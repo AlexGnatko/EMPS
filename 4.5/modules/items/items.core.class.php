@@ -6,6 +6,8 @@ emps_define_constant('DT_WS_STRUCTURE', 3020);
 emps_define_constant("P_WS_ITEM", "html:t,search_words:t,meta_descr:t,meta_keywords:t");
 emps_define_constant("P_WS_STRUCTURE", "html:t,meta_descr:t,meta_keywords:t");
 
+require_once $emps->common_module('photos/photos.class.php');
+
 class EMPS_Items_Base
 {
     public $p;
@@ -23,6 +25,8 @@ class EMPS_Items_Base
     public $list_group = "";
     public $list_having = "";
 
+    public $structure_where = "";
+
     public $default_pp = "catalog";
     public $node_group = "__catalog";
 
@@ -34,11 +38,13 @@ class EMPS_Items_Base
 
     public $explain_list_nodes = false;
 
+    public $dt_item = DT_WS_ITEM;
+    public $dt_structure = DT_WS_STRUCTURE;
+    public $p_item = P_WS_ITEM;
+    public $p_structure = P_WS_STRUCTURE;
+
     public function __construct()
     {
-        global $emps;
-        require_once $emps->common_module('photos/photos.class.php');
-
         $this->p = new EMPS_Photos;
         $this->node_pp = $this->default_pp;
     }
@@ -140,7 +146,7 @@ class EMPS_Items_Base
 
         $use_key = false;
 
-        $ctx = $emps->p->get_context(DT_WS_ITEM, 1, $ra['id']);
+        $ctx = $emps->p->get_context($this->dt_item, 1, $ra['id']);
         $ra['ctx'] = $ctx;
         $ra = $emps->p->read_properties($ra, $ctx);
         $pics = $this->p->list_pics($ctx, 1000);
@@ -343,13 +349,13 @@ class EMPS_Items_Base
     function update_item($item_id){
         global $emps;
         $emps->db->sql_update($this->table_name, "id = {$item_id}");
-        $ctx = $emps->p->get_context(DT_WS_ITEM, 1, $item_id);
-        $emps->p->save_properties($_REQUEST, $ctx, P_WS_ITEM);
+        $ctx = $emps->p->get_context($this->dt_item, 1, $item_id);
+        $emps->p->save_properties($_REQUEST, $ctx, $this->p_item);
     }
 
     function delete_item($item_id){
         global $emps;
-        $ctx = $emps->p->get_context(DT_WS_ITEM, 1, $item_id);
+        $ctx = $emps->p->get_context($this->dt_item, 1, $item_id);
         $emps->p->delete_context($ctx);
         $emps->db->query("delete from ".TP.$this->table_name." where id = {$item_id}");
         $emps->db->query("delete from ".TP.$this->link_table_name." where item_id = {$item_id}");
@@ -358,7 +364,7 @@ class EMPS_Items_Base
     public function explain_structure_node($ra){
         global $emps, $pp, $key, $ss;
 
-        $context_id = $emps->p->get_context(DT_WS_STRUCTURE, 1, $ra['id']);
+        $context_id = $emps->p->get_context($this->dt_structure, 1, $ra['id']);
         $ra['ctx'] = $context_id;
 
         $ra = $emps->p->read_properties($ra, $context_id);
@@ -393,10 +399,11 @@ class EMPS_Items_Base
 
         $parent = intval($parent);
         $r = $emps->db->query("select * from ".TP.$this->structure_table_name." where pub=10 
-            and parent = {$parent} order by ord asc, name asc");
+            and parent = {$parent} {$this->structure_where} order by ord asc, name asc");
 
         $lst = [];
         while($ra = $emps->db->fetch_named($r)){
+            unset($ra['full_id']);
             $ra = $this->explain_structure_node($ra);
             if($ra['id'] == $sel){
                 $ra['sel'] = true;
@@ -422,6 +429,18 @@ class EMPS_Items_Base
         $r = $emps->db->query("select * from ".TP.$this->structure_table_name." where parent = {$node_id}");
         while($ra = $emps->db->fetch_named($r)){
             $lst .= ','.$this->list_child_nodes_self($ra['id']);
+        }
+        return $lst;
+    }
+
+    public function list_child_nodes($node_id){
+        global $emps;
+
+        $lst = [];
+        $r = $emps->db->query("select * from ".TP.$this->structure_table_name." where parent = {$node_id}");
+        while($ra = $emps->db->fetch_named($r)){
+            $ra = $this->explain_structure_node($ra);
+            $lst[] = $ra;
         }
         return $lst;
     }

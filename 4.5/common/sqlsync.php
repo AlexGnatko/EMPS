@@ -4,6 +4,8 @@ header("Content-Type: text/plain; charset=utf-8");
 
 $emps->no_smarty = true;
 
+$emps->no_time_limit();
+
 function collect_indices($r)
 {
     global $emps;

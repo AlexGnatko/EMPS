@@ -14,5 +14,3 @@ function delete_structure_node($node,$table){
 delete_structure_node($node,$this->structure_table_name);
 
 echo "DELETED";
-
-?>

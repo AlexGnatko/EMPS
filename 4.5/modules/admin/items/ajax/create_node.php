@@ -24,4 +24,3 @@ $smarty->assign("node",$node);
 
 $smarty->display($this->ajax_template('treeitem','view'));
 
-?>

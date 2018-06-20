@@ -39,7 +39,7 @@
 <input type="hidden" name="post_filt" value="1" />
 <div class="form-group">
 
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" id="tour" typename="Категория" type="ws_structure" name="filt[category]" value=$filt.category nolink=1 placeholder="Фильтр по категории" submit="Фильтровать"}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" id="tour" typename="Категория" type=$structure_table name="filt[category]" value=$filt.category nolink=1 placeholder="Фильтр по категории" submit="Фильтровать"}}
 
 </div>
 </form>

@@ -7,18 +7,18 @@ $this->handle_post();
 $item_id = $this->ref_id;
 
 if($_POST){
-	$savenodes=array();
-	while(list($n,$v)=each($_POST['savenode'])){
+	$savenodes = array();
+	foreach($_POST['savenode'] as $n => $v){
 		if($v){
 			$savenodes[$v]=true;
 		}
 	}
-	while(list($n,$v)=each($_POST['newnode'])){
+    foreach($_POST['newnode'] as $n => $v){
 		if($v){
 			$savenodes[$v]=true;
 		}
 	}		
 	
-	$this->items->update_nodes($item_id,$savenodes);	
+	$this->items->update_nodes($item_id, $savenodes);
 }
 

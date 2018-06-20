@@ -7,6 +7,7 @@ class EMPS_Photos
 {
     public $up;
     public $ord = 10;
+    public $thumb = "1920x1920|100x100|inner";
 
     public $bypass_time = 0;
 
@@ -578,9 +579,10 @@ class EMPS_Photos
         $SET['md5'] = md5(uniqid(time()));
         $SET['filename'] = $filename;
         $SET['type'] = $type;
-        $SET['thumb'] = "1600x1600|100x100|inner";
+        $SET['thumb'] = $this->thumb;
         $SET['context_id'] = $context_id;
         $SET['ord'] = $this->ord;
+        $SET['protect'] = $this->protect;
         $SET['descr'] = $this->descr;
         $emps->db->sql_insert("e_uploads");
         $file_id = $emps->db->last_insert();

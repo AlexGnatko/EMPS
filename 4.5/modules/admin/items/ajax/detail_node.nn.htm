@@ -10,7 +10,7 @@ window.parent.detailDone();
 <input type="hidden" name="post_save" value="1" />
 <div class="btn-group tree-right-btn">
 <a href="javascript:submit_form(this,'detail_form')" class="btn btn-default"><i class="glyphicon glyphicon-floppy-save"></i> Сохранить изменения</a>
-<a href="/admin-structure/{{$row.id}}/-/info/" class="btn btn-default"><i class="glyphicon glyphicon-arrow-right"></i> Полный редактор</a>
+<a href="/{{$full_structure_pp}}/{{$row.id}}/-/info/" class="btn btn-default"><i class="glyphicon glyphicon-arrow-right"></i> Полный редактор</a>
 </div>
 
 <div class="panel panel-primary">
@@ -55,7 +55,7 @@ window.parent.detailDone();
 
 <div class="form-group">
 <label for="detail_object" class="control-label">Принадлежит разделу:</label>
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Разделы каталога" id="object" type="ws_structure|id<>`$row.id`" name="parent" value=$row.parent textmode=1}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Разделы каталога" id="object" type="`$structure_table`|id<>`$row.id`" name="parent" value=$row.parent textmode=1}}
 </div>
 
 

@@ -38,7 +38,7 @@
 
     <div class="form-group">
 <label for="detail_object" class="control-label">Принадлежит разделу:</label>
-{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Разделы каталога" id="object" type="ws_structure|id<>`$row.id`" name="parent" value=$row.parent textmode=1}}
+{{include file="db:picker/singleinput" selector="/pick-select/" descriptor="/pick-describe/" typename="Разделы каталога" id="object" type="`$structure_table`|id<>`$row.id`" name="parent" value=$row.parent textmode=1}}
 </div>
 
 

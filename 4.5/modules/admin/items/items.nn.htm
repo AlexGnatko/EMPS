@@ -1,21 +1,21 @@
 <div class="page-header">
-<h1>Редактор объектов</h1>
+<h1>{{if $pagetitle}}{{$pagetitle}}{{else}}Редактор объектов{{/if}}</h1>
 </div>
-<div class="row">
-<div id="itemsleft" class="col-lg-4 col-md-5">
+<div class="row row-5px">
+<div id="itemsleft" class="col-lg-4 col-md-5 col-5px">
 <div class="btn-group">
 <a href="javascript:treeVoid()" onclick="createNode(this,'itemstree')" class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i> Добавить раздел</a>
 <a href="javascript:treeVoid()" onclick="reloadTree(this)" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i> Обновить</a>
 </div>
 
-<div class="row">
+
 <div id="itemstree" class="treeview">
 </div>
-</div>
 
 
+
 </div>
-<div id="itemsright" class="col-lg-8 col-md-7">
+<div id="itemsright" class="col-lg-8 col-md-7 col-5px">
 
 <div id="itemwindow">
 </div>
@@ -30,17 +30,17 @@ $('#itemstree').EMPSTreeView({
 	'onDeselect'	: deselectCategory,
 	'onDetail'		: detailCategory,
 	'peerView'		: '#itemwindow',
-	'sourceURL' 	: '/admin-items/ajax/list-nodes/',
+	'sourceURL' 	: '/{{$default_pp}}/ajax/list-nodes/',
 	'sourceVar'		: 'node',
-	'deleteURL' 	: '/admin-items/ajax/delete-node/',
+	'deleteURL' 	: '/{{$default_pp}}/ajax/delete-node/',
 	'deleteVar'		: 'node',				
-	'createURL'		: '/admin-items/ajax/create-node/',
+	'createURL'		: '/{{$default_pp}}/ajax/create-node/',
 	'createVar'		: 'parent',
-	'dataURL'		: '/admin-items/ajax/node-data/',
+	'dataURL'		: '/{{$default_pp}}/ajax/node-data/',
 	'dataVar'		: 'node',
-	'listURL'		: '/admin-items/ajax/list-items/',
+	'listURL'		: '/{{$default_pp}}/ajax/list-items/',
 	'listVar'		: 'node',
-	'detailURL'		: '/admin-items/ajax/detail-node/',
+	'detailURL'		: '/{{$default_pp}}/ajax/detail-node/',
 	'detailVar'		: 'node'	
 	});
 	
@@ -110,13 +110,13 @@ $("#itemstree").EMPSTreeView('findnode',{'node': {{$nlst[i].id}} });
 {{/section}}
 
 {{if $node_id || $item_id}}
-setTimeout('loadPagePart("#itemwindow","/admin-items/ajax/list-items/?node={{$node_id}}&item={{$item_id}}")',500);
+setTimeout('loadPagePart("#itemwindow","/{{$default_pp}}/ajax/list-items/?node={{$node_id}}&item={{$item_id}}")',500);
 {{/if}}
 
 </script>
 
   <div class="modal fade" id="itemsSearch" tabindex="-1" role="dialog" aria-hidden="true" style="overflow:hidden">
-<form action="/admin-items/ajax/list-items/?set_search=1" method="post" class="form-horizontal" role="form" id="item_search_form" target="ajax_sink">  
+<form action="/{{$default_pp}}/ajax/list-items/?set_search=1" method="post" class="form-horizontal" role="form" id="item_search_form" target="ajax_sink">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

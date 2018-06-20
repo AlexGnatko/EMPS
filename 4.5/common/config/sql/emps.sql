@@ -359,6 +359,7 @@ CREATE TEMPORARY TABLE `temp_e_uploads` (
   `filename` varchar(255) NOT NULL,
   `wmark` tinyint(4) NOT NULL,
   `qual` tinyint(4) NOT NULL,
+  `protect` tinyint(4) NOT NULL,
   `type` varchar(255) NOT NULL,
   `thumb` varchar(128) NOT NULL DEFAULT '0',
   `folder` varchar(255) NOT NULL,
@@ -370,7 +371,7 @@ CREATE TEMPORARY TABLE `temp_e_uploads` (
   PRIMARY KEY (`id`),
   KEY `md5` (`md5`),
   KEY `size` (`size`),
-  KEY `category_id` (`context_id`),
+  KEY `context_id` (`context_id`),
   KEY `ord` (`ord`),
   KEY `dt` (`dt`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
