@@ -116,7 +116,27 @@ class EMPS_MongoDB {
 		
 		return $cursor;
 	}
-	
+
+    public function aggregate($collection_name, $params){
+        $collection = $this->collection($collection_name);
+
+        if(!$collection){
+            return false;
+        }
+
+        if(!isset($params['options'])){
+            $options = array();
+        }else{
+            $options = $params['options'];
+        }
+
+        $pipeline = $params['pipeline'];
+
+        $cursor = $collection->aggregate($pipeline, $options);
+
+        return $cursor;
+    }
+
 	public function count_rows($collection_name, $params){
 		$collection = $this->collection($collection_name);
 
@@ -166,7 +186,7 @@ class EMPS_MongoDB {
 		
 		return $arr[0];
 	}
-	
+
 	public function to_array($data)
 	{
 		if (is_array($data) || is_object($data))
