@@ -48,12 +48,23 @@ if(!$item_id){
 
 		foreach($_POST['sel'] as $n => $v){
 			if($_POST['removeall']) {
-                $emps->db->query("delete from " . TP . $this->structure_table_name . " where item_id=" . intval($n));
-            }elseif($_POST['removesel']){
-			    foreach($_POST['othernode'] as $other_node){
-                    $emps->db->query("delete from " . TP . $this->structure_table_name . " where item_id=" . intval($n) . " and structure_id = " . intval($other_node));
+                $emps->db->query("delete from " . TP . $this->link_table_name . " where item_id=" . intval($n));
+            }elseif($_POST['removesel']) {
+                foreach ($_POST['othernode'] as $other_node) {
+                    $emps->db->query("delete from " . TP . $this->link_table_name . " where item_id=" . intval($n) . " and structure_id = " . intval($other_node));
                 }
-
+            }elseif($_POST['togglesel']){
+			    $item_id = intval($n);
+			    $nr = [];
+			    $row = $emps->db->get_row($this->table_name, "id = {$item_id}");
+			    if($row){
+			        if($row['pub']){
+			            $nr['pub'] = "00";
+                    }else{
+			            $nr['pub'] = 10;
+                    }
+                    $emps->db->sql_update_row($this->table_name, ['SET' => $nr], "id = {$item_id}");
+                }
 			}else{
 				foreach($_POST['othernode'] as $nn => $vv){
 					$this->items->ensure_item_in_node($n, $nv);
