@@ -554,3 +554,25 @@ CREATE TEMPORARY TABLE `temp_e_unique_texts` (
   KEY `dt` (`dt`),
   KEY `context_id` (`context_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- table
+CREATE TEMPORARY TABLE `temp_e_track_events` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `type` int(11) NOT NULL,
+  `descr` text NOT NULL,
+  `cdt` int(11) NOT NULL,
+  `dt` int(11) NOT NULL,
+  `ip` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `email` (`email`),
+  KEY `phone` (`phone`),
+  KEY `type` (`type`),
+  KEY `cdt` (`cdt`),
+  KEY `dt` (`dt`),
+  KEY `ip` (`ip`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

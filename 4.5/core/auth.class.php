@@ -78,8 +78,37 @@ class EMPS_Auth
 
         $_SESSION['session_id'] = $emps->db->last_insert();
 
+        $this->track_event($user_id, 10);
+
         return true;
     }
+
+    public function track_event($user_id, $type)
+    {
+        global $emps;
+
+        if(!isset($GLOBALS['emps_track_login_evens'])){
+            return false;
+        }
+
+        $nr = array();
+        $nr['user_id'] = $user_id;
+        $nr['type'] = $type;
+        $nr['ip'] = $_SERVER['REMOTE_ADDR'];
+        if(isset($_REQUEST['email'])){
+            $nr['email'] = $_REQUEST['email'];
+        }
+        if(isset($_REQUEST['phone'])){
+            $nr['phone'] = $_REQUEST['phone'];
+        }
+
+        $update = ['SET' => $nr];
+
+        $emps->db->sql_insert_row("e_track_events", $update);
+
+        return $emps->db->last_insert();
+    }
+
 
     function check_session()
     {
