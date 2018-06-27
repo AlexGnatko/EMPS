@@ -53,7 +53,7 @@ if(!$item_id){
                 foreach ($_POST['othernode'] as $other_node) {
                     $emps->db->query("delete from " . TP . $this->link_table_name . " where item_id=" . intval($n) . " and structure_id = " . intval($other_node));
                 }
-            }elseif($_POST['togglesel']){
+            }elseif($_POST['togglepub']){
 			    $item_id = intval($n);
 			    $nr = [];
 			    $row = $emps->db->get_row($this->table_name, "id = {$item_id}");
