@@ -484,4 +484,30 @@ class EMPS_Items_Base
         $this->recount_items_in_list($nlst);
     }
 
+    public function sanitize_item_base($item){
+        global $emps;
+
+        $item['price'] = floatval($item['price']);
+
+        $item['cdate'] = $emps->form_date($item['cdt']);
+        $item['sale'] = false;
+        if($item['price'] > 0 &&
+            $item['old_price'] > 0 &&
+            $item['price'] < $item['old_price']){
+            $item['sale'] = true;
+        }
+
+        return $item;
+    }
+
+    public function sanitize_item_fast($item){
+
+        $item = $this->sanitize_item_base($item);
+
+        unset($item['_full']);
+        unset($item['nodes']);
+
+        return $item;
+    }
+
 }
