@@ -1,0 +1,37 @@
+<h1>Заходы и регистрации пользователей</h1>
+
+<div class="text-right">{{include file="db:page/paginator"}}</div>
+
+<table class="table">
+<tr valign="center">
+<th class="lt" width="70">Id</th>
+<th class="lt" width="120">Дата/время</th>
+<th class="lt" width="180">Тип</th>
+<th class="lt" width="500">Пользователь</th>
+<th class="lt" width="100">IP</th>
+
+</tr>
+{{section name=i loop=$lst}}
+<tr>
+<td class="le">{{$lst[i].id}}</td>
+<td class="le">{{$lst[i].time}}</td>
+<td class="le">{{include file="db:enum/enumval" e=$enum.userevent value=$lst[i].type}}</td>
+{{if !$lst[i].user}}
+<td class="le">Пользователь удалён</td>
+{{else}}
+<td class="le">#{{$lst[i].user.id}}, логин: {{$lst[i].user.username}}, телефон: {{$lst[i].user.phone}}{{if $lst[i].user.email}}, {{$lst[i].user.email}}{{/if}}, Имя: {{$lst[i].user.fullname}}
+{{if $lst[i].user.company_name}}
+Компания: {{$lst[i].user.company_name}} &nbsp;
+{{/if}}
+{{if $lst[i].user.city_name}}
+Город: {{$lst[i].user.city_name}} &nbsp;
+{{/if}}
+{{/if}}
+<td class="le">
+<a target="_blank" href="http://ipgeobase.ru/?address={{$lst[i].ip}}">{{$lst[i].ip}}</a>
+</td>
+</tr>
+{{/section}}
+</table>
+
+<div class="text-right">{{include file="db:page/paginator"}}</div>

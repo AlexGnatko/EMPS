@@ -3,3 +3,4 @@ publish:0=Not Published;10=Published;50=Ready;70=Arm
 pub_simple:0=Not Published;10=Published
 websitestatus:0=Unused Website;10=Website Group;50=Regular Website;100=Default Website
 pubtype:10=Новости
+userevent:10=Log In;20=Singup Began;30=Signup Finished;40=Message
