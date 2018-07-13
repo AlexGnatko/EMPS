@@ -186,12 +186,13 @@ class EMPS_ItemsEditor extends EMPS_ImprovedTableEditor {
 };
 
 
+if(!$no_handler){
+    $ited = new EMPS_ItemsEditor();
 
-$ited = new EMPS_ItemsEditor();
+    $ited->pre_handler();
+    $ited->handle_request();
 
-$ited->pre_handler();
-$ited->handle_request();
-
+};
 
 else:
 	$emps->deny_access("AdminNeeded");

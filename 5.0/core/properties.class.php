@@ -43,8 +43,7 @@ class EMPS_Properties {
 
     public function register_cleanup($call)
     {
-        reset($this->cleanups);
-        while (list($n, $v) = each($this->cleanups)) {
+        foreach($this->cleanups as $v){
             if (get_class($v[0]) == get_class($call[0])) {
                 return false;
             }

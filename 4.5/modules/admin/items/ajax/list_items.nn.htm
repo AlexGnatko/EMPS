@@ -95,7 +95,7 @@ $("#li_time").datetimepicker();
         <textarea class="form-control" name="descr" rows="3">{{$row.descr|escape:html}}</textarea>
     </div>
 
-    {{include file="db:_items,item_form"}}
+    {{include file=$item_form}}
 
     <p><a href="/{{$full_items_pp}}/{{$row.id}}/-/info/" class="btn btn-primary">Полный редактор объектов &nbsp;<i class="glyphicon glyphicon-arrow-right"></i></a>
 
@@ -213,13 +213,14 @@ emps_scripts.push(function(){
 {{/if}}
 </div>
 
-<a class="ieitemlink" href="javascript:loadPagePart('#itemwindow','{{$lst[i].editlink}}')">{{$lst[i].name}}</a><br/>
-<span>{{$lst[i].id}}, код: {{$lst[i].article}}
+<a class="ieitemlink" href="javascript:loadPagePart('#itemwindow','{{$lst[i].editlink}}')">{{if $lst[i].name}}{{$lst[i].name}}{{else}}{{if $lst[i].dname}}{{$lst[i].dname}}{{else}}{{$lst[i].display_name}}{{/if}}{{/if}}</a><br/>
+<span>{{$lst[i].id}}, код: {{if $lst[i].article}}{{$lst[i].article}}{{else}}{{$lst[i].code}}{{/if}}
 &nbsp;
 &nbsp;
-{{include file="db:_items,app" row=$lst[i]}}
-<br/>
-<strong>{{$lst[i].final_price}}</strong> руб.</span>
+    {{if $lst[i].price}}
+    <br/>
+<strong>{{if $lst[i].final_price}}{{$lst[i].final_price}}{{else}}{{$lst[i].price}}{{/if}}</strong> руб.</span>
+    {{/if}}
 
 
 </div>

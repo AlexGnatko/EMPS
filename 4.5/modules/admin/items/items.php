@@ -23,6 +23,7 @@ class EMPS_ItemsEditor extends EMPS_ImprovedTableEditor {
 	
 	public $form_name = "db:_admin/items,form";
 	public $ajax_template = "admin/items/ajax,%s";
+	public $item_form = "db:_items,item_form";
 	
 	public $order = " order by cdt asc, id asc ";
 	
@@ -185,6 +186,7 @@ class EMPS_ItemsEditor extends EMPS_ImprovedTableEditor {
         $smarty->assign("default_pp", $pp);
         $smarty->assign("full_structure_pp", $this->full_structure_pp);
         $smarty->assign("full_items_pp", $this->full_items_pp);
+        $smarty->assign("item_form", $this->item_form);
         $perpage = 50;
 
     }

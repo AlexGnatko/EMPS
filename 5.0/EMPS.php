@@ -140,6 +140,16 @@ class EMPS extends EMPS_Common {
         }
 		return $this->settings_cache['dt'];
 	}
+
+	public function save_setting($code, $value){
+        $nr = [];
+        $nr[$code] = $value;
+        $params = [];
+        $params['query'] = ['_id' => $this->website_ctx];
+        $params['update'] = ['$set' => $nr];
+
+        $this->db->update_one("emps_contexts", $params);
+    }
 	
 	public function section_menu_ex($code, $parent, $default_parent){
 

@@ -162,4 +162,3 @@ class EMPS_PropertiesEditor {
 		$smarty->assign("lst", $lst);		
 	}
 }
-?>
