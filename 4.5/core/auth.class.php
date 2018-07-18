@@ -49,8 +49,18 @@ class EMPS_Auth
 
         $user = $emps->db->get_row('e_users', "username='$username'");
         if (!$user) {
-            $this->login_error("no_user");
-            return false;
+            $domain = $emps->get_setting("default_user_domain");
+            if($domain){
+                $username = $username . "." . $domain;
+                $user = $emps->db->get_row('e_users', "username='$username'");
+                if (!$user) {
+                    $this->login_error("no_user");
+                    return false;
+                }
+            }else{
+                $this->login_error("no_user");
+                return false;
+            }
         }
 
         $user = $this->ensure_fullname($user);
