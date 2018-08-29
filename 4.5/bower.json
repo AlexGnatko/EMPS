@@ -8,7 +8,7 @@
   "dependencies": {
 	"angular": "1.4.3",
 	"angular-i18n": "1.4.3",
-	"jquery": "latest",
+	"jquery": "~2",
 	"jquery-ui": "latest",
 	"clipboard": "latest",
 	"flag-icon-css": "latest",
@@ -17,6 +17,10 @@
     "angular-ui-sortable": "latest",
     "angular-ui-switch": "latest",
     "eonasdan-bootstrap-datetimepicker": "latest",
+    "angular-eonasdan-datetimepicker": "latest",
     "ngstorage": "latest"
+  },
+  "resolutions": {
+    "jquery": "~2"
   }
 }

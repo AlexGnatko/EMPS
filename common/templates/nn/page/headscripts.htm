@@ -211,4 +211,8 @@ ng_modules.push('ui.tinymce');
     {{/if}}
 {{/if}}
 
+{{if $page.angular_datetimepicker}}
+    <script src="/bower_components/angular-eonasdan-datetimepicker/dist/angular-eonasdan-datetimepicker.min.js" defer></script>
+{{/if}}
+
 {{include file="db:site/headscripts"}}

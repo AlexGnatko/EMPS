@@ -107,7 +107,7 @@ if(!$item_id){
 				$rtxt="*".str_replace(" ", " * ", $txt)."*";
 			}			
 			$q = "select SQL_CALC_FOUND_ROWS i.*, (match(i.name,p.v_char,p.v_text,p.v_data) against ('$rtxt' in boolean mode)) as rel,(i.name like ('$ptxt')) as namel,(i.article like ('$ptxt')) as articlel, 
-			 ctx.ref_type as ref_type, ctx.ref_id as ref_id from ".TP."ws_items as i
+			 ctx.ref_type as ref_type, ctx.ref_id as ref_id from ".TP.$this->table_name." as i
 		
 			 left join ".TP."e_contexts as ctx
 			 on (ctx.ref_id  = i.id and ctx.ref_type = ".$this->ref_type.")
