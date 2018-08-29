@@ -108,7 +108,7 @@ if(!$item_id){
 			}
 			$article = "article";
 			if($this->article){
-			    $article = article;
+			    $article = $this->article;
             }
 			$q = "select SQL_CALC_FOUND_ROWS i.*, (match(i.name,p.v_char,p.v_text,p.v_data) against ('$rtxt' in boolean mode)) as rel,(i.name like ('$ptxt')) as namel,(i.{$article} like ('$ptxt')) as articlel, 
 			 ctx.ref_type as ref_type, ctx.ref_id as ref_id from ".TP.$this->table_name." as i
