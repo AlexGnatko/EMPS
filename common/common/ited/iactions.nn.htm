@@ -1,193 +1,307 @@
 {{if $lang eq "en"}}
-    {{assign var="str_cancel" value="Cancel"}}
-    {{assign var="str_create" value="Create"}}
-    {{assign var="str_refresh" value="Refresh"}}
-    {{assign var="str_save" value="Save"}}
-    {{assign var="str_open" value="Open"}}
-    {{assign var="str_by_num" value="Open By ID"}}
+{{assign var="str_cancel" value="Cancel"}}
+{{assign var="str_create" value="Create"}}
+{{assign var="str_save" value="Save"}}
+{{assign var="str_open" value="Open"}}
+{{assign var="str_by_num" value="Open By ID"}}
+{{assign var="str_back_to_list" value="Back to List"}}
+{{assign var="str_delete" value="Delete"}}
+{{assign var="str_open_id_text" value="ID (number)"}}
+{{assign var="str_create_new" value="Create a New Item"}}
+
 {{else}}
-    {{assign var="str_cancel" value="Отмена"}}
-    {{assign var="str_create" value="Создать"}}
-    {{assign var="str_refresh" value="Обновить"}}
-    {{assign var="str_save" value="Сохранить"}}
-    {{assign var="str_open" value="Открыть"}}
-    {{assign var="str_by_num" value="Открыть по номеру"}}
+{{assign var="str_cancel" value="Отмена"}}
+{{assign var="str_create" value="Создать"}}
+{{assign var="str_save" value="Сохранить"}}
+{{assign var="str_open" value="Открыть"}}
+{{assign var="str_by_num" value="Открыть по номеру"}}
+{{assign var="str_back_to_list" value="Назад в список"}}
+{{assign var="str_delete" value="Удалить"}}
+{{assign var="str_open_id_text" value="Номер (идентификатор), число"}}
+{{assign var="str_create_new" value="Создать новый элемент"}}
+
 {{/if}}
 
-{{capture name="addModal"}}
 
-    {{if $lang eq "en"}}
-        {{assign var="str_create_new" value="Create a New Item"}}
+{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+    {{* BOOTSTRAP 3 *}}
 
-    {{else}}
-        {{assign var="str_create_new" value="Создать новый элемент"}}
+    {{capture name="addModal"}}
 
-    {{/if}}
-
-    {{if !$no_create_form}}
-        <div class="move-modal modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true"
-             style="overflow:hidden;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="{{if $add_target}}{{$add_target}}{{else}}.{{/if}}" method="post"
-                          class="form-horizontal" role="form">
-                        <input type="hidden" name="ss" value=""/>
-                        <input type="hidden" name="key" value=""/>
-                        <input type="hidden" name="action_add" value="1"/>
-                        {{if $autolink}}<input type="hidden" name="autolink" value="{{$autolink}}" />
-                        {{/if}}
-                        <input type="hidden" name="return_to" value="{{$return_to}}"/>
-
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">{{$str_create_new}}</h4>
-                        </div>
-                        <div class="modal-body">
-                            {{include file=$form row=""}}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
-                            <button type="submit" class="btn btn-primary">{{$str_create}}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    {{/if}}
-{{/capture}}
-
-{{capture name="deleteScript"}}
-    <script>
-        function delete_modal(url) {
-            $("#deleteModal").load(url, function () {
-                $("#deleteModal").modal('show');
-            });
-        }
-    </script>
-    <div class="move-modal modal fade delete-modal" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
-    </div>
-{{/capture}}
-
-{{capture name="openModal"}}
-
-    {{if $lang eq "en"}}
-        {{assign var="str_open_id_text" value="ID (number)"}}
-
-    {{else}}
-        {{assign var="str_open_id_text" value="Номер (идентификатор), число"}}
-
-    {{/if}}
-
-    {{if !$no_bynum}}
-        <div class="move-modal modal fade" id="openModal" tabindex="-1" role="dialog" aria-hidden="true"
-             style="overflow:hidden">
-            <form action="." method="post" class="form-horizontal" role="form">
-                <input type="hidden" name="action_open" value="1"/>
-
+        {{if !$no_create_form}}
+            <div class="move-modal modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true" style="overflow:hidden;">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">{{$str_by_num}}</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label class="col-md-10 col-sm-6 control-label"
-                                       for="open_id">{{if $OpenDescr}}{{$OpenDescr}}{{else}}{{$str_open_id_text}}:{{/if}}</label>
-                                <div class="col-md-2 col-sm-6">
-                                    <input type="text" class="form-control" name="id" id="open_id"/>
-                                </div>
+                        <form action="{{if $add_target}}{{$add_target}}{{else}}.{{/if}}" method="post" class="form-horizontal" role="form">
+                            <input type="hidden" name="ss" value="" />
+                            <input type="hidden" name="key" value="" />
+                            <input type="hidden" name="action_add" value="1" />
+                            {{if $autolink}}<input type="hidden" name="autolink" value="{{$autolink}}" />
+                            {{/if}}
+                            <input type="hidden" name="return_to" value="{{$return_to}}" />
+
+                            <div class="modal-header">
+                                <h4 class="modal-title">{{$str_create_new}}</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
-                            <button type="submit" class="btn btn-primary">{{$str_open}}</button>
-                        </div>
+                            <div class="modal-body">
+                                {{include file=$form row=""}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
+                                <button type="submit" class="btn btn-primary">{{$str_create}}</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </form>
-        </div>
-    {{/if}}
-{{/capture}}
-{{if $mode eq "top"}}
-    <p class="btn-group">
-        {{if !$no_create}}
-            <a data-toggle="modal" href="#addModal" class="btn btn-default btn-secondary"><span
-                        class="glyphicon glyphicon-file"></span>&nbsp; {{$str_create}}</a>
+            </div>
         {{/if}}
-        {{if $with_refresh}}
-            <a href="." class="btn btn-default btn-secondary"><span class="glyphicon glyphicon-refresh"></span>&nbsp; {{$str_refresh}}
-            </a>
-        {{/if}}
-        {{if !$no_bynum}}
-            <a data-toggle="modal" href="#openModal" class="btn btn-default btn-secondary"><span
-                        class="glyphicon glyphicon-bookmark"></span>&nbsp; {{$str_by_num}}</a>
-        {{/if}}
-
-    </p>
-    {{capture name="bottomPage"}}
-        {{$smarty.capture.addModal}}
-        {{$smarty.capture.openModal}}
     {{/capture}}
 
-{{elseif $mode eq "bottom"}}
+    {{capture name="deleteScript"}}
+        <script>
+            function delete_modal(url){
+                $("#deleteModal").load(url, function(){
+                    $("#deleteModal").modal('show');
+                });
+            }
+        </script>
 
-    {{$smarty.capture.deleteScript}}
+        <div class="move-modal modal fade delete-modal" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+        </div>
+    {{/capture}}
 
-{{elseif $mode eq "inner"}}
+    {{capture name="openModal"}}
 
-    {{if $lang eq "en"}}
-        {{assign var="str_back_to_list" value="Back to List"}}
-        {{assign var="str_delete" value="Delete"}}
-    {{else}}
-        {{assign var="str_back_to_list" value="Назад в список"}}
-        {{assign var="str_delete" value="Удалить"}}
-    {{/if}}
-    <div class="pull-right float-right">
-        <div class="btn-group">
-            <a href="{{$BackITEDLink}}" class="btn btn-default"><span
-                        class="glyphicon glyphicon-circle-arrow-left"></span>&nbsp; {{$str_back_to_list}}</a>
 
+        {{if !$no_bynum}}
+            <div class="move-modal modal fade" id="openModal" tabindex="-1" role="dialog" aria-hidden="true" style="overflow:hidden">
+                <form action="." method="post" class="form-horizontal" role="form">
+                    <input type="hidden" name="action_open" value="1" />
+
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">{{$str_by_num}}</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <label class="col-md-5 col-form-label" for="open_id">{{if $OpenDescr}}{{$OpenDescr}}{{else}}{{$str_open_id_text}}:{{/if}}</label>
+                                    <div class="col-md-7">
+                                        <input type="text" class="form-control" name="id" id="open_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn" data-dismiss="modal">{{$str_cancel}}</button>
+                                <button type="submit" class="btn btn-primary">{{$str_open}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {{/if}}
+    {{/capture}}
+    {{if $mode eq "top"}}
+
+        <div class="btn-group mb-2">
+            {{if !$no_create}}
+                <a data-toggle="modal" href="#addModal" class="btn btn-secondary"><span class="glyphicon glyphicon-file"></span>&nbsp; {{$str_create}}</a>
+            {{/if}}
+            {{if !$no_bynum}}
+                <a data-toggle="modal" href="#openModal" class="btn btn-secondary"><span class="glyphicon glyphicon-bookmark"></span>&nbsp; {{$str_by_num}}</a>
+            {{/if}}
+
+        </div>
+
+        {{capture name="bottomPage"}}
+            {{$smarty.capture.addModal}}
+            {{$smarty.capture.openModal}}
+        {{/capture}}
+
+    {{elseif $mode eq "bottom"}}
+
+        {{$smarty.capture.deleteScript}}
+
+    {{elseif $mode eq "inner"}}
+
+
+
+        <div class="pull-right">
             <div class="btn-group">
-                {{if $PostEnabled}}
-                    <button type="button" onclick="submit_form(this,'main_form')" class="btn btn-primary"
-                            {{if !$CanSave}}disabled="disabled"{{/if}}><span
-                                class="glyphicon glyphicon-floppy-disk"></span>&nbsp; {{$str_save}}</button>
-                {{/if}}
-                {{if !$NoDropDown}}
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        {{if !$no_delete}}
-                            {{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+                <a href="{{$BackITEDLink}}" class="btn btn-outline-secondary"><span class="fa fa-arrow-circle-left"></span>&nbsp; {{$str_back_to_list}}</a>
+
+                <div class="btn-group">
+                    {{if $PostEnabled}}
+                        <button type="button" onclick="submit_form(this,'main_form')" class="btn btn-primary" {{if !$CanSave}}disabled="disabled"{{/if}}><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; {{$str_save}}</button>
+                    {{/if}}
+                    {{if !$NoDropDown}}
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            {{if !$no_delete}}
                                 <a class="dropdown-item" href="javascript:delete_modal('{{$row.klink}}')">&times;
                                     &nbsp; {{$str_delete}}</a>
-
-                            {{else}}
-                                <li><a href="javascript:delete_modal('{{$row.klink}}')">&times;
-                                        &nbsp; {{$str_delete}}</a></li>
                             {{/if}}
-
-                        {{/if}}
-                        {{if !$no_create}}
-                            {{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+                            {{if !$no_create}}
                                 <a class="dropdown-item" data-toggle="modal" href="#addModal"><span
-                                            class="glyphicon glyphicon-file"></span>&nbsp; {{$str_create}}</a>
-                            {{else}}
-                                <li><a data-toggle="modal" href="#addModal"><span
-                                                class="glyphicon glyphicon-file"></span>&nbsp; {{$str_create}}</a></li>
+                                            class="fa fa-file"></span>&nbsp; {{$str_create}}</a>
                             {{/if}}
-
-                        {{/if}}
-                    </ul>
-                {{/if}}
+                        </div>
+                    {{/if}}
+                </div>
+                {{capture name="bottomPage"}}
+                    {{$smarty.capture.addModal}}
+                {{/capture}}
             </div>
-            {{capture name="bottomPage"}}
-                {{$smarty.capture.addModal}}
-            {{/capture}}
         </div>
-    </div>
-    {{$smarty.capture.deleteScript}}
+
+        {{$smarty.capture.deleteScript}}
+
+    {{/if}}
+
+
+{{else}}
+    {{* BOOTSTRAP 3 *}}
+
+    {{capture name="addModal"}}
+
+        {{if !$no_create_form}}
+            <div class="move-modal modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true" style="overflow:hidden;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{{if $add_target}}{{$add_target}}{{else}}.{{/if}}" method="post" class="form-horizontal" role="form">
+                            <input type="hidden" name="ss" value="" />
+                            <input type="hidden" name="key" value="" />
+                            <input type="hidden" name="action_add" value="1" />
+                            {{if $autolink}}<input type="hidden" name="autolink" value="{{$autolink}}" />
+                            {{/if}}
+                            <input type="hidden" name="return_to" value="{{$return_to}}" />
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">{{$str_create_new}}</h4>
+                            </div>
+                            <div class="modal-body">
+                                {{include file=$form row=""}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
+                                <button type="submit" class="btn btn-primary">{{$str_create}}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+    {{/capture}}
+
+    {{capture name="deleteScript"}}
+        <script>
+            function delete_modal(url){
+                $("#deleteModal").load(url, function(){
+                    $("#deleteModal").modal('show');
+                });
+            }
+        </script>
+
+        <div class="move-modal modal fade delete-modal" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+        </div>
+    {{/capture}}
+
+    {{capture name="openModal"}}
+
+
+        {{if !$no_bynum}}
+            <div class="move-modal modal fade" id="openModal" tabindex="-1" role="dialog" aria-hidden="true" style="overflow:hidden">
+                <form action="." method="post" class="form-horizontal" role="form">
+                    <input type="hidden" name="action_open" value="1" />
+
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">{{$str_by_num}}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label class="col-md-10 col-sm-6 control-label" for="open_id">{{if $OpenDescr}}{{$OpenDescr}}{{else}}{{$str_open_id_text}}:{{/if}}</label>
+                                    <div class="col-md-2 col-sm-6">
+                                        <input type="text" class="form-control" name="id" id="open_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{{$str_cancel}}</button>
+                                <button type="submit" class="btn btn-primary">{{$str_open}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {{/if}}
+    {{/capture}}
+    {{if $mode eq "top"}}
+
+        <p class="btn-group">
+            {{if !$no_create}}
+                <a data-toggle="modal" href="#addModal" class="btn btn-default"><span class="glyphicon glyphicon-file"></span>&nbsp; {{$str_create}}</a>
+            {{/if}}
+            {{if !$no_bynum}}
+                <a data-toggle="modal" href="#openModal" class="btn btn-default"><span class="glyphicon glyphicon-bookmark"></span>&nbsp; {{$str_by_num}}</a>
+            {{/if}}
+
+        </p>
+
+        {{capture name="bottomPage"}}
+            {{$smarty.capture.addModal}}
+            {{$smarty.capture.openModal}}
+        {{/capture}}
+
+    {{elseif $mode eq "bottom"}}
+
+        {{$smarty.capture.deleteScript}}
+
+    {{elseif $mode eq "inner"}}
+
+
+
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="{{$BackITEDLink}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>&nbsp; {{$str_back_to_list}}</a>
+
+                <div class="btn-group">
+                    {{if $PostEnabled}}
+                        <button type="button" onclick="submit_form(this,'main_form')" class="btn btn-primary" {{if !$CanSave}}disabled="disabled"{{/if}}><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; {{$str_save}}</button>
+                    {{/if}}
+                    {{if !$NoDropDown}}
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            {{if !$no_delete}}
+                                <li><a href="javascript:delete_modal('{{$row.klink}}')">&times; &nbsp; {{$str_delete}}</a></li>
+                            {{/if}}
+                            {{if !$no_create}}
+                                <li><a data-toggle="modal" href="#addModal"><span class="glyphicon glyphicon-file"></span>&nbsp; {{$str_create}}</a></li>
+                            {{/if}}
+                        </ul>
+                    {{/if}}
+                </div>
+                {{capture name="bottomPage"}}
+                    {{$smarty.capture.addModal}}
+                {{/capture}}
+            </div>
+        </div>
+
+        {{$smarty.capture.deleteScript}}
+
+    {{/if}}
 
 {{/if}}
+
+
