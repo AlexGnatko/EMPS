@@ -10,6 +10,9 @@ class EMPS_Properties
     public $default_ctx = false;
 
     public $no_full = false;
+    public $no_idx = false;
+
+    public $wt = false;
 
     public function save_property($context_id, $code, $datatype, $value, $history, $idx)
     {
@@ -155,9 +158,15 @@ class EMPS_Properties
                 case "i":
                 case "r":
                     $value = $ra['v_int'];
+                    if($this->wt){
+                        $value = intval($value);
+                    }
                     break;
                 case "f":
                     $value = $ra['v_float'];
+                    if($this->wt){
+                        $value = floatval($value);
+                    }
                     break;
                 case "c":
                     $value = $ra['v_char'];
@@ -172,9 +181,11 @@ class EMPS_Properties
                     $value = $ra['v_text'];
             }
             $row[$ra['code']] = $value;
-            $row[$ra['code'] . '_idx'][$ra['idx']] = $value;
-            if (!$row[$ra['code'] . '_count']) $row[$ra['code'] . '_count'] = 0;
-            $row[$ra['code'] . '_count']++;
+            if(!$this->no_idx){
+                $row[$ra['code'] . '_idx'][$ra['idx']] = $value;
+                if (!$row[$ra['code'] . '_count']) $row[$ra['code'] . '_count'] = 0;
+                $row[$ra['code'] . '_count']++;
+            }
             if(!$this->no_full){
                 $row['_full'][$ra['code']] = $ra;
             }

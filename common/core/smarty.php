@@ -46,8 +46,8 @@ class Smarty_Resource_EMPS_DB extends Smarty_Resource_Custom
                     $source = file_get_contents($fn);
                     $mtime = filemtime($fn);
                 } else {
-                    $source = "";
-                    $mtime = time() - 60 * 15;
+                    $source = null;
+                    $mtime = null;
                 }
             }
         } else {

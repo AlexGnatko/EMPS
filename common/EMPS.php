@@ -532,7 +532,7 @@ class EMPS_Common
         $this->no_spath = $no_spath;
 
         $x = explode(',', $r);
-        while (list($n, $v) = each($x)) {
+        foreach($x as $v){
             unset($menu);
             $xx = explode('/', $v);
             $code = $xx[0];
