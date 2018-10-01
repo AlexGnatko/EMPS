@@ -112,15 +112,15 @@
 {{if $mode eq "top"}}
     <p class="btn-group">
         {{if !$no_create}}
-            <a data-toggle="modal" href="#addModal" class="btn btn-default"><span
+            <a data-toggle="modal" href="#addModal" class="btn btn-default btn-secondary"><span
                         class="glyphicon glyphicon-file"></span>&nbsp; {{$str_create}}</a>
         {{/if}}
         {{if $with_refresh}}
-            <a href="." class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span>&nbsp; {{$str_refresh}}
+            <a href="." class="btn btn-default btn-secondary"><span class="glyphicon glyphicon-refresh"></span>&nbsp; {{$str_refresh}}
             </a>
         {{/if}}
         {{if !$no_bynum}}
-            <a data-toggle="modal" href="#openModal" class="btn btn-default"><span
+            <a data-toggle="modal" href="#openModal" class="btn btn-default btn-secondary"><span
                         class="glyphicon glyphicon-bookmark"></span>&nbsp; {{$str_by_num}}</a>
         {{/if}}
 
