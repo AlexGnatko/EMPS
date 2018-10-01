@@ -47,7 +47,7 @@ class Smarty_Resource_EMPS_DB extends Smarty_Resource_Custom
                     $mtime = filemtime($fn);
                 } else {
                     $source = "";
-                    $mtime = null;
+                    $mtime = time() - 60 * 15;
                 }
             }
         } else {
@@ -68,7 +68,7 @@ class Smarty_Resource_EMPS_DB extends Smarty_Resource_Custom
             if (!file_exists($fn)) {
                 $fn = $emps->common_module_html($name);
                 if (!file_exists($fn)) {
-                    return null;
+                    return time() - 60 * 15;
                 } else {
                     $r = filemtime($fn);
                 }
@@ -97,7 +97,7 @@ class Smarty_Resource_EMPS_Page extends Smarty_Resource_Custom
             }
         } else {
             $source = "";
-            $mtime = null;
+            $mtime = time() - 60 * 15;
         }
         return true;
 
@@ -112,7 +112,7 @@ class Smarty_Resource_EMPS_Page extends Smarty_Resource_Custom
         if ($ra) {
             return $ra['dt'];
         } else {
-            return null;
+            return (time() - 60 * 15);
         }
     }
 }
