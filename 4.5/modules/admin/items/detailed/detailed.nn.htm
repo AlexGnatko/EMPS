@@ -82,7 +82,7 @@
 <a href="/pic/{{$lst[i].pics.0.md5}}.jpg" class="fancybox"><img src="/freepic/{{$lst[i].pics.0.md5}}.jpg?size=100x100&opts=inner" width="90" border="0" /></a>
 {{/if}}</td>
 <td class="le"><a href="{{$lst[i].nlink}}"><big>{{$lst[i].name}}</big></a><br />
-{{include file="db:_admin/items/detailed,extra_row" item=$lst[i]}}
+{{include file="db:_admin/items/detailed,extra_row" listitem=$lst[i]}}
 <small><span class="badge">{{$lst[i].ord}}</span></small>
 </td>
 <td>
