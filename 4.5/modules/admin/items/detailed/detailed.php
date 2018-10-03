@@ -27,7 +27,9 @@ class EMPS_ItemsEditor extends EMPS_ImprovedTableEditor {
 
 	public $item_form = "db:_items,item_form";
 	
-	public $order = " order by ord desc, name asc ";
+	public $order_by_ord = " order by ord desc, name asc ";
+    public $order_by_id = " order by id desc ";
+    public $order = "";
 	
 	public $pads = array(
 		'info'=>'Общие сведения',
@@ -40,6 +42,9 @@ class EMPS_ItemsEditor extends EMPS_ImprovedTableEditor {
 		
 	public function __construct(){
         global $items;
+
+        $this->order = $this->order_by_ord;
+
         if(!isset($items)){
             $items = new EMPS_Items();
         }
@@ -163,6 +168,10 @@ class EMPS_ItemsEditor extends EMPS_ImprovedTableEditor {
 	";
         }
 
+        if(isset($_GET['sort_order'])){
+            $_SESSION['items_sort_order'] = $_GET['sort_order'];
+        }
+
         $emps->uses_flash();
 
         $this->ref_id = $key;
@@ -180,6 +189,11 @@ class EMPS_ItemsEditor extends EMPS_ImprovedTableEditor {
         }
 
         $perpage = 50;
+
+        if($_SESSION['items_sort_order'] == 10){
+            $this->order = $this->order_by_id;
+        }
+        $smarty->assign("sort_order", $_SESSION['items_sort_order']);
 
         $smarty->assign("item_form", $this->item_form);
     }
