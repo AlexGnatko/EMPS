@@ -93,6 +93,13 @@ class EMPS_ItemsEditor extends EMPS_ImprovedTableEditor {
 		return parent::handle_row($ra);
 	}
 
+	public function after_insert($id){
+	    global $items;
+
+        if($this->add_to_category > 0){
+            $items->ensure_item_in_node($id, $this->add_to_category);
+        }
+    }
 
     public function with_items($items){
         $instance = new self();
@@ -166,7 +173,10 @@ class EMPS_ItemsEditor extends EMPS_ImprovedTableEditor {
 	d.id = ist.item_id
 	and ist.structure_id = ".$id."
 	";
+            $this->add_to_category = $filt['category'];
         }
+
+
 
         if(isset($_GET['sort_order'])){
             $_SESSION['items_sort_order'] = $_GET['sort_order'];
