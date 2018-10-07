@@ -510,4 +510,30 @@ class EMPS_Items_Base
         return $item;
     }
 
+    public function duplicate_item($item_id){
+        global $emps;
+
+        $item = $this->load_item($item_id);
+
+        $nr = $item;
+        unset($nr['id']);
+        unset($nr['cdt']);
+        unset($nr['dt']);
+        unset($nr['pub']);
+
+        $emps->db->sql_insert_row($this->table_name, ['SET' => $nr]);
+        $new_item_id = $emps->db->last_insert();
+
+        $context_id = $emps->p->get_context($this->dt_item, 1, $new_item_id);
+        $emps->p->save_properties($item, $context_id, $this->p_item);
+
+        $r = $emps->db->query("select * from ".TP.$this->link_table_name." where item_id = ".$item_id);
+        while($ra = $emps->db->fetch_named($r)){
+            $this->ensure_item_in_node($new_item_id, $ra['structure_id']);
+        }
+
+        return $new_item_id;
+    }
+
+
 }
