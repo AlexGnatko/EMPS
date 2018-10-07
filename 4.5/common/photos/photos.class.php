@@ -577,7 +577,12 @@ class EMPS_Photos
 
         $SET = array();
         $SET['md5'] = md5(uniqid(time()));
-        $SET['filename'] = $filename;
+        if($this->download_filename){
+            $SET['filename'] = $this->download_filename;
+        }else{
+            $SET['filename'] = $filename;
+        }
+
         $SET['type'] = $type;
         $SET['thumb'] = $this->thumb;
         $SET['context_id'] = $context_id;

@@ -532,6 +532,14 @@ class EMPS_Items_Base
             $this->ensure_item_in_node($new_item_id, $ra['structure_id']);
         }
 
+        $source_context_id = $emps->p->get_context($this->dt_item, 1, $item_id);
+        $pics = $this->p->list_pics($source_context_id, 1000);
+        foreach($pics as $pic){
+            $this->p->ord = $pic['ord'];
+            $this->p->download_filename = $pic['filename'];
+            $this->p->download_image($context_id, EMPS_SCRIPT_WEB."/pic/".$pic['md5']."/".$pic['filename']);
+        }
+
         return $new_item_id;
     }
 
