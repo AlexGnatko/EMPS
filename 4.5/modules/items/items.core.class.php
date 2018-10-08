@@ -426,7 +426,7 @@ class EMPS_Items_Base
         global $emps;
 
         $lst = $node_id;
-        $r = $emps->db->query("select * from ".TP.$this->structure_table_name." where parent = {$node_id}");
+        $r = $emps->db->query("select * from ".TP.$this->structure_table_name." where parent = {$node_id} and pub > 0");
         while($ra = $emps->db->fetch_named($r)){
             $lst .= ','.$this->list_child_nodes_self($ra['id']);
         }
