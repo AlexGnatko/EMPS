@@ -635,7 +635,7 @@ class EMPS_Auth
                 $data['lastname'] = $resp->last_name;
                 $data['gender'] = $resp->sex;
                 $data['profile_image'] = $resp->photo_50;
-                $data['link'] = "https://vk.com/id" . $resp->uid;
+                $data['link'] = "https://vk.com/id" . $resp->id;
             }
             if ($target == 'ok') {
 //				dump($user);exit();				
