@@ -17,10 +17,19 @@ function smarty_plugin_sapelinks($params)
     global $sape;
     if (defined('_SAPE_USER')) {
         $count = $params['count'];
-        if ($count > 0) {
-            return $sape->return_links($count);
-        } else {
-            return $sape->return_links();
+        $type = $params['type'];
+        if($type == 'block'){
+            if ($count > 0) {
+                return $sape->return_block_links($count);
+            } else {
+                return $sape->return_block_links();
+            }
+        }else{
+            if ($count > 0) {
+                return $sape->return_links($count);
+            } else {
+                return $sape->return_links();
+            }
         }
     }
     return "";
