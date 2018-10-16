@@ -16,7 +16,7 @@ class EMPS_BlueimpUploader {
 	public function handle_reupload($id){
 		global $emps;
 		$id = intval($id);
-		while(list($n,$v)=each($_FILES)){
+		foreach($_FILES as $v){
 			if($v['name']){
 				$file=$emps->db->get_row("e_files","id=".$id);
 				$_REQUEST=$file;
@@ -81,8 +81,8 @@ class EMPS_BlueimpUploader {
 		global $emps;
 		
 //		dump($_FILES);
-			
-		while(list($n,$v)=each($_FILES)){
+
+        foreach($_FILES as $v){
 //			echo "D: \r\n";
 //dump($v);
 			if($v['name'][0]){

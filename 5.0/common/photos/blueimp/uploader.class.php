@@ -16,7 +16,7 @@ class EMPS_BlueimpUploader {
 	public function handle_reupload($id){
 		global $emps;
 		$id = intval($id);
-		while(list($n,$v)=each($_FILES)){
+		foreach($_FILES as $v){
 			if($v['name']){
 				$file=$emps->db->get_row("e_uploads","id=".$id);
 				$_REQUEST=$file;
@@ -41,7 +41,7 @@ class EMPS_BlueimpUploader {
 		global $emps,$SET;
 
 		if($_POST['save'] && !$_POST['upload']){
-			while(list($n,$v)=each($_POST['save'])){
+		    foreach($_POST['save'] as $n => $v){
 				$SET=array();
 				$SET['descr']=$_POST['descr'][$n];
 				$SET['ord']=$_POST['ord'][$n];
@@ -52,7 +52,7 @@ class EMPS_BlueimpUploader {
 				
 		if($_POST['postkill']){
 			if($_POST['sel']){
-				while(list($n,$v)=each($_POST['sel'])){
+			    foreach($_POST['sel'] as $n => $v){
 					$this->p->delete_photo($n);
 				}
 			}
@@ -101,9 +101,7 @@ class EMPS_BlueimpUploader {
             $ord = $f['ord'] + 10;
         }
 
-		while(list($n,$v)=each($_FILES)){
-//			echo "D: \r\n";
-//dump($v);
+        foreach($_FILES as $v){
 			if($v['name'][0]){
 				if(!$v['error'][0]){
 					if(strstr($v['type'][0],"jpeg") || strstr($v['type'][0],"gif") || strstr($v['type'][0],"png") || strstr($v['type'][0],"svg")){

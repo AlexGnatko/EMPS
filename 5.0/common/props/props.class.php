@@ -99,7 +99,7 @@ class EMPS_PropertiesEditor {
 			$emps->db->update_one($this->table_name, $params);
 			
 			$list = "";
-			while(list($n,$v)=each($_POST['sel'])){
+			foreach($_POST['sel'] as $n => $v){
 				if($list != ""){
 					$list .= ", ";
 				}

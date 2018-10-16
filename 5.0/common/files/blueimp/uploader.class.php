@@ -19,7 +19,7 @@ class EMPS_BlueimpUploader {
         global $emps;
         $file_id = $emps->db->oid($id);
         $file = $this->up->file_info($file_id);
-        while(list($n,$v)=each($_FILES)){
+        foreach($_FILES as $v){
             if($v['name']){
 
                 $data = array();
@@ -94,9 +94,7 @@ class EMPS_BlueimpUploader {
             $ord = $f['ord'] + 10;
         }
 
-        while(list($n,$v)=each($_FILES)){
-//			echo "D: \r\n";
-//dump($v);
+        foreach($_FILES as $v){
             if($v['name'][0]){
                 if(!$v['error'][0]){
 
