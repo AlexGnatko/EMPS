@@ -72,7 +72,7 @@ class EMPS extends EMPS_Common
             foreach($dlst as $v) {
                 reset($mlst);
                 $add = true;
-                while (list($nn, $vv) = each($mlst)) {
+                foreach($mlst as $nn => $vv){
                     if ($vv['uri'] == $v['uri'] && $vv['grp'] == $v['grp']) {
                         $mlst[$nn]['default_id'] = $v['id'];
                         $add = false;
@@ -198,7 +198,7 @@ class EMPS extends EMPS_Common
                 return $rv;
             }
         }
-        return NULL;
+        return false;
     }
 
     public function website_by_host($hostname)
@@ -430,7 +430,7 @@ class EMPS extends EMPS_Common
     public function all_post_required()
     {
         reset($_POST);
-        while (list($n, $v) = each($_POST)) {
+        foreach($_POST as $n => $v){
             if (!$v) {
                 $this->db->sql_null[$n] = true;
             }
