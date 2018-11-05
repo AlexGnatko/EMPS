@@ -167,6 +167,7 @@ emps_global_nginputs.{{$pad}}.push(function($rootScope, $scope, $http, $location
 		$timeout(function(){
 			$scope.{{$model}} = id;
 			$("#nginput_modal_{{$id}}").modal('hide');
+			$rootScope.$broadcast("picker_done");
 			$scope.{{$form}}.$setDirty();
 		}, 10);
 	};

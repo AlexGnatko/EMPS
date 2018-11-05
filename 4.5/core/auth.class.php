@@ -783,7 +783,7 @@ class EMPS_Auth
     public function clear_activations($user_id)
     {
         global $emps;
-        $emps->db->query("delete from " . TP . "e_actkeys where user_id=$user_id");
+        $emps->db->query("delete from " . TP . "e_actkeys where user_id = {$user_id}");
     }
 
     public function pick_activation_key($uid)
