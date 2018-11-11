@@ -234,9 +234,12 @@ class EMPS_Common
     {
         global $pp;
 
+        if(!defined("EMPS_FAST")){
+            return;
+        }
         $x = explode(',', EMPS_FAST);
         $skip = false;
-        while (list($n, $v) = each($x)) {
+        foreach($x as $v){
             if ($v == $pp) {
                 $skip = true;
             }
@@ -264,15 +267,21 @@ class EMPS_Common
         // this website's default content-type is utf-8 HTML
         $this->text_headers();
 
-        // these pages should not set the session cookie, they don't need it
-        $x = explode(',', EMPS_NO_SESSION);
         $skip = false;
-        while (list($n, $v) = each($x)) {
-            if ($v == $pp) {
-                $skip = true;
+
+        if (defined("EMPS_NO_SESSION")){
+            // these pages should not set the session cookie, they don't need it
+            $x = explode(',', EMPS_NO_SESSION);
+            foreach($x as $v){
+                if ($v == $pp) {
+                    $skip = true;
+                }
             }
         }
-        $skip = $this->should_prevent_session();
+
+        if (!$skip) {
+            $skip = $this->should_prevent_session();
+        }
         if (!$skip) {
             if (!$this->is_localhost_request() || $GLOBALS['emps_localhost_mode']) {
                 session_start();
@@ -559,6 +568,12 @@ class EMPS_Common
      */
     public function post_init()
     {
+        if(strstr($_SERVER["CONTENT_TYPE"], "application/json")){
+            $raw = file_get_contents("php://input");
+            $request = json_decode($raw, true);
+            $_REQUEST = array_merge($_REQUEST, $request);
+            $_POST = array_merge($_POST, $request);
+        }
         $this->prepare_menus();
     }
 

@@ -23,17 +23,4 @@ if (file_exists($file_name)) {
     require_once $file_name;
 }
 
-$css_reset = $emps->get_setting("css_reset");
-if ($css_reset) {
-    $emps->page_property("css_reset", $css_reset);
-}
-
-$use_bower = $emps->get_setting("use_bower");
-if ($use_bower) {
-    $emps->page_property("use_bower", $use_bower);
-}
-
-$defer_all = $emps->get_setting("defer_all");
-if ($defer_all) {
-    $emps->page_property("defer_all", $defer_all);
-}
+$emps->page_properties_from_settings("css_reset,use_bower,defer_all,css_fw");

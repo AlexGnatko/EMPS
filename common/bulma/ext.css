@@ -1,0 +1,15 @@
+.flex-end {
+    justify-content: flex-end;
+}
+
+.flex-center {
+    justify-content: center;
+}
+
+.modal-lg {
+    width: 1000px;
+}
+
+.modal-sm {
+    width: 400px;
+}

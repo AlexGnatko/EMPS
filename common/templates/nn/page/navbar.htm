@@ -8,7 +8,43 @@
     {{assign var="str_logout" value="Выйти"}}
 {{/if}}
 
-{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+{{if $page.css_fw == "bulma"}}
+
+    <nav class="navbar is-primary">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    EMPS
+                </a>
+
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarAdmin">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="navbar-menu" id="navbarAdmin">
+                <div class="navbar-start">
+                    {{foreach from=$menus.admin item="item"}}
+                        {{if $item.sub}}
+                            <div class="navbar-item has-dropdown is-hoverable">
+                                <a class="navbar-link" href="{{$item.link}}">{{$item.dname}}</a>
+                                <div class="navbar-dropdown">
+                                    {{foreach from=$item.sub item="subitem"}}
+                                        <a class="navbar-item" href="{{$subitem.link}}">{{$subitem.dname}}</a>
+                                    {{/foreach}}
+                                </div>
+                            </div>
+                        {{else}}
+                            <a class="navbar-item" href="{{$item.link}}">{{$item.dname}}</a>
+                        {{/if}}
+                    {{/foreach}}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+{{elseif $page.css_fw == "bootstrap4" || $smarty.const.EMPS_BOOTSTRAP == 4}}
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
@@ -63,7 +99,7 @@
 
 {{else}}
 
-<nav class="navbar navbar-fixed-top navbar-default navbar-static-top" role="navigation">
+    <nav class="navbar navbar-fixed-top navbar-default navbar-static-top" role="navigation">
 <div class="container">
 	<div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mm-navbar-collapse">

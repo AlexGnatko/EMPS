@@ -1,4 +1,17 @@
-{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+{{if $page.css_fw == "bulma"}}
+    <nav class="pagination" role="navigation" aria-label="pagination">
+        <a class="pagination-previous" href="{{$pages.prev.link}}"{{$linkextra}}>Предыдущая</a>
+        <a class="pagination-next" href="{{$pages.next.link}}"{{$linkextra}}>Следующая</a>
+        <div class="pagination-list">
+            {{foreach from=$pages.pl item="page"}}
+                <div>
+                    <a class="pagination-link {{if $page.sel}}is-current{{/if}}" aria-label="Страница {{$page.page}}"
+                    href="{{$page.link}}">{{$page.page}}</a>
+                </div>
+            {{/foreach}}
+        </div>
+    </nav>
+{{elseif $smarty.const.EMPS_BOOTSTRAP == 4 || $page.css_fw == "bootstrap4"}}
 
     {{if $pages.count > 1}}
       <ul class="pagination {{if $size == "lg"}}pagination-lg{{/if}} {{$addclass}}">

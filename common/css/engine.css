@@ -172,3 +172,9 @@ a.emps-montage-item img {
 	padding-left:5px;
 	padding-right:5px;
 }
+
+.app-loading {
+	margin: 3rem;
+	width: 100%;
+	text-align: center;
+}

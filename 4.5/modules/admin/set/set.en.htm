@@ -1,4 +1,10 @@
-<div class="page-header">
-<h1>Website Settings</h1>
-</div>
-{{include file="db:props/editor"}}
+{{if "admin_tools"|emps:get_setting}}
+    {{$admin_tools = "admin_tools"|emps:get_setting}}
+    {{include file="db:_admin/`$admin_tools`/set"}}
+{{else}}
+    <div class="page-header">
+        <h1>Website Settings</h1>
+    </div>
+    {{include file="db:props/editor"}}
+
+{{/if}}

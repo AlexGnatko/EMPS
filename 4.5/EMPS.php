@@ -622,5 +622,17 @@ class EMPS extends EMPS_Common
             $emps->db->sql_update_row("e_watchlist", $update, "id = ".$row['id']);
         }
     }
+
+    public function page_properties_from_settings($list){
+        $x = explode(",", $list);
+        foreach($x as $v){
+            $v = trim($v);
+            $value = $this->get_setting($v);
+            if(!$value) {
+                continue;
+            }
+            $this->page_property($v, $value);
+        }
+    }
 }
 

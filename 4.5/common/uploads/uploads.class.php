@@ -243,4 +243,52 @@ class EMPS_Uploads
         file_put_contents($xfname, $data);
     }
 
+    public function import_files($context_id, $data)
+    {
+        global $SET, $emps;
+        $this->delete_files_context($context_id);
+
+        $SET = array();
+        foreach ($data as $pic) {
+            $ord = $pic['ord'];
+            $type = $pic['content_type'];
+            $name = $pic['file_name'];
+            $descr = $pic['descr'];
+            $md5 = $pic['md5'];
+            $size = $pic['size'];
+            $url = $pic['url'];
+
+            if (!$url) continue;
+
+            $row = $emps->db->get_row("e_files", "md5='$md5'");
+            if ($row) {
+                $nr = array();
+                $nr['file_name'] = $name;
+                $nr['descr'] = $descr;
+                $nr['content_type'] = $type;
+                $nr['size'] = $size;
+                $nr['ord'] = $ord;
+                $emps->db->sql_update_row("e_files", ['SET' => $nr], "id=" . $row['id']);
+
+                $file_id = $row['id'];
+            } else {
+                $nr = array();
+                $nr['md5'] = $md5;
+                $nr['file_name'] = $name;
+                $nr['descr'] = $descr;
+                $nr['content_type'] = $type;
+                $nr['size'] = $size;
+                $nr['context_id'] = $context_id;
+                $nr['ord'] = $ord;
+                $emps->db->sql_insert_row("e_files", ['SET' => $nr]);
+                $file_id = $emps->db->last_insert();
+            }
+
+            $oname = $this->upload_filename($file_id, DT_FILE);
+
+            $data = file_get_contents($url);
+            file_put_contents($oname, $data);
+
+        }
+    }
 }

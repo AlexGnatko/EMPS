@@ -3,143 +3,161 @@
 {{if $page.defer_all}}
     {{assign var="add_defer" value="defer"}}
     {{assign var="add_media" value="media=\"none\" data-dynamic=\"true\""}}
-
 {{/if}}
 <script>
-var emps_scripts = [];
+    var emps_scripts = [];
+    var $lang = "{{$lang}}";
 </script>
 
-{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
-    <link href="/bootstrap4/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
+{{if $page.css_fw == "bulma"}}
+    <link href="/bulma/css/bulma.min.css" rel="stylesheet" {{$add_media}}/>
+    <link href="/bulma/ext.css" rel="stylesheet" {{$add_media}}/>
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" {{$add_media}}/>
+{{elseif $page.css_fw == "bootstrap4"}}
+    <link href="/bootstrap4/css/bootstrap.min.css" rel="stylesheet" {{$add_media}}/>
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" {{$add_media}}/>
 {{else}}
-    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-    <link href="/css/bootstrap-theme.min.css" rel="stylesheet" {{$add_media}} />
+    {{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+        <link href="/bootstrap4/css/bootstrap.min.css" rel="stylesheet" {{$add_media}}/>
+        <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" {{$add_media}}/>
+    {{else}}
+        <link href="/css/bootstrap.min.css" rel="stylesheet" {{$add_media}}/>
+        <link href="/css/bootstrap-theme.min.css" rel="stylesheet" {{$add_media}} />
+    {{/if}}
 {{/if}}
 
-<link href="/css/default.css" rel="stylesheet" type="text/css" {{$add_media}} />
-<link href="/css/engine.css" rel="stylesheet" type="text/css" {{$add_media}} />
+{{include file="db:site/styles"}}
 
-<link href="/css/design.css{{$page.css_reset}}" rel="stylesheet" type="text/css" {{$add_media}} />
-<link href="/css/media.css{{$page.css_reset}}" rel="stylesheet" type="text/css" {{$add_media}} />
-
-<link rel="icon" 
-      type="image/png" 
-      href="/favicon.png" />
+<link rel="icon"
+      type="image/png"
+      href="/favicon.png"/>
 
 {{if !$page.noscripts}}
-{{if $page.use_bower}}
-    {{if "jquery_debug"|emps:get_setting == 1}}
-        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.js" {{$add_defer}}></script>
-        <script src="/bower_components/jquery-ui/jquery-ui.js" {{$add_defer}}></script>
-        <link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet" {{$add_media}}>
+    {{if $page.use_bower}}
+        {{if "jquery_debug"|emps:get_setting == 1}}
+            <script type="text/javascript" src="/bower_components/jquery/dist/jquery.js" {{$add_defer}}></script>
+            <script src="/bower_components/jquery-ui/jquery-ui.js" {{$add_defer}}></script>
+            <link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css"
+                  rel="stylesheet" {{$add_media}}>
+        {{else}}
+            <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js" {{$add_defer}}></script>
+            <script src="/bower_components/jquery-ui/jquery-ui.min.js" {{$add_defer}}></script>
+            <link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css"
+                  rel="stylesheet" {{$add_media}}>
+        {{/if}}
     {{else}}
-        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js" {{$add_defer}}></script>
-        <script src="/bower_components/jquery-ui/jquery-ui.min.js" {{$add_defer}}></script>
-        <link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet" {{$add_media}}>
-
+        <script type="text/javascript" src="/js/jquery.js" {{$add_defer}}></script>
+        <script src="/js/jquery.ui.js" {{$add_defer}}></script>
+        <link href="/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" {{$add_media}}>
     {{/if}}
-{{else}}
-<script type="text/javascript" src="/js/jquery.js" {{$add_defer}}></script>
-<script src="/js/jquery.ui.js" {{$add_defer}}></script>
-<link href="/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" {{$add_media}}>
-{{/if}}
 {{/if}}
 
 <link href="/fonts/fonts.css" rel="stylesheet" {{$add_media}} />
 
 {{if $page.defer_all}}
-<script src="/js/dynamic_css.js" defer></script>
+    <script src="/js/dynamic_css.js" defer></script>
 {{/if}}
 
 {{if $page.calendar}}
-{{if $lang eq "en"}}
-<script type="text/javascript" src="/js/jquery.ui.datepicker-en.js" {{$add_defer}}></script>
-{{else}}
-<script type="text/javascript" src="/js/jquery.ui.datepicker-ru.js" {{$add_defer}}></script>
-{{/if}}
-<script type="text/javascript" src="/js/jquery-ui-timepicker-addon.js" {{$add_defer}}></script>
-
-<link href="/js/jquery-ui-timepicker-addon.min.css" rel="stylesheet" type="text/css" {{$add_media}} />
-{{if $lang eq "en"}}
-<script type="text/javascript" src="/js/i18n/jquery-ui-timepicker-addon-i18n.js" {{$add_defer}}></script>
-{{else}}
-<script type="text/javascript" src="/js/i18n/jquery-ui-timepicker-ru.js" {{$add_defer}}></script>
-{{/if}}
-<script type="text/javascript" src="/js/jquery-ui-sliderAccess.js" {{$add_defer}}></script>
-
-<script type="text/javascript">
-
-emps_scripts.push(function(){
-    {{if ($lang eq "nn") || ($lang eq "ru")}}
-    $.datepicker.setDefaults( $.datepicker.regional[ "ru" ] );
+    {{if $lang eq "en"}}
+        <script type="text/javascript" src="/js/jquery.ui.datepicker-en.js" {{$add_defer}}></script>
+    {{else}}
+        <script type="text/javascript" src="/js/jquery.ui.datepicker-ru.js" {{$add_defer}}></script>
     {{/if}}
-	$(".datepicker").datepicker(); $(".timepicker").datetimepicker();
-});
+    <script type="text/javascript" src="/js/jquery-ui-timepicker-addon.js" {{$add_defer}}></script>
+    <link href="/js/jquery-ui-timepicker-addon.min.css" rel="stylesheet" type="text/css" {{$add_media}} />
+    {{if $lang eq "en"}}
+        <script type="text/javascript" src="/js/i18n/jquery-ui-timepicker-addon-i18n.js" {{$add_defer}}></script>
+    {{else}}
+        <script type="text/javascript" src="/js/i18n/jquery-ui-timepicker-ru.js" {{$add_defer}}></script>
+    {{/if}}
+    <script type="text/javascript" src="/js/jquery-ui-sliderAccess.js" {{$add_defer}}></script>
+    <script type="text/javascript">
 
-</script>
+        emps_scripts.push(function () {
+            {{if ($lang eq "nn") || ($lang eq "ru")}}
+            $.datepicker.setDefaults($.datepicker.regional["ru"]);
+            {{/if}}
+            $(".datepicker").datepicker();
+            $(".timepicker").datetimepicker();
+        });
+
+    </script>
 {{/if}}
 
 {{if $page.newcalendar}}
 
 
-{{if $page.use_bower}}
-<script type="text/javascript" src="/bower_components/moment/min/moment.min.js" {{$add_defer}}></script>
-    {{if $lang != "en"}}
-<script type="text/javascript" src="/bower_components/moment/locale/ru.js" {{$add_defer}}></script>
+    {{if $page.use_bower}}
+        <script type="text/javascript" src="/bower_components/moment/min/moment.min.js" {{$add_defer}}></script>
+        {{if $lang != "en"}}
+            <script type="text/javascript" src="/bower_components/moment/locale/ru.js" {{$add_defer}}></script>
+        {{/if}}
+        <script type="text/javascript"
+                src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" {{$add_defer}}></script>
+        <link href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"
+              rel="stylesheet" type="text/css" {{$add_media}} />
+        {{if $lang != "en"}}
+            <script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.ru.js" {{$add_defer}}></script>
+        {{/if}}
+
+    {{else}}
+        <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" {{$add_media}} />
+        <script type="text/javascript" src="/js/moment.min.js" {{$add_defer}}></script>
+        <script type="text/javascript" src="/js/locales/moment/ru.js" {{$add_defer}}></script>
+        <script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js" {{$add_defer}}></script>
+        <script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.ru.js" {{$add_defer}}></script>
     {{/if}}
-<script type="text/javascript" src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" {{$add_defer}}></script>
-<link href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" {{$add_media}} />
-    {{if $lang != "en"}}
-<script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.ru.js" {{$add_defer}}></script>
-    {{/if}}
-
-{{else}}
-
-<link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" {{$add_media}} />
-
-<script type="text/javascript" src="/js/moment.min.js" {{$add_defer}}></script>
-<script type="text/javascript" src="/js/locales/moment/ru.js" {{$add_defer}}></script>
-<script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js" {{$add_defer}}></script>
-<script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.ru.js" {{$add_defer}}></script>
-{{/if}}
 
 {{/if}}
 
 {{if $page.autoarray}}
-<script type="text/javascript" src="/js/autoArray.js" {{$add_defer}}></script>
+    <script type="text/javascript" src="/js/autoArray.js" {{$add_defer}}></script>
 {{/if}}
 
 {{if $page.ited}}
-<script type="text/javascript" src="/js/objectSelector.js" {{$add_defer}}></script>
-<link rel="stylesheet" type="text/css" href="/css/selector.css" {{$add_media}} />
-<script type="text/javascript" src="/js/jquery.fancybox.pack.js" {{$add_defer}}></script>
-<link rel="stylesheet" type="text/css" href="/css/fancybox/jquery.fancybox.css" {{$add_media}} />
+    <script type="text/javascript" src="/js/objectSelector.js" {{$add_defer}}></script>
+    <link rel="stylesheet" type="text/css" href="/css/selector.css" {{$add_media}} />
+    <script type="text/javascript" src="/js/jquery.fancybox.pack.js" {{$add_defer}}></script>
+    <link rel="stylesheet" type="text/css" href="/css/fancybox/jquery.fancybox.css" {{$add_media}} />
 {{/if}}
 
 {{if $page.angularjs}}
 
-{{if $page.use_bower}}
-{{if $page.angular_debug}}
-<script src="/bower_components/angular/angular.js" {{$add_defer}}></script>
-{{else}}
-<script src="/bower_components/angular/angular.min.js" {{$add_defer}}></script>
-{{/if}}
+    {{if $page.use_bower}}
+        {{if $page.angular_debug}}
+            <script src="/bower_components/angular/angular.js" {{$add_defer}}></script>
+        {{else}}
+            <script src="/bower_components/angular/angular.min.js" {{$add_defer}}></script>
+        {{/if}}
 
-    {{if $lang == 'ru'}}
-		<script src="/bower_components/angular-i18n/angular-locale_ru-ru.js" {{$add_defer}}></script>
+        {{if $lang == 'ru'}}
+            <script src="/bower_components/angular-i18n/angular-locale_ru-ru.js" {{$add_defer}}></script>
+        {{/if}}
+
+    {{else}}
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.js" {{$add_defer}}></script>
+        {{if $lang == 'ru'}}
+            <script src="https://code.angularjs.org/1.4.1/i18n/angular-locale_ru-ru.js" {{$add_defer}}></script>
+        {{/if}}
     {{/if}}
-
-{{else}}
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.js" {{$add_defer}}></script>
-{{if $lang == 'ru'}}
-<script src="https://code.angularjs.org/1.4.1/i18n/angular-locale_ru-ru.js" {{$add_defer}}></script>
-{{/if}}
+    <script>
+        ng_modules = [];
+    </script>
 {{/if}}
 
-<script>
-ng_modules = [];
-</script>
+{{if $page.vuejs}}
+    <script src="/js/i18n.js"></script>
+    <script src="/js/vuetools.js"></script>
+    {{if $page.vue_debug}}
+        <script src="/bower_components/vue/dist/vue.js" {{$add_defer}}></script>
+        <script src="/bower_components/vuex/dist/vuex.js" {{$add_defer}}></script>
+        <script src="/bower_components/axios/dist/axios.js" {{$add_defer}}></script>
+    {{else}}
+        <script src="/bower_components/vue/dist/vue.min.js" {{$add_defer}}></script>
+        <script src="/bower_components/vuex/dist/vuex.min.js" {{$add_defer}}></script>
+        <script src="/bower_components/axios/dist/axios.min.js" {{$add_defer}}></script>
+    {{/if}}
 {{/if}}
 
 {{if $page.tinymce}}
@@ -149,17 +167,17 @@ ng_modules = [];
         <script type="text/javascript" src="/js/tinymce/tinymce.min.js" {{$add_defer}}></script>
     {{/if}}
 
-{{if $page.tinymce_ng}}
-    {{if $page.use_bower}}
-        <script type="text/javascript" src="/bower_components/angular-ui-tinymce/dist/tinymce.min.js" {{$add_defer}}></script>
-    {{else}}
-        <script type="text/javascript" src="/js/tinymce/ng/tinymce.js" {{$add_defer}}></script>
+    {{if $page.tinymce_ng}}
+        {{if $page.use_bower}}
+            <script type="text/javascript"
+                    src="/bower_components/angular-ui-tinymce/dist/tinymce.min.js" {{$add_defer}}></script>
+        {{else}}
+            <script type="text/javascript" src="/js/tinymce/ng/tinymce.js" {{$add_defer}}></script>
+        {{/if}}
+        <script>
+            ng_modules.push('ui.tinymce');
+        </script>
     {{/if}}
-
-<script>
-ng_modules.push('ui.tinymce');
-</script>
-{{/if}}
 {{/if}}
 
 {{if $page.ng_sortable}}
@@ -167,18 +185,20 @@ ng_modules.push('ui.tinymce');
 {{/if}}
 
 {{if $page.ng_switch}}
-    <link href="/bower_components/angular-ui-switch/angular-ui-switch.min.css" rel="stylesheet" type="text/css" {{$add_media}}/>
-    <script type="text/javascript" src="/bower_components/angular-ui-switch/angular-ui-switch.min.js" {{$add_defer}}></script>
+    <link href="/bower_components/angular-ui-switch/angular-ui-switch.min.css" rel="stylesheet"
+          type="text/css" {{$add_media}}/>
+    <script type="text/javascript"
+            src="/bower_components/angular-ui-switch/angular-ui-switch.min.js" {{$add_defer}}></script>
 {{/if}}
 
 {{if $page.treeview}}
-<link href="/css/tree.css" rel="stylesheet" type="text/css" {{$add_media}}/>
-<script type="text/javascript" src="/js/treeView.js" {{$add_defer}}></script>
+    <link href="/css/tree.css" rel="stylesheet" type="text/css" {{$add_media}}/>
+    <script type="text/javascript" src="/js/treeView.js" {{$add_defer}}></script>
 {{/if}}
 
 {{if $page.ipbox}}
-<script type="text/javascript" src="/js/ipbox/jquery.ipbox.js" {{$add_defer}}></script>
-<link rel="stylesheet" type="text/css" href="/js/ipbox/css/jquery.ipbox.css" {{$add_media}} />
+    <script type="text/javascript" src="/js/ipbox/jquery.ipbox.js" {{$add_defer}}></script>
+    <link rel="stylesheet" type="text/css" href="/js/ipbox/css/jquery.ipbox.css" {{$add_media}} />
 {{/if}}
 
 {{if $page.ngstorage}}
@@ -186,11 +206,11 @@ ng_modules.push('ui.tinymce');
 {{/if}}
 
 {{if $page.simple_file_uploader}}
-<link rel="stylesheet" type="text/css" href="/css/fileupload/jquery.fileupload.css" {{$add_media}} />
+    <link rel="stylesheet" type="text/css" href="/css/fileupload/jquery.fileupload.css" {{$add_media}} />
 {{/if}}
 
 {{if $page.comments}}
-<link href="/css/comments.css" rel="stylesheet" {{$add_media}} />
+    <link href="/css/comments.css" rel="stylesheet" {{$add_media}} />
 {{/if}}
 
 {{if $page.simple_file_uploader}}
@@ -198,7 +218,6 @@ ng_modules.push('ui.tinymce');
     <script src="/js/fileupload/load-image.min.js" defer></script>
     <!-- The Canvas to Blob plugin is included for image resizing functionality -->
     <script src="/js/fileupload/canvas-to-blob.min.js" defer></script>
-
     <script src="/js/fileupload/jquery.fileupload.js" defer></script>
     <!-- The File Upload processing plugin -->
     <script src="/js/fileupload/jquery.fileupload-process.js" defer></script>
@@ -212,7 +231,8 @@ ng_modules.push('ui.tinymce');
 {{/if}}
 
 {{if $page.angular_datetimepicker}}
-    <script src="/bower_components/angular-eonasdan-datetimepicker/dist/angular-eonasdan-datetimepicker.min.js" defer></script>
+    <script src="/bower_components/angular-eonasdan-datetimepicker/dist/angular-eonasdan-datetimepicker.min.js"
+            defer></script>
 {{/if}}
 
 {{include file="db:site/headscripts"}}

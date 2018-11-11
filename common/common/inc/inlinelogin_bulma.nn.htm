@@ -1,0 +1,67 @@
+{{$t_panel_title = "Начать сеанс персонального доступа:"}}
+{{$t_error_activation = "Вы не прошли процедуру проверки e-mail адреса.<br />Вам должно прийти электронное письмо с кодом активации."}}
+{{$t_error_no_user = "Пользователь с таким именем не зарегистрирован"}}
+{{$t_error_password = "Неправильный пароль"}}
+{{$t_label_email = "E-mail адрес:"}}
+{{$t_link_signup = "Зарегистрироваться"}}
+{{$t_label_password = "Пароль:"}}
+{{$t_link_password = "Забыли пароль?"}}
+{{$t_login = "Войти"}}
+
+
+<div class="card">
+    <div class="card-header">
+        <p class="card-header-title has-background-info has-text-white">
+            {{$t_panel_title}}
+        </p>
+    </div>
+    <div class="card-content">
+        <div class="content">
+            {{if $login.error}}
+                <div class="notification is-danger">
+                {{if $login.error eq "no_activation"}}
+                    {{$t_error_activation}}
+                {{/if}}
+                {{if $login.error eq "no_user"}}
+                    {{$t_error_no_user}}
+                {{/if}}
+                {{if $login.error eq "wrong_password"}}
+                    {{$t_error_password}}
+                {{/if}}
+                </div>
+            {{/if}}
+            <form action="." method="post" class="form" role="form">
+                <input type="hidden" name="post_login" value="1" />
+
+                <div class="columns">
+
+                    <div class="column field">
+                        <label class="label">{{$t_label_email}}</label>
+                        <input type="text" class="input" name="login_username" value="{{$login.login_username}}" placeholder="joe@example.com" />
+                        <a href="/signup/" tabindex="-1">{{$t_link_signup}}</a>
+                    </div>
+
+                    <div class="column field">
+                        <label class="label">{{$t_label_password}}</label>
+                        <input type="password" class="input" name="login_password"/>
+                        <a href="/lostpass/"  tabindex="-2">{{$t_link_password}}</a>
+
+                    </div>
+
+                    <div class="column field">
+                        <label class="label is-hidden-mobile">&nbsp;</label>
+                        <p>
+                            <button type="submit" class="button is-primary">{{$t_login}}</button>
+                        </p>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+
+</div>
+

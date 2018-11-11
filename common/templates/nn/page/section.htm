@@ -1,13 +1,16 @@
 {{if $AdminNeeded}}
 
+    <div class="content">
 <div class="page-header">
 <h1>Необходимы права администратора</h1>
 </div>
 <p class="alert alert-danger">Извините, но данная страница предназначена исключительно для администраторов сайта.</p>
 <p>Если Вы администратор, тогда милости просим:</p>
+    </div>
 
 {{include file="db:inc/inlinelogin"}}
 {{elseif $WebsiteNeeded}}
+<div class="content">
 <h1>Перейдите на другой сайт</h1>
 <p>Данная функция недоступна с корневого сайта. Перейдите на один из зависимых сайтов:</p>
 <ul>
@@ -15,14 +18,17 @@
 <li><a href="http://{{$wlst[i].hostname}}{{$current_url}}"><strong>{{$wlst[i].name}}</strong> (http://{{$wlst[i].hostname}})</li>
 {{/section}}
 </ul>
+</div>
 {{elseif $UserNeeded}}
 
+<div class="content">
 <h1>Только для зарегистрированных пользователей</h1>
 <div class="read">
 <p>Извините, но данная страница предназначена только для зарегистрированных пользователей.</p>
 </div>
-{{include file="db:inc/inlinelogin"}}
 
+{{include file="db:inc/inlinelogin"}}
+</div>
 {{else}}
 {{if $use_sape_context}}
 {{include file=$main_body assign="main_body_html"}}

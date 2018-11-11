@@ -18,7 +18,10 @@
     "angular-ui-switch": "latest",
     "eonasdan-bootstrap-datetimepicker": "latest",
     "angular-eonasdan-datetimepicker": "latest",
-    "ngstorage": "latest"
+    "ngstorage": "latest",
+    "vue": "latest",
+    "vuex": "latest",
+    "axios": "latest"
   },
   "resolutions": {
     "jquery": "~2"

@@ -1,4 +1,8 @@
-{{if $smarty.const.EMPS_BOOTSTRAP == 4}}
+{{if $page.css_fw == "bulma"}}
+    {{include file="db:inc/inlinelogin_bulma"}}
+{{elseif $page.css_fw == "bootstrap4"}}
+    {{include file="db:inc/inlinelogin_bs4"}}
+{{elseif $smarty.const.EMPS_BOOTSTRAP == 4}}
     {{include file="db:inc/inlinelogin_bs4"}}
 {{else}}
     <div class="panel panel-primary">

@@ -154,3 +154,4 @@ function report_banner_show(id, pos){
 
 function voidClick(){
 }
+

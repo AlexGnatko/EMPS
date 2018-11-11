@@ -201,8 +201,15 @@ function smarty_modifier_emps($arg1, $m, $arg2 = "", $arg3 = "")
     return call_user_func_array(array($emps, $m), array($arg1, $arg2, $arg3));
 }
 
+
+function smarty_modifier_js($v)
+{
+    return "{{" . $v . "}}";
+}
+
 $smarty->registerPlugin("modifier", "hyp", "smarty_modifier_hyp");
 $smarty->registerPlugin("modifier", "emps", "smarty_modifier_emps");
+$smarty->registerPlugin("modifier", "js", "smarty_modifier_js");
 
 if (defined('EMPS_PRE_MINIFY')) {
     if (EMPS_PRE_MINIFY) {
