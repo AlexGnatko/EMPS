@@ -235,4 +235,8 @@
             defer></script>
 {{/if}}
 
+{{if $page.recaptcha}}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+{{/if}}
+
 {{include file="db:site/headscripts"}}
