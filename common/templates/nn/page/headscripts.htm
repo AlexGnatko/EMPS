@@ -16,6 +16,7 @@
 {{elseif $page.css_fw == "bootstrap4"}}
     <link href="/bootstrap4/css/bootstrap.min.css" rel="stylesheet" {{$add_media}}/>
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" {{$add_media}}/>
+{{elseif $page.css_fw == "custom_bootstrap"}}
 {{else}}
     {{if $smarty.const.EMPS_BOOTSTRAP == 4}}
         <link href="/bootstrap4/css/bootstrap.min.css" rel="stylesheet" {{$add_media}}/>

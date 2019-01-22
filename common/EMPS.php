@@ -1423,7 +1423,7 @@ class EMPS_Common
         // are missing: style="field {{if $err.some_value}}error{{/if}}"
         $x = explode(",", $list);
         $err = array();
-        while (list($n, $v) = each($x)) {
+        foreach($x as $v){
             if (!$arr[$v]) {
                 $err[] = $v;
             } else {
@@ -1441,7 +1441,7 @@ class EMPS_Common
     {
         $x = explode(",", $list);
         $parr = array();
-        while (list($n, $v) = each($x)) {
+        foreach($x as $v){
             if ($arr[$v]) {
                 $parr[$v] = $arr[$v];
             }

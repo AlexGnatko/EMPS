@@ -241,7 +241,7 @@ class EMPS_DB
 
         $t = 'update ' . TP . $table;
         $st = 0;
-        while (list($n, $v) = each($this->sql_take)) {
+        foreach ($this->sql_take as $n => $v) {
             if ($st) $t .= ","; else $t .= " set";
             $t .= " $v=" . $this->sql_value[$n];
             $st = 1;
@@ -264,7 +264,7 @@ class EMPS_DB
 
         $t = 'update ' . TP . $table;
         $st = 0;
-        while (list($n, $v) = each($this->sql_take)) {
+        foreach ($this->sql_take as $n => $v) {
             if ($st) $t .= ","; else $t .= " set";
             $t .= " $v=" . $this->sql_value[$n];
             $st = 1;

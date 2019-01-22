@@ -42,6 +42,6 @@ while ($ra = $emps->db->fetch_named($r)) {
         echo "Sent: " . $to . "<br/>";
     } else {
         $emps->db->query("update $tn set status = 10, sdt = $dt where id = $msg_id");
-        echo "ERROR: " . $to . "<br/>";
+        echo "ERROR: " . $to . " - " . $sms->error_message . "<br/>";
     }
 }
