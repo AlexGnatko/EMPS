@@ -1352,6 +1352,10 @@ class EMPS_Common
     {
         return date("d.m.Y", $dt + EMPS_TZ_CORRECT * 60 * 60);
     }
+    public function form_date_us($dt)
+    {
+        return date("m/d/Y", $dt + EMPS_TZ_CORRECT * 60 * 60);
+    }
 
     public function parse_time($v)
     {
