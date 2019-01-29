@@ -234,6 +234,9 @@ class EMPS_Uploads
         $SET['context_id'] = $context_id;
         $SET['size'] = strlen($data);
         $SET['user_id'] = $emps->auth->USER_ID;
+        if($this->set_comment){
+            $SET['comment'] = $this->set_comment;
+        }
         $SET['ord'] = $this->ord;
         $emps->db->sql_insert("e_files");
         $file_id = $emps->db->last_insert();
