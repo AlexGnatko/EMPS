@@ -2,12 +2,32 @@
 
 $emps->no_smarty = true;
 
-header("Last-Modified: ", date("r", $ra['dt']));
-header("Expires: ", date("r", time() + 60 * 60 * 24 * 7));
+$last_modified = date("r", time() - 60 * 60 * 24 * 7);
+$expires = date("r", time() + 60 * 60 * 24 * 7);
+
+header("Last-Modified: " . $last_modified);
+header("Expires: " . $expires);
 header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+header_remove("Pragma");
 
 $part = str_replace("-", "/", $key);
 $file = str_replace("..", "", $start);
+
+$x = explode(".", $file);
+$ext = array_pop($x);
+
+if ($ext == "css") {
+    header("Content-Type: text/css");
+}
+
+if ($ext == "js") {
+    header("Content-Type: application/javascript");
+}
+
+if ($ext == "php") {
+    $emps->not_found();
+    exit;
+}
 
 $page = "_{$part},{$file}";
 

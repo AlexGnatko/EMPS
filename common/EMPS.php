@@ -1996,4 +1996,18 @@ class EMPS_Common
         $logsize = min((int)(log($bytes) / log(1024)), count($formats) - 1);
         return sprintf($formats[$logsize], $bytes / pow(1024, $logsize));
     }
+
+    public function parse_array($text) {
+        $x = explode("\n", $text);
+        $rv = [];
+        foreach($x as $v){
+            $v = trim($v);
+            $xx = explode("=", $v);
+            if (!$xx[0]) {
+                continue;
+            }
+            $rv[$xx[0]] = $xx[1];
+        }
+        return $rv;
+    }
 }

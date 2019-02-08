@@ -1,0 +1,36 @@
+{{if $controls_type == "top"}}
+
+    {{if $Multilevel}}
+        <div class="field">
+            <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+                <ul>
+                    <li><a :href="{{$ToTopLink}}" @click="navigate('{{$ToTopLink}}', $event)">
+                            <i class="fa fa-level-up"></i> &nbsp; На самый верх</a></li>
+                    <li v-for="(level, index) in parents">
+                        <a :href="level.link" @click="navigate(level.link, $event)">{{"level.name"|js}}</a></li>
+                </ul>
+            </nav>
+        </div>
+    {{/if}}
+
+    <div class="is-flex-desktop">
+        <div class="field">
+            <button class="button is-primary is-outlined" @click="create_new()">
+                <i class="fa fa-file-o"></i> &nbsp; Создать</button> &nbsp;
+        </div>
+
+        <form class="field has-addons" @submit="open_by_id">
+            <div class="control">
+                <input class="input is-link" type="number" style="width: 7rem" v-model="lookup_id">
+            </div>
+            <div class="control">
+                <button type="submit" class="button is-link is-outlined">
+                    <i class="fa fa-id-card"></i> &nbsp; Открыть по номеру
+                </button>
+            </div>
+            &nbsp;
+        </form>
+    </div>
+
+
+{{/if}}

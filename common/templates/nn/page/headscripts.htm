@@ -27,6 +27,10 @@
     {{/if}}
 {{/if}}
 
+{{if $page.toastr}}
+    <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet" {{$add_media}}/>
+{{/if}}
+
 {{include file="db:site/styles"}}
 
 <link rel="icon"
@@ -150,6 +154,7 @@
 {{if $page.vuejs}}
     <script src="/js/i18n.js"></script>
     <script src="/js/vuetools.js"></script>
+    <script src="/js/emps.js"></script>
     {{if $page.vue_debug}}
         <script src="/bower_components/vue/dist/vue.js" {{$add_defer}}></script>
         <script src="/bower_components/vuex/dist/vuex.js" {{$add_defer}}></script>
@@ -178,6 +183,13 @@
         <script>
             ng_modules.push('ui.tinymce');
         </script>
+    {{/if}}
+
+    {{if $page.tinymce_vue}}
+        <script type="text/javascript"
+                src="/node_modules/@tinymce/tinymce-vue/lib/browser/tinymce-vue.min.js" {{$add_defer}}></script>
+
+
     {{/if}}
 {{/if}}
 

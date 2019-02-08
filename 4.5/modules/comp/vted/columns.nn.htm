@@ -1,0 +1,6 @@
+{{if $column_type == "children"}}
+    <a :href="row.children_link" @click="navigate(row.children_link, $event)"
+       class="button is-small is-link is-fullwidth is-outlined">
+        <i class="fa fa-level-down"></i> &nbsp;
+        {{"row.children"|js}}</a>
+{{/if}}

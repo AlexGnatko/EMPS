@@ -1,0 +1,35 @@
+input[type="file"]
+{
+    position: absolute;
+    top: -100vh;
+}
+
+.upload-image {
+    height: 5.3rem;
+    width: 8rem;
+    object-fit: contain;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upload-image a {
+    width: 100%;
+    object-fit: contain;
+    overflow: hidden;
+    max-height: 100%;
+}
+
+.upload-image img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.photo-uploader .box {
+    padding: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.panel-block input[type=checkbox].image-check {
+    margin-right: 0;
+}

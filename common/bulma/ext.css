@@ -13,3 +13,53 @@
 .modal-sm {
     width: 400px;
 }
+
+.is-justified-end {
+    justify-content: flex-end;
+}
+
+.buttons.is-justified-end .button:first-child:not(.is-fullwidth) {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.buttons.is-justified-end .button:not(:first-child):not(.is-fullwidth) {
+    margin-right: 0;
+    margin-left: .5rem;
+}
+
+.adminbg h1 {
+    margin: .5rem 0 1rem 0;
+}
+
+.adminbg h2 {
+    margin: .4rem 0 .8rem 0;
+}
+
+.adminbg h3 {
+    margin: .3rem 0 .6rem 0;
+}
+
+.button-size {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    align-items: center;
+    box-shadow: none;
+    display: inline-flex;
+    font-size: 1rem;
+    height: 2.25em;
+    justify-content: flex-start;
+    line-height: 1.5;
+    padding-bottom: calc(0.375em - 1px);
+    padding-left: calc(0.625em - 1px);
+    padding-right: calc(0.625em - 1px);
+    padding-top: calc(0.375em - 1px);
+    position: relative;
+    vertical-align: top;
+
+}
+
+.button-size.is-fullwidth {
+    display: flex;
+    width: 100%;
+}

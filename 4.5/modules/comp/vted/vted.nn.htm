@@ -1,0 +1,144 @@
+<vted inline-template>
+    <div>
+        <div v-if="list_mode">
+            {{if $smarty.capture.list}}
+                {{$smarty.capture.list}}
+            {{else}}
+                {{* Use a generic list: id, name *}}
+
+                {{include file="db:_comp/vted,controls" controls_type="top"}}
+
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th width="10%">
+                                Id
+                            </th>
+                            {{if $Multilevel}}
+                                <th width="10%" class="has-text-centered">
+                                    Ниже
+                                </th>
+                                <th width="65%">
+                                    Наименование
+                                </th>
+                            {{else}}
+                                <th width="75%">
+                                    Наименование
+                                </th>
+                            {{/if}}
+                            <th width="15%" class="has-text-right">
+                                Действия
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(row, index) in lst">
+                            <td>{{"row.id"|js}}</td>
+                            {{if $Multilevel}}
+                            <td>
+                                {{include file="db:_comp/vted,columns" column_type="children"}}
+                            </td>
+                            {{/if}}
+                            <td><a :href="row.ilink" @click="navigate(row.ilink, $event)">{{"row.name"|js}}</a></td>
+                            <td>
+                                {{include file="db:_comp/vted,row_controls"}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            {{/if}}
+        </div>
+        <div v-if="!list_mode">
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="columns">
+                        <div class="column is-size-4">
+                            {{if $smarty.capture.vted_header}}
+                                {{$smarty.capture.vted_header}}
+                            {{else}}
+                                {{"row.name"|js}} <span class="tag is-primary"># {{"row.id"|js}}</span>
+                            {{/if}}
+                        </div>
+                        <div class="column is-narrow">
+                            {{if $smarty.capture.buttons_pre}}
+                                {{$smarty.capture.buttons_pre}}
+                            {{/if}}
+                            <a :href="back_link()" class="button is-link" @click="navigate(back_link(), $event)">
+                                <i class="fa fa-reply"></i> &nbsp;
+                                Назад в список</a>
+                            {{if $smarty.capture.buttons_post}}
+                                {{$smarty.capture.buttons_post}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-block is-block">
+                    <div class="tabs" style="margin-bottom: 1rem">
+                        <ul>
+                            {{foreach from=$pads item="pad"}}
+                            <li :class="{'is-active': is_active_pad('{{$pad.code}}')}">
+                                <a :href="pad_link('{{$pad.code}}')"
+                                   @click="navigate(pad_link('{{$pad.code}}'), $event)">{{$pad.title}}</a>
+                            </li>
+                            {{/foreach}}
+                        </ul>
+                    </div>
+
+                    {{foreach from=$pads item="pad"}}
+
+                        <div v-if="is_active_pad('{{$pad.code}}')">
+                            {{if $pad.view}}
+                                {{include file="{{$pad.view}}"}}
+                            {{/if}}
+                        </div>
+
+                    {{/foreach}}
+
+                </div>
+
+
+            </div>
+        </div>
+
+        {{include file="db:_comp/modal"}}
+
+        <modal id="createModal" :submit="submit_create">
+            <template slot="header">
+                Создать новый элемент
+            </template>
+
+            {{include file=$form_name}}
+
+            <template slot="actions">
+                <button type="submit" class="button is-success">Создать</button>
+            </template>
+        </modal>
+
+        <modal id="deleteRowModal" size="sm">
+            <template slot="header">Подтвердите, пожалуйста</template>
+
+            Удалить позицию <strong>{{"selected_row.name"|js}}</strong>? <span class="tag is-primary">{{"selected_row.id"|js}}</span>
+
+            <template slot="actions">
+                <button type="button" class="button is-danger" @click="delete_selected_row()">Да</button>
+            </template>
+        </modal>
+
+        <modal id="cantLoadRowModal" size="sm">
+            <template slot="header">Извините</template>
+
+            Невозможно загрузить элемент с указанным идентификатором.
+
+        </modal>
+    </div>
+</vted>
+
+<script src="/mjs/comp-vted/vted.js" defer></script>
+<script>
+    var vted_title = "{{$page.title}}";
+    var string_saved = "Сохранено";
+    var string_created = "Создано";
+    var string_deleted = "Удалено";
+</script>
+

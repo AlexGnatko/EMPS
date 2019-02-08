@@ -1,0 +1,11 @@
+{
+  "name": "emps-php",
+  "version": "1.0.0",
+  "description": "EMPS Framework for PHP",
+  "dependencies": {
+    "@tinymce/tinymce-vue": "~1",
+    "vue-sortable": "latest"
+  },
+  "author": "Alex Gnatko",
+  "license": "ISC"
+}

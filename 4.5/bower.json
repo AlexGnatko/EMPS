@@ -21,7 +21,8 @@
     "ngstorage": "latest",
     "vue": "latest",
     "vuex": "latest",
-    "axios": "latest"
+    "axios": "latest",
+    "toastr": "latest"
   },
   "resolutions": {
     "jquery": "~2"

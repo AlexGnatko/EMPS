@@ -2,6 +2,8 @@
 
 $emps->page_property("vuejs", 1);
 
+$emps->p->no_full = false;
+
 if($_GET['load_settings']){
     $response = [];
     $response['code'] = "OK";
@@ -40,17 +42,18 @@ if($_GET['load_settings']){
     $emps->json_response($response);
 }
 
-if($_POST['post_save_changes']){
+if($_POST['post_save_changes_settings']){
     $row = $_POST['row'];
     $id = intval($_POST['id']);
-    $emps->p->save_property($context_id, $row['code'], $row['type'], $row['value'], false, 0);
-
+    if ($row['code']) {
+        $emps->p->save_property($context_id, $row['code'], $row['type'], $row['value'], false, 0);
+    }
     $response = [];
     $response['code'] = "OK";
     $emps->json_response($response);
 }
 
-if($_POST['delete_rows']){
+if($_POST['delete_settings_rows']){
     $id_list = $_POST['id_list'];
     $settings = $emps->p->read_properties([], $context_id);
     foreach($id_list as $id){

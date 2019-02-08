@@ -1,0 +1,83 @@
+<form action="./" method="post" @submit="submit_form">
+    <input type="hidden" name="post_save" value="1" />
+
+    <div class="field">
+        <label class="label">URI:</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="" v-model="selected_row.uri">
+        </div>
+        <div class="help">
+            Относительный, полный, со слэшами (например <code>/admin-menu/</code>)
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Название:</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="" v-model="selected_row.name">
+        </div>
+        <div class="help">
+            Текст, который показывается в меню
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Regex-фильтр:</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="" v-model="selected_row.regex">
+        </div>
+        <div class="help">
+            Выражение regex. Если верно по отношению к URI текущей страницы, пункт считается выбранным.<br/>
+            Если не задано, любой URI, начинающийся со значения, указанного в поле URI, делает пункт меню выбранным.
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column field">
+            <label class="label">Код группы:</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="" v-model="selected_row.grp">
+            </div>
+        </div>
+        <div class="column field">
+            <label class="label">Сортировка:</label>
+            <div class="control">
+                <input class="input" type="number" placeholder="" step="100" v-model="selected_row.ord">
+            </div>
+        </div>
+        <div class="column field">
+            <label class="label">Родитель:</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="" v-model="selected_row.parent">
+            </div>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column is-8 field">
+            <label class="label">Права доступа:</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="admin,manager" v-model="selected_row.grant">
+            </div>
+            <div class="help">
+                Коды групп доступа через запятую. Пункт показывается только пользователям из перечисленных групп.
+            </div>
+
+        </div>
+        <div class="column field">
+            <label class="label">Показывать пункт:</label>
+            <div class="control">
+                <button type="button" class="button is-outlined is-success is-fullwidth"
+                        @click="selected_row.enabled = '0'"
+                        v-if="selected_row.enabled == '1'">Показывать</button>
+                <button type="button" class="button is-outlined is-danger is-fullwidth"
+                        @click="selected_row.enabled = '1'"
+                        v-if="selected_row.enabled != '1'">Не показывать</button>
+
+            </div>
+        </div>
+    </div>
+
+    <p class="has-text-right">
+        <button type="submit" class="button is-medium is-primary">Сохранить изменения</button>
+    </p>
+
+</form>

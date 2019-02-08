@@ -17,7 +17,7 @@ if($_GET['export']){
 		if($txt != ""){
 			$txt .= "\r\n";
 		}
-		$txt .= EMPS_SCRIPT_WEB."/pic/".$pic['md5'].".".$pic['ext'];
+		$txt .= EMPS_SCRIPT_WEB."/pic/".$pic['md5']."/".$pic['filename'];
 	}
 	
 	$smarty->assign("txt", $txt);

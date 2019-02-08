@@ -28,12 +28,41 @@
     <script type="text/javascript" src="/bower_components/clipboard/dist/clipboard.min.js" defer></script>
 {{/if}}
 
+{{if $page.toastr}}
+    <script type="text/javascript" src="/bower_components/toastr/toastr.min.js" defer></script>
+    <script>
+        emps_scripts.push(function(){
+            toastr.options.timeOut = 3000;
+            toastr.options.positionClass = "toast-bottom-center";
+        });
+    </script>
+{{/if}}
 
 {{if $page.ipbox}}
     <script>
         emps_scripts.push(function () {
             $(".ipbox").EMPS_IPBox({one_row: true, with_text: true});
         });
+    </script>
+{{/if}}
+
+{{if $page.tinymce_vue}}
+    <script>
+        {{include file="db:inc/tinymce_set.js"}}
+        emps_tinymce_settings.trusted = true;
+        emps_tinymce_settings.format = "raw";
+        emps_tinymce_settings.height = 480;
+        emps_tinymce_settings.body_class = "content";
+    </script>
+{{/if}}
+
+{{if $page.sortable_vue}}
+    <script type="text/javascript" src="/node_modules/sortablejs/Sortable.min.js" defer></script>
+    <script type="text/javascript" src="/js/vue/sortable/vue-sortable.js" defer></script>
+    <script>
+        var emps_sortable_options = {
+            animation: 150
+        };
     </script>
 {{/if}}
 

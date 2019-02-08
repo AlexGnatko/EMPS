@@ -1,0 +1,70 @@
+<h1>Меню сайта</h1>
+
+<div id="menu_app" style="display: none">
+
+    {{capture name="vted_header"}}
+        {{"row.name"|js}} <span class="tag is-primary"># {{"row.id"|js}}</span>
+    {{/capture}}
+
+    {{capture name="list"}}
+        {{include file="db:_comp/vted,controls" controls_type="top"}}
+
+        <table class="table is-fullwidth">
+            <thead>
+            <tr>
+                <th width="10%">
+                    Id <small class="is-pulled-right">Порядок</small>
+                </th>
+                <th width="7%" class="has-text-centered">
+                    Ниже
+                </th>
+                <th width="8%" class="has-text-centered">
+                    Группа
+                </th>
+
+                <th width="20%">
+                    URI
+                </th>
+                <th width="30%">
+                    Текст ссылки
+                    <small class="is-pulled-right">Права</small>
+                </th>
+                <th width="15%" class="has-text-right">
+                    Действия
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(row, index) in lst">
+                <td>{{"row.id"|js}}
+                    <span class="is-pulled-right tag is-info">{{"row.ord"|js}}</span>
+                </td>
+                <td>
+                    {{include file="db:_comp/vted,columns" column_type="children"}}
+                </td>
+                <td class="has-text-centered">
+                    {{"row.grp"|js}}
+                </td>
+                <td>
+                    <a :href="row.ilink" @click="navigate(row.ilink, $event)">{{"row.uri"|js}}</a>
+                </td>
+                <td>
+                    <a :href="row.ilink" @click="navigate(row.ilink, $event)">{{"row.name"|js}}</a>
+                    <small class="is-pulled-right">{{"row.grant"|js}}</small>
+                </td>
+                <td>
+                    {{include file="db:_comp/vted,row_controls"}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    {{/capture}}
+
+    {{include file="db:_comp/vted"}}
+
+</div>
+<div class="app-loading">
+    {{include file="db:inc/spinner"}}
+</div>
+
+<script src="/mjs/admin-vv-menu/menu.js" defer></script>

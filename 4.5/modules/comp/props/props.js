@@ -52,7 +52,7 @@ Vue.component('props-editor', {
                 }
             });
             var row = {};
-            row.delete_rows = 1;
+            row.delete_settings_rows = 1;
             row.id_list = id_list;
             axios
                 .post("./", row)
@@ -72,7 +72,7 @@ Vue.component('props-editor', {
         submit_changes: function(){
             var that = this;
             var row = {};
-            row.post_save_changes = 1;
+            row.post_save_changes_settings = 1;
             row.id = this.current_row.id;
             row.row = this.current_row;
             axios
@@ -136,7 +136,7 @@ Vue.component('props-editor', {
                 this.import_text = t;
             }
             this.open_modal("exportModal");
-        },
+        }
     },
     mounted: function(){
         this.load_data();

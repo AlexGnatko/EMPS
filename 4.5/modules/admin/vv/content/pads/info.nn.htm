@@ -1,0 +1,46 @@
+<form action="./" method="post" @submit="submit_form">
+    <input type="hidden" name="post_save" value="1" />
+
+    <div class="field">
+        <label class="label">URI:</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="" v-model="selected_row.uri">
+        </div>
+        <div class="help">
+            Относительный, полный, со слэшами (например <code>/admin-menu/</code>)
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Заголовок страницы:</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="" v-model="selected_row.title">
+        </div>
+        <div class="help">
+            HTML-тэг TITLE
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Описание:</label>
+        <div class="control">
+            <textarea class="textarea" v-model="selected_row.descr" rows="3"></textarea>
+        </div>
+        <div class="help">
+            Мета-тэг description
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Ключевые слова:</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="" v-model="selected_row.keywords">
+        </div>
+        <div class="help">
+            Мета-тэг keywords
+        </div>
+    </div>
+
+
+    <p class="has-text-right">
+        <button type="submit" class="button is-medium is-primary">Сохранить изменения</button>
+    </p>
+
+</form>

@@ -1,0 +1,40 @@
+<form action="./" method="post" @submit="submit_form">
+    <input type="hidden" name="post_save" value="1" />
+
+    <div class="columns">
+        <div class="column is-9">
+            <div class="content">
+                <editor v-model="selected_row.html" :init="emps_tinymce_settings"></editor>
+            </div>
+
+        </div>
+        <div class="column is-3">
+            <div class="field">
+                <button type="submit" class="button is-medium is-primary is-fullwidth">Сохранить изменения</button>
+            </div>
+            <div class="panel">
+                <div class="panel-heading">
+                    <small>Вставка иллюстраций и ссылок</small>
+                </div>
+                <div class="panel-block">
+                    <div class="buttons">
+                        <button type="button" class="button is-small is-info is-outlined">Фото</button>
+                        <button type="button" class="button is-small is-info is-outlined">Фото-полоска</button>
+                        <button type="button" class="button is-small is-info is-outlined">Фото-мозаика</button>
+                        <button type="button" class="button is-small is-info is-outlined">Видео</button>
+                        <button type="button" class="button is-small is-info is-outlined">Аудио</button>
+                        <button type="button" class="button is-small is-warning is-outlined">Конец</button>
+                    </div>
+                </div>
+                <div class="panel-block content is-block">
+                    <small>
+                    <p>Установите курсор в том месте текста, куда хотите вставить код иллюстрации или другой шаблон.</p>
+                    <p>Прежде чем добавлять иллюстрации, загрузите их через вкладку «Изображения».</p>
+                    </small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+

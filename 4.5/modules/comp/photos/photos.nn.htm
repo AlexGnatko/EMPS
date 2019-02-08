@@ -1,0 +1,231 @@
+<photo-uploader inline-template>
+
+    <div class="photo-uploader">
+
+
+        <input type="file" multiple id="files" ref="files" @change="handle_uploads()"/>
+
+        <div class="columns is-gapless">
+            <div class="column is-narrow buttons">
+                <button type="button" @click="add_files()" class="button is-primary is-outlined">
+                    <i class="fa fa-hand-pointer-o"></i> &nbsp; Выбрать файлы</button>
+                <div></div>
+            </div>
+            <div class="column is-narrow buttons">
+                <button type="button" @click="download_files()" class="button is-primary is-outlined">
+                    <i class="fa fa-download"></i> &nbsp; По ссылке</button>
+                <div></div>
+            </div>
+            <div class="column">
+                <div class="button-size is-fullwidth">
+                    <progress class="progress is-info"
+                              v-if="is_uploading()"
+                              :value="get_total_progress()" max="100"></progress>
+                </div>
+
+            </div>
+            <div class="column buttons is-justified-end is-narrow">
+                <button type="button" @click="delete_selected()" v-if="!is_uploading()" class="button is-danger is-outlined">
+                    <i class="fa fa-remove"></i> &nbsp; Удалить</button>
+                <button type="button" @click="cancel_all()" v-else class="button is-warning is-outlined">
+                    <i class="fa fa-ban"></i> &nbsp; Отмена</button>
+                <button type="button" class="button is-white" @click="inverse_selection()" >
+                    <i class="fa fa-check-square-o" ></i>
+                </button>
+            </div>
+        </div>
+
+        <div v-sortable="{onUpdate: on_sort_photos}">
+        <div class="box" v-for="(file, index) in files">
+            <div class="media">
+                <div class="media-left">
+                    <figure class="image upload-image">
+                        <a :href="file.url" target="_blank"><img :src="file.thumbnail" :alt="file.name"></a>
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div class="columns">
+                        <div class="column is-6">
+                            <p>
+                                <strong>{{"file.name"|js}}</strong>
+                                <span class="tag is-light">{{"file.id"|js}}</span>
+                            </p>
+                            <p v-if="file.descr == ''">(нет описания)</p>
+                            <p v-else>{{"file.descr"|js}}</p>
+                            <div class="buttons">
+                                <button type="button" class="button is-small is-primary" @click="edit_descr(file)">
+                                    <i class="fa fa-pencil"></i> &nbsp; Описание
+                                </button>
+                                <button type="button"
+                                        @click="change_file(file)"
+                                        class="button is-small is-primary is-outlined">
+                                    <i class="fa fa-exchange"></i> &nbsp; Сменить файл
+                                </button>
+                                <button type="button" class="button is-small is-primary is-outlined">
+                                    <i class="fa fa-ellipsis-h"></i> &nbsp; Дополнительно
+                                </button>
+                            </div>
+                        </div>
+                        <div class="column is-4 has-text-centered">
+                            {{"format_size(file.size)"|js}}<br/>
+                            <small>Качество {{"file.qual"|js}}%</small>
+                        </div>
+                        <div class="column is-2 has-text-right">
+                            &nbsp;<br/>
+                            <button type="button"
+                                    @click="delete_file(file)"
+                                    class="button is-outlined is-danger">
+                                <i class="fa fa-remove"></i> &nbsp; Удалить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="media-right has-text-right">
+                    <i class="button-size handle"><i class="fa fa-hand-grab-o"></i></i><br/>
+                    <div class="button-size"><input type="checkbox" class="image-check" v-model="file.mark"/></div>
+                </div>
+            </div>
+        </div>
+        </div>
+        {{*<div v-sortable="{handle: '.handle'}">*}}
+        <div class="box" v-for="(file, index) in queue">
+            <div class="media">
+                <div class="media-left">
+                    <figure class="image upload-image">
+                        <a>
+                            <img :src="file.image_url" alt="Фото">
+                        </a>
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="content">
+                                <p>
+                                    <strong>{{"file.name"|js}}</strong>
+                                </p>
+                            </div>
+
+                        </div>
+                        <div class="column is-4 has-text-centered">
+                            {{"format_size(file.size)"|js}}<br/>
+                            <div class="button-size is-fullwidth">
+                                <progress
+                                        class="progress is-info" :value="get_progress(file)" max="100"></progress>
+                            </div>
+                        </div>
+                        <div class="column is-2 has-text-right">
+                            &nbsp;<br/>
+                            <button type="button"
+                                    @click="cancel_upload(file)"
+                                    class="button is-outlined is-warning">
+                                <i class="fa fa-ban"></i> &nbsp; Отмена
+                            </button>
+                        </div>
+                    </div>
+                </div>
+{{*                <div class="media-right">
+                    <i class="button is-white handle"><i class="fa fa-hand-grab-o"></i></i>
+                </div>*}}
+            </div>
+        </div>
+        {{*</div>*}}
+        {{include file="db:_comp/modal"}}
+
+        <modal id="deleteSelectedModal" size="sm">
+            <template slot="header">Подтвердите, пожалуйста</template>
+
+            Удалить выбранные фотографии?
+
+            <template slot="actions">
+                <button type="button" class="button is-danger" @click="delete_selected_do()">Да</button>
+            </template>
+        </modal>
+
+        <modal id="descrModal" :submit="submit_descr">
+            <template slot="header">Описание изображения</template>
+
+            <div class="field">
+                <label class="label">Текст:</label>
+                <textarea v-model="selected_photo.descr" class="textarea" rows="5"></textarea>
+            </div>
+
+            <template slot="actions">
+                <button type="submit" class="button is-success">Сохранить изменения</button>
+            </template>
+        </modal>
+
+        <modal id="importModal" :submit="submit_import">
+            <template slot="header">Скачать фотографии по ссылке</template>
+
+            <div class="field" v-if="!importing">
+                <label class="label">Ссылки на фотографии:</label>
+                <textarea v-model="import_list" class="textarea" rows="5"></textarea>
+                <div class="help">Можно много ссылок. Одна строка &ndash; одна ссылка.</div>
+            </div>
+            <div v-if="importing" class="content">
+                <p>Идёт скачивание фотографий...</p>
+                <progress class="progress is-warning"></progress>
+            </div>
+
+            <template slot="actions">
+                <button type="submit" class="button is-success" :disabled="importing">Скачать фотографии</button>
+            </template>
+        </modal>
+
+        <modal id="changeModal" :submit="submit_change">
+            <template slot="header">Сменить файл</template>
+
+            <div class="is-block">
+                <p>Заменить файл <strong>{{"selected_photo.filename"|js}}</strong> <span class="tag">{{"selected_photo.id"|js}}</span></p>
+
+                <div class="tabs is-block" style="margin-bottom: 1rem">
+                    <ul>
+                        <li :class="{'is-active': change_mode == 'upload'}" @click="change_mode = 'upload'">
+                            <a>Загрузить</a>
+                        </li>
+                        <li :class="{'is-active': change_mode == 'download'}" @click="change_mode = 'download'">
+                            <a>Скачать по ссылке</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div v-if="change_uploading" class="content">
+                    <p>Идёт загрузка нового файла...</p>
+                    <progress class="progress is-warning"></progress>
+                </div>
+
+                <div v-else>
+                    <div v-if="change_mode == 'upload'">
+                        <input type="file" id="change-file" ref="change_file" @change="handle_change_upload()"/>
+                        <button type="button" @click="select_change_file()" class="button is-primary is-outlined">
+                            <i class="fa fa-hand-pointer-o"></i> &nbsp; Выбрать файл</button>
+
+                    </div>
+
+                    <div v-if="change_mode == 'download'">
+                        <input type="text" class="input" v-model="change_download_url" placeholder="Ссылка на файл" />
+                    </div>
+
+                </div>
+
+            </div>
+
+            <template slot="actions">
+                <button type="submit" class="button is-success">Заменить файл</button>
+            </template>
+        </modal>
+
+    </div>
+
+
+</photo-uploader>
+
+<script src="/mjs/comp-photos/photos.js" defer></script>
+<script>
+    emps_scripts.push(function(){
+        EMPS.load_css('/mjs/comp-photos/photos.css');
+    });
+
+    var string_failed = "Невозможно загрузить: ";
+</script>

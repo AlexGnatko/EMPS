@@ -1,0 +1,17 @@
+<h1>Страницы сайта</h1>
+
+<div id="content_app" style="display: none">
+
+    {{capture name="buttons_pre"}}
+        <a :href="selected_row.uri" class="button is-info is-outlined">
+            <i class="fa fa-eye"></i> &nbsp;
+            Просмотр</a>
+    {{/capture}}
+    {{include file="db:_comp/vted"}}
+
+</div>
+<div class="app-loading">
+    {{include file="db:inc/spinner"}}
+</div>
+
+<script src="/mjs/admin-vv-content/content.js" defer></script>

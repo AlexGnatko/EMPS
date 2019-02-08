@@ -1,0 +1,13 @@
+<form action="./" method="post" @submit="submit_form">
+    <input type="hidden" name="post_save" value="1" />
+
+    <div class="field">
+        <label class="label">Наименование</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="" v-model="selected_row.name">
+        </div>
+    </div>
+    <p class="has-text-right">
+        <button type="submit" class="button is-medium is-primary">Сохранить изменения</button>
+    </p>
+</form>

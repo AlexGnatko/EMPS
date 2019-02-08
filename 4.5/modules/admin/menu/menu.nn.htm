@@ -1,3 +1,8 @@
+{{if "admin_tools"|emps:get_setting}}
+{{$admin_tools = "admin_tools"|emps:get_setting}}
+{{include file="db:_admin/`$admin_tools`/menu"}}
+{{else}}
+
 {{if $lang eq "en"}}
 {{assign var="str_exim" value="Export/Import Menu"}}
 {{assign var="str_ex_sel" value="Export Selected"}}
@@ -160,4 +165,6 @@ emps_scripts.push(function(){
 	});
 });
 </script>
+{{/if}}
+
 {{/if}}
