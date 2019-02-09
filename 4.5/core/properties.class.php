@@ -248,39 +248,39 @@ class EMPS_Properties
         return $lst;
     }
 
-    public function get_context($type, $sub, $id)
+    public function get_context($type, $sub, $ref_id)
     {
-        global $SET, $emps;
-        $type += 0;
-        $sub += 0;
-        $id += 0;
+        global $emps;
+        $type = intval($type);
+        $sub = intval($sub);
+        $ref_id = intval($ref_id);
         if (!$type || !$sub) {
             return 0;
         }
-        if (($type != 1) && !$id) {
+        if (($type != 1) && !$ref_id) {
             return 0;
         }
 
-        if (isset($this->context_cache[$type][$sub][$id])) {
-            return $this->context_cache[$type][$sub][$id];
+        if (isset($this->context_cache[$type][$sub][$ref_id])) {
+            return $this->context_cache[$type][$sub][$ref_id];
         }
-        $row = $emps->db->get_row("e_contexts", "ref_type=$type and ref_sub=$sub and ref_id=$id");
+        $row = $emps->db->get_row("e_contexts", "ref_type = {$type} and ref_sub = {$sub} and ref_id = {$ref_id}");
         if (!$row) {
             if (!$this->default_ctx) {
-                if (!(($type == 1) && ($sub == 1) && ($id == 0))) {
+                if (!(($type == 1) && ($sub == 1) && ($ref_id == 0))) {
                     $this->default_ctx = $this->get_context(1, 1, 0);
                 }
             }
-            $SET = array();
-            $SET['id'] = '';
-            $SET['ref_type'] = $type;
-            $SET['ref_sub'] = $sub;
-            $SET['ref_id'] = $id;
-            $emps->db->sql_insert('e_contexts');
+            $nr = [];
+            $nr['id'] = '';
+            $nr['ref_type'] = $type;
+            $nr['ref_sub'] = $sub;
+            $nr['ref_id'] = $ref_id;
+            $emps->db->sql_insert_row('e_contexts', ['SET' => $nr]);
             $id = $emps->db->last_insert();
-            $row = $emps->db->get_row('e_contexts', 'id=' . $id);
+            $row = $emps->db->get_row('e_contexts', 'id = ' . $id);
         }
-        $this->context_cache[$type][$sub][$id] = $row['id'];
+        $this->context_cache[$type][$sub][$ref_id] = $row['id'];
         return $row['id'];
     }
 

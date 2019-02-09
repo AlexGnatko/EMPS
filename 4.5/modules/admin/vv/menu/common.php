@@ -68,8 +68,11 @@ function import_menu(&$lst, $code, $parent)
         } else {
             $emps->db->sql_insert_row("e_menu", $update);
             $id = $emps->db->last_insert();
+//            error_log("Inserted");
         }
+//        usleep(10000);
         $context_id = $emps->p->get_context($ited->ref_type, 1, $id);
+//        error_log("Name/uri: {$v['name']}/{$v['uri']}, id: {$id}, context_id: {$context_id}");
         $emps->p->save_properties($v, $context_id, $ited->track_props);
         if (count($v['sub']) > 0) {
             $sls = $v['sub'];
