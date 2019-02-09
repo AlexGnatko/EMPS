@@ -49,6 +49,7 @@
             {{/if}}
         </div>
         <div v-if="!list_mode">
+            {{include file="db:_comp/modal"}}
             <div class="panel">
                 <div class="panel-heading">
                     <div class="columns">
@@ -100,8 +101,6 @@
 
             </div>
         </div>
-
-        {{include file="db:_comp/modal"}}
 
         <modal id="createModal" :submit="submit_create">
             <template slot="header">

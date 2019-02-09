@@ -1,0 +1,14 @@
+.file-uploader input[type="file"]
+{
+    position: absolute;
+    top: -100vh;
+}
+
+.file-uploader .box {
+    padding: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.panel-block input[type=checkbox].file-check {
+    margin-right: 0;
+}

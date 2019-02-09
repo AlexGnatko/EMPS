@@ -1,0 +1,157 @@
+<html-insert inline-template id="{{$id}}">
+    <div class="htmlinsert">
+        <modal id="htmlinsertPhotoModal" size="lg">
+            <template slot="header">Вставка фотографии</template>
+
+            <div v-if="insert_params.selected_pic.id !== undefined">
+                <div class="columns">
+                    <div class="column is-7">
+                        <div class="field">
+                            <div class="is-block container-4x3">
+                                <div class="zoom-pic">
+                                    <img :src="insert_params.selected_pic.url" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <button type="button"
+                                    @click="insert_params.selected_pic = {}"
+                                    class="button is-primary">
+                                <i class="fa fa-reply"></i> &nbsp; Выбрать другое фото
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="column is-5">
+                        <div class="field">
+                            <label class="label">CSS-класс изображения:</label>
+
+                            <div class="field has-addons">
+                                <p class="control is-expanded">
+                                    <input type="text" class="input" v-model="insert_params.class" />
+                                </p>
+                                <p class="control">
+                                <div :class="['dropdown', 'is-right', {'is-active': select_class}]">
+                                    <div class="dropdown-trigger">
+                                        <button type="button"
+                                                @click="select_class = true"
+                                                class="button" aria-haspopup="true"
+                                                aria-controls="dropdown-pic-classes">
+                                            <span>Класс</span>
+                                            <span class="icon is-small">
+        <i class="fa fa-angle-down" aria-hidden="true"></i>
+      </span>
+                                        </button>
+                                    </div>
+                                    <div class="dropdown-menu" id="dropdown-pic-classes" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="javascript:;" class="dropdown-item"
+                                               @click="insert_params.class = item.code; select_class = false"
+                                               v-for="(item, index) in classes">
+                                                {{"item.name"|js}}
+                                            </a>
+                                            <hr class="dropdown-divider">
+                                            <a href="javascript:;"
+                                               @click="insert_params.class = ''; select_class = false"
+                                               class="dropdown-item">
+                                                {{"no_class"|js}}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                </p>
+                            </div>
+
+                        </div>
+                        <div class="field has-text-right">
+                            <button type="button" class="button is-primary" @click="insert_pic('full')">
+                                Вставить полное изображение &nbsp; <i class="fa fa-hand-o-right"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <div class="field">
+                    Выберите фото для вставки:
+                </div>
+
+                <div class="columns is-gapless is-mobile is-multiline">
+                    <div class="column is-2 is-4-mobile" v-for="(pic, index) in pics">
+                        <div class="container-4x3">
+                            <a class="pic" @click="select_pic(pic)">
+                                <img :src="pic.thumbnail" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="is-block">
+                    <div class="tabs is-block" style="margin-bottom: 1rem">
+                        <ul>
+                            <li :class="{'is-active': insert_params.new_mode == 'upload'}"
+                                @click="insert_params.new_mode = 'upload'">
+                                <a>Загрузить новую</a>
+                            </li>
+                            <li :class="{'is-active': insert_params.new_mode == 'download'}"
+                                @click="insert_params.new_mode = 'download'">
+                                <a>Скачать новую по ссылке</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div v-if="insert_params.uploading" class="content">
+                        <p>Идёт загрузка нового файла...</p>
+                        <progress class="progress is-warning"></progress>
+                    </div>
+
+                    <div v-else>
+                        <div v-if="insert_params.new_mode == 'upload'">
+                            <input type="file" ref="new_photo" @change="handle_new_upload()"/>
+                            <button type="button" @click="select_new_photo()" class="button is-primary is-outlined">
+                                <i class="fa fa-hand-pointer-o"></i> &nbsp; Выбрать файл</button>
+
+                        </div>
+
+                        <div v-if="insert_params.new_mode == 'download'">
+                            <div class="field is-grouped">
+                                <p class="control is-expanded">
+                                    <input type="text" class="input"
+                                           v-model="insert_params.download_url" placeholder="Ссылка на файл" />
+                                </p>
+                                <p class="control">
+                                    <a class="button is-primary is-outlined" @click="handle_new_upload()">
+                                        Скачать и выбрать
+                                    </a>
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </modal>
+    </div>
+</html-insert>
+<script src="/mjs/comp-htmlinsert/htmlinsert.js" defer></script>
+<script>
+    emps_scripts.push(function(){
+        EMPS.load_css('/mjs/comp-htmlinsert/htmlinsert.css');
+    });
+    var emps_pic_classes = [
+        {code: 'pic-full', name: '100% ширины'},
+        {code: 'pic-3-right', name: '1/4 → справа'},
+        {code: 'pic-4-right', name: '1/3 → справа'},
+        {code: 'pic-6-right', name: '1/2 → справа'},
+        {code: 'pic-3-left', name: '1/4 ← слева'},
+        {code: 'pic-4-left', name: '1/3 ← слева'},
+        {code: 'pic-6-left', name: '1/2 ← слева'},
+        {code: 'pic-6-center', name: '1/2 по центру'},
+    ];
+    var emps_pic_no_class = 'Не присваивать класс';
+</script>

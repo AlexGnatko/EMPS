@@ -83,3 +83,50 @@ h1 {
 	text-decoration:line-through;
 	opacity:0.25;
 }
+
+@media (max-width: 767px) {
+
+	.cols-3 {
+		-webkit-column-count: 2; /* Chrome, Safari, Opera */
+		-moz-column-count: 2; /* Firefox */
+		column-count: 2;
+
+		-webkit-column-gap: 30px; /* Chrome, Safari, Opera */
+		-moz-column-gap: 30px; /* Firefox */
+		column-gap: 30px;
+	}
+
+	.pic-3-right, .pic-3-left {
+		width:35%;
+	}
+
+	.pic-6-right, .pic-6-left, .pic-6-center, .pic-4-right, .pic-4-left {
+		float:none;
+		width:100%;
+		margin:0 0 10px 0;
+	}
+}
+
+@media (max-width: 400px) {
+
+	.cols-3 {
+		-webkit-column-count: 1; /* Chrome, Safari, Opera */
+		-moz-column-count: 1; /* Firefox */
+		column-count: 1;
+
+		-webkit-column-gap: 30px; /* Chrome, Safari, Opera */
+		-moz-column-gap: 30px; /* Firefox */
+		column-gap: 30px;
+	}
+
+	.cols-2 {
+		-webkit-column-count: 1; /* Chrome, Safari, Opera */
+		-moz-column-count: 1; /* Firefox */
+		column-count: 1;
+
+		-webkit-column-gap: 30px; /* Chrome, Safari, Opera */
+		-moz-column-gap: 30px; /* Firefox */
+		column-gap: 30px;
+	}
+
+}

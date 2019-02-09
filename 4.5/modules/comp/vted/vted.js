@@ -5,6 +5,7 @@
             return {
                 list_mode: true,
                 row: {},
+                guid: guid(),
                 selected_row: {},
                 new_row: {},
                 lst: [],
@@ -24,6 +25,9 @@
             };
         },
         methods: {
+            insert_at_cursor: function(id, text) {
+                tinmce.get(id).execCommand('mceInsertContent', false, text);
+            },
             load_row: function(after) {
                 if (this.path.key !== undefined) {
                     var that = this;
@@ -33,12 +37,16 @@
                             var data = response.data;
                             if (data.code == 'OK') {
                                 that.row = data.row;
+                                if (that.path.ss !== undefined) {
+                                    vuev.$emit("update_pad", that.path.ss);
+                                }
                                 if (after !== undefined){
                                     after.call();
                                 }
                             }else{
                                 that.open_modal("cantLoadRowModal");
-                                that.navigate(that.back_link);
+
+                                that.navigate(that.back_link());
                             }
                         });
                 }
@@ -102,6 +110,10 @@
             },
             close_modal: function(id){
                 $("#" + id).removeClass("is-active");
+            },
+            trigger: function(id) {
+                vuev.$emit(id, this.guid);
+//                vuev.$emit(id);
             },
             ask_delete: function(row) {
                 this.selected_row = row;

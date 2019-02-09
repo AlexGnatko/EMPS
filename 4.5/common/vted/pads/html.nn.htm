@@ -4,7 +4,7 @@
     <div class="columns">
         <div class="column is-9">
             <div class="content">
-                <editor v-model="selected_row.html" :init="emps_tinymce_settings"></editor>
+                <editor v-model="selected_row.html" id="htmlpad_editor" :init="emps_tinymce_settings"></editor>
             </div>
 
         </div>
@@ -18,12 +18,24 @@
                 </div>
                 <div class="panel-block">
                     <div class="buttons">
-                        <button type="button" class="button is-small is-info is-outlined">Фото</button>
-                        <button type="button" class="button is-small is-info is-outlined">Фото-полоска</button>
-                        <button type="button" class="button is-small is-info is-outlined">Фото-мозаика</button>
-                        <button type="button" class="button is-small is-info is-outlined">Видео</button>
-                        <button type="button" class="button is-small is-info is-outlined">Аудио</button>
-                        <button type="button" class="button is-small is-warning is-outlined">Конец</button>
+                        <button type="button"
+                                @click="trigger('htmlinsert:photo')"
+                                class="button is-small is-info is-outlined">Фото</button>
+                        <button type="button"
+                                @click="trigger('htmlinsert:photo-line')"
+                                class="button is-small is-info is-outlined">Фото-полоска</button>
+                        <button type="button"
+                                @click="trigger('htmlinsert:photo-montage')"
+                                class="button is-small is-info is-outlined">Фото-мозаика</button>
+                        <button type="button"
+                                @click="trigger('htmlinsert:video')"
+                                class="button is-small is-info is-outlined">Видео</button>
+                        <button type="button"
+                                @click="trigger('htmlinsert:audio')"
+                                class="button is-small is-info is-outlined">Аудио</button>
+                        <button type="button"
+                                @click="trigger('htmlinsert:cut')"
+                                class="button is-small is-warning is-outlined">Конец</button>
                     </div>
                 </div>
                 <div class="panel-block content is-block">
@@ -37,4 +49,8 @@
         </div>
     </div>
 </form>
+
+
+{{include file="db:_comp/htmlinsert" id="htmlpad_editor"}}
+
 

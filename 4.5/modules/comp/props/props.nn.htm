@@ -32,8 +32,6 @@
             </div>
         </div>
 
-        {{include file="db:_comp/modal"}}
-
         <modal id="editModal" :submit="submit_changes">
             <template slot="header">
                 <span v-if="edit_mode">Редактировать настройку</span>

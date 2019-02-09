@@ -29,7 +29,7 @@ if ($emps->auth->credentials('admin')):
 
         public $multilevel = false;
 
-        public $pads = ['info', 'html', 'props', 'photos', 'videos'];
+        public $pads = ['info', 'html', 'props', 'photos', 'files', 'videos'];
         public $pad_names = "db:_admin/vv/content,pad_names";
 
         public $debug = true;

@@ -44,7 +44,7 @@ class EMPS_VuePhotosUploader {
                         $nr['thumb'] = $this->photo_size;
                         $nr['context_id'] = $context_id;
                         $nr['qual'] = 100;
-                        $nr['ord'] = $ord + 10;
+                        $nr['ord'] = $ord + 100;
                         $emps->db->sql_insert_row("e_uploads", ['SET' => $nr]);
                         $file_id = $emps->db->last_insert();
                         $oname = $this->p->up->upload_filename($file_id,DT_IMAGE);

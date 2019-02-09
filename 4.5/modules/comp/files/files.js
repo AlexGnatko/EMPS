@@ -1,10 +1,9 @@
 (function() {
 
-    Vue.component('photo-uploader', {
-        props: ['pad'],
+    Vue.component('file-uploader', {
         data: function(){
             return {
-                selected_photo: '',
+                selected_file: '',
                 import_list: '',
                 importing: false,
                 change_uploading: false,
@@ -45,8 +44,8 @@
                 var file = files[0];
 
                 var form_data = new FormData();
-                form_data.append('post_reupload_photo', '1');
-                form_data.append('photo_id', this.selected_photo.id);
+                form_data.append('post_reupload_file', '1');
+                form_data.append('file_id', this.selected_file.id);
                 form_data.append('files[0]', file);
                 var that = this;
                 axios.post( './',
@@ -68,12 +67,12 @@
                     }
 
                 })
-                .catch(function(){
-                    that.change_uploading = false;
-                    if (!file.cancelled) {
-                        toastr.error(file.name, string_failed, {positionClass: "toast-bottom-full-width"});
-                    }
-                });
+                    .catch(function(){
+                        that.change_uploading = false;
+                        if (!file.cancelled) {
+                            toastr.error(file.name, string_failed, {positionClass: "toast-bottom-full-width"});
+                        }
+                    });
 
             },
             format_size: function(size) {
@@ -85,7 +84,7 @@
                     if (!file.started) {
                         file.started = true;
                         var form_data = new FormData();
-                        form_data.append('post_upload_photo', '1');
+                        form_data.append('post_upload_file', '1');
                         form_data.append('files[0]', file);
                         var that = this;
                         axios.post( './',
@@ -119,21 +118,21 @@
                             }
 
                         })
-                        .catch(function(){
-                            if (!file.cancelled) {
-                                toastr.error(file.name, string_failed, {positionClass: "toast-bottom-full-width"});
-                            }
+                            .catch(function(){
+                                if (!file.cancelled) {
+                                    toastr.error(file.name, string_failed, {positionClass: "toast-bottom-full-width"});
+                                }
 
-                            that.remove_upload(file);
+                                that.remove_upload(file);
 
-                        });
+                            });
                     }
                 }
             },
             load_files: function() {
                 var that = this;
                 axios
-                    .get("./?list_uploaded_photos=1")
+                    .get("./?list_uploaded_files=1")
                     .then(function(response){
                         var data = response.data;
                         if (data.code == 'OK') {
@@ -155,7 +154,7 @@
             delete_file: function(file) {
                 var that = this;
                 axios
-                    .get("./?delete_uploaded_photo=" + file.id)
+                    .get("./?delete_uploaded_file=" + file.id)
                     .then(function(response){
                         var data = response.data;
                         if (data.code == 'OK') {
@@ -166,7 +165,7 @@
                         }
                     });
             },
-            on_sort_photos: function(e) {
+            on_sort_files: function(e) {
                 var files = this.files.slice();
                 files.splice(e.newIndex, 0, files.splice(e.oldIndex, 1)[0]);
 
@@ -180,7 +179,7 @@
 
                 var that = this;
                 axios
-                    .get("./?reorder_photos=" + ids.join(','))
+                    .get("./?reorder_files=" + ids.join(','))
                     .then(function(response){
                         var data = response.data;
                         if (data.code == 'OK') {
@@ -237,7 +236,7 @@
 
                 var list = ids.join(",");
                 axios
-                    .get("./?delete_uploaded_photo=" + list)
+                    .get("./?delete_uploaded_file=" + list)
                     .then(function(response){
                         var data = response.data;
                         if (data.code == 'OK') {
@@ -295,19 +294,21 @@
                 return false;
             },
             edit_descr: function(file) {
-                this.selected_photo = file;
+                this.selected_file = file;
                 this.open_modal("descrModal");
             },
             change_file: function(file) {
-                this.selected_photo = file;
+                this.selected_file = file;
                 this.open_modal("changeModal");
             },
             submit_descr: function() {
                 var that = this;
                 var row = {};
-                row.post_save_description = 1;
-                row.photo_id = this.selected_photo.id;
-                row.descr = this.selected_photo.descr;
+                row.post_save_file_description = 1;
+                row.file_id = this.selected_file.id;
+                row.descr = this.selected_file.descr;
+                row.file_name = this.selected_file.file_name;
+                row.comment = this.selected_file.comment;
                 axios
                     .post("./", row)
                     .then(function(response){
@@ -325,7 +326,7 @@
                 this.importing = true;
                 var that = this;
                 var row = {};
-                row.post_import_photos = 1;
+                row.post_import_files = 1;
                 row.list = this.import_list;
                 axios
                     .post("./", row)
@@ -348,9 +349,9 @@
                     this.change_uploading = true;
                     var that = this;
                     var row = {};
-                    row.post_reimport_photo = 1;
+                    row.post_reimport_file = 1;
                     row.url = this.change_download_url;
-                    row.photo_id = this.selected_photo.id;
+                    row.file_id = this.selected_file.id;
                     axios
                         .post("./", row)
                         .then(function(response){
