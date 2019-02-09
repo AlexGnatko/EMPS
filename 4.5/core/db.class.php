@@ -94,10 +94,11 @@ class EMPS_DB
 
     public function last_insert()
     {
-        $r = $this->query("select last_insert_id()");
+/*        $r = $this->query("select last_insert_id()");
         $ra = $this->fetch_row($r);
         $this->free($r);
-        return $ra[0];
+        return $ra[0];*/
+        return mysqli_insert_id($this->db);
     }
 
     private function table_columns($table)
