@@ -23,6 +23,7 @@
             window.onpopstate = function(event) {
                 that.parse_path();
             };
+            vuev.$on("navigate", this.parse_path);
         },
         methods: {
             insert_at_cursor: function(id, text) {
@@ -54,6 +55,7 @@
             load_list: function(after) {
                 if (this.path.key === undefined) {
                     var that = this;
+                    vuev.$emit("vted:load_list");
                     axios
                         .get("./?load_list=1")
                         .then(function(response){
@@ -74,6 +76,7 @@
                 }
             },
             parse_path: function() {
+                vuev.$emit("vted:navigate");
                 this.path = EMPS.get_path_vars();
                 var list_mode;
                 if (this.path.ss !== undefined){

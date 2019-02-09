@@ -13,7 +13,7 @@ if ($emps->auth->credentials('admin')):
     class EMPS_MenuEditor extends EMPS_VueTableEditor
     {
         public $ref_type = DT_CONTENT;
-        public $ref_sub = CURRENT_LANG;
+        public $ref_sub = 1;
 
         public $track_props = P_CONTENT;
 

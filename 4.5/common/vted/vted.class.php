@@ -318,8 +318,9 @@ class EMPS_VueTableEditor
             $smarty->assign("Multilevel", 1);
             $parent = intval($sd);
             if (!$this->where) {
-                $this->where = " where t.parent = {$parent} ";
+                $this->where = " where 1=1 ";
             }
+            $this->where .= " and t.parent = {$parent} ";
         }
 
         if ($_POST['post_save']) {

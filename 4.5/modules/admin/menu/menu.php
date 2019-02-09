@@ -92,7 +92,6 @@ if ($emps->get_setting("admin_tools")){
                 import_menu($sls, $code, $id);
             }
         }
-
     }
 
     if ($_POST['post_import']) {

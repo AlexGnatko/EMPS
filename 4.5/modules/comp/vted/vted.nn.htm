@@ -5,9 +5,7 @@
                 {{$smarty.capture.list}}
             {{else}}
                 {{* Use a generic list: id, name *}}
-
                 {{include file="db:_comp/vted,controls" controls_type="top"}}
-
                 <table class="table is-fullwidth">
                     <thead>
                         <tr>
@@ -95,10 +93,7 @@
                         </div>
 
                     {{/foreach}}
-
                 </div>
-
-
             </div>
         </div>
 
@@ -130,6 +125,7 @@
             Невозможно загрузить элемент с указанным идентификатором.
 
         </modal>
+
     </div>
 </vted>
 

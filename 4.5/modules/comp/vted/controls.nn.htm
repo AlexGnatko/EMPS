@@ -4,7 +4,7 @@
         <div class="field">
             <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
                 <ul>
-                    <li><a :href="{{$ToTopLink}}" @click="navigate('{{$ToTopLink}}', $event)">
+                    <li><a href="{{$ToTopLink}}" @click="navigate('{{$ToTopLink}}', $event)">
                             <i class="fa fa-level-up"></i> &nbsp; На самый верх</a></li>
                     <li v-for="(level, index) in parents">
                         <a :href="level.link" @click="navigate(level.link, $event)">{{"level.name"|js}}</a></li>

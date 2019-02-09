@@ -2,6 +2,35 @@
 
 <div id="menu_app" style="display: none">
 
+    <div class="columns" v-if="path.ss === undefined">
+        <div class="column">
+            <div class="buttons">
+                <button
+                        :class="['button', 'is-info', {'is-outlined': !((grp.grp == path.sk) || (grp.grp.length === 0 && path.sk === undefined))}]"
+                        v-for="(grp, index) in code_lst"
+                        @click="select_sk(grp.grp)"
+                        type="button">
+                    {{"(grp.grp.length > 0)?grp.grp:'(нет)'"|js}}
+                </button>
+            </div>
+        </div>
+        <div class="column has-text-right">
+            <button
+                    class="button is-info"
+                    @click="export_menu()"
+                    v-if="path.sk !== undefined"
+                    type="button">
+                Экспорт
+            </button>
+            <button
+                    class="button is-warning"
+                    @click="import_menu()"
+                    type="button">
+                Импорт
+            </button>
+        </div>
+    </div>
+
     {{capture name="vted_header"}}
         {{"row.name"|js}} <span class="tag is-primary"># {{"row.id"|js}}</span>
     {{/capture}}
@@ -60,6 +89,20 @@
         </table>
     {{/capture}}
 
+    <modal id="menuExportModal" :submit="submit_import">
+        <template slot="header">
+            Экспорт / импорт элементов меню
+        </template>
+
+        <textarea class="textarea" rows="10" v-model="menu_json">
+
+        </textarea>
+
+        <template slot="actions">
+            <button type="submit" class="button is-success">Импорт</button>
+        </template>
+    </modal>
+
     {{include file="db:_comp/vted"}}
 
 </div>
@@ -68,3 +111,7 @@
 </div>
 
 <script src="/mjs/admin-vv-menu/menu.js" defer></script>
+
+<script>
+    var string_imported = "Успешно импортировано";
+</script>
