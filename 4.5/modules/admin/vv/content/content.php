@@ -21,7 +21,7 @@ if ($emps->auth->credentials('admin')):
 
         public $credentials = "admin";
 
-        //public $form_name = "db:_admin/vv/content,form";
+        public $form_name = "db:_admin/vv/content,form";
 
         public $order = " order by uri asc ";
 
