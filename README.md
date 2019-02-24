@@ -16,7 +16,3 @@ EMPS is Git-friendly. No data, no HTML templates, and no code vital to the websi
 
 The SQL database structure is stored in a specially-cooked SQL file that enables "sqlsync" - automatic synchronization of the actual database structure with the SQL file. Update the SQL file, call /sqlsync/ on the website, and your website's SQL (MySQL) database gets updated automatically (no manual adding of new fields in phpMyAdmin).
 
-MORE INFORMATION HERE:
-
-http://php-emps.net/
-
