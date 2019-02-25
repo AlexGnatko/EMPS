@@ -32,7 +32,7 @@
     </div>
 
     {{capture name="vted_header"}}
-        {{"row.name"|js}} <span class="tag is-primary"># {{"row.id"|js}}</span>
+        <strong>{{"row.uri"|js}}</strong> {{"row.name"|js}} <span class="tag is-primary"># {{"row.id"|js}}</span>
     {{/capture}}
 
     {{capture name="list"}}

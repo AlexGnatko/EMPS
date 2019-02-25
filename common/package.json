@@ -4,7 +4,9 @@
   "description": "EMPS Framework for PHP",
   "dependencies": {
     "@tinymce/tinymce-vue": "~1",
-    "vue-sortable": "latest"
+    "vue-sortable": "latest",
+    "vue-numeric": "latest",
+    "flatpickr": "latest"
   },
   "author": "Alex Gnatko",
   "license": "ISC"

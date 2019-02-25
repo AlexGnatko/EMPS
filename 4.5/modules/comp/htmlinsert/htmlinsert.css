@@ -32,3 +32,19 @@
     height: 100%;
     object-fit: contain;
 }
+
+.htmlinsert .pic-sel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    color: black;
+}

@@ -9,8 +9,10 @@
                 selected_row: {},
                 new_row: {},
                 lst: [],
+                pages: {},
                 path: {},
                 lookup_id: undefined,
+                no_scroll: false,
                 parents: [],
             }
         },
@@ -62,6 +64,7 @@
                             var data = response.data;
                             if (data.code == 'OK') {
                                 that.lst = data.lst;
+                                that.pages = data.pages;
                                 if (data.parents !== undefined) {
                                     that.parents = data.parents;
                                 }
@@ -106,7 +109,16 @@
                 $('a, button').blur();
                 EMPS.soft_navi(vted_title, url);
                 this.parse_path();
+                if (!this.no_scroll) {
+                    window.scrollTo(0, 0);
+                }
+                this.no_scroll = false;
                 return false;
+            },
+            roll_to: function(page) {
+                //alert(JSON.stringify(page));
+                this.no_scroll = true;
+                this.navigate(page.link);
             },
             open_modal: function(id){
                 vuev.$emit("modal:open:" + id);

@@ -245,6 +245,19 @@ class EMPS_Auth
             $_SESSION['login']['status'] = 1;
         } else {
             $_SESSION['login']['status'] = 0;
+
+            if ($_SERVER['HTTP_DATA_ONLY'] == "yes") {
+                $response = [];
+                $response['code'] = "Error";
+                $response['errcode'] = "login";
+                if ($emps->lang == "en") {
+                    $response['message'] = "Please log in again!";
+                } else {
+                    $response['message'] = "Вам нужно снова залогиниться!";
+                }
+
+                $emps->json_response($response); exit;
+            }
         }
 
         if (isset($smarty)) {

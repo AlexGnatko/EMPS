@@ -33,7 +33,7 @@ class EMPS_NG_PickList
         $and = "";
         if ($extra) {
             $x = explode("|", $extra);
-            while (list($n, $v) = each($x)) {
+            foreach ($x as $v) {
                 $xx = explode("=", $v, 2);
                 if (count($xx) == 2) {
                     $and .= " and ";
@@ -61,9 +61,6 @@ class EMPS_NG_PickList
         global $emps, $start, $perpage;
 
         $this->parse_request();
-
-        header("Content-Type: application/json; charset=utf-8");
-
 
         $text = $emps->db->sql_escape($emps->utf8_urldecode($_GET['text']));
         $id = 0;
@@ -101,6 +98,8 @@ class EMPS_NG_PickList
         echo json_encode($response);
     }
 }
+
+header("Content-Type: application/json; charset=utf-8");
 
 $fn = $emps->page_file_name('_pick/ng/list,project', 'controller');
 if (file_exists($fn)) {

@@ -6,12 +6,14 @@
     justify-content: center;
 }
 
-.modal-lg {
-    width: 1000px;
-}
+@media screen and (min-width: 1088px) {
+    .modal-lg {
+        width: 1000px;
+    }
 
-.modal-sm {
-    width: 400px;
+    .modal-sm {
+        width: 400px;
+    }
 }
 
 .is-justified-end {
@@ -79,4 +81,18 @@
     padding-bottom: 75%; /*4:3*/
     height: 0;
     overflow: hidden;
+}
+
+.ip-rep {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ip-rep-photo {
+    min-width: 9.32rem;
+}
+
+.ip-rep-photo a {
+    display: block;
 }

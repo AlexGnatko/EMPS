@@ -58,8 +58,9 @@ class EMPS_VuePhotosUploader {
 
                             $row = $this->p->image_extension($row);
                             $file = array();
-                            $emps->copy_values($file, $row, "filename,descr,ord,qual,id");
+                            $emps->copy_values($file, $row, "filename,descr,ord,md5,qual,id");
                             $file['name'] = $row['filename'];
+                            $file['md5'] = $row['md5'];
                             $file['size'] = intval($row['size']);
                             $file['url'] = "/pic/".$row['md5'].".".$row['ext']."&dt=".$row['dt'];
                             $file['thumbnail'] = "/freepic/".$row['md5'].".".$row['ext']."?size=".
@@ -179,7 +180,7 @@ class EMPS_VuePhotosUploader {
         while($ra = $emps->db->fetch_named($r)){
             $ra = $this->p->image_extension($ra);
             $file = [];
-            $emps->copy_values($file, $ra, "filename,descr,ord,qual,id");
+            $emps->copy_values($file, $ra, "filename,descr,ord,md5,qual,id");
             $file['name'] = $ra['filename'];
             $file['size'] = intval($ra['size']);
             $file['url'] = "/pic/{$ra['md5']}.{$ra['ext']}&dt={$ra['dt']}";

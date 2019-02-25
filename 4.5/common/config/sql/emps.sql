@@ -211,7 +211,7 @@ CREATE TEMPORARY TABLE `temp_e_properties` (
   `idx` int(11) NOT NULL,
   `type` char(1) NOT NULL,
   `code` varchar(32) NOT NULL,
-  `context_id` int(18) NOT NULL,
+  `context_id` bigint NOT NULL,
   `v_int` bigint DEFAULT NULL,
   `v_char` varchar(255) DEFAULT NULL,
   `v_text` mediumtext,
@@ -230,6 +230,18 @@ CREATE TEMPORARY TABLE `temp_e_properties` (
   KEY `v_char` (`v_char`),
   KEY `v_float` (`v_float`),
   FULLTEXT KEY `v_search` (`v_char`,`v_text`,`v_data`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- table
+CREATE TEMPORARY TABLE `temp_e_property_references` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `context_id` bigint NOT NULL,
+  `property_id` bigint NOT NULL,
+  `dt` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `context_id` (`context_id`),
+  KEY `property_id` (`property_id`),
+  KEY `dt` (`dt`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- table

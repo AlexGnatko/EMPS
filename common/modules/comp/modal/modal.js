@@ -9,7 +9,7 @@
         },
         methods: {
             close_modal: function(e){
-                $(e.currentTarget).parents(".modal").removeClass("is-active");
+                $("#" + this.id).removeClass("is-active");
             },
             on_open: function(data){
                 $("#" + this.id).addClass("is-active");

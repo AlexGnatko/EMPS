@@ -1,0 +1,27 @@
+{{if !$pages_var}}
+    {{assign var="pages_var" value="pages"}}
+{{/if}}
+
+<nav class="field pagination" role="navigation" aria-label="pagination" v-if="{{$pages_var}}.first !== undefined">
+    <a class="pagination-previous" @click="roll_to({{$pages_var}}.prev)"><i class="fa fa-chevron-left"></i></a>
+    <a class="pagination-next" @click="roll_to({{$pages_var}}.next)"><i class="fa fa-chevron-right"></i></a>
+    <ul class="pagination-list">
+        <li v-if="{{$pages_var}}.pl.length > 0 && {{$pages_var}}.first.page < {{$pages_var}}.pl[0].page">
+            <a class="pagination-link" @click="roll_to({{$pages_var}}.first)" v-html="{{$pages_var}}.first.page"></a>
+        </li>
+        <li v-if="{{$pages_var}}.pl.length > 0 && ({{$pages_var}}.pl[0].page - {{$pages_var}}.first.page) > 1">
+            <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        <li v-for="(p, pidx) in {{$pages_var}}.pl">
+            <a :class="['pagination-link', {'is-current': p.sel}]"
+               @click="roll_to(p)" v-html="p.page"></a>
+        </li>
+        <li v-if="{{$pages_var}}.pl.length > 0 && ({{$pages_var}}.pl[{{$pages_var}}.count - 1].page - {{$pages_var}}.last.page) < -1">
+            <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        <li v-if="{{$pages_var}}.pl.length > 0 && {{$pages_var}}.last.page > {{$pages_var}}.pl[{{$pages_var}}.count - 1].page">
+            <a class="pagination-link" @click="roll_to({{$pages_var}}.last)" v-html="{{$pages_var}}.last.page"></a>
+        </li>
+    </ul>
+</nav>
+

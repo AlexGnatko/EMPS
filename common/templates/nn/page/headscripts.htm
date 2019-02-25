@@ -116,6 +116,22 @@
 
 {{/if}}
 
+
+{{if $page.flatpickr}}
+    <link rel="stylesheet" href="/node_modules/flatpickr/dist/flatpickr.min.css" {{$add_media}}/>
+    <script src="/node_modules/flatpickr/dist/flatpickr.min.js" {{$add_defer}}></script>
+    {{if $lang == "ru"}}
+        <script src="/node_modules/flatpickr/dist/l10n/ru.js" {{$add_defer}}></script>
+    {{/if}}
+    <script>
+        var emps_flatpickr_options = {
+            locale: "{{$lang}}",
+            dateFormat: "d.m.Y",
+            time_24hr: true
+        };
+    </script>
+{{/if}}
+
 {{if $page.autoarray}}
     <script type="text/javascript" src="/js/autoArray.js" {{$add_defer}}></script>
 {{/if}}
@@ -151,10 +167,10 @@
     </script>
 {{/if}}
 
+<script src="/js/emps.js" defer></script>
 {{if $page.vuejs}}
-    <script src="/js/i18n.js"></script>
-    <script src="/js/vuetools.js"></script>
-    <script src="/js/emps.js"></script>
+    <script src="/js/i18n.js" {{$add_defer}}></script>
+    <script src="/js/vuetools.js" {{$add_defer}}></script>
     {{if $page.vue_debug}}
         <script src="/bower_components/vue/dist/vue.js" {{$add_defer}}></script>
         <script src="/bower_components/vuex/dist/vuex.js" {{$add_defer}}></script>
@@ -164,7 +180,20 @@
         <script src="/bower_components/vuex/dist/vuex.min.js" {{$add_defer}}></script>
         <script src="/bower_components/axios/dist/axios.min.js" {{$add_defer}}></script>
     {{/if}}
+    <script>
+        axios.defaults.headers.common['Data-Only'] = 'yes';
+    </script>
+    {{if $page.vue_numeric}}
+        <script src="/node_modules/accounting-js/dist/accounting.umd.js" {{$add_defer}}></script>
+        <script src="/node_modules/vue-numeric/dist/vue-numeric.min.js" {{$add_defer}}></script>
+        <script>
+            emps_scripts.push(function(){
+                Vue.use(VueNumeric.default);
+            });
+        </script>
+    {{/if}}
 {{/if}}
+
 
 {{if $page.tinymce}}
     {{if $page.use_bower}}

@@ -13,8 +13,18 @@
     <nav class="navbar is-primary">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    EMPS
+                <a class="navbar-item brand-item" href="/" title="{{"page/mainhead"|emps:get_setting}}">
+                    {{$navbar_image = ("page/brand_image"|emps:get_setting)}}
+                    {{if $navbar_image}}
+                        <img src="{{$navbar_image}}">
+                    {{else}}
+                        {{$navbar_brand = ("page/brand"|emps:get_setting)}}
+                        {{if $navbar_brand}}
+                            {{$navbar_brand}}
+                        {{else}}
+                            EMPS
+                        {{/if}}
+                    {{/if}}
                 </a>
 
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarAdmin">
@@ -40,6 +50,7 @@
                         {{/if}}
                     {{/foreach}}
                 </div>
+                {{include file="db:site/barlogin"}}
             </div>
         </div>
     </nav>

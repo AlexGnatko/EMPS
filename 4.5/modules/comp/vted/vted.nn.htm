@@ -6,6 +6,7 @@
             {{else}}
                 {{* Use a generic list: id, name *}}
                 {{include file="db:_comp/vted,controls" controls_type="top"}}
+                {{include file="db:page/vue_paginator"}}
                 <table class="table is-fullwidth">
                     <thead>
                         <tr>
@@ -44,10 +45,10 @@
                         </tr>
                     </tbody>
                 </table>
+                {{include file="db:page/vue_paginator"}}
             {{/if}}
         </div>
         <div v-if="!list_mode">
-            {{include file="db:_comp/modal"}}
             <div class="panel">
                 <div class="panel-heading">
                     <div class="columns">
@@ -127,7 +128,11 @@
         </modal>
 
     </div>
+
 </vted>
+
+{{include file="db:_comp/selector"}}
+{{include file="db:_comp/modal"}}
 
 <script src="/mjs/comp-vted/vted.js" defer></script>
 <script>

@@ -93,7 +93,26 @@ var EMPS = {
             }
             i += 1;
         }
-
+    },
+    load_enum: function(code, then) {
+        axios
+            .get("/json-loadenum/" + code + "/")
+            .then(function(response){
+                var data = response.data;
+                if (data.code == 'OK') {
+                    if (then !== undefined) {
+                        then(data.enum);
+                    }
+                }else{
+                    alert(data.message);
+                }
+            });
+    },
+    login: function() {
+        $("#siteLoginModal").addClass("is-active");
+        $.ajax({url: '/ensure_session/'});
+    },
+    close_modal: function(s) {
+        $(s).removeClass("is-active");
     }
-
 }

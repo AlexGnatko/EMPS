@@ -10,7 +10,7 @@ class EMPS_NG_PickDescribe
         global $emps, $key, $start;
         $x = explode("|", $key, 2);
         $this->table_name = $emps->db->sql_escape($x[0]);
-        $this->id = intval($start);
+        $this->id = $start;
     }
 
     public function handle_row($row)
@@ -22,9 +22,9 @@ class EMPS_NG_PickDescribe
     {
         global $emps;
         $this->parse_request();
-        header("Content-Type: application/json; charset=utf-8");
 
-        $row = $emps->db->get_row($this->table_name, "id = " . $this->id);
+        $id = intval($this->id);
+        $row = $emps->db->get_row($this->table_name, "id = " . $id);
         $row['display_name'] = $row['id'] . ": " . $row['name'];
         $row = $this->handle_row($row);
 
@@ -38,6 +38,8 @@ class EMPS_NG_PickDescribe
 
 
 $emps->no_smarty = true;
+
+header("Content-Type: application/json; charset=utf-8");
 
 $fn = $emps->page_file_name('_pick/ng/describe,project', 'controller');
 if (file_exists($fn)) {

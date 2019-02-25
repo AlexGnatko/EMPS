@@ -5,13 +5,13 @@
             <form @submit.prevent="submit_form()">
                 <header class="modal-card-head">
                     <p class="modal-card-title"><slot name="header"></slot></p>
-                    <button class="delete" aria-label="close" @click="close_modal($event)"></button>
+                    <button type="button" class="delete" aria-label="close" @click="close_modal($event)"></button>
                 </header>
                 <section class="modal-card-body">
                     <slot></slot>
                 </section>
                 <footer class="modal-card-foot flex-end">
-                    <button type="button" class="button" @click="close_modal($event)">Отмена</button>
+                    <button type="button" class="button" @click="close_modal($event)">Закрыть</button>
                     <slot name="actions">
                     </slot>
                 </footer>

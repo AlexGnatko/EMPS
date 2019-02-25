@@ -1,7 +1,7 @@
 (function() {
 
     Vue.component('html-insert', {
-        props: ['id'],
+        props: ['id', 'context_id'],
         data: function(){
             return {
                 lst: [],
@@ -10,6 +10,9 @@
                     class: 'pic-full',
                     new_mode: 'upload',
                     selected_pic: {},
+                    picsize: 500,
+                    lightbox: false,
+                    photoset_type: 'montage',
                 },
                 classes: window.emps_pic_classes,
                 no_class: window.emps_pic_no_class,
@@ -34,7 +37,36 @@
                     html = '<img src="' + this.insert_params.selected_pic.url + '" class="'
                         + this.insert_params.class + '"/>';
                 }
+                if (mode == 'reduced') {
+                    html = '<img src="/freepic/' + this.insert_params.selected_pic.md5 + '/'
+                        + this.insert_params.selected_pic.filename + '?size=' + this.insert_params.picsize +
+                        'x' + this.insert_params.picsize + '&opts=inner" class="'
+                        + this.insert_params.class + '"/>';
+                    if (this.insert_params.lightbox) {
+                        html = '<a href="' + this.insert_params.selected_pic.url + '" class="ipbox">' + html + '</a>';
+                    }
+                }
                 this.close_modal('htmlinsertPhotoModal');
+                this.reset_params();
+                this.insert(html);
+            },
+            insert_pics: function(mode) {
+                var html = '';
+                var plugin = this.insert_params.photoset_type;
+                if (mode == 'all') {
+                    html += '{{emps plugin=' + plugin + ' context=' + this.context_id + '}}';
+                } else {
+                    var ids = [];
+                    for (var i = 0; i < this.pics.length; i++) {
+                        if (this.pics[i].checked) {
+                            ids.push(this.pics[i].id);
+                        }
+                    }
+                    var list = ids.join(',');
+                    html += '{{emps plugin=' + plugin + ' list=\'' + list + '\'}}';
+                }
+
+                this.close_modal('htmlinsertPhotosetModal');
                 this.reset_params();
                 this.insert(html);
             },
@@ -48,11 +80,9 @@
                 this.load_pics();
                 this.open_modal('htmlinsertPhotoModal');
             },
-            on_photo_line: function(data) {
-                alert('photo-line ' + JSON.stringify(data));
-            },
-            on_photo_montage: function(data) {
-                alert('photo-montage ' + JSON.stringify(data));
+            on_photos: function(data) {
+                this.load_pics();
+                this.open_modal('htmlinsertPhotosetModal');
             },
             on_video: function(data) {
                 alert('video' + JSON.stringify(data));
@@ -78,6 +108,14 @@
             },
             select_pic: function(pic) {
                 this.insert_params.selected_pic = pic;
+            },
+            check_pic: function(pic) {
+                if (!pic.checked) {
+                    pic.checked = true;
+                }else{
+                    pic.checked = false;
+                }
+                this.$forceUpdate();
             },
             select_new_photo: function() {
                 this.$refs.new_photo.click();
@@ -137,16 +175,13 @@
             }
         },
         mounted: function(){
-            vuev.$off("htmlinsert:photo");
-            vuev.$off("htmlinsert:photo-line");
-            vuev.$off("htmlinsert:photo-montage");
+            vuev.$off("htmlinsert:photos");
             vuev.$off("htmlinsert:video");
             vuev.$off("htmlinsert:audio");
             vuev.$off("htmlinsert:cut");
 
             vuev.$on("htmlinsert:photo", this.on_photo);
-            vuev.$on("htmlinsert:photo-line", this.on_photo_line);
-            vuev.$on("htmlinsert:photo-montage", this.on_photo_montage);
+            vuev.$on("htmlinsert:photos", this.on_photos);
             vuev.$on("htmlinsert:video", this.on_video);
             vuev.$on("htmlinsert:audio", this.on_audio);
             vuev.$on("htmlinsert:cut", this.on_cut);

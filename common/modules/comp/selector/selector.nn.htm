@@ -1,0 +1,54 @@
+<script type="text/x-template" id="selector-template">
+    <div>
+        <div :class="['field', {'has-addons': !noClear}]">
+            <p class="control is-expanded">
+            <input class="input" :value="description" readonly="readonly" @click="select()"/>
+            </p>
+            <p class="control" v-if="!noClear">
+                <a class="button" @click="clear()">
+                    <i class="fa fa-remove"></i>
+                </a>
+            </p>
+        </div>
+
+        <modal :id="modal_name()" :size="size" >
+            <template slot="header">
+                Выбрать элемент: <span v-html="title"></span>
+            </template>
+
+            <template>
+                <div class="field" v-if="search">
+                    <input type="text"
+                           v-model="searchtext"
+                           @keyup="ask_reload"
+                           class="input" placeholder="Начните набирать название для поиска"/>
+                </div>
+                <div style="min-height:40vh">
+                    <nav class="panel">
+                        <a
+                                v-for="(srow, index) in lst"
+                                :class="['panel-block', 'is-flex', {'has-background-grey-lighter': srow.id == value}]"
+                                href="javascript:;"
+                                @click="select_item(srow)">
+                            <span v-html="srow.display_name" style="flex:5"></span>
+                            <span class="tag is-info" v-html="srow.id"></span>
+                        </a>
+                    </nav>
+                    <div v-if="lst.length == 0" class="has-text-centered">
+                        (ничего не найдено)
+                    </div>
+
+                </div>
+
+                <div v-if="!noPages">
+                {{include file="db:page/vue_paginator"}}
+                </div>
+
+
+            </template>
+
+        </modal>
+
+    </div>
+</script>
+<script src="/mjs/comp-selector/selector.js" defer></script>

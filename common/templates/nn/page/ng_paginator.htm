@@ -4,6 +4,7 @@
 {{if !$pages_class}}
     {{assign var="pages_class" value="form-group text-right"}}
 {{/if}}
+
 <div class="{{$pages_class}}">
 <ul class="pagination {{if $size == "lg"}}pagination-lg{{/if}}" >
   <li><a class="pointer" ng-click="$event.preventDefault(); {{$roll_pfx}}roll_to({{$pages_var}}.first)"><i class="glyphicon glyphicon-fast-backward"></i></a></li>

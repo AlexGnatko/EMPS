@@ -3,9 +3,10 @@
 class EMPS_Properties
 {
     public $db;
-    private $context_cache = array();
+    private $context_cache = [];
+    private $load_context_cache = [];
 
-    private $cleanups = array();
+    private $cleanups = [];
 
     public $default_ctx = false;
 
@@ -13,6 +14,11 @@ class EMPS_Properties
     public $no_idx = false;
 
     public $wt = false;
+
+    public function clear_cache() {
+        $this->context_cache = [];
+        $this->load_context_cache = [];
+    }
 
     public function save_property($context_id, $code, $datatype, $value, $history, $idx)
     {
@@ -115,18 +121,18 @@ class EMPS_Properties
                 if ($xv[3] == 'idx') $explicit_idx = true; else $explicit_idx = false;
                 $code = $xv[0];
                 if ($history) {
-                    $emps->db->query('update ' . TP . "e_properties set status=1 where context_id=$context_id and code='$code'");
+                    $emps->db->query('update ' . TP . "e_properties set status=1 where 
+                    context_id = {$context_id} and code = '{$code}'");
                 }
-                $lst = "";
+
                 if (!is_array($value)) {
                     $pv = $value;
                     $value = array();
                     $value[] = $pv;
                 }
                 $idx = 0;
-                reset($value);
                 $vtaken = "0";
-                while (list($nn, $vv) = each($value)) {
+                foreach ($value as $nn => $vv) {
                     $take = $idx;
                     if ($explicit_idx) {
                         $take = $nn + 0;
@@ -144,9 +150,170 @@ class EMPS_Properties
                     $this->save_property($context_id, $xv[0], $xv[1], $vv, $history, $take);
                     $idx++;
                 }
-                $emps->db->query('delete from ' . TP . "e_properties where context_id=$context_id and code='$code' and status=0 and (not (idx in ($vtaken)))");
+                $emps->db->query('delete from ' . TP . "e_properties where 
+                    context_id = {$context_id} and code = '{$code}' and status = 0 and (not (idx in ({$vtaken})))");
             }
         }
+    }
+
+    public function save_property_ref($code, $prefix, $value, $general_context_id, $type) {
+        global $emps;
+
+        if ($value) {
+            if (is_array($value)) {
+                $ids = [];
+                foreach ($value as $n => $v) {
+                    $ret_ids = $this->save_property_ref($n, $prefix . "." . $code, $value[$n], $general_context_id);
+                    $ids = array_merge($ids, $ret_ids);
+                }
+                return $ids;
+            } else {
+                if ($prefix != "") {
+                    $full_code = $prefix . "." . $code;
+                } else {
+                    $full_code = $code;
+                }
+
+                if (!isset($type)) {
+                    if (isset($this->prop_types[$full_code])) {
+                        $type = $this->prop_types[$full_code];
+                    }
+                }
+
+                if (!isset($type)) {
+                    if (is_numeric($value)) {
+                        $type = "i";
+                    }
+                    if (is_bool($value)) {
+                        $type = "b";
+                    }
+                    if (is_float($value)) {
+                        $type = "f";
+                    }
+                    if (is_string($value)) {
+                        $type = "c";
+                        if (strlen($value) > 255) {
+                            $type = "t";
+                        }
+                    }
+                }
+
+                $field = "v_text";
+                switch($type) {
+                    case "i":
+                    case "r":
+                        $field = "v_int";
+                        break;
+                    case "f":
+                        $field = "v_float";
+                        break;
+                    case "c":
+                        $field = "v_char";
+                        break;
+                    case "d":
+                        $field = "v_data";
+                        break;
+                    case "b":
+                        $field = "v_bool";
+                        break;
+                }
+
+                $nr = [];
+                $nr['context_id'] = $general_context_id;
+                $nr['code'] = $full_code;
+                $nr['type'] = $type;
+                $nr[$field] = $value;
+
+                $prop = $emps->db->sql_ensure_row("e_properties", $nr);
+                if ($prop) {
+                    return [$prop['id']];
+                }
+            }
+        }
+
+        return [];
+
+    }
+
+    public function save_properties_ref($ra, $context_id, $props) {
+        global $emps;
+
+        $context = $this->load_context($context_id);
+        $ref_type = $context['ref_type'];
+        $ref_sub = $context['ref_sub'];
+        $general_context_id = $this->get_context($ref_type, $ref_sub, -1);
+
+        $x = explode(",", $props);
+        foreach ($x as $v) {
+            $v = trim($v);
+            $xv = explode(":", $v);
+            $code = trim($xv[0]);
+            $type = trim($xv[1]);
+
+            if (isset($ra[$code])) {
+                $ids = $this->save_property_ref($code, "", $ra[$code], $general_context_id, $type);
+
+                $pr_ids = [];
+                foreach ($ids as $id) {
+                    $nr = [];
+                    $nr['context_id'] = $context_id;
+                    $nr['property_id'] = $id;
+                    $pr = $emps->db->sql_ensure_row("e_property_references", $nr);
+                    if ($pr) {
+                        $pr_ids[] = $pr['id'];
+                    }
+                }
+                if (count($pr_ids) > 0) {
+/*                    $pr_ids_txt = implode(",", $pr_ids);
+                    $emps->db->query("delete from ".TP."e_property_references where context_id = {$context_id}
+                    and code = '{$code}'
+                    and id not in ({$pr_ids_txt})
+                    ");*/
+                }
+
+            }
+        }
+    }
+
+    public function read_properties_ref($row, $context_id) {
+        global $emps;
+
+        $r = $emps->db->query("select * from ".TP."e_property_references where context_id = {$context_id} order by id asc");
+        while($ra = $emps->db->fetch_named($r)){
+            $prop = $emps->db->get_row("e_properties", "id = {$ra['property_id']}");
+            switch ($prop['type']) {
+                case "i":
+                case "r":
+                    $value = $prop['v_int'];
+                    $value = intval($value);
+                    break;
+                case "f":
+                    $value = $prop['v_float'];
+                    $value = floatval($value);
+                    break;
+                case "c":
+                    $value = $prop['v_char'];
+                    break;
+                case "d":
+                    $value = $prop['v_data'];
+                    break;
+                case "b":
+                    $value = $prop['v_bool'];
+                    break;
+                default:
+                    $value = $prop['v_text'];
+            }
+            $x = explode(".", $prop['code']);
+            $subarray = &$row;
+            $last_v = array_pop($x);
+            foreach($x as $v){
+                $subarray[$v] = [];
+                $subarray = &$subarray[$v];
+            }
+            $subarray[$last_v] = $value;
+        }
+        $emps->db->free($r);
+        return $row;
     }
 
     public function read_properties($row, $context_id)
@@ -190,6 +357,7 @@ class EMPS_Properties
                 $row['_full'][$ra['code']] = $ra;
             }
         }
+        $emps->db->free($r);
         return $row;
     }
 
@@ -288,14 +456,18 @@ class EMPS_Properties
     {
         global $emps;
 
-        $context = $emps->db->get_row("e_contexts", "id = " . $context_id);
+        if (isset($this->load_context_cache[$context_id])) {
+            return $this->load_context_cache[$context_id];
+        }
+
+        $context = $emps->db->get_row("e_contexts", "id = {$context_id}");
+        $this->load_context_cache[$context_id] = $context;
         return $context;
     }
 
     public function register_cleanup($call)
     {
-        reset($this->cleanups);
-        while (list($n, $v) = each($this->cleanups)) {
+        foreach ($this->cleanups as $v) {
             if (get_class($v[0]) == get_class($call[0])) {
                 return false;
             }
@@ -309,8 +481,7 @@ class EMPS_Properties
         global $emps;
         $emps->db->query('delete from ' . TP . "e_properties where context_id=$context_id");
         $emps->db->query('delete from ' . TP . "e_posts_topics where context_id=$context_id");
-        reset($this->cleanups);
-        while (list($n, $v) = each($this->cleanups)) {
+        foreach ($this->cleanups as $v) {
             $callme = "";
             if (is_callable($v, false, $callme)) {
                 $obj = $v[0];
@@ -325,8 +496,10 @@ class EMPS_Properties
     {
         global $emps;
         $ex = array();
-        if (!isset($kw)) return;
-        while (list($n, $v) = each($kw)) {
+        if (!isset($kw)) {
+            return;
+        }
+        foreach ($kw as $n => $v) {
             $ptid = $this->ensure_post_topic_text($context_id, $v, $n);
             if ($ptid) {
                 $pt = $emps->db->get_row("e_posts_topics", "id=$ptid");
@@ -421,12 +594,11 @@ class EMPS_Properties
     {
         $x = explode(",", $vars);
         $va = array();
-        while (list($n, $v) = each($x)) {
+        foreach ($x as $v) {
             $va[$v] = 1;
         }
 
-        reset($ra);
-        while (list($n, $v) = each($ra)) {
+        foreach ($ra as $n => $v) {
             if ($va[$n]) {
                 if (is_array($v)) {
                     $ra[$n . '_idx'] = $v;

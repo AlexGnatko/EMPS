@@ -40,6 +40,8 @@ class EMPS_VueTableEditor
 
     public $row;
 
+    public $props_by_ref = false;
+
     public $debug = false;
 
     public function __construct()
@@ -71,7 +73,11 @@ class EMPS_VueTableEditor
         global $emps;
 
         $context_id = $emps->p->get_context($this->ref_type, $this->ref_sub, $row['id']);
-        $row = $emps->p->read_properties($row, $context_id);
+        if ($this->props_by_ref) {
+            $row = $emps->p->read_properties_ref($row, $context_id);
+        } else {
+            $row = $emps->p->read_properties($row, $context_id);
+        }
 
         return $row;
     }
@@ -192,19 +198,27 @@ class EMPS_VueTableEditor
             ' limit ' . $start . ',' . $perpage;
         $r = $emps->db->query($q);
         $this->last_sql_query = $q;
+        $this->pages = $emps->count_pages($emps->db->found_rows());
         $lst = [];
         while ($ra = $emps->db->fetch_named($r)) {
             $ra = $this->explain_row($ra);
             $ra = $this->json_row($ra);
-            $ra['children'] = $this->count_children($ra['id']);
+            if ($this->multilevel) {
+                $ra['children'] = $this->count_children($ra['id']);
+            }
+
             $emps->loadvars();
             $ss = "info";
             $key = $ra['id'];
             $ra['ilink'] = $emps->elink();
-            $ss = "";
-            $key = "";
-            $sd = $ra['id'];
-            $ra['children_link'] = $emps->elink();
+
+            if ($this->multilevel) {
+                $ss = "";
+                $key = "";
+                $sd = $ra['id'];
+                $ra['children_link'] = $emps->elink();
+            }
+
             $lst[] = $ra;
         }
         $emps->loadvars();
@@ -303,6 +317,10 @@ class EMPS_VueTableEditor
         return $nr;
     }
 
+    public function pre_save($nr) {
+        return $nr;
+    }
+
     public function handle_request()
     {
         global $emps, $perpage, $smarty, $key, $sd, $ss;
@@ -329,9 +347,15 @@ class EMPS_VueTableEditor
             unset($nr['cdt']);
             unset($nr['dt']);
 
+            $nr = $this->pre_save($nr);
+
             $emps->db->sql_update_row($this->table_name, ['SET' => $nr], "id = {$this->ref_id}");
 
-            $emps->p->save_properties($nr, $this->context_id, $this->track_props);
+            if ($this->props_by_ref) {
+                $emps->p->save_properties_ref($nr, $this->context_id, $this->track_props);
+            } else {
+                $emps->p->save_properties($nr, $this->context_id, $this->track_props);
+            }
 
             $response = [];
             $response['code'] = "OK";
@@ -358,7 +382,11 @@ class EMPS_VueTableEditor
             $id = $emps->db->last_insert();
             $context_id = $emps->p->get_context($this->ref_type, $this->ref_sub, $id);
 
-            $emps->p->save_properties($nr, $context_id, $this->track_props);
+            if ($this->props_by_ref) {
+                $emps->p->save_properties_ref($nr, $context_id, $this->track_props);
+            } else {
+                $emps->p->save_properties($nr, $context_id, $this->track_props);
+            }
 
             $response = [];
             $response['code'] = "OK";
@@ -403,6 +431,7 @@ class EMPS_VueTableEditor
             $response = [];
             $response['code'] = "OK";
             $response['lst'] = $lst;
+            $response['pages'] = $this->pages;
             if($this->debug){
                 $response['query'] = $this->last_sql_query;
             }
@@ -429,5 +458,6 @@ class EMPS_VueTableEditor
         $emps->loadvars();
 
         $smarty->assign("form_name", $this->form_name);
+        $smarty->assign("context_id", $this->context_id);
     }
 }

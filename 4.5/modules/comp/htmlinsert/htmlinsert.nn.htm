@@ -1,4 +1,4 @@
-<html-insert inline-template id="{{$id}}">
+<html-insert inline-template id="{{$id}}" context_id="{{$context_id}}">
     <div class="htmlinsert">
         <modal id="htmlinsertPhotoModal" size="lg">
             <template slot="header">Вставка фотографии</template>
@@ -65,11 +65,25 @@
 
                         </div>
                         <div class="field has-text-right">
-                            <button type="button" class="button is-primary" @click="insert_pic('full')">
+                            <button type="button" class="button is-primary is-fullwidth" @click="insert_pic('full')">
                                 Вставить полное изображение &nbsp; <i class="fa fa-hand-o-right"></i>
                             </button>
                         </div>
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <input type="text" class="input" v-model="insert_params.picsize" placeholder="Макс. размер"/>
+                            </div>
+                            <div class="control">
+                                <button type="button" class="button is-primary" @click="insert_pic('reduced')">
+                                    Вставить уменьшенное &nbsp; <i class="fa fa-hand-o-right"></i>
+                                </button>
+                            </div>
+                        </div>
 
+                        <label class="checkbox">
+                            <input type="checkbox" v-model="insert_params.lightbox">
+                            Обернуть в ссылку на lightbox
+                        </label>
                     </div>
                 </div>
             </div>
@@ -134,6 +148,55 @@
 
                 </div>
             </div>
+
+        </modal>
+
+        <modal id="htmlinsertPhotosetModal" size="lg">
+            <template slot="header">Вставка фотогалереи</template>
+
+            <div class="field">
+                Нажимайте на фотографии для отбора:
+            </div>
+
+            <div class="columns is-gapless is-mobile is-multiline">
+                <div class="column is-2 is-4-mobile" v-for="(pic, index) in pics">
+                    <div class="container-4x3">
+                        <a class="pic" @click="check_pic(pic)">
+                            <img :src="pic.thumbnail" />
+                            <div class="pic-sel" v-if="pic.checked">
+                                <i class="fa fa-check"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="columns">
+                <div class="column">
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="type" value="montage" v-model="insert_params.photoset_type">
+                            Монтаж
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="type" value="photoreport" v-model="insert_params.photoset_type">
+                            Плитка
+                        </label>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="buttons">
+                        <button type="button"
+                                class="button is-primary" @click="insert_pics('all')">Вставить все фото &nbsp;
+                            <i class="fa fa-hand-o-right"></i></button>
+                        <button type="button"
+                                class="button is-primary" @click="insert_pics('sel')">Вставить выбранные фото &nbsp;
+                            <i class="fa fa-hand-o-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
 
         </modal>
     </div>

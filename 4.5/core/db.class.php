@@ -47,6 +47,11 @@ class EMPS_DB
         $this->connect();
     }
 
+    public function clear_cache() {
+        $this->columns_cache = [];
+        $this->row_cache = [];
+    }
+
     public function query($query)
     {
         global $emps;
