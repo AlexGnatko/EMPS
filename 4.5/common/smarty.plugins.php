@@ -114,7 +114,7 @@ function parse_smarty_params($s)
     $params = array();
     $s = htmlspecialchars_decode($s);
     $x = explode("|", $s);
-    while (list($n, $v) = each($x)) {
+    foreach ($x as $v) {
         $v = trim($v);
         $y = explode("=", $v);
         $params[trim($y[0])] = $y[1];
@@ -175,7 +175,7 @@ function smarty_plugin_downloads($params)
     if ($list) {
         $lst = array();
         $xx = explode(",", $list);
-        while (list($n, $v) = each($xx)) {
+        foreach ($xx as $v) {
             $id = $v + 0;
             $ra = $emps->db->get_row("e_files", "id = " . $id);
             $ra['fsize'] = format_size($ra['size']);

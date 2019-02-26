@@ -1,6 +1,8 @@
 <?php
 $emps->no_smarty = true;
 
+$variants = 5;
+
 $pkey = intval($_GET['pkey']);
 $number = "0000000";
 if (!$pkey) {
@@ -34,8 +36,8 @@ for ($i = 0; $i < $l; $i++) {
     $v2 = $md5{$i * 2 + 1};
     $v1d = hexdec($v1);
     $v2d = hexdec($v2);
-    $variant = ($v1d % 3) + 1;
-    $direction = ($v2d % 3);
+    $variant = ($v1d % $variants) + 1;
+    $direction = ($v2d % $variants);
     $fn = EMPS_SCRIPT_PATH . "/i/dig/" . $variant . "/" . $c . ".png";
     if (!file_exists($fn)) {
         $fn = EMPS_PATH_PREFIX . "/i/dig/" . $variant . "/" . $c . ".png";

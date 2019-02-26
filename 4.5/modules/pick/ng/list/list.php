@@ -86,6 +86,7 @@ class EMPS_NG_PickList
 
         $lst = array();
         while ($ra = $emps->db->fetch_named($r)) {
+            $ra = $emps->db->row_types($this->table_name, $ra);
             $ra = $this->handle_row($ra);
             $lst[] = $ra;
         }

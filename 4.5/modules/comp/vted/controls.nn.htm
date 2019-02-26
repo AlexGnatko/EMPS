@@ -14,10 +14,12 @@
     {{/if}}
 
     <div class="is-flex-desktop">
-        <div class="field">
-            <button class="button is-primary is-outlined" @click="create_new()">
-                <i class="fa fa-file-o"></i> &nbsp; Создать</button> &nbsp;
-        </div>
+        {{if !$vted_no_create}}
+            <div class="field">
+                <button class="button is-primary is-outlined" @click="create_new()">
+                    <i class="fa fa-file-o"></i> &nbsp; Создать</button> &nbsp;
+            </div>
+        {{/if}}
 
         <form class="field has-addons" @submit="open_by_id">
             <div class="control">

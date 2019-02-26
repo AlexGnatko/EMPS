@@ -1,0 +1,59 @@
+if ($emps->auth->credentials("admin")) {
+    $emps->page_property("vuejs", 1);
+
+    require_once $emps->common_module('vted/vted.class.php');
+    require_once $emps->common_module('videos/videos.class.php');
+
+    class {{$data.class_name}} extends EMPS_VueTableEditor
+    {
+        public $ref_type = {{$data.ref_type}};
+        public $ref_sub = {{$data.ref_sub}};
+
+        public $track_props = {{$data.track_props}};
+
+        public $table_name = "{{$data.table_name}}";
+
+        public $credentials = "admin";
+
+        public $order = " order by id desc ";
+
+        public $v;
+
+        public $multilevel = false;
+
+        public $pads = ['info', 'files'];
+
+        public $debug = false;
+
+        public $props_by_ref = false;
+
+        public function __construct()
+        {
+            parent::__construct();
+        }
+
+        public function explain_row($row){
+            global $emps;
+
+            $row = parent::explain_row($row);
+            return $row;
+        }
+
+        public function pre_save($nr) {
+            global $emps;
+
+            return $nr;
+        }
+    }
+
+    $ited = new {{$data.class_name}};
+
+    require_once $emps->page_file_name("_{{$data.dir_path}},common", "controller");
+
+    $perpage = 25;
+
+    $ited->handle_request();
+
+} else {
+    $emps->deny_access("AdminNeeded");
+}

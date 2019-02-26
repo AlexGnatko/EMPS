@@ -87,6 +87,11 @@
         },
         mounted: function(){
             this.describe();
+        },
+        watch: {
+            value: function(val) {
+                this.describe();
+            }
         }
     });
 

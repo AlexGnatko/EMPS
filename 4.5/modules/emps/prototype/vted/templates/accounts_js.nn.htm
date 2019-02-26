@@ -1,0 +1,14 @@
+var vuev, app;
+
+emps_scripts.push(function(){
+    vuev = new Vue();
+    app = new Vue({
+        el: '#{{$data.element_id}}',
+        mounted: function(){
+            $("#{{$data.element_id}}").show();
+            $(".app-loading").hide();
+        },
+        methods: {
+        }
+    });
+});

@@ -2,7 +2,14 @@
 
 $emps->no_smarty = true;
 
+$last_modified = date("r", time() - 60 * 60 * 24 * 7);
+$expires = date("r", time() + 60 * 60 * 24 * 7);
+
 header("Content-Type: application/json; charset=utf-8");
+header("Last-Modified: " . $last_modified);
+header("Expires: " . $expires);
+header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+header_remove("Pragma");
 
 $code = $key;
 
