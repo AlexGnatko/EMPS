@@ -321,6 +321,9 @@ class EMPS_VueTableEditor
         return $nr;
     }
 
+    public function post_save($nr) {
+    }
+
     public function handle_request()
     {
         global $emps, $perpage, $smarty, $key, $sd, $ss;
@@ -356,6 +359,9 @@ class EMPS_VueTableEditor
             } else {
                 $emps->p->save_properties($nr, $this->context_id, $this->track_props);
             }
+
+            $nr['id'] = $this->ref_id;
+            $this->post_save($nr);
 
             $response = [];
             $response['code'] = "OK";

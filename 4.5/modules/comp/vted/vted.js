@@ -1,5 +1,9 @@
 (function() {
 
+    if (window.EMPS_vted_mixins === undefined) {
+        window.EMPS_vted_mixins = [];
+    }
+
     Vue.component('vted', {
         data: function(){
             return {
@@ -19,6 +23,7 @@
         components: {
             'editor': Editor // <- Important part
         },
+        mixins: window.EMPS_vted_mixins,
         mounted: function(){
             this.parse_path();
             var that = this;
