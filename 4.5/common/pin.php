@@ -61,9 +61,9 @@ for ($i = 0; $i < $l; $i++) {
 imagesetthickness($im, 2);
 imagealphablending($im, false);
 
-imageline($im, 1, 9 * 4, 43 * 4, 1, $transparent);
-imageline($im, 25 * 4, 11 * 4, 62 * 4, 1, $transparent);
-imageline($im, 24 * 4, 6 * 4, 59 * 4, 9 * 4, $transparent);
+//imageline($im, 1, 9 * 4, 43 * 4, 1, $transparent);
+//imageline($im, 25 * 4, 11 * 4, 62 * 4, 1, $transparent);
+//imageline($im, 24 * 4, 6 * 4, 59 * 4, 9 * 4, $transparent);
 
 
 imagesavealpha($im, true);
