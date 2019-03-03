@@ -3,6 +3,8 @@
 $emps->p->no_full = true;
 $emps->p->no_idx = true;
 
+$emps->db->always_use_wt = true;
+
 $emps->page_property("toastr", 1);
 $emps->page_property("tinymce", 1);
 $emps->page_property("tinymce_vue", 1);
@@ -67,6 +69,41 @@ class EMPS_VueTableEditor
     public function json_row($row){
         unset($row['_full']);
         return $row;
+    }
+
+    public function clone_row($id) {
+        global $emps, $pp, $key, $ss;
+
+        $row = $this->load_row($id);
+
+        if ($row) {
+            unset($row['id']);
+            unset($row['cdt']);
+            unset($row['dt']);
+
+            $nr = $row;
+
+            $emps->db->sql_insert_row($this->table_name, ['SET' => $nr]);
+            $id = $emps->db->last_insert();
+            $context_id = $emps->p->get_context($this->ref_type, $this->ref_sub, $id);
+
+            if ($this->props_by_ref) {
+                $emps->p->save_properties_ref($nr, $context_id, $this->track_props);
+            } else {
+                $emps->p->save_properties($nr, $context_id, $this->track_props);
+            }
+        }
+
+        $old_pp = $pp;
+        $emps->clearvars();
+        $pp = $old_pp;
+        $ss = "info";
+        $key = $id;
+
+        $link = $emps->elink();
+        $emps->loadvars();
+
+        return $link;
     }
 
     public function explain_row($row){

@@ -83,6 +83,15 @@
     overflow: hidden;
 }
 
+.container-2x1 {
+    position: relative;
+    width: 100%;
+    padding-bottom: 50%; /*4:3*/
+    height: 0;
+    overflow: hidden;
+}
+
+
 .ip-rep {
     display: flex;
     flex-wrap: wrap;

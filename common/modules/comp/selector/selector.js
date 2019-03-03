@@ -68,7 +68,7 @@
                 return "selectorModal" + this.guid;
             },
             describe: function() {
-                if (this.value === undefined || this.value === 0) {
+                if (this.value === undefined || this.value === 0 || this.value === '0') {
                     this.description = '';
                     return;
                 }
