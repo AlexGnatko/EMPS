@@ -1,7 +1,7 @@
 <?php
 $emps->no_smarty = true;
 
-$variants = 5;
+$variants = 7;
 
 $pkey = intval($_GET['pkey']);
 $number = "0000000";
