@@ -246,6 +246,7 @@ class EMPS_Auth
         } else {
             $_SESSION['login']['status'] = 0;
 
+            /*
             if ($_SERVER['HTTP_DATA_ONLY'] == "yes") {
                 $response = [];
                 $response['code'] = "Error";
@@ -257,7 +258,7 @@ class EMPS_Auth
                 }
 
                 $emps->json_response($response); exit;
-            }
+            }*/
         }
 
         if (isset($smarty)) {
