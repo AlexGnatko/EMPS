@@ -132,3 +132,10 @@ table.is-table-collapsible .td-tag {
 
 }
 
+
+.columns.is-variable {
+    margin: calc(-1 * var(--columnGap));
+}
+.columns.is-variable .column {
+    padding: var(--columnGap);
+}

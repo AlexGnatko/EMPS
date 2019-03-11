@@ -1,8 +1,8 @@
 <script type="text/x-template" id="selector-template">
     <div>
-        <div :class="['field', {'has-addons': !noClear}]">
+        <div :class="[{'field': !noField}, {'has-addons': !noClear}]">
             <p class="control is-expanded">
-            <input class="input" :value="description" readonly="readonly" @click="select()"/>
+            <input class="input" :value="description" :placeholder="placeholder" readonly="readonly" @click="select()"/>
             </p>
             <p class="control" v-if="!noClear">
                 <a class="button" @click="clear()">
