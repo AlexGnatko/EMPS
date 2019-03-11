@@ -105,3 +105,30 @@
 .ip-rep-photo a {
     display: block;
 }
+
+table.is-table-collapsible .td-tag {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    table.is-table-collapsible * {
+    }
+
+    table.is-table-collapsible td {
+        display: block;
+        width: 100%;
+    }
+
+    table.is-table-collapsible th {
+        display: none;
+    }
+
+    table.is-table-collapsible .td-tag {
+        display: block;
+        width: 100%;
+        font-size: 0.75rem;
+        padding-bottom: 0;
+    }
+
+}
+

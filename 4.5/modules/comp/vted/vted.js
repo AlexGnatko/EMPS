@@ -1,3 +1,4 @@
+
 (function() {
 
     if (window.EMPS_vted_mixins === undefined) {
@@ -244,7 +245,7 @@
             back_link: function() {
                 var v = EMPS.elink({}, ['key', 'ss']);
                 return v;
-            }
+            },
         },
     });
 
