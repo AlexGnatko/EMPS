@@ -1,7 +1,7 @@
 <?php
 $emps->no_smarty = true;
 
-$variants = 6;
+$variants = 5;
 
 $pkey = intval($_GET['pkey']);
 $number = "0000000";
@@ -28,7 +28,7 @@ imagefill($im, 0, 0, $transparent);
 $colors = array();
 
 for($i = 0; $i < 8; $i++){
-    $colors[$i] = imagecolorallocatealpha( $im, mt_rand(60, 255), mt_rand(60, 255), mt_rand(60, 255), mt_rand(70, 120));
+    $colors[$i] = imagecolorallocatealpha( $im, mt_rand(60, 160), mt_rand(60, 160), mt_rand(60, 160), mt_rand(160, 220));
 }
 
 for($i = 0; $i <= 21; $i++){
