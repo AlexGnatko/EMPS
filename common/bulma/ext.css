@@ -139,3 +139,8 @@ table.is-table-collapsible .td-tag {
 .columns.is-variable .column {
     padding: var(--columnGap);
 }
+
+.table tr.is-grey th, .table tr.is-grey td, .table td.is-grey, .table th.is-grey {
+    background-color: rgba(220, 220, 220, 0.25);
+}
+

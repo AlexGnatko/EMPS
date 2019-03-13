@@ -25,6 +25,19 @@ imagealphablending($im, true);
 $transparent = imagecolorallocatealpha($im, 0, 0, 0, 127);
 imagefill($im, 0, 0, $transparent);
 
+$colors = array();
+
+for($i = 0; $i < 8; $i++){
+    $colors[$i] = imagecolorallocatealpha( $im, mt_rand(60, 255), mt_rand(60, 255), mt_rand(60, 255), mt_rand(70, 120));
+}
+
+for($i = 0; $i <= 21; $i++){
+    for($k = 0; $k <= 4; $k++){
+        $idx = mt_rand(0, 7);
+        imagefilledellipse($im, $i * 12 , $k * 12, 18 + mt_rand(-5, 5), 18 + mt_rand(-5, 5), $colors[$idx]);
+    }
+}
+
 $s = strval($number);
 $l = strlen($s);
 
