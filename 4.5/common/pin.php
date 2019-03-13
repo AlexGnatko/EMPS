@@ -28,7 +28,7 @@ imagefill($im, 0, 0, $transparent);
 $colors = array();
 
 for($i = 0; $i < 8; $i++){
-    $colors[$i] = imagecolorallocatealpha( $im, mt_rand(60, 200), mt_rand(60, 200), mt_rand(60, 200), 80);
+    $colors[$i] = imagecolorallocatealpha( $im, mt_rand(60, 200), mt_rand(60, 200), mt_rand(60, 200), 60);
 }
 
 for($i = 0; $i <= 21; $i++){
