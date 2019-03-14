@@ -144,3 +144,6 @@ table.is-table-collapsible .td-tag {
     background-color: rgba(220, 220, 220, 0.25);
 }
 
+.table tr.is-green th, .table tr.is-green td, .table td.is-green, .table th.is-green {
+    background-color: rgba(120, 220, 120, 0.25);
+}
