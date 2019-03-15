@@ -51,6 +51,9 @@ if($_POST['post_save_changes_settings']){
     }
     $response = [];
     $response['code'] = "OK";
+    if (!$row['code']) {
+        $response['message'] = "No code!";
+    }
     $emps->json_response($response);
 }
 
