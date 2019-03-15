@@ -130,6 +130,10 @@ table.is-table-collapsible .td-tag {
         padding-bottom: 0;
     }
 
+    .tab-content {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
 }
 
 

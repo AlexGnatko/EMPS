@@ -2,6 +2,7 @@
 
 $emps->page_property("vuejs", 1);
 
+$emps->p->no_idx = false;
 $emps->p->no_full = false;
 
 if($_GET['load_settings']){
