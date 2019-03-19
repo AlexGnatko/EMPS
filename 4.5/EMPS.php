@@ -17,6 +17,8 @@ class EMPS extends EMPS_Common
 
     public $settings_cache, $content_cache;
 
+    public $period_size = 60 * 60 * 24 * 7;
+
     public function __destruct()
     {
         unset($this->db);
@@ -633,6 +635,29 @@ class EMPS extends EMPS_Common
             }
             $this->page_property($v, $value);
         }
+    }
+
+    public function add_stat($metric, $value) {
+        $period = floor(time() / ($this->period_size));
+
+        $context_id = $this->website_ctx;
+
+        $nr = [];
+        $nr['code'] = $metric;
+        $nr['context_id'] = $context_id;
+        $nr['per'] = $period;
+        $nr['dt'] = time();
+        $nr['value'] = $value;
+        $this->db->query("lock tables ".TP."e_counter");
+        $row = $this->db->get_row("e_counter", "code = '{$metric}' and context_id = {$context_id} and per = {$period}");
+        if ($row) {
+            $SET['vle'] = $row['vle'] + $value;
+            $this->db->sql_update("e_counter", "id = " . $row['id']);
+        } else {
+            $this->db->sql_insert("e_counter");
+        }
+        $this->db->query("unlock tables");
+
     }
 }
 

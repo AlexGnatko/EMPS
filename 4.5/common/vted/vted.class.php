@@ -28,7 +28,7 @@ class EMPS_VueTableEditor
 
     public $form_name = "db:vted/generic";
 
-    public $what = "*";
+    public $what = "t.*";
     public $where, $group, $having, $order, $join;
 
     public $pad_templates = [];
