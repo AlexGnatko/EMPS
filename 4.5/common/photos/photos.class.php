@@ -950,5 +950,30 @@ class EMPS_Photos
             }
         }
     }
+
+    public function copy_image($id, $new_context_id) {
+        global $emps;
+
+        $md5 = md5(uniqid(time()));
+
+        $row = $emps->db->get_row("e_uploads", "id = {$id}");
+        unset($row['id']);
+        unset($row['dt']);
+        $row['md5'] = $md5;
+        $row['context_id'] = $new_context_id;
+
+        $emps->db->sql_insert_row("e_uploads", ['SET' => $row]);
+        $new_id = $emps->db->last_insert();
+        $templates = [
+            "%d-img.dat", "thumb_%d-img.dat", "%d-wm.dat", "%d-orig.dat"
+        ];
+        foreach ($templates as $t) {
+            $old_file_name = $this->up->UPLOAD_PATH . $row['folder'] . "/" . sprintf($t, $id);
+            $new_file_name = $this->up->UPLOAD_PATH . $row['folder'] . "/" . sprintf($t, $new_id);
+            if (file_exists($old_file_name)) {
+                copy($old_file_name, $new_file_name);
+            }
+        }
+    }
 }
 

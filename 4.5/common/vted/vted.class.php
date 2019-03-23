@@ -56,6 +56,11 @@ class EMPS_VueTableEditor
         return true;
     }
 
+    public function can_create()
+    {
+        return true;
+    }
+
     public function can_delete()
     {
         return true;
@@ -71,6 +76,10 @@ class EMPS_VueTableEditor
         return $row;
     }
 
+    public function post_clone_row($old_id, $new_id) {
+
+    }
+
     public function clone_row($id) {
         global $emps, $pp, $key, $ss;
 
@@ -83,8 +92,11 @@ class EMPS_VueTableEditor
 
             $nr = $row;
 
+            $old_id = $id;
+
             $emps->db->sql_insert_row($this->table_name, ['SET' => $nr]);
             $id = $emps->db->last_insert();
+            $this->new_ref_id = $id;
             $context_id = $emps->p->get_context($this->ref_type, $this->ref_sub, $id);
 
             if ($this->props_by_ref) {
@@ -92,6 +104,8 @@ class EMPS_VueTableEditor
             } else {
                 $emps->p->save_properties($nr, $context_id, $this->track_props);
             }
+
+            $this->post_clone_row($old_id, $id);
         }
 
         $old_pp = $pp;
@@ -382,69 +396,92 @@ class EMPS_VueTableEditor
         }
 
         if ($_POST['post_save']) {
-            $nr = $_REQUEST['payload'];
-            unset($nr['id']);
-            unset($nr['cdt']);
-            unset($nr['dt']);
+            if ($this->can_save()) {
+                $nr = $_REQUEST['payload'];
+                unset($nr['id']);
+                unset($nr['cdt']);
+                unset($nr['dt']);
 
-            $nr = $this->pre_save($nr);
+                $nr = $this->pre_save($nr);
 
-            $emps->db->sql_update_row($this->table_name, ['SET' => $nr], "id = {$this->ref_id}");
+                $emps->db->sql_update_row($this->table_name, ['SET' => $nr], "id = {$this->ref_id}");
 
-            if ($this->props_by_ref) {
-                $emps->p->save_properties_ref($nr, $this->context_id, $this->track_props);
+                if ($this->props_by_ref) {
+                    $emps->p->save_properties_ref($nr, $this->context_id, $this->track_props);
+                } else {
+                    $emps->p->save_properties($nr, $this->context_id, $this->track_props);
+                }
+
+                $nr['id'] = $this->ref_id;
+                $this->post_save($nr);
+
+                $response = [];
+                $response['code'] = "OK";
+                $emps->json_response($response); exit;
+
             } else {
-                $emps->p->save_properties($nr, $this->context_id, $this->track_props);
+                $response = [];
+                $response['code'] = "Error";
+                $response['message'] = "Сохранение запрещено!";
+                $emps->json_response($response); exit;
             }
-
-            $nr['id'] = $this->ref_id;
-            $this->post_save($nr);
-
-            $response = [];
-            $response['code'] = "OK";
-            $emps->json_response($response); exit;
         }
 
 
         if ($_POST['post_new']) {
-            $nr = $_REQUEST['payload'];
+            if ($this->can_create()) {
+                $nr = $_REQUEST['payload'];
 
-            $emps->loadvars();
+                $emps->loadvars();
 
-            $parent_id = intval($sd);
-            $nr['parent'] = $parent_id;
-            if ($this->has_ord) {
-                $nr['ord'] = $this->get_next_ord($parent_id);
-            }
+                $parent_id = intval($sd);
+                $nr['parent'] = $parent_id;
+                if ($this->has_ord) {
+                    $nr['ord'] = $this->get_next_ord($parent_id);
+                }
 
-            $nr = $this->pre_create($nr);
+                $nr = $this->pre_create($nr);
 
-            $nr = array_merge($nr, $this->new_row_fields);
+                $nr = array_merge($nr, $this->new_row_fields);
 
-            $emps->db->sql_insert_row($this->table_name, ['SET' => $nr]);
-            $id = $emps->db->last_insert();
-            $context_id = $emps->p->get_context($this->ref_type, $this->ref_sub, $id);
+                $emps->db->sql_insert_row($this->table_name, ['SET' => $nr]);
+                $id = $emps->db->last_insert();
+                $context_id = $emps->p->get_context($this->ref_type, $this->ref_sub, $id);
 
-            if ($this->props_by_ref) {
-                $emps->p->save_properties_ref($nr, $context_id, $this->track_props);
+                if ($this->props_by_ref) {
+                    $emps->p->save_properties_ref($nr, $context_id, $this->track_props);
+                } else {
+                    $emps->p->save_properties($nr, $context_id, $this->track_props);
+                }
+
+                $response = [];
+                $response['code'] = "OK";
+                $emps->json_response($response); exit;
+
             } else {
-                $emps->p->save_properties($nr, $context_id, $this->track_props);
+                $response = [];
+                $response['code'] = "Error";
+                $response['message'] = "Создание новых записей запрещено!";
+                $emps->json_response($response); exit;
             }
-
-            $response = [];
-            $response['code'] = "OK";
-            $emps->json_response($response); exit;
 
         }
 
         if ($_POST['post_delete']) {
-            $id = intval($_POST['post_delete']);
+            if ($this->can_delete()) {
+                $id = intval($_POST['post_delete']);
 
-            $this->delete_row($id);
+                $this->delete_row($id);
 
-            $response = [];
-            $response['code'] = "OK";
-            $emps->json_response($response); exit;
+                $response = [];
+                $response['code'] = "OK";
+                $emps->json_response($response); exit;
+            } else {
+                $response = [];
+                $response['code'] = "Error";
+                $response['message'] = "Удаление запрещено!";
+                $emps->json_response($response); exit;
+            }
         }
 
         if ($_GET['load_row']) {

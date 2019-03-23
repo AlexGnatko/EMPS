@@ -16,6 +16,7 @@
                 lst: [],
                 pages: {},
                 path: {},
+                search_text: '',
                 lookup_id: undefined,
                 no_scroll: false,
                 parents: [],
@@ -46,9 +47,11 @@
                             var data = response.data;
                             if (data.code == 'OK') {
                                 that.row = data.row;
+                                that.selected_row = data.row;
                                 if (that.path.ss !== undefined) {
                                     vuev.$emit("update_pad", that.path.ss);
                                 }
+                                that.$forceUpdate();
                                 if (after !== undefined){
                                     after.call();
                                 }
@@ -246,6 +249,10 @@
                 var v = EMPS.elink({}, ['key', 'ss']);
                 return v;
             },
+            search: function(e) {
+                e.preventDefault();
+                alert("test");
+            }
         },
     });
 

@@ -10,6 +10,7 @@ var EMPS_V_select_sd = {
             }
             var path = Vue.util.extend({}, this.path);
             path.sd = sd;
+            path.start = undefined;
             path.key = undefined;
             var link = EMPS.link(path);
             EMPS.soft_navi(vted_title, link);

@@ -32,6 +32,26 @@
             </div>
             &nbsp;
         </form>
+
+        {{if $vted_search}}
+            &nbsp;
+            <form class="field has-addons " @submit="search" style="flex: 2">
+                <div class="control is-expanded">
+                    <input class="input is-success is-fullwidth" type="text" v-model="search_text">
+                </div>
+                <div class="control">
+                    <button type="submit" class="button is-success is-outlined">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                </div>
+                <div class="control">
+                    <button type="submit" class="button is-success is-outlined">
+                        <i class="fa fa-search"></i> &nbsp; Искать
+                    </button>
+                </div>
+                &nbsp;
+            </form>
+        {{/if}}
     </div>
 
 
