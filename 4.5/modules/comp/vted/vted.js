@@ -74,6 +74,7 @@
                             if (data.code == 'OK') {
                                 that.lst = data.lst;
                                 that.pages = data.pages;
+                                that.search_text = data.search_text;
                                 if (data.parents !== undefined) {
                                     that.parents = data.parents;
                                 }
@@ -250,8 +251,30 @@
                 return v;
             },
             search: function(e) {
-                e.preventDefault();
-                alert("test");
+                if (e !== undefined) {
+                    e.preventDefault();
+                }
+                $('form *').blur();
+
+                var that = this;
+                var row = {};
+                row.post_search = 1;
+                row.search_text = this.search_text;
+                axios
+                    .post("./", row)
+                    .then(function(response){
+                        var data = response.data;
+
+                        if (data.code == 'OK') {
+                            that.load_list();
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+            },
+            clear_search: function() {
+                this.search_text = '';
+                this.search();
             }
         },
     });

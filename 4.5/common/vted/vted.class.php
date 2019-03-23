@@ -427,6 +427,13 @@ class EMPS_VueTableEditor
             }
         }
 
+        if ($_POST['post_search']) {
+            $s_name = $this->table_name . "_search";
+            $_SESSION[$s_name] = $_POST['search_text'];
+            $response = [];
+            $response['code'] = "OK";
+            $emps->json_response($response); exit;
+        }
 
         if ($_POST['post_new']) {
             if ($this->can_create()) {
@@ -512,6 +519,8 @@ class EMPS_VueTableEditor
             $response['code'] = "OK";
             $response['lst'] = $lst;
             $response['pages'] = $this->pages;
+            $s_name = $this->table_name . "_search";
+            $response['search_text'] = $_SESSION[$s_name];
             if($this->debug){
                 $response['query'] = $this->last_sql_query;
             }
