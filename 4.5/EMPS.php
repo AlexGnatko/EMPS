@@ -348,6 +348,10 @@ class EMPS extends EMPS_Common
         return $ra;
     }
 
+    public function get_db_cache($code) {
+        return $this->p->read_cache($this->website_ctx, $code);
+    }
+
     public function get_content_data($page)
     {
         // Read the properties of a content item (effectively page_properties)

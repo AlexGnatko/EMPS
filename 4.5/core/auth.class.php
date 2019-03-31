@@ -47,12 +47,12 @@ class EMPS_Auth
             $username = '+7' . mb_substr($username, 1);
         }
 
-        $user = $emps->db->get_row('e_users', "username='$username'");
+        $user = $emps->db->get_row('e_users', "username='{$username}'");
         if (!$user) {
             $domain = $emps->get_setting("default_user_domain");
             if($domain){
                 $username = $username . "." . $domain;
-                $user = $emps->db->get_row('e_users', "username='$username'");
+                $user = $emps->db->get_row('e_users', "username='{$username}'");
                 if (!$user) {
                     $this->login_error("no_user");
                     return false;
