@@ -349,7 +349,11 @@ class EMPS extends EMPS_Common
     }
 
     public function get_db_cache($code) {
-        return $this->p->read_cache($this->website_ctx, $code);
+        $result = $this->p->read_cache($this->website_ctx, $code);
+        if ($result) {
+            return $result['data'];
+        }
+        return "";
     }
 
     public function get_content_data($page)
