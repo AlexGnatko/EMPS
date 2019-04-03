@@ -31,6 +31,7 @@
                                 href="javascript:;"
                                 @click="select_item(srow)">
                             <span v-html="srow.display_name" style="flex:5"></span>
+                            <small v-if="hasExtra" v-html="srow.extra_info" style="flex:7"></small>
                             <span class="tag is-info" v-html="srow.id"></span>
                         </a>
                     </nav>

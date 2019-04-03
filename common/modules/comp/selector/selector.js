@@ -2,7 +2,7 @@
 
     Vue.component('selector', {
         template: '#selector-template',
-        props: ['value', 'type', 'title', 'size', 'search', 'noClear', 'noPages', 'noField', 'placeholder'],
+        props: ['value', 'type', 'title', 'size', 'search', 'noClear', 'noPages', 'noField', 'placeholder', 'hasExtra'],
         data: function(){
             return {
                 guid: guid(),
