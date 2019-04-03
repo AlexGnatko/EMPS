@@ -55,7 +55,6 @@
             },
             select_item: function(row) {
                 this.value = row.id;
-                this.describe();
                 this.$emit('input', this.value);
                 this.close_modal();
             },
