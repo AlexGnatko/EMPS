@@ -90,13 +90,22 @@
     </script>
 {{/if}}
 
+{{if $page.momentjs}}
+    <script type="text/javascript" src="/bower_components/moment/min/moment.min.js" {{$add_defer}}></script>
+    {{if $lang != "en"}}
+        <script type="text/javascript" src="/bower_components/moment/locale/ru.js" {{$add_defer}}></script>
+    {{/if}}
+{{/if}}
+
 {{if $page.newcalendar}}
 
 
     {{if $page.use_bower}}
-        <script type="text/javascript" src="/bower_components/moment/min/moment.min.js" {{$add_defer}}></script>
-        {{if $lang != "en"}}
-            <script type="text/javascript" src="/bower_components/moment/locale/ru.js" {{$add_defer}}></script>
+        {{if !$page.momentjs}}
+            <script type="text/javascript" src="/bower_components/moment/min/moment.min.js" {{$add_defer}}></script>
+            {{if $lang != "en"}}
+                <script type="text/javascript" src="/bower_components/moment/locale/ru.js" {{$add_defer}}></script>
+            {{/if}}
         {{/if}}
         <script type="text/javascript"
                 src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" {{$add_defer}}></script>
