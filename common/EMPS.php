@@ -1537,7 +1537,7 @@ class EMPS_Common
     public function enum_val($enum, $code)
     {
         $lst = $this->enum[$enum];
-        while (list($n, $v) = each($lst)) {
+        foreach ($lst as $n => $v) {
             if ($v['code'] == $code) {
                 return $v['value'];
             }
