@@ -361,6 +361,16 @@ class EMPS_Properties
         return $row;
     }
 
+    public function read_properties_soft($row, $ref_type, $ref_sub, $ref_id) {
+        $context_id = $this->get_context_soft($ref_type, $ref_sub, $ref_id);
+        if (!$context_id) {
+            return $row;
+        }
+
+        $row = $this->read_properties($row, $context_id);
+        return $row;
+    }
+
     public function copy_properties($source_context_id, $target_context_id)
     {
         global $emps, $SET;
@@ -414,6 +424,16 @@ class EMPS_Properties
             $lst[] = $ra;
         }
         return $lst;
+    }
+
+    public function get_context_soft($type, $sub, $ref_id) {
+        global $emps;
+
+        $row = $emps->db->get_row("e_contexts", "ref_type = {$type} and ref_sub = {$sub} and ref_id = {$ref_id}");
+        if ($row) {
+            return $this->get_context($type, $sub, $ref_id);
+        }
+        return false;
     }
 
     public function get_context($type, $sub, $ref_id)

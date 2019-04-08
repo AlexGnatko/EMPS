@@ -176,12 +176,23 @@ class EMPS_DB
     public function where_clause($query){
         $parts = [];
         foreach($query as $n => $v){
-            $part = "`{$n}` = ";
-            if(is_numeric($v) || is_float($v)){
-                $part .= $v;
+            $part = "`{$n}`";
+            if(is_numeric($v) || is_float($v)) {
+                $part .= " = " . $v;
+            }elseif(is_array($v)){
+                $a = [];
+                foreach ($v as $item) {
+                    if (is_string($item)) {
+                        $item = $this->sql_escape($item);
+                        $item = "'{$item}'";
+                    }
+                    $a[] = $item;
+                }
+                $str = implode(", ", $a);
+                $part .= " in ({$str})";
             }else{
                 $v = $this->sql_escape($v);
-                $part .= "'{$v}'";
+                $part .= " = '{$v}'";
             }
             $parts[] = $part;
         }
