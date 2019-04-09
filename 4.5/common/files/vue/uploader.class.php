@@ -64,6 +64,7 @@ class EMPS_VuePhotosUploader {
 
         $response = [];
         $response['code'] = "OK";
+        $response['can_save'] = $this->can_save;
         $response['files'] = $this->files;
 
         $emps->json_response($response);
@@ -125,17 +126,19 @@ class EMPS_VuePhotosUploader {
 
         $id = intval($id);
 
-        foreach($_FILES as $v){
-            if($v['name'][0]){
-                $file = $emps->db->get_row("e_files", "id = {$id}");
+        if ($this->can_save) {
+            foreach($_FILES as $v){
+                if($v['name'][0]){
+                    $file = $emps->db->get_row("e_files", "id = {$id}");
 
-                $nr = [];
-                $nr['file_name'] = $v['name'][0];
-                $nr['content_type'] = $v['type'][0];
-                $nr['size'] = $v['size'][0];
-                $emps->db->sql_update_row("e_files", ['SET' => $nr], "id = {$id}");
-                $oname = $this->up->upload_filename($id,DT_FILE);
-                move_uploaded_file($v['tmp_name'][0], $oname);
+                    $nr = [];
+                    $nr['file_name'] = $v['name'][0];
+                    $nr['content_type'] = $v['type'][0];
+                    $nr['size'] = $v['size'][0];
+                    $emps->db->sql_update_row("e_files", ['SET' => $nr], "id = {$id}");
+                    $oname = $this->up->upload_filename($id,DT_FILE);
+                    move_uploaded_file($v['tmp_name'][0], $oname);
+                }
             }
         }
 
@@ -169,6 +172,7 @@ class EMPS_VuePhotosUploader {
 
         $response = [];
         $response['code'] = "OK";
+        $response['can_save'] = $this->can_save;
         $response['files'] = $this->list_uploaded_files();
         $emps->json_response($response);
         if (!$emps_no_exit) {

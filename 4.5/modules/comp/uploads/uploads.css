@@ -1,0 +1,5 @@
+.file-uploader input[type="file"]
+{
+    position: absolute;
+    top: -100vh;
+}
