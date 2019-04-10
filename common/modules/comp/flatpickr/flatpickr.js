@@ -29,7 +29,11 @@
                 if (this.hasTime) {
                     this.config.enableTime = true;
                     this.config.dateFormat = "d.m.Y H:i";
+                } else {
+                    this.config.enableTime = false;
+                    this.config.dateFormat = "d.m.Y";
                 }
+
                 this.picker = flatpickr(this.$refs.input, this.config);
                 this.set_date(this.value);
             }
