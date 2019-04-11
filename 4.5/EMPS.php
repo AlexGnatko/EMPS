@@ -168,6 +168,9 @@ class EMPS extends EMPS_Common
     {
         $x = explode(':', $code);
         $name = $x[0];
+        if (!isset($x[1])) {
+            $code = $name . ":t";
+        }
         $a = array($name => $value);
         $this->p->save_properties($a, $this->website_ctx, $code);
     }
