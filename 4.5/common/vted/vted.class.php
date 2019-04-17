@@ -252,6 +252,7 @@ class EMPS_VueTableEditor
         $this->pages = $emps->count_pages($emps->db->found_rows());
         $lst = [];
         while ($ra = $emps->db->fetch_named($r)) {
+            $ra = $emps->db->row_types($this->table_name, $ra);
             $ra = $this->explain_row($ra);
             $ra = $this->json_row($ra);
             if ($this->multilevel) {
