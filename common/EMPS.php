@@ -604,7 +604,7 @@ class EMPS_Common
 
         if (!$this->page_properties['title']) {
             $this->page_properties['title'] = "";
-            while (list($n, $v) = each($this->spath)) {
+            foreach ($this->spath as $v) {
                 if ($this->page_properties['title'] != "") {
                     $this->page_properties['title'] = strip_tags($v['dname']) . " - " . $this->page_properties['title'];
                 } else {
@@ -1085,6 +1085,7 @@ class EMPS_Common
         global $smarty;
         header("HTTP/1.0 404 Not Found");
         $smarty->assign("main_body", "db:page/notfound");
+        $this->pre_display();
         $this->page_property("plain", $this->get_setting("plain_404"));
         $smarty->assign('page', $this->page_properties);
         $smarty->display("db:main");

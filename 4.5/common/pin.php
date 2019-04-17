@@ -1,6 +1,8 @@
 <?php
 $emps->no_smarty = true;
 
+ob_start();
+
 $variants = 4;
 
 $pkey = intval($_GET['pkey']);
@@ -83,3 +85,10 @@ imagesavealpha($im, true);
 imagepng($im);
 imagedestroy($im);
 
+if ($_GET['encoded']) {
+    $data = ob_get_clean();
+    $output = base64_encode($data);
+    header("Content-Type: text/plain");
+    echo "data:image/png;base64,";
+    echo $output;
+}
