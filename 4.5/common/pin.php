@@ -86,10 +86,19 @@ imagesavealpha($im, true);
 imagepng($im);
 imagedestroy($im);
 
+$data = ob_get_clean();
+
 if ($_GET['encoded']) {
-    $data = ob_get_clean();
     $output = base64_encode($data);
     header("Content-Type: text/plain");
     echo "data:image/png;base64,";
     echo $output;
+    exit;
 }
+
+$only = $emps->get_setting("encoded_captcha");
+if ($only) {
+    exit;
+}
+
+echo $data;
