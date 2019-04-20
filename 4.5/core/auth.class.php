@@ -16,10 +16,23 @@ class EMPS_Auth
     {
         $nip = 0;
         $pp = explode(".", $ip);
-        $i = 0;
-        while (list($name, $value) = each($pp)) {
-            $nip += $value << ((3 - $i) * 8);
-            $i++;
+        if (count($pp) == 4){
+            $i = 0;
+            foreach ($pp as $value) {
+                $nip += $value << ((3 - $i) * 8);
+                $i++;
+            }
+        } else {
+            $p = explode(":", $ip);
+            $pp = [];
+            $pp[0] = $p[2];
+            $pp[1] = $p[3];
+            $i = 0;
+            foreach ($pp as $value) {
+                $value = hexdec($value);
+                $nip = $value << ($i * 16);
+                $i++;
+            }
         }
         return $nip;
     }
