@@ -16,6 +16,7 @@
                 lst: [],
                 pages: {},
                 path: {},
+                filter: {},
                 search_text: '',
                 lookup_id: undefined,
                 no_scroll: false,
@@ -75,6 +76,11 @@
                                 that.lst = data.lst;
                                 that.pages = data.pages;
                                 that.search_text = data.search_text;
+                                if (!data.filter) {
+                                    that.filter = {};
+                                } else {
+                                    that.filter = data.filter;
+                                }
                                 if (data.parents !== undefined) {
                                     that.parents = data.parents;
                                 }
@@ -87,6 +93,12 @@
                             }
                         });
                 }
+            },
+            has_filter: function() {
+                if (Object.keys(this.filter).length == 0) {
+                    return false;
+                }
+                return true;
             },
             parse_path: function() {
                 vuev.$emit("vted:navigate");
@@ -128,6 +140,12 @@
             roll_to: function(page) {
                 //alert(JSON.stringify(page));
                 this.no_scroll = true;
+                if (page === undefined) {
+                    return;
+                }
+                if (page.link === undefined) {
+                    return;
+                }
                 this.navigate(page.link);
             },
             open_modal: function(id){
@@ -227,6 +245,26 @@
 
                 return false;
             },
+            post_set_filter: function() {
+                var that = this;
+                var row = {};
+                row.post_filter = 1;
+                row.payload = this.filter;
+                axios
+                    .post("./", row)
+                    .then(function(response){
+                        var data = response.data;
+
+                        if (data.code == 'OK') {
+                            that.load_list();
+                            that.close_modal("vtedFilterModal");
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+
+                return false;
+            },
             open_by_id: function(e) {
                 e.preventDefault();
                 var path = Vue.util.extend({}, this.path);
@@ -275,6 +313,9 @@
             clear_search: function() {
                 this.search_text = '';
                 this.search();
+            },
+            open_filter: function() {
+                vuev.$emit("modal:open:vtedFilterModal");
             }
         },
     });

@@ -51,6 +51,14 @@
                 </div>
                 &nbsp;
             </form>
+
+        {{/if}}
+        {{if $vted_filters}}
+            &nbsp;
+            <div class="field">
+                <button :class="{'button is-outlined': true, 'is-danger': has_filter(), 'is-info': !has_filter()}" @click="open_filter()">
+                    <i class="fa fa-filter"></i> &nbsp; Фильтры</button>
+            </div>
         {{/if}}
     </div>
 

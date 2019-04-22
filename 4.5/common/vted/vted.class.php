@@ -147,6 +147,18 @@ class EMPS_VueTableEditor
         return false;
     }
 
+    public function unset_zero_values(&$row, $keys) {
+        $x = explode(",", $keys);
+        foreach ($x as $v) {
+            if (!$row[$v]) {
+                unset($row[$v]);
+            }
+        }
+    }
+
+    public function process_post_filter($filter) {
+        return $filter;
+    }
     public function pre_kill($id)
     {
     }
@@ -376,6 +388,11 @@ class EMPS_VueTableEditor
     public function post_save($nr) {
     }
 
+    public function load_filter() {
+        $this->filter = $_SESSION['vted_filter_' . $this->table_name];
+        return $this->filter;
+    }
+
     public function handle_request()
     {
         global $emps, $perpage, $smarty, $key, $sd, $ss;
@@ -431,6 +448,17 @@ class EMPS_VueTableEditor
         if ($_POST['post_search']) {
             $s_name = $this->table_name . "_search";
             $_SESSION[$s_name] = $_POST['search_text'];
+            $response = [];
+            $response['code'] = "OK";
+            $emps->json_response($response); exit;
+        }
+
+        if ($_POST['post_filter']) {
+            $filter = $_REQUEST['payload'];
+
+            $filter = $this->process_post_filter($filter);
+
+            $_SESSION['vted_filter_' . $this->table_name] = $filter;
             $response = [];
             $response['code'] = "OK";
             $emps->json_response($response); exit;
@@ -527,6 +555,10 @@ class EMPS_VueTableEditor
             }
             if($this->multilevel) {
                 $response['parents'] = $this->list_parents();
+            }
+            $this->load_filter();
+            if ($this->filter) {
+                $response['filter'] = $this->filter;
             }
 
             $emps->json_response($response); exit;

@@ -2,7 +2,7 @@
 
     Vue.component('flatpickr', {
         template: '#flatpickr-component-template',
-        props: ['size', 'value', 'hasTime'],
+        props: ['size', 'value', 'hasTime', 'minDate'],
         data: function(){
             return {
                 picker: null,
@@ -12,6 +12,7 @@
         methods: {
             redraw: function(newConfig) {
                 this.picker.config = Object.assign(this.picker.config, newConfig);
+                this.picker.config.minDate = this.minDate;
                 this.picker.redraw();
                 this.picker.jumpToDate();
             },
@@ -24,6 +25,7 @@
             }
         },
         mounted: function(){
+            this.config.minDate = this.minDate;
             if (!this.picker) {
                 this.config.onValueUpdate = this.date_updated;
                 if (this.hasTime) {
@@ -37,6 +39,7 @@
                 this.picker = flatpickr(this.$refs.input, this.config);
                 this.set_date(this.value);
             }
+            this.$watch('minDate', this.redraw);
             this.$watch('config', this.redraw);
             this.$watch('value', this.set_date);
         }

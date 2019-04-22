@@ -127,6 +127,18 @@
 
         </modal>
 
+        <modal id="vtedFilterModal">
+            <template slot="header">Фильтры</template>
+
+            {{if $smarty.capture.vted_filter}}
+            {{$smarty.capture.vted_filter}}
+            {{/if}}
+
+            <template slot="actions">
+                <button type="button" class="button is-primary" @click="post_set_filter()">Установить фильтр</button>
+            </template>
+        </modal>
+
     </div>
 
 </vted>
