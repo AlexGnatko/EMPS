@@ -135,6 +135,7 @@
             {{/if}}
 
             <template slot="actions">
+                <button type="button" class="button is-warning" @click="clear_filter()">Очистить фильтр</button>
                 <button type="button" class="button is-primary" @click="post_set_filter()">Установить фильтр</button>
             </template>
         </modal>
