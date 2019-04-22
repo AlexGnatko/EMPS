@@ -276,6 +276,7 @@
 
                         if (data.code == 'OK') {
                             that.load_list();
+                            that.close_modal("vtedFilterModal");
                         } else {
                             alert(data.message);
                         }
