@@ -464,6 +464,13 @@ class EMPS_VueTableEditor
             $emps->json_response($response); exit;
         }
 
+        if ($_POST['post_clear_filter']) {
+            unset($_SESSION['vted_filter_' . $this->table_name]);
+            $response = [];
+            $response['code'] = "OK";
+            $emps->json_response($response); exit;
+        }
+
         if ($_POST['post_new']) {
             if ($this->can_create()) {
                 $nr = $_REQUEST['payload'];

@@ -265,6 +265,24 @@
 
                 return false;
             },
+            clear_filter: function() {
+                var that = this;
+                var row = {};
+                row.post_clear_filter = 1;
+                axios
+                    .post("./", row)
+                    .then(function(response){
+                        var data = response.data;
+
+                        if (data.code == 'OK') {
+                            that.load_list();
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+
+                return false;
+            },
             open_by_id: function(e) {
                 e.preventDefault();
                 var path = Vue.util.extend({}, this.path);
