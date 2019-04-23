@@ -62,34 +62,78 @@ class EMPS_NG_PickList
 
         $this->parse_request();
 
-        $text = $emps->db->sql_escape($emps->utf8_urldecode($_GET['text']));
-        $id = 0;
-        if ($text) {
-            $matches = array();
-            preg_match_all("/<([^>]+)>/", $text, $matches);
-            $id = $matches[1][count($matches[1]) - 1];
+        if ($this->table_name == "e_users") {
+            $text = $emps->db->sql_escape($emps->utf8_urldecode($_GET['text']));
+
+            $default_text = $emps->db->sql_escape($emps->utf8_urldecode($_GET['default_text']));
+            if ($text == $default_text) {
+                $text = "";
+            }
+
+
+            if ($this->filter) {
+                $x = explode('|', $this->filter);
+                $el = array();
+                foreach ($x as $v) {
+                    $xx = explode('=', $v);
+                    $el[$xx[0]] = $xx[1];
+                }
+
+                $sql = "select SQL_CALC_FOUND_ROWS * from " . TP .  $this->table_name . "
+                	where (username like '%{$text}%' or fullname like '%{$text}%') limit {$start}, {$perpage}";
+                if ($el['group']) {
+                    $sql = "select SQL_CALC_FOUND_ROWS u.* from " . TP . $this->table_name . " as t 
+                    join " . TP . "e_users_groups as ug on
+                    ug.user_id = t.id
+                    and ug.group_id = '" . $el['group'] . "'
+                    where (t.username like '%{$text}%' or t.fullname like '%{$text}%') limit {$start}, {$perpage}";
+                }
+
+                $r = $emps->db->query($sql);
+
+                $pages = $emps->count_pages($emps->db->found_rows());
+
+                $lst = array();
+                while ($ra = $emps->db->fetch_named($r)) {
+                    $ra = $emps->db->row_types($this->table_name, $ra);
+                    unset($ra['password']);
+                    $ra['display_name'] = $ra['username'];
+                    $ra['extra_info'] = $ra['fullname'];
+                    $lst[] = $ra;
+                }
+            }
+
+        } else {
+            $text = $emps->db->sql_escape($emps->utf8_urldecode($_GET['text']));
+            $id = 0;
+            if ($text) {
+                $matches = array();
+                preg_match_all("/<([^>]+)>/", $text, $matches);
+                $id = $matches[1][count($matches[1]) - 1];
+            }
+
+            $default_text = $emps->db->sql_escape($emps->utf8_urldecode($_GET['default_text']));
+            if ($text == $default_text) {
+                $text = "";
+            }
+
+            $and = $this->make_and($this->filter);
+
+            $perpage = $this->perpage;
+            $start = intval($start);
+
+            $r = $emps->db->query("select SQL_CALC_FOUND_ROWS " . $this->what . " from " . TP . $this->table_name . " as t " . $this->join . " where t.name like '%$text%' " . $and . " " . $this->where . $this->orderby . " limit $start, $perpage");
+
+            $pages = $emps->count_pages($emps->db->found_rows());
+
+            $lst = array();
+            while ($ra = $emps->db->fetch_named($r)) {
+                $ra = $emps->db->row_types($this->table_name, $ra);
+                $ra = $this->handle_row($ra);
+                $lst[] = $ra;
+            }
         }
 
-        $default_text = $emps->db->sql_escape($emps->utf8_urldecode($_GET['default_text']));
-        if ($text == $default_text) {
-            $text = "";
-        }
-
-        $and = $this->make_and($this->filter);
-
-        $perpage = $this->perpage;
-        $start = intval($start);
-
-        $r = $emps->db->query("select SQL_CALC_FOUND_ROWS " . $this->what . " from " . TP . $this->table_name . " as t " . $this->join . " where t.name like '%$text%' " . $and . " " . $this->where . $this->orderby . " limit $start, $perpage");
-
-        $pages = $emps->count_pages($emps->db->found_rows());
-
-        $lst = array();
-        while ($ra = $emps->db->fetch_named($r)) {
-            $ra = $emps->db->row_types($this->table_name, $ra);
-            $ra = $this->handle_row($ra);
-            $lst[] = $ra;
-        }
 
         $response = array();
         $response['code'] = "OK";
