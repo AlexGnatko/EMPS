@@ -79,6 +79,9 @@ class EMPS_NG_PickList
                     $el[$xx[0]] = $xx[1];
                 }
 
+                $perpage = $this->perpage;
+                $start = intval($start);
+
                 $sql = "select SQL_CALC_FOUND_ROWS * from " . TP .  $this->table_name . "
                 	where (username like '%{$text}%' or fullname like '%{$text}%') limit {$start}, {$perpage}";
                 if ($el['group']) {
