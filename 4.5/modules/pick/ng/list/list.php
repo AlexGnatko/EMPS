@@ -85,7 +85,7 @@ class EMPS_NG_PickList
                 $sql = "select SQL_CALC_FOUND_ROWS * from " . TP .  $this->table_name . "
                 	where (username like '%{$text}%' or fullname like '%{$text}%') limit {$start}, {$perpage}";
                 if ($el['group']) {
-                    $sql = "select SQL_CALC_FOUND_ROWS u.* from " . TP . $this->table_name . " as t 
+                    $sql = "select SQL_CALC_FOUND_ROWS t.* from " . TP . $this->table_name . " as t 
                     join " . TP . "e_users_groups as ug on
                     ug.user_id = t.id
                     and ug.group_id = '" . $el['group'] . "'
