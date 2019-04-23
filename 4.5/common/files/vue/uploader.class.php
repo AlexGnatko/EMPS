@@ -53,7 +53,9 @@ class EMPS_VuePhotosUploader {
                             $emps->copy_values($file, $row, "file_name,descr,comment,content_type,ord,id");
                             $file['name'] = $row['file_name'];
                             $file['size'] = intval($row['size']);
-                            $file['url'] = "/retrieve/".$row['md5']."/".$row['file_name']."&dt=".$row['dt'];
+                            $urlpart = $row['md5']."/".$row['file_name']."&dt=".$row['dt'];
+                            $file['url'] = "/retrieve/".$urlpart;
+                            $file['viewUrl'] = "/filepic/".$urlpart;
 
                             $this->files[] = $file;
                         }
@@ -159,7 +161,9 @@ class EMPS_VuePhotosUploader {
             $emps->copy_values($file, $ra, "file_name,descr,comment,content_type,ord,id");
             $file['name'] = $ra['file_name'];
             $file['size'] = intval($ra['size']);
-            $file['url'] = "/retrieve/{$ra['md5']}/{$ra['file_name']}&dt={$ra['dt']}";
+            $urlpart = "{$ra['md5']}/{$ra['file_name']}&dt={$ra['dt']}";
+            $file['url'] = "/retrieve/" . $urlpart;
+            $file['viewUrl'] = "/filepic/" . $urlpart;
 
             $lst[] = $file;
         }
