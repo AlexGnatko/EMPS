@@ -25,7 +25,13 @@ class EMPS_NG_PickDescribe
 
         $id = intval($this->id);
         $row = $emps->db->get_row($this->table_name, "id = " . $id);
-        $row['display_name'] = $row['id'] . ": " . $row['name'];
+
+        if ($this->table_name == "e_users") {
+            $row['display_name'] = $row['id'] . ": " . $row['username'] . " / " . $row['fullname'];
+        } else {
+            $row['display_name'] = $row['id'] . ": " . $row['name'];
+        }
+
         $row = $this->handle_row($row);
 
         $response = array();
