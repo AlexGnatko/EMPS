@@ -912,6 +912,15 @@ class EMPS_Auth
         return $user;
     }
 
+    public function json_user($user_id) {
+        $user = $this->load_user($user_id);
+        if ($user) {
+            unset($user['password']);
+            unset($user['_full']);
+        }
+        return $user;
+    }
+
     public function form_fullname($ra)
     {
         $parts = array();
