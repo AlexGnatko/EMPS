@@ -522,7 +522,7 @@ class EMPS_Common
     {
         global $smarty;
 
-        if ($this->auth->credentials("admin,author,editor,oper,seo,copywriter")) {
+        if ($this->auth->credentials("admin,author,editor,oper,seo,copywriter,buh,manager,owner")) {
             $menu = $this->section_menu("admin", 0);
             $this->scan_selected($menu);
             $this->menus['admin'] = $menu;
