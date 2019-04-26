@@ -173,26 +173,54 @@ class EMPS_DB
         }
     }
 
+    public function and_clause($lst) {
+        $parts = [];
+        foreach ($lst as $v) {
+            $part = $this->where_clause($v);
+            $parts[] = $part;
+        }
+
+        return "(" . implode(" and ", $parts) . ")";
+    }
+
     public function where_clause($query){
         $parts = [];
         foreach($query as $n => $v){
-            $part = "`{$n}`";
-            if(is_numeric($v) || is_float($v)) {
-                $part .= " = " . $v;
-            }elseif(is_array($v)){
-                $a = [];
-                foreach ($v as $item) {
-                    if (is_string($item)) {
-                        $item = $this->sql_escape($item);
-                        $item = "'{$item}'";
+            if ($n == '$and') {
+                $part = $this->and_clause($v);
+            } else {
+                $part = "`{$n}`";
+                if(is_numeric($v) || is_float($v)) {
+                    $part .= " = " . $v;
+                }elseif(is_array($v)){
+                    if (isset($v['$gt'])) {
+                        $value = $v['$gt'];
+                        $part .= " > {$value}";
+                    } elseif (isset($v['$gte'])) {
+                        $value = $v['$gte'];
+                        $part .= " >= {$value}";
+                    } elseif (isset($v['$lt'])) {
+                        $value = $v['$lt'];
+                        $part .= " < {$value}";
+                    } elseif (isset($v['$lte'])) {
+                        $value = $v['$lte'];
+                        $part .= " <= {$value}";
+                    } else {
+                        $a = [];
+                        foreach ($v as $item) {
+                            if (is_string($item)) {
+                                $item = $this->sql_escape($item);
+                                $item = "'{$item}'";
+                            }
+                            $a[] = $item;
+                        }
+                        $str = implode(", ", $a);
+                        $part .= " in ({$str})";
                     }
-                    $a[] = $item;
+                }else{
+                    $v = $this->sql_escape($v);
+                    $part .= " = '{$v}'";
                 }
-                $str = implode(", ", $a);
-                $part .= " in ({$str})";
-            }else{
-                $v = $this->sql_escape($v);
-                $part .= " = '{$v}'";
             }
             $parts[] = $part;
         }
