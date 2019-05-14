@@ -148,6 +148,9 @@
                         }
                     });
             },
+            refresh_tree: function() {
+                this.load_tree(0);
+            },
             load_list: function(after) {
                 if (this.path.key === undefined) {
                     var that = this;
