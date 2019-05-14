@@ -647,6 +647,9 @@
                 if (this.clipboard === undefined) {
                     return false;
                 }
+                if (this.clipboard === null) {
+                    return false;
+                }
                 var cb = null;
                 if (this.clipboard.copy !== undefined) {
                     cb = this.clipboard.copy;
