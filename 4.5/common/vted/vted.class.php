@@ -789,8 +789,10 @@ class EMPS_VueTableEditor
             $emps->json_response($response); exit;
         }
 
-        $pads = $this->tree->list_pads();
-        $smarty->assign("struct_pads", $pads);
+        if ($this->tree) {
+            $pads = $this->tree->list_pads();
+            $smarty->assign("struct_pads", $pads);
+        }
 
         $pads = $this->list_pads();
         $smarty->assign("pads", $pads);
