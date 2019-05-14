@@ -149,6 +149,7 @@
                     });
             },
             refresh_tree: function() {
+                this.need_new_tree = true;
                 this.load_tree(0);
             },
             load_list: function(after) {
