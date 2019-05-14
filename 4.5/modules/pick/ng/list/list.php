@@ -24,6 +24,7 @@ class EMPS_NG_PickList
     public function handle_row($ra)
     {
         $ra['display_name'] = $ra['name'];
+        unset($ra['full_id']);
         return $ra;
     }
 

@@ -1,6 +1,31 @@
 <vted inline-template>
     <div>
         <div v-if="list_mode">
+            {{if $has_tree}}
+                <div class="columns">
+                    <div class="column is-3" @click.stop="unselect_all_folders()">
+
+                        <aside class="menu" >
+                            {{include file="db:_comp/vted,controls" controls_type="toptree"}}
+                            <p class="menu-label">
+                                Подразделы
+                            </p>
+                            <ul class="menu-list tree-list">
+                                <treeitem
+                                        v-for="(tree, index) in tree"
+                                        :item="tree"
+                                        @make_folder="make_folder"
+                                        @add_item="add_item"
+                                        @set_active="set_active"
+                                        @delete_folder="delete_folder"
+                                        @edit_folder="edit_folder"
+                                ></treeitem>
+                            </ul>
+                        </aside>
+
+                    </div>
+                    <div class="column is-9">
+            {{/if}}
             {{if $smarty.capture.list}}
                 {{$smarty.capture.list}}
             {{else}}
@@ -47,9 +72,13 @@
                 </table>
                 {{include file="db:page/vue_paginator"}}
             {{/if}}
+            {{if $has_tree}}
+                </div>
+        </div>
+            {{/if}}
         </div>
         <div v-if="!list_mode">
-            <div class="panel">
+            <div class="panel" v-if="!struct_row">
                 <div class="panel-heading">
                     <div class="columns">
                         <div class="column is-size-4">
@@ -86,6 +115,54 @@
                     </div>
 
                     {{foreach from=$pads item="pad"}}
+
+                        <div v-if="is_active_pad('{{$pad.code}}')">
+                            {{if $pad.view}}
+                                {{include file="{{$pad.view}}"}}
+                            {{/if}}
+                        </div>
+
+                    {{/foreach}}
+                </div>
+            </div>
+            <div class="panel" v-else>
+                <div class="panel-heading">
+                    <div class="columns">
+                        <div class="column is-size-4">
+                            Подраздел:
+                            {{if $smarty.capture.vted_header}}
+                                {{$smarty.capture.vted_header}}
+                            {{else}}
+                                {{"row.name"|js}} <span class="tag is-primary"># {{"row.id"|js}}</span>
+                            {{/if}}
+                        </div>
+                        <div class="column is-narrow">
+                            {{if $smarty.capture.buttons_pre}}
+                                {{$smarty.capture.buttons_pre}}
+                            {{/if}}
+                            <a :href="back_link()" class="button is-link" @click="navigate(back_link(), $event)">
+                                <i class="fa fa-reply"></i> &nbsp;
+                                Назад в список</a>
+                            {{if $smarty.capture.buttons_post}}
+                                {{$smarty.capture.buttons_post}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-block is-block">
+                    <div class="tabs" style="margin-bottom: 1rem">
+                        <ul>
+                            {{foreach from=$struct_pads item="pad"}}
+                                <li :class="{'is-active': is_active_pad('{{$pad.code}}')}">
+                                    <a :href="pad_link('{{$pad.code}}')"
+                                       @click="navigate(pad_link('{{$pad.code}}'), $event)">{{$pad.title}}</a>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    </div>
+
+                    {{foreach from=$struct_pads item="pad"}}
 
                         <div v-if="is_active_pad('{{$pad.code}}')">
                             {{if $pad.view}}
@@ -144,14 +221,6 @@
 
 </vted>
 
-{{include file="db:_comp/selector"}}
-{{include file="db:_comp/modal"}}
-
-<script src="/mjs/comp-vted/vted.js" defer></script>
-<script>
-    var vted_title = "{{$page.title}}";
-    var string_saved = "Сохранено";
-    var string_created = "Создано";
-    var string_deleted = "Удалено";
-</script>
-
+{{if !$has_out}}
+    {{include file="db:_comp/vted,vted_out"}}
+{{/if}}

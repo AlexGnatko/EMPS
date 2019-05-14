@@ -76,6 +76,8 @@ class EMPS_VuePhotosUploader {
         $response = [];
         $response['code'] = "OK";
         $response['files'] = $this->files;
+        $response['context_id'] = $this->context_id;
+        $response['context'] = $emps->p->load_context($this->context_id);
 
         $emps->json_response($response);
 
@@ -198,6 +200,8 @@ class EMPS_VuePhotosUploader {
         $response = [];
         $response['code'] = "OK";
         $response['files'] = $this->list_uploaded_files();
+        $response['context_id'] = $this->context_id;
+        $response['context'] = $emps->p->load_context($this->context_id);
         $emps->json_response($response);
         if (!$emps_no_exit) {
             exit;

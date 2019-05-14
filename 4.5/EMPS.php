@@ -276,7 +276,7 @@ class EMPS extends EMPS_Common
     function get_full_id($id, $table, $pf, $vf)
     {
         global $emps;
-        $row = $emps->db->get_row($table, "id=$id");
+        $row = $emps->db->get_row($table, "id = {$id}");
         if (!$row) {
             return "";
         }

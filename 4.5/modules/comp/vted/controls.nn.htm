@@ -64,3 +64,22 @@
 
 
 {{/if}}
+{{if $controls_type == "toptree"}}
+    <div class="is-flex-desktop">
+        <div class="field">
+            <button class="button is-primary is-outlined" @click="make_folder()">
+                <i class="fa fa-file-o"></i> &nbsp; Создать подраздел</button> &nbsp;
+            <button class="button is-info is-outlined" @click.stop="navigate(all_items_link(), $event)">
+                <i class="fa fa-search"></i> &nbsp; Все</button> &nbsp;
+        </div>
+    </div>
+{{/if}}
+
+{{if $controls_type == "selected"}}
+    <div class="buttons">
+        <button type="button" class="button" @click.stop="select_all"><i class="fa fa-check-square-o"></i>&nbsp; Выделить все</button>
+        <button type="button" class="button" v-if="has_selected" @click.stop="copy_selected"><i class="fa fa-copy"></i>&nbsp; Копировать</button>
+        <button type="button" class="button" v-if="has_selected" @click.stop="cut_selected"><i class="fa fa-cut"></i>&nbsp; Вырезать</button>
+        <button type="button" class="button" v-if="has_clipboard" @click.stop="paste"><i class="fa fa-paste"></i>&nbsp; Вставить</button>
+    </div>
+{{/if}}

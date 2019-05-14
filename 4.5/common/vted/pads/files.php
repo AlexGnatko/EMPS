@@ -1,7 +1,7 @@
 <?php
 
-global $context_id;
+global $context_id, $vted;
 
-$context_id = $this->context_id;
+$context_id = $vted->context_id;
 
 require_once $emps->page_file_name("_comp/files", "controller");

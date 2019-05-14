@@ -232,7 +232,6 @@ class EMPS_Items_Base
     public function list_nodes($item_id){
         global $emps;
 
-
         $r = $emps->db->query("select node.* from ".TP.$this->link_table_name." as itst
 					join ".TP.$this->structure_table_name." as node
 					on node.id = itst.structure_id

@@ -1,7 +1,9 @@
 <?php
 
+global $vted;
+
 if ($_GET['make_clone']) {
-    $url = $this->clone_row($this->ref_id);
+    $url = $vted->clone_row($vted->ref_id);
 
     $emps->redirect_page($url); exit;
 }

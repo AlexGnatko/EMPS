@@ -11,7 +11,8 @@
                 change_mode: 'upload',
                 change_download_url: '',
                 queue: [],
-                files: []
+                files: [],
+                loading: false
             };
         },
         methods: {
@@ -131,10 +132,12 @@
                 }
             },
             load_files: function() {
+                this.loading = true;
                 var that = this;
                 axios
                     .get("./?list_uploaded_photos=1")
                     .then(function(response){
+                        this.loading = false;
                         var data = response.data;
                         if (data.code == 'OK') {
                             that.files = data.files;
@@ -368,7 +371,9 @@
             },
             update_pad: function(pad) {
                 if (this.pad == pad) {
-                    this.load_files();
+                    if (!this.loading) {
+                        this.load_files();
+                    }
                 }
             }
         },

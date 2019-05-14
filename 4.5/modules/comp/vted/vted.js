@@ -9,6 +9,7 @@
         data: function(){
             return {
                 list_mode: true,
+                struct_row: false,
                 row: {},
                 guid: guid(),
                 selected_row: {},
@@ -18,9 +19,15 @@
                 path: {},
                 filter: {},
                 search_text: '',
+                list_url_prefix: './',
+                url_prefix: './',
+                tree_url_prefix: './',
                 lookup_id: undefined,
                 no_scroll: false,
                 parents: [],
+                tree: [],
+                clipboard: {},
+                need_new_tree: true,
             }
         },
         components: {
@@ -43,7 +50,7 @@
                 if (this.path.key !== undefined) {
                     var that = this;
                     axios
-                        .get("./?load_row=" + this.path.key)
+                        .get(this.url_prefix + "?load_row=" + this.path.key)
                         .then(function(response){
                             var data = response.data;
                             if (data.code == 'OK') {
@@ -64,17 +71,98 @@
                         });
                 }
             },
+            collect_oa: function(oa, tree) {
+                if (tree === undefined) {
+                    return;
+                }
+                var l = tree.length;
+                for (var i = 0; i < l; i++) {
+                    this.collect_oa(oa, tree[i].subs);
+                    if (tree[i].active) {
+                        oa.active.push(tree[i].id);
+                    }
+                    if (tree[i].is_open) {
+                        oa.open.push(tree[i].id);
+                    }
+                }
+            },
+            set_oa: function(oa, tree) {
+                if (tree === undefined) {
+                    return;
+                }
+                var l = tree.length;
+                var had_active = false;
+                for (var i = 0; i < l; i++) {
+                    var rv = this.set_oa(oa, tree[i].subs);
+                    if (oa.active.find(function(v) {
+                            return tree[i].id == v;
+                        }) !== undefined) {
+                        tree[i].active = true;
+                        had_active = true;
+                    } else {
+                        tree[i].active = false;
+                    }
+                    if (oa.open.find(function(v) {
+                            return tree[i].id == v;
+                        }) !== undefined) {
+                        tree[i].is_open = true;
+                        had_active = true;
+                    } else {
+                        tree[i].is_open = false;
+                    }
+                    if (rv) {
+                        had_active = true;
+                        tree[i].is_open = true;
+                    }
+                }
+                return had_active;
+            },
+            update_tree: function(old_tree, new_tree) {
+                var oa = {open: [], active: []};
+                this.collect_oa(oa, old_tree);
+                if (oa.active.length == 0) {
+                    if (this.path.sd) {
+                        oa.active.push(this.path.sd);
+                    }
+                }
+                this.set_oa(oa, new_tree);
+                this.tree = new_tree;
+            },
+            load_tree: function(parent_id) {
+                if (!this.need_new_tree) {
+                    if (this.tree.length > 0) {
+                        return;
+                    }
+                }
+                var that = this;
+
+                axios
+                    .get(this.url_prefix + "?load_tree=1&parent_id=" + parent_id)
+                    .then(function(response){
+                        var data = response.data;
+                        if (data.code == 'OK') {
+                            that.update_tree(that.tree, data.tree);
+
+                        }else{
+                            alert(data.message);
+                        }
+                    });
+            },
             load_list: function(after) {
                 if (this.path.key === undefined) {
                     var that = this;
                     vuev.$emit("vted:load_list");
+                    if (this.has_tree) {
+                        this.load_tree(0);
+                    }
                     axios
-                        .get("./?load_list=1")
+                        .get(this.url_prefix + "?load_list=1")
                         .then(function(response){
                             var data = response.data;
                             if (data.code == 'OK') {
                                 that.lst = data.lst;
                                 that.pages = data.pages;
+                                that.clipboard = data.clipboard;
                                 that.search_text = data.search_text;
                                 if (!data.filter) {
                                     that.filter = {};
@@ -117,8 +205,15 @@
                         that.list_mode = true;
                     });
                 } else {
+                    this.need_new_tree = true;
                     this.load_row(function(){
                         that.list_mode = false;
+                        var s = that.path.key.split('-');
+                        if (s[0] == 'struct') {
+                            that.struct_row = true;
+                        } else {
+                            that.struct_row = false;
+                        }
                         that.selected_row = Vue.util.extend({}, that.row);
                     });
                 }
@@ -167,7 +262,7 @@
                 var row = {};
                 row.post_delete = this.selected_row.id;
                 axios
-                    .post("./", row)
+                    .post(this.url_prefix, row)
                     .then(function(response){
                         var data = response.data;
 
@@ -209,7 +304,7 @@
                 row.post_save = 1;
                 row.payload = this.selected_row;
                 axios
-                    .post("./", row)
+                    .post(this.url_prefix, row)
                     .then(function(response){
                         var data = response.data;
 
@@ -228,7 +323,7 @@
                 row.post_new = 1;
                 row.payload = this.new_row;
                 axios
-                    .post("./", row)
+                    .post(this.url_prefix, row)
                     .then(function(response){
                         var data = response.data;
 
@@ -251,7 +346,7 @@
                 row.post_filter = 1;
                 row.payload = this.filter;
                 axios
-                    .post("./", row)
+                    .post(this.url_prefix, row)
                     .then(function(response){
                         var data = response.data;
 
@@ -270,7 +365,7 @@
                 var row = {};
                 row.post_clear_filter = 1;
                 axios
-                    .post("./", row)
+                    .post(this.url_prefix, row)
                     .then(function(response){
                         var data = response.data;
 
@@ -304,7 +399,13 @@
                 this.open_modal("createModal");
             },
             back_link: function() {
-                var v = EMPS.elink({}, ['key', 'ss']);
+                var v = EMPS.elink(this.path, ['key', 'ss']);
+                return v;
+            },
+            all_items_link: function() {
+                var path = this.path;
+                path.sd = 'all';
+                var v = EMPS.elink(path, ['key', 'ss']);
                 return v;
             },
             search: function(e) {
@@ -318,7 +419,7 @@
                 row.post_search = 1;
                 row.search_text = this.search_text;
                 axios
-                    .post("./", row)
+                    .post(this.url_prefix, row)
                     .then(function(response){
                         var data = response.data;
 
@@ -335,8 +436,280 @@
             },
             open_filter: function() {
                 vuev.$emit("modal:open:vtedFilterModal");
+            },
+            find_active_item: function(tree) {
+                if (tree === undefined) {
+                    return;
+                }
+                var l = tree.length;
+                for (var i = 0; i < l; i++) {
+                    var found = this.find_active_item(tree[i].subs);
+                    if (found === undefined) {
+                        if (tree[i].active) {
+                            return tree[i];
+                        }
+                    } else {
+                        return found;
+                    }
+                }
+            },
+            make_folder: function (item) {
+                if (item === undefined) {
+                    item = this.find_active_item(this.tree);
+                    if (item !== undefined) {
+                        this.make_folder(item);
+                    } else {
+                        this.add_item_to_list(undefined, this.tree);
+                    }
+                } else {
+                    if (!item.subs ||
+                        item.subs.length == 0) {
+                        Vue.set(item, 'subs', []);
+                    }
+                    this.add_item(item);
+
+                    Vue.set(item, 'is_open', true);
+                }
+
+            },
+            delete_folder: function(item) {
+                var that = this;
+                var row = {};
+                row.post_delete_folder = 1;
+                row.id = item.id;
+                axios
+                    .post(this.url_prefix, row)
+                    .then(function(response){
+                        var data = response.data;
+
+                        if (data.code == 'OK') {
+                            that.unselect_all_folders();
+                            that.delete_item(that.tree, item);
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+            },
+            edit_folder: function(item) {
+                var path = Vue.util.extend({}, this.path);
+                path.ss = "info";
+                path.start = undefined;
+                path.key = "struct-" + item.id;
+                var link = EMPS.link(path);
+                this.navigate(link);
+            },
+            add_item_to_list: function(parent, tree) {
+                var row = {};
+                row.post_create_folder = 1;
+                if (parent !== undefined) {
+                    row.parent_id = parent.id;
+                }
+
+                axios
+                    .post(this.tree_url_prefix, row)
+                    .then(function(response){
+                        var data = response.data;
+
+                        if (data.code == 'OK') {
+                            tree.push(data.row);
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+            },
+            add_item: function (item) {
+                this.add_item_to_list(item, item.subs);
+            },
+            delete_item: function(tree, item) {
+                if (tree === undefined) {
+                    return;
+                }
+                if (item === undefined) {
+                    return;
+                }
+                var l = tree.length;
+                for (var i = 0; i < l; i++) {
+                    this.delete_item(tree[i].subs, item);
+                    if (tree[i] === item) {
+                        tree.splice(i, 1);
+                        break;
+                    }
+                }
+            },
+            set_inactive: function(tree) {
+                if (tree === undefined) {
+                    return;
+                }
+                var l = tree.length;
+                for (var i = 0; i < l; i++) {
+                    this.set_inactive(tree[i].subs);
+                    tree[i].active = false;
+                }
+            },
+            unselect_all_folders: function() {
+                this.set_inactive(this.tree);
+                var path = Vue.util.extend({}, this.path);
+                path.ss = undefined;
+                path.sd = undefined;
+                path.key = undefined;
+                var link = EMPS.link(path);
+                this.navigate(link);
+
+            },
+            set_active: function(item) {
+                this.need_new_tree = false;
+                this.set_inactive(this.tree);
+                Vue.set(item, 'active', true);
+                var path = Vue.util.extend({}, this.path);
+                path.ss = undefined;
+                path.sd = item.id;
+                path.key = undefined;
+                var link = EMPS.link(path);
+                this.navigate(link);
+            },
+            select_row: function(row) {
+                Vue.set(row, 'selected', !row.selected);
+            },
+            select_all: function() {
+                var lst = this.lst;
+
+                var marked = false;
+
+                var l = lst.length;
+                var i = 0;
+                var e = null;
+                for (i = 0; i < l; i++) {
+                    e = lst[i];
+                    if (!e.selected) {
+                        Vue.set(e, 'selected', true);
+                        marked = true;
+                    }
+                }
+
+                if (!marked) {
+                    for (i = 0; i < l; i++) {
+                        e = lst[i];
+                        Vue.set(e, 'selected', false);
+                    }
+                }
+                this.$forceUpdate();
+            },
+            copy_selected: function() {
+                this.to_clipboard('copy');
+            },
+            cut_selected: function() {
+                this.to_clipboard('cut');
+            },
+            to_clipboard: function(mode) {
+                var lst = this.lst;
+                var slst = [];
+
+                var l = lst.length;
+                var i = 0;
+                var e = null;
+                for (i = 0; i < l; i++) {
+                    e = lst[i];
+                    if (e.selected) {
+                        slst.push({'item_id': e.id, 'struct_id': this.path.sd});
+                    }
+                }
+
+                var that = this;
+                var row = {};
+                row.post_clipboard = mode;
+
+                row.slst = slst;
+                axios
+                    .post(this.url_prefix, row)
+                    .then(function(response){
+                        var data = response.data;
+
+                        if(data.code == 'OK'){
+                            that.load_list();
+                        }
+                    });
+            },
+            paste: function() {
+                var that = this;
+                var row = {};
+                row.post_paste = true;
+                axios
+                    .post(this.url_prefix, row)
+                    .then(function(response){
+                        var data = response.data;
+
+                        if(data.code == 'OK'){
+                            that.load_list();
+                        }
+                    });
+            },
+            in_clipboard: function(row) {
+                if (this.clipboard === undefined) {
+                    return false;
+                }
+                var cb = null;
+                if (this.clipboard.copy !== undefined) {
+                    cb = this.clipboard.copy;
+
+                    var l = cb.length;
+                    for (var i = 0; i < l; i++) {
+                        if (cb[i].item_id == row.id) {
+                            return "copy";
+                        }
+                    }
+                }
+                if (this.clipboard.cut !== undefined) {
+                    cb = this.clipboard.cut;
+
+                    var l = cb.length;
+                    for (var i = 0; i < l; i++) {
+                        if (cb[i].item_id == row.id) {
+                            return "cut";
+                        }
+                    }
+                }
+
+                return false;
             }
         },
+        computed: {
+            has_selected: function() {
+                var lst = this.lst;
+
+                var l = lst.length;
+                for (var i = 0; i < l; i++) {
+                    var e = lst[i];
+                    if (e.selected) {
+                        return true;
+                    }
+                }
+
+                return false;
+            },
+            has_clipboard: function() {
+                if (this.clipboard === undefined) {
+                    return false;
+                }
+                var cb = null;
+                if (this.clipboard.copy !== undefined) {
+                    cb = this.clipboard.copy;
+
+                    if (cb.length > 0) {
+                        return true;
+                    }
+
+                }
+                if (this.clipboard.cut !== undefined) {
+                    cb = this.clipboard.cut;
+
+                    if (cb.length > 0) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
     });
 
 })();
