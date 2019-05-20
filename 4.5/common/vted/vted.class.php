@@ -184,8 +184,6 @@ class EMPS_VueTableEditor
 
         $emps->p->delete_context($context_id);
 
-        error_log("cleaning context {$context_id} / {$this->ref_type}, {$this->ref_sub}, {$id} = {$this->table_name}");
-
         if ($this->multilevel) {
             $r = $emps->db->query("select id from " . TP . $this->table_name . " where parent = " . $id);
             while ($ra = $emps->db->fetch_row($r)) {
