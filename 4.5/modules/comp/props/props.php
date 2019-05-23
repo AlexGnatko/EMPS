@@ -17,6 +17,9 @@ if($_GET['load_settings']){
         $a['id'] = $v['id'];
         $a['code'] = $v['code'];
         $a['type'] = $v['type'];
+        if (!$a['type']) {
+            $a['type'] = 't';
+        }
         if($a['type'] == 'i'){
             $a['value'] = $v['v_int'];
         }
