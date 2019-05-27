@@ -414,6 +414,10 @@ class EMPS_VueTableEditor
     public function post_save($nr) {
     }
 
+    public function pre_send_response($row) {
+        return $row;
+    }
+
     public function load_filter() {
         $this->filter = $_SESSION['vted_filter_' . $this->table_name];
         return $this->filter;
@@ -770,6 +774,8 @@ class EMPS_VueTableEditor
             if ($this->filter) {
                 $response['filter'] = $this->filter;
             }
+
+            $response = $this->pre_send_response($response);
 
             $emps->json_response($response); exit;
         }
