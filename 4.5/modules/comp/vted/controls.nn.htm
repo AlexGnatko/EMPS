@@ -21,17 +21,19 @@
             </div>
         {{/if}}
 
-        <form class="field has-addons" @submit="open_by_id">
-            <div class="control">
-                <input class="input is-link" type="number" style="width: 7rem" v-model="lookup_id">
-            </div>
-            <div class="control">
-                <button type="submit" class="button is-link is-outlined">
-                    <i class="fa fa-id-card"></i> &nbsp; Открыть по номеру
-                </button>
-            </div>
-            &nbsp;
-        </form>
+        {{if !$vted_no_open}}
+            <form class="field has-addons" @submit="open_by_id">
+                <div class="control">
+                    <input class="input is-link" type="number" style="width: 7rem" v-model="lookup_id">
+                </div>
+                <div class="control">
+                    <button type="submit" class="button is-link is-outlined">
+                        <i class="fa fa-id-card"></i> &nbsp; Открыть по номеру
+                    </button>
+                </div>
+                &nbsp;
+            </form>
+        {{/if}}
 
         {{if $vted_search}}
             &nbsp;
