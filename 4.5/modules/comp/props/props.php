@@ -75,3 +75,49 @@ if($_POST['delete_settings_rows']){
     $response['code'] = "OK";
     $emps->json_response($response);
 }
+
+if ($_POST['post_import']) {
+    $data = json_decode($_POST['import_json'], true);
+    if(!$data){
+        // try to import text
+        $x = explode("\n", $_POST['import_json']);
+        foreach($x as $v){
+            $xx = explode("=", $v, 2);
+            $code = trim($xx[0]);
+            $value = trim($xx[1]);
+            if(!$code || !$value){
+                continue;
+            }
+            $emps->p->save_property($context_id, $code, "t", $value, false, 0);
+        }
+    }else {
+        foreach ($data as $ra) {
+            switch ($ra['type']) {
+                case "i":
+                case "r":
+                    $value = $ra['v_int'];
+                    break;
+                case "f":
+                    $value = $ra['v_float'];
+                    break;
+                case "c":
+                    $value = $ra['v_char'];
+                    break;
+                case "d":
+                    $value = $ra['v_data'];
+                    break;
+                case "b":
+                    $value = $ra['v_bool'];
+                    break;
+                default:
+                    $value = $ra['v_text'];
+            }
+            $emps->p->save_property($context_id, $ra['code'], $ra['type'], $value, false, 0);
+        }
+    }
+
+    $response = [];
+    $response['code'] = "OK";
+    $emps->json_response($response);
+
+}

@@ -136,6 +136,21 @@ Vue.component('props-editor', {
                 this.import_text = t;
             }
             this.open_modal("exportModal");
+        },
+        do_import: function() {
+            var that = this;
+            var row = {};
+            row.post_import = 1;
+            row.import_json = this.import_text;
+            axios
+                .post("./", row)
+                .then(function(response){
+                    var data = response.data;
+                    if(data.code == 'OK'){
+                        $("#exportModal").removeClass("is-active");
+                        that.load_data();
+                    }
+                });
         }
     },
     mounted: function(){
