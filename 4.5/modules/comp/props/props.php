@@ -92,27 +92,7 @@ if ($_POST['post_import']) {
         }
     }else {
         foreach ($data as $ra) {
-            switch ($ra['type']) {
-                case "i":
-                case "r":
-                    $value = $ra['v_int'];
-                    break;
-                case "f":
-                    $value = $ra['v_float'];
-                    break;
-                case "c":
-                    $value = $ra['v_char'];
-                    break;
-                case "d":
-                    $value = $ra['v_data'];
-                    break;
-                case "b":
-                    $value = $ra['v_bool'];
-                    break;
-                default:
-                    $value = $ra['v_text'];
-            }
-            $emps->p->save_property($context_id, $ra['code'], $ra['type'], $value, false, 0);
+            $emps->p->save_property($context_id, $ra['code'], $ra['type'], $ra['value'], false, 0);
         }
     }
 
