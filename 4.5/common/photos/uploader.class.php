@@ -17,9 +17,10 @@ class EMPS_PhotosUploader
     public function handle_save()
     {
         global $emps, $SET;
-        reset($_POST['descr']);
+
         $SET = array();
-        while (list($n, $v) = each($_POST['descr'])) {
+
+        foreach ($_POST['descr'] as $n => $v) {
             $SET['descr'] = $v;
             $SET['ord'] = $_POST['ord'][$n];
             $emps->db->sql_update("e_uploads", "id=$n");
@@ -29,7 +30,7 @@ class EMPS_PhotosUploader
     public function handle_upload()
     {
         global $emps;
-        while (list($n, $v) = each($_FILES)) {
+        foreach ($_FILES as $v) {
             if ($v['name']) {
                 if (!$v['error']) {
                     if (strstr($v['type'], "jpeg")) {
@@ -65,7 +66,7 @@ class EMPS_PhotosUploader
     public function handle_reupload()
     {
         global $emps;
-        while (list($n, $v) = each($_FILES)) {
+        foreach ($_FILES as $v) {
             if ($v['name']) {
                 $file = $emps->db->get_row("e_uploads", "id=" . $_POST['file_id']);
                 $_REQUEST = $file;
@@ -91,7 +92,7 @@ class EMPS_PhotosUploader
 
         if ($_POST['postkill']) {
             if ($_POST['sel']) {
-                while (list($n, $v) = each($_POST['sel'])) {
+                foreach ($_POST['sel'] as $n => $v) {
                     $this->p->delete_photo($n);
                 }
             }

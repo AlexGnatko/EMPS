@@ -24,7 +24,7 @@ class EMPS_Videos
         $x = explode('youtube.com/watch?', $url, 2);
         if ($x[1]) {
             $y = explode('&', $x[1]);
-            while (list($n, $v) = each($y)) {
+            foreach ($y as $v) {
                 $z = explode('=', $v);
                 if ($z[0] == 'v') {
                     $a['youtube_id'] = $z[1];
@@ -135,104 +135,6 @@ class EMPS_Videos
 
             }
 
-            /*			$xml=file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$video['youtube_id']);
-
-                        file_put_contents(EMPS_SCRIPT_PATH.'/video.xml',$xml);
-                        $xml_parser = new Simple_XMLParser;
-                        $xml_parser->parse($xml);
-                        $xml = $xml_parser->data['ENTRY'][0]['child'];
-
-                        if(!$video['name']){
-                            $SET['name']=$xml['TITLE'][0]['data'];
-                        }
-                        if(!$video['description']){
-                            $SET['description']=$xml['CONTENT'][0]['data'];
-                        }
-
-                        $group=$xml['MEDIA:GROUP'][0]['child'];
-                        if($group){
-                            while(list($n,$v)=each($group['MEDIA:CONTENT'])){
-                                $a=$v['attribs'];
-                                if($a['TYPE']=='application/x-shockwave-flash'){
-                                    $SET['flash']=$a['URL'];
-                                    $SET['dflash']=$a['DURATION'];
-                                    $SET['duration']=$a['DURATION'];
-                                }
-                                if($a['TYPE']=='video/3gpp'){
-                                    $SET['3gp']=$a['URL'];
-                                    $SET['d3gp']=$a['DURATION'];
-                                }
-                            }
-                        }
-
-                        $SET['vslink']=$group['MEDIA:PLAYER'][0]['attribs']['URL'];
-
-                        if(!$SET['duration']){
-                            $SET['duration']=$group['YT:DURATION'][0]['attribs']['SECONDS'];
-                        }
-
-                        unset($_REQUEST['id']);
-                        unset($SET['id']);
-                        unset($GLOBALS['id']);
-
-                        $emps->db->sql_update("e_videos","id=$video_id");
-                        $emps->p->save_properties($SET,$ctx,P_VIDEO);
-
-                        if($group){
-                            $this->p->delete_photos_context($ctx);
-
-                            $ord=10;
-
-                            $list = array_reverse($group['MEDIA:THUMBNAIL']);
-
-                            $maxwidth = 0;
-                            $maxheight = 0;
-
-
-                            while(list($n,$v)=each($list)){
-                                $a=$v['attribs'];
-                                if($a){
-                                    $data=file_get_contents($a['URL']);
-                                    if($data){
-                                        $_REQUEST=array();
-                                        $SET=array();
-                                        $_REQUEST['md5']=md5(uniqid(time()+1231111));
-                                        $_REQUEST['filename']=$a['URL'];
-                                        $_REQUEST['type']='image/jpeg';
-                                        $_REQUEST['size']=strlen($data);
-                                        $_REQUEST['thumb']=$a['WIDTH'].'x'.$a['HEIGHT']."|120x90|auto,max";
-                                        $_REQUEST['context_id']=$ctx;
-                                        $_REQUEST['ord']=$ord+10;
-                                        $emps->db->sql_insert("e_uploads");
-                                        $file_id=$emps->db->last_insert();
-                                        $oname=$this->p->up->upload_filename($file_id,DT_IMAGE);
-
-                                        if($maxheight < $a['HEIGHT']){
-                                            $maxheight = $a['HEIGHT'];
-                                        }
-
-                                        if($maxwidth < $a['WIDTH']){
-                                            $maxwidth = $a['WIDTH'];
-                                        }
-
-                                        file_put_contents($oname,$data);
-
-                                        $row=$emps->db->get_row("e_uploads","id=$file_id");
-                                        if($row){
-                                            $fname=$this->p->thumb_filename($file_id);
-                                            $this->p->treat_upload($oname,$fname,$row);
-                                            dump($row);
-                                            echo $oname." // ".$fname;
-                                            exit();
-                                        }
-                                    }
-                                }
-                            }
-                            $SET = array('width'=>$maxwidth, 'height'=>$maxheight);
-
-                            $emps->p->save_properties($SET,$ctx,P_VIDEO);
-                        }
-            */
         }
 
         if ($video['vimeo_id']) {

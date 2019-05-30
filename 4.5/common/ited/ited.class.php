@@ -48,7 +48,7 @@ class EMPS_ImprovedTableEditor
         $emps->loadvars();
 
         reset($this->pad_templates);
-        while (list($n, $v) = each($this->pad_templates)) {
+        foreach ($this->pad_templates as $v) {
             $uv = sprintf($v, $ss);
             if ($type == 'view') {
                 $fn = $emps->page_file_name('_' . $uv, 'view');
@@ -174,7 +174,7 @@ class EMPS_ImprovedTableEditor
         $row = $emps->p->read_properties($row, $context_id);
         $row['keywords_idx'] = $emps->p->list_keywords($this->context_id);
         $kw = array();
-        while (list($n, $v) = each($row['keywords_idx'])) {
+        foreach ($row['keywords_idx'] as $v) {
             $kw[$v] = 1;
         }
         $row['kw'] = $kw;
@@ -519,7 +519,7 @@ class EMPS_ImprovedTableEditor
         $emps->loadvars();
 
         reset($this->ajax_templates);
-        while (list($n, $v) = each($this->ajax_templates)) {
+        foreach ($this->ajax_templates as $v) {
             $vn = sprintf($v, $name);
             $vn = str_replace("-", "_", $vn);
 
@@ -573,7 +573,7 @@ class EMPS_ImprovedTableEditor
         global $emps;
         $x = explode(',', $list);
 
-        while (list($n, $v) = each($x)) {
+        foreach ($x as $v) {
             if ($_REQUEST[$v . 'time']) {
                 $_REQUEST[$v . 'dt'] = $emps->parse_time($_REQUEST[$v . 'time']);
             }
@@ -584,7 +584,7 @@ class EMPS_ImprovedTableEditor
     {
         global $emps;
         $x = explode(',', $list);
-        while (list($n, $v) = each($x)) {
+        foreach ($x as $v) {
             if ($row[$v . 'dt']) {
                 $row[$v . 'time'] = $emps->form_time($row[$v . 'dt']);
             }

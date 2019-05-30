@@ -7,7 +7,7 @@ if ($emps->auth->credentials("admin")) {
         $videos = new EMPS_Videos;
 
         $x = explode(",", $key);
-        while (list($n, $v) = each($x)) {
+        foreach ($x as $n => $v) {
             echo "Working on $v... ";
             $ref_type = $v;
             $ref_sub = CURRENT_LANG;

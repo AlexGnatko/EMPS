@@ -89,7 +89,7 @@ class EMPS_PropertiesEditor
 
         if ($_POST['post_delete']) {
             $list = "";
-            while (list($n, $v) = each($_POST['sel'])) {
+            foreach ($_POST['sel'] as $n => $v) {
                 $n += 0;
                 $row = $emps->db->get_row("e_properties", "id=$n");
                 $emps->db->query('delete from ' . TP . 'e_properties where context_id=' . $this->context_id . ' and id=' . $n);
@@ -143,7 +143,7 @@ class EMPS_PropertiesEditor
 
         $lst = array();
         if (is_array($data['_full'])) {
-            while (list($n, $v) = each($data['_full'])) {
+            foreach ($data['_full'] as $v) {
                 $v['value'] = $data[$v['code']];
                 $v['value'] = $emps->cut_text(strip_tags($v['value']), 100);
                 $sd = $v['id'];

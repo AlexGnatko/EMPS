@@ -335,8 +335,7 @@ class EMPS_NGTed
     {
         global $emps;
 
-        reset($this->pad_templates);
-        while (list($n, $v) = each($this->pad_templates)) {
+        foreach ($this->pad_templates as $v) {
             $uv = sprintf($v, $this->pad_code);
             if ($type == 'view') {
                 $fn = $emps->page_file_name('_' . $uv, 'view');

@@ -204,7 +204,7 @@ class EMPS_Auth
             if ($user['status'] == 1) return true;
         }
 
-        while (list($n, $v) = each($p)) {
+        foreach ($p as $v) {
             $v = trim($v);
             $context_id += 0;
             $ug = $emps->db->get_row("e_users_groups", "user_id=$user_id and group_id='$v' and context_id=$context_id");

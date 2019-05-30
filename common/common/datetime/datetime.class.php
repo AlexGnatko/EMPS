@@ -585,7 +585,7 @@ WET
 Zulu";
         $x = explode("\n", $zones);
         $this->zones = array();
-        while (list($n, $v) = each($x)) {
+        foreach ($x as $v) {
             $vle = trim($v);
             if (!$vle) {
                 continue;
@@ -622,7 +622,7 @@ Europe/Moscow
 
         $x = explode("\n", $rzones);
         $this->ussr_zones = array();
-        while (list($n, $v) = each($x)) {
+        foreach ($x as $v) {
             $vle = trim($v);
             if (!$vle) {
                 continue;

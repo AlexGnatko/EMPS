@@ -4,9 +4,10 @@ class EMPS_ObjectSelector
 {
     public function serialize_nv($array)
     {
-        reset($array);
+
         $txt = "";
-        while (list($n, $v) = each($array)) {
+
+        foreach ($array as $n => $v) {
             if (is_array($v)) {
                 continue;
             }
@@ -25,7 +26,7 @@ class EMPS_ObjectSelector
         $and = "";
         if ($extra) {
             $x = explode("|", $extra);
-            while (list($n, $v) = each($x)) {
+            foreach ($x as $v) {
                 $xx = explode("=", $v, 2);
                 if (count($xx) == 2) {
                     $and .= " and ";

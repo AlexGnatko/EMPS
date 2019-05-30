@@ -47,10 +47,6 @@ class EMPS_MailList
 
         $lst = $this->up->list_files($context_id, 1000);
 
-        /*		while(list($n,$v)=each($lst)){
-                    $fname=$this->up->upload_filename($v['id'],DT_FILE);
-                    $mime->addAttachment($fname, $v['content_type'], $v['file_name']);
-                }*/
         $smarty->assign("files", $lst);
 
         $body = $smarty->fetch("db:ml/mltexthead") . $this->text_body($row['html']) . $smarty->fetch("db:ml/mltextfoot");
@@ -162,7 +158,8 @@ class EMPS_MailList
 
     function text_body($html)
     {
-        global $emps;
+        global $emps, $out;
+
         $text = $html;
         require_once $emps->common_module('mail/conversion.php');
 

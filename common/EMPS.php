@@ -98,7 +98,7 @@ class EMPS_Common
     public function unslash_prepare($a)
     {
         reset($a);
-        while (list($n, $v) = each($a)) {
+        foreach ($a as $n => $v) {
             if (is_array($v)) {
                 $a[$n] = $this->unslash_prepare($v);
             } else {
@@ -314,7 +314,7 @@ class EMPS_Common
     public function clearvars()
     {
         $x = explode(",", EMPS_VARS);
-        while (list($name, $value) = each($x)) {
+        foreach ($x as $value) {
             if ($value == 'lang') {
                 continue;
             }
@@ -331,7 +331,7 @@ class EMPS_Common
     public function loadvars()
     {
         $pp = explode(",", EMPS_VARS);
-        while (list($name, $value) = each($pp)) {
+        foreach ($pp as $value) {
             $GLOBALS[$value] = $this->VA[$value];
         }
     }
@@ -344,7 +344,7 @@ class EMPS_Common
     public function savevars()
     {
         $x = explode(",", EMPS_VARS);
-        while (list($name, $value) = each($x)) {
+        foreach ($x as $value) {
             if (isset($GLOBALS[$value])) {
                 $this->VA[$value] = $GLOBALS[$value];
             }
@@ -409,7 +409,7 @@ class EMPS_Common
             return false;
         }
         reset($this->spath);
-        while (list($n, $cv) = each($this->spath)) {
+        foreach ($this->spath as $cv) {
             if (($cv['id'] == $v['id'])) {
                 reset($this->spath);
                 return false;
@@ -432,7 +432,7 @@ class EMPS_Common
         reset($menu);
         $mr = 0;
 
-        while (list($n, $v) = each($menu)) {
+        foreach ($menu as $n => $v) {
             $obtained_spath = array();
             if ($v['sub']) {
                 $reserve_spath = $this->spath;
@@ -504,7 +504,7 @@ class EMPS_Common
     {
         reset($menu);
         $mlv[] = $menu;
-        while (list($n, $v) = each($menu)) {
+        foreach ($menu as $v) {
             if ($v['sel'] > 0 && $v['sub']) {
                 $mlv = $this->menu_levels($v['sub'], $mlv);
                 break;
@@ -652,7 +652,7 @@ class EMPS_Common
         $lst = array();
         $x = explode(";", $list);
 
-        while (list($n, $v) = each($x)) {
+        foreach ($x as $v) {
             $xx = explode("=", $v, 3);
             $e = array();
             $e['code'] = trim($xx[0]);
@@ -734,7 +734,7 @@ class EMPS_Common
             // parse parts of the $ouri as variables from the $RVLIST, make them global
             $xx = explode(",", EMPS_URL_VARS);
             $x = explode("/", $ouri);
-            while (list($n, $v) = each($x)) {
+            foreach ($x as $n => $v) {
                 if ($v == "") continue;
                 if ($v != '-') {
                     $GLOBALS[$xx[$n]] = urldecode($v);
@@ -754,7 +754,7 @@ class EMPS_Common
     private function import_vars()
     {
         $x = explode(",", EMPS_VARS);
-        while (list($n, $v) = each($x)) {
+        foreach ($x as $v) {
             if (!isset($GLOBALS[$v])) $GLOBALS[$v] = '';
             if (isset($_GET[$v])) $GLOBALS[$v] = $_GET[$v];
             if (isset($_POST[$v])) $GLOBALS[$v] = $_POST[$v];
@@ -1133,7 +1133,8 @@ class EMPS_Common
         if (!is_array($pads)) {
             return false;
         }
-        while (list($n, $v) = each($pads)) {
+
+        foreach ($pads as $n => $v) {
             $this->add_to_menu($menu, $variable, $n, $v);
         }
         return $menu;
@@ -1292,14 +1293,14 @@ class EMPS_Common
         // Make up an internal link with the variables
         $x = explode(",", EMPS_URL_VARS);
         $rlist = array();
-        while (list($n, $v) = each($x)) {
+        foreach ($x as $v) {
             $rlist[$v] = $GLOBALS[$v];
         }
 
         $t = "";
         $tc = "";
-        reset($x);
-        while (list($n, $v) = each($x)) {
+
+        foreach ($x as $v) {
             $v = $this->xrawurlencode($GLOBALS[$v]);
             if (!$v) {
                 $tc .= "/-";
@@ -1313,7 +1314,7 @@ class EMPS_Common
 
         $s = false;
         $xx = explode(",", EMPS_VARS);
-        while (list($name, $value) = each($xx)) {
+        foreach ($xx as $value) {
             if ($GLOBALS[$value] == "") continue;
             if ($rlist[$value] != "") continue;
             if ($s) $t .= "&"; else $t .= "?";
@@ -1491,7 +1492,7 @@ class EMPS_Common
         if (file_exists($file)) {
             $data = file_get_contents($file);
             $x = explode("\n", $data);
-            while (list($n, $v) = each($x)) {
+            foreach ($x as $v) {
                 $v = trim($v);
                 $m = explode(':', $v, 2);
                 $name = trim($m[0]);
@@ -1802,7 +1803,7 @@ class EMPS_Common
     {
         reset($ar);
         $lst = "";
-        while (list($n, $v) = each($ar)) {
+        foreach ($ar as $n => $v) {
             if ($lst != "") {
                 $lst .= ", ";
             }
@@ -1855,7 +1856,7 @@ class EMPS_Common
             $xx = explode(",", EMPS_URL_VARS);
             $uri = mb_substr($x[1], 1);
             $x = explode("/", $uri);
-            while (list($n, $v) = each($x)) {
+            foreach ($x as $n => $v) {
                 if ($v == "") continue;
                 if ($v != '-') {
                     $GLOBALS[$xx[$n]] = urldecode($v);

@@ -247,11 +247,9 @@ class EMPS_Mail
     {
         global $emps_smtp_params;
 
-        reset($hds);
-        while (list($n, $v) = each($hds)) {
-            reset($emps_smtp_params);
+        foreach ($hds as $n => $v) {
             $use_name = $n;
-            while (list($nn, $vv) = each($emps_smtp_params)) {
+            foreach ($emps_smtp_params as $nn => $vv) {
                 if (strtolower($nn) == strtolower($n)) {
                     $use_name = $nn;
                 }

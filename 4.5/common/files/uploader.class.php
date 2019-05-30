@@ -16,7 +16,7 @@ class EMPS_FilesUploader
         global $emps, $SET;
         reset($_POST['item']);
         $SET = array();
-        while (list($n, $v) = each($_POST['item'])) {
+        foreach ($_POST['item'] as $n => $v) {
             $SET['comment'] = $_POST['comment'][$n];
             $SET['ord'] = $_POST['ord'][$n];
             $emps->db->sql_update("files", "id=$n");
@@ -26,7 +26,7 @@ class EMPS_FilesUploader
     public function handle_upload()
     {
         global $emps;
-        while (list($n, $v) = each($_FILES)) {
+        foreach ($_FILES as $n => $v) {
             if ($v['name']) {
                 $_REQUEST['md5'] = md5(uniqid());
                 $_REQUEST['file_name'] = $v['name'];
@@ -45,7 +45,7 @@ class EMPS_FilesUploader
     public function handle_reupload()
     {
         global $emps;
-        while (list($n, $v) = each($_FILES)) {
+        foreach ($_FILES as $v) {
             if ($v['name']) {
                 $file = $emps->db->get_row("files", "id=" . $_POST['file_id']);
                 $_REQUEST = $file;
@@ -66,7 +66,7 @@ class EMPS_FilesUploader
         }
 
         if ($_POST['postkill'] && !$_POST['postsave']) {
-            while (list($n, $v) = each($_POST['sel'])) {
+            foreach ($_POST['sel'] as $n => $v) {
                 $this->up->delete_file($n, DT_FILE);
             }
         }

@@ -16,9 +16,8 @@ class EMPS_VideoUploader
     public function handle_save()
     {
         global $emps, $SET;
-        reset($_POST['name']);
         $SET = array();
-        while (list($n, $v) = each($_POST['name'])) {
+        foreach ($_POST['name'] as $n => $v) {
             $SET['name'] = $v;
             $SET['description'] = $_POST['descr'][$n];
             $SET['ord'] = $_POST['ord'][$n];
@@ -58,7 +57,7 @@ class EMPS_VideoUploader
         }
 
         if ($_POST['post_kill'] && !$_POST['postsave']) {
-            while (list($n, $v) = each($_POST['sel'])) {
+            foreach ($_POST['sel'] as $n => $v) {
                 $this->v->delete_video($n);
             }
         }

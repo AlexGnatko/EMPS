@@ -34,7 +34,7 @@ if ($emps->get_setting("admin_tools")) {
                 $x = explode(",", $grp);
 
                 $emps->db->query("delete from " . TP . "e_users_groups where user_id=$id and context_id=" . $emps->website_ctx);
-                while (list($n, $v) = each($x)) {
+                foreach ($x as $v) {
                     $v = trim($v);
                     $emps->auth->add_to_group($id, $v);
                 }

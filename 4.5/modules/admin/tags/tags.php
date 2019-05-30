@@ -42,7 +42,7 @@ if ($emps->auth->credentials("admin")):
     }
 
     if ($_POST['post_values']) {
-        while (list($n, $v) = each($_POST['item'])) {
+        foreach ($_POST['item'] as $n => $v) {
             $id = intval($n);
             handle_value("name", $id);
         }

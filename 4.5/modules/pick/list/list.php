@@ -44,7 +44,7 @@ if ($type == 'e_users') {
     if ($extra) {
         $x = explode('|', $extra);
         $el = array();
-        while (list($n, $v) = each($x)) {
+        foreach ($x as $n => $v) {
             $xx = explode('=', $v);
             $el[$xx[0]] = $xx[1];
         }
@@ -84,7 +84,7 @@ while ($ra = $emps->db->fetch_named($r2)) {
     $rlst[] = $ra;
 }
 
-while (list($n, $ra) = each($rlst)) {
+foreach ($rlst as $n => $ra) {
     if ($type == 'e_users') {
         $ra['name'] = '<b>' . $ra['username'] . '</b>' . ' - ' . $ra['fullname'];
     }

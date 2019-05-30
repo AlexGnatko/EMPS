@@ -44,9 +44,8 @@ class EMPS_TabulatedTableEditor
 
         $x = explode(",", $this->track_values);
 
-        while (list($n, $v) = each($_POST['item'])) {
+        foreach ($_POST['item'] as $n => $v) {
             $id = $n;
-            reset($x);
             foreach ($x as $code) {
                 unset($_REQUEST[$code]);
                 if ($_POST[$code][$id] != "") {
