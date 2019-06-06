@@ -1324,6 +1324,11 @@ class EMPS_Common
         return $t;
     }
 
+    public function slink($value, $var) {
+        $GLOBALS[$var] = $value;
+        return $this->elink();
+    }
+
     public function print_pages($found)
     {
         global $smarty;
