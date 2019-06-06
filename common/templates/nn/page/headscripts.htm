@@ -141,6 +141,11 @@
     </script>
 {{/if}}
 
+{{if $page.simplebar}}
+    <link rel="stylesheet" href="/node_modules/simplebar/dist/simplebar.min.css" {{$add_media}}/>
+    <script src="/node_modules/simplebar/dist/simplebar.min.js" {{$add_defer}}></script>
+{{/if}}
+
 {{if $page.autoarray}}
     <script type="text/javascript" src="/js/autoArray.js" {{$add_defer}}></script>
 {{/if}}

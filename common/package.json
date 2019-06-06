@@ -6,7 +6,8 @@
     "@tinymce/tinymce-vue": "~1",
     "vue-sortable": "latest",
     "vue-numeric": "latest",
-    "flatpickr": "latest"
+    "flatpickr": "latest",
+    "simplebar": "latest"
   },
   "author": "Alex Gnatko",
   "license": "ISC"

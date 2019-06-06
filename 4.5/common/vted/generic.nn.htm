@@ -5,7 +5,7 @@
     <div class="field-body">
         <div class="field">
             <div class="control">
-                <input class="input" type="text" placeholder="" v-model="new_row.name">
+                <input class="input" type="text" placeholder="" @keyup.enter="submit_create" v-model="new_row.name">
             </div>
         </div>
     </div>

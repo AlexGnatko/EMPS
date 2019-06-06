@@ -43,11 +43,15 @@ if ($emps->auth->credentials('admin')):
 
         public function pre_create($nr)
         {
-            global $sd;
+            global $sd, $sk;
             $parent_id = intval($sd);
             if ($parent_id) {
                 $parent = $this->load_row($parent_id);
                 $nr['grp'] = $parent['grp'];
+            } else {
+                if ($sk) {
+                    $nr['grp'] = $sk;
+                }
             }
             return $nr;
         }
