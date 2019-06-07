@@ -4,7 +4,7 @@
     <div class="columns">
         <div class="column is-9">
             <div class="content">
-                <editor v-model="selected_row.html" id="htmlpad_editor" :init="emps_tinymce_settings"></editor>
+                <editor v-model="{{if $html_model}}{{$html_model}}{{else}}selected_row.html{{/if}}" id="{{if $html_id}}{{$html_id}}{{else}}htmlpad_editor{{/if}}" :init="emps_tinymce_settings"></editor>
             </div>
 
         </div>
@@ -47,7 +47,10 @@
     </div>
 </form>
 
+{{if !$html_id}}
+    {{$html_id = "htmlpad_editor"}}
+{{/if}}
 
-{{include file="db:_comp/htmlinsert" id="htmlpad_editor"}}
+{{include file="db:_comp/htmlinsert" id=$html_id}}
 
 
