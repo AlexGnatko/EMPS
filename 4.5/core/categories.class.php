@@ -73,4 +73,32 @@ class EMPS_Categories {
             and struct_id = {$node_id}) or struct_id = 0");
 
     }
+
+    public function list_child_nodes_self($q){
+        global $emps;
+
+        $lst = $q['parent'];
+
+        $where = $emps->db->where_clause($q);
+
+        $r = $emps->db->query("select * from ".TP.$this->table_struct." where {$where}");
+        while($ra = $emps->db->fetch_named($r)){
+            $sq = $q;
+            $sq['parent'] = $ra['id'];
+            $lst .= ','.$this->list_child_nodes_self($sq);
+        }
+        return $lst;
+    }
+
+    public function node_by_code($code) {
+        global $emps;
+
+        $code = $emps->db->sql_escape($code);
+
+        $node = $emps->db->get_row($this->table_struct, "code = '{$code}'");
+        if ($node) {
+            $node = $this->explain_structure_node($node);
+            return $node;
+        }
+    }
 }
