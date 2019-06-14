@@ -160,5 +160,6 @@ if (!isset($pick)) {
 }
 
 $emps->no_smarty = true;
+$emps->no_autopage = true;
 $pick->handle_request();
 
