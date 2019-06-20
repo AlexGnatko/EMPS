@@ -79,32 +79,32 @@ class EMPS_NG_PickList
                     $xx = explode('=', $v);
                     $el[$xx[0]] = $xx[1];
                 }
+            }
 
-                $perpage = $this->perpage;
-                $start = intval($start);
+            $perpage = $this->perpage;
+            $start = intval($start);
 
-                $sql = "select SQL_CALC_FOUND_ROWS * from " . TP .  $this->table_name . "
-                	where (username like '%{$text}%' or fullname like '%{$text}%') limit {$start}, {$perpage}";
-                if ($el['group']) {
-                    $sql = "select SQL_CALC_FOUND_ROWS t.* from " . TP . $this->table_name . " as t 
-                    join " . TP . "e_users_groups as ug on
-                    ug.user_id = t.id
-                    and ug.group_id = '" . $el['group'] . "'
-                    where (t.username like '%{$text}%' or t.fullname like '%{$text}%') limit {$start}, {$perpage}";
-                }
+            $sql = "select SQL_CALC_FOUND_ROWS * from " . TP .  $this->table_name . "
+                where (username like '%{$text}%' or fullname like '%{$text}%') limit {$start}, {$perpage}";
+            if ($el['group']) {
+                $sql = "select SQL_CALC_FOUND_ROWS t.* from " . TP . $this->table_name . " as t 
+                join " . TP . "e_users_groups as ug on
+                ug.user_id = t.id
+                and ug.group_id = '" . $el['group'] . "'
+                where (t.username like '%{$text}%' or t.fullname like '%{$text}%') limit {$start}, {$perpage}";
+            }
 
-                $r = $emps->db->query($sql);
+            $r = $emps->db->query($sql);
 
-                $pages = $emps->count_pages($emps->db->found_rows());
+            $pages = $emps->count_pages($emps->db->found_rows());
 
-                $lst = array();
-                while ($ra = $emps->db->fetch_named($r)) {
-                    $ra = $emps->db->row_types($this->table_name, $ra);
-                    unset($ra['password']);
-                    $ra['display_name'] = $ra['username'];
-                    $ra['extra_info'] = $ra['fullname'];
-                    $lst[] = $ra;
-                }
+            $lst = array();
+            while ($ra = $emps->db->fetch_named($r)) {
+                $ra = $emps->db->row_types($this->table_name, $ra);
+                unset($ra['password']);
+                $ra['display_name'] = $ra['username'];
+                $ra['extra_info'] = $ra['fullname'];
+                $lst[] = $ra;
             }
 
         } else {

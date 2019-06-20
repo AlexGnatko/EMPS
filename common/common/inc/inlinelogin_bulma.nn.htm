@@ -1,12 +1,26 @@
-{{$t_panel_title = "Начать сеанс персонального доступа:"}}
-{{$t_error_activation = "Вы не прошли процедуру проверки e-mail адреса.<br />Вам должно прийти электронное письмо с кодом активации."}}
-{{$t_error_no_user = "Пользователь с таким именем не зарегистрирован"}}
-{{$t_error_password = "Неправильный пароль"}}
-{{$t_label_email = "E-mail адрес:"}}
-{{$t_link_signup = "Зарегистрироваться"}}
-{{$t_label_password = "Пароль:"}}
-{{$t_link_password = "Забыли пароль?"}}
-{{$t_login = "Войти"}}
+{{if $lang == "en"}}
+    {{$t_panel_title = "Log in:"}}
+    {{$t_error_activation = "You haven't confirmed your e-mail address.<br />Please check your inbox for the e-mail message with the confirmation link."}}
+    {{$t_error_no_user = "No such user found"}}
+    {{$t_error_password = "Wrong password"}}
+    {{$t_label_email = "E-mail:"}}
+    {{$t_link_signup = "Sign up"}}
+    {{$t_label_password = "Password:"}}
+    {{$t_link_password = "Forgot password?"}}
+    {{$t_login = "Log In"}}
+
+{{else}}
+    {{$t_panel_title = "Начать сеанс персонального доступа:"}}
+    {{$t_error_activation = "Вы не прошли процедуру проверки e-mail адреса.<br />Вам должно прийти электронное письмо с кодом активации."}}
+    {{$t_error_no_user = "Пользователь с таким именем не зарегистрирован"}}
+    {{$t_error_password = "Неправильный пароль"}}
+    {{$t_label_email = "E-mail адрес:"}}
+    {{$t_link_signup = "Зарегистрироваться"}}
+    {{$t_label_password = "Пароль:"}}
+    {{$t_link_password = "Забыли пароль?"}}
+    {{$t_login = "Войти"}}
+
+{{/if}}
 
 
 <div class="card">

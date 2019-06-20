@@ -183,11 +183,23 @@ class EMPS_DB
         return "(" . implode(" and ", $parts) . ")";
     }
 
+    public function or_clause($lst) {
+        $parts = [];
+        foreach ($lst as $v) {
+            $part = $this->where_clause($v);
+            $parts[] = $part;
+        }
+
+        return "(" . implode(" or ", $parts) . ")";
+    }
+
     public function where_clause($query){
         $parts = [];
         foreach($query as $n => $v){
             if ($n == '$and') {
                 $part = $this->and_clause($v);
+            } elseif ($n == '$or') {
+                $part = $this->or_clause($v);
             } else {
                 $part = "`{$n}`";
                 if(is_numeric($v) || is_float($v)) {
