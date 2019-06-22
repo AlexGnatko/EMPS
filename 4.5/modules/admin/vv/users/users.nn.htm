@@ -18,7 +18,13 @@
                 <th width="20%">
                     Логин
                 </th>
-                <th width="55%">
+                <th width="5%">
+                    <i class="fa fa-globe"></i>
+                </th>
+                <th width="5%">
+                    <i class="fa fa-unlock"></i>
+                </th>
+                <th width="45%">
                     Полное имя
                     <small class="is-pulled-right">Права</small>
                 </th>
@@ -36,8 +42,13 @@
                     <a :href="row.ilink" @click="navigate(row.ilink, $event)">{{"row.username"|js}}</a>
                 </td>
                 <td>
+                    <i class="fa fa-globe" v-if="row.site > 0"></i>
+                </td>
+                <td>
+                    <i class="fa fa-unlock" v-if="row.status > 0"></i>
+                </td>
+                <td>
                     <a :href="row.ilink" @click="navigate(row.ilink, $event)">{{"row.fullname"|js}}</a>
-                    {{"row.site"|js}} {{"row.status"|js}}
                     <small class="is-pulled-right">{{"row.grp"|js}}</small>
                 </td>
                 <td>
