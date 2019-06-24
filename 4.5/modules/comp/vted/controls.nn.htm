@@ -33,6 +33,14 @@
                 </div>
                 &nbsp;
             </form>
+            &nbsp;
+        {{/if}}
+
+        {{if !$vted_no_refresh}}
+            <div class="field">
+                <button class="button is-outlined is-info" @click="load_list()">
+                    <i class="fa fa-refresh"></i></button> &nbsp;
+            </div>
         {{/if}}
 
         {{if $vted_search}}

@@ -23,6 +23,7 @@
     "pear-pear.php.net/MIME_Type": "*",
     "pear-pear.php.net/Mail": "*",
     "pear-pear.php.net/Mail_MIME": "*",
-    "phpmailer/phpmailer": "~6.0"
+    "phpmailer/phpmailer": "~6.0",
+    "phpoffice/phpspreadsheet": "*"
   }
 }
