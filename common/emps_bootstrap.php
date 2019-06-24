@@ -54,6 +54,11 @@ if ($emps_force_protocol) {
     $emps->ensure_protocol($emps_force_protocol);
 }
 
+$fn = $emps->common_module('config/precore.php');
+if ($fn) {
+    require_once $fn;
+}
+
 require_once EMPS_PATH_PREFIX . "/core/core.php";                    // Core classes (some not included if $emps->fast is set)
 
 mb_internal_encoding('utf-8');
