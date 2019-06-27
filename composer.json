@@ -11,11 +11,6 @@
   "config": {
     "secure-http": false
   },
-  "repositories": [
-    {
-      "type": "pear"
-    }
-  ],
   "require": {
     "php": ">=5.6.0",
     "smarty/smarty": ">=3.0.0",
