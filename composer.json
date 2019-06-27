@@ -13,16 +13,12 @@
   },
   "repositories": [
     {
-      "type": "pear",
-      "url": "http://pear.php.net"
+      "type": "pear"
     }
   ],
   "require": {
     "php": ">=5.6.0",
     "smarty/smarty": ">=3.0.0",
-    "pear-pear.php.net/MIME_Type": "*",
-    "pear-pear.php.net/Mail": "*",
-    "pear-pear.php.net/Mail_MIME": "*",
     "phpmailer/phpmailer": "~6.0",
     "phpoffice/phpspreadsheet": "*"
   }
