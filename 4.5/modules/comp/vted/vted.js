@@ -165,6 +165,9 @@
                             var data = response.data;
                             if (data.code == 'OK') {
                                 that.lst = data.lst;
+                                if (data.pages.total > 0 && data.lst.length == 0) {
+                                    that.roll_to(data.pages.first);
+                                }
                                 that.pages = data.pages;
                                 that.clipboard = data.clipboard;
                                 that.search_text = data.search_text;
