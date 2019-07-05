@@ -903,7 +903,8 @@ class EMPS_Auth
         $user = $emps->p->read_properties($user, $emps->p->get_context(DT_USER, 1, $user['id']));
 
         if (!$user['fullname']) {
-            $user['fullname'] = $this->form_fullname($user);
+            $ra = $this->form_fullname($user);
+            $user['fullname'] = $ra['fullname'];
         }
 
         if (!$user['display_name']) {
