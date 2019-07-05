@@ -11,6 +11,7 @@ class EMPS_Categories {
     public $p_structure = "";
 
     public $explain_list_nodes = false;
+    public $tag_list_nodes = false;
 
     public function ensure_item_in_node($item_id, $node_id)
     {
@@ -37,8 +38,27 @@ class EMPS_Categories {
 
     public function explain_structure_node($ra) {
         unset($ra['full_id']);
+
         return $ra;
     }
+
+    public function tag_structure_node($ra) {
+        if ($ra['parent'] != 0) {
+            $parent = $this->load_node($ra['parent']);
+        }
+
+
+        $ra['tags'] = [];
+        if (trim($ra['code']) != "") {
+            $ra['tags'][$ra['code']] = true;
+        }
+        if ($parent['tags']) {
+            $ra['tags'] = array_merge($ra['tags'], $parent['tags']);
+        }
+
+        return $ra;
+    }
+
 
     public function list_nodes($item_id)
     {
@@ -56,6 +76,10 @@ class EMPS_Categories {
             if($this->explain_list_nodes){
                 $ra = $this->explain_structure_node($ra);
             }
+            if($this->tag_list_nodes) {
+                $ra = $this->tag_structure_node($ra);
+            }
+
             unset($ra['full_id']);
             $lst[] = $ra;
         }
@@ -88,6 +112,17 @@ class EMPS_Categories {
             $lst .= ','.$this->list_child_nodes_self($sq);
         }
         return $lst;
+    }
+
+    public function load_node($id) {
+        global $emps;
+
+        $node = $emps->db->get_row($this->table_struct, "id = {$id}");
+        if ($node) {
+            $node = $this->explain_structure_node($node);
+            $node = $this->tag_structure_node($node);
+            return $node;
+        }
     }
 
     public function node_by_code($code) {
