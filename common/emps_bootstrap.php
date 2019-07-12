@@ -101,7 +101,10 @@ if (!$emps->fast) {
 $sua = $emps->get_setting("service_unavailable");
 if ($sua == 'yes') {
     $go = true;
-    if (substr($_SERVER['REQUEST_URI'], 0, 6) == "/admin") {
+    if (
+        substr($_SERVER['REQUEST_URI'], 0, 6) == "/admin" ||
+        substr($_SERVER['REQUEST_URI'], 0, 4) == "/mjs"
+    ) {
         $go = false;
         if ($emps->auth->USER_ID > 0) {
             if ($emps->auth->USER_ID != 1) {
