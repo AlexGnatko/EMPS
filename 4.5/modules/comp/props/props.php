@@ -92,7 +92,14 @@ if ($_POST['post_import']) {
         }
     }else {
         foreach ($data as $ra) {
-            $emps->p->save_property($context_id, $ra['code'], $ra['type'], $ra['value'], false, 0);
+            $value = 'v_text';
+            if ($ra['type'] == 'i') {
+                $value = 'v_int';
+            }
+            if ($ra['type'] == 'c') {
+                $value = 'v_char';
+            }
+            $emps->p->save_property($context_id, $ra['code'], $ra['type'], $ra[$value], false, 0);
         }
     }
 
