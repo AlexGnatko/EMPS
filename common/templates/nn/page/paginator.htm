@@ -1,7 +1,7 @@
 {{if $page.css_fw == "bulma"}}
     <nav class="pagination" role="navigation" aria-label="pagination">
-        <a class="pagination-previous" href="{{$pages.prev.link}}"{{$linkextra}}>Предыдущая</a>
-        <a class="pagination-next" href="{{$pages.next.link}}"{{$linkextra}}>Следующая</a>
+        <a class="pagination-previous" href="{{$pages.prev.link}}"{{$linkextra}}><i class="fa fa-chevron-left"></i></a>
+        <a class="pagination-next" href="{{$pages.next.link}}"{{$linkextra}}><i class="fa fa-chevron-right"></i></a>
         <div class="pagination-list">
             {{foreach from=$pages.pl item="page"}}
                 <div>

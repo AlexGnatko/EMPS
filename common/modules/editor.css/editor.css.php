@@ -27,6 +27,8 @@ if ($css_fw == "bulma") {
 
 echo '/* default.css */'."\r\n";
 echo file_get_contents($emps->plain_file("/css/default.css"));
+echo '/* site-default.css */'."\r\n";
+echo file_get_contents($emps->plain_file("/css/site-default.css"));
 echo '/* editor.css */'."\r\n";
 echo file_get_contents($emps->plain_file("/css/editor.css"));
 
