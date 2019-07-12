@@ -99,6 +99,9 @@ if ($_POST['post_import']) {
             if ($ra['type'] == 'c') {
                 $value = 'v_char';
             }
+            if (isset($ra['value'])) {
+                $value = "value";
+            }
             $emps->p->save_property($context_id, $ra['code'], $ra['type'], $ra[$value], false, 0);
         }
     }
