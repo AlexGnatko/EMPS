@@ -44,6 +44,10 @@
             </tr>
             </tbody>
         </table>
+
+        <div class="has-text-right field">
+            <button class="button is-info" type="button" @click.stop="open_import">Импортировать...</button>
+        </div>
     {{/capture}}
 
     {{capture name="buttons_pre"}}
@@ -53,9 +57,27 @@
     {{/capture}}
     {{include file="db:_comp/vted"}}
 
+    <modal id="importExportModal" :submit="submit_import">
+        <template slot="header">
+            Экспорт / импорт страниц сайта
+        </template>
+
+        <textarea class="textarea" rows="10" v-model="content_json">
+
+        </textarea>
+
+        <template slot="actions">
+            <button type="submit" class="button is-success">Импорт</button>
+        </template>
+    </modal>
+
 </div>
 <div class="app-loading">
     {{include file="db:inc/spinner"}}
 </div>
 
 <script src="/mjs/admin-vv-content/content.js" defer></script>
+
+<script>
+    var string_imported = "Успешно импортировано";
+</script>
