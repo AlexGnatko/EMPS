@@ -1,5 +1,7 @@
 <h1>Страницы сайта</h1>
 
+<script src="/mjs/admin-vv-content/content.js" defer></script>
+
 <div id="content_app" style="display: none">
 
 
@@ -13,6 +15,7 @@
         <table class="table is-fullwidth">
             <thead>
             <tr>
+                <th width="5%" class="has-text-centered"><button type="button" class="button is-small is-white" @click="select_inverse()"><i class="fa fa-check-square-o"></i></button></th>
                 <th width="10%">
                     Id
                 </th>
@@ -20,7 +23,7 @@
                 <th width="20%">
                     URI
                 </th>
-                <th width="55%">
+                <th width="50%">
                     Название страницы
                 </th>
                 <th width="15%" class="has-text-right">
@@ -30,6 +33,9 @@
             </thead>
             <tbody>
             <tr v-for="(row, index) in lst">
+                <td>
+                    <input type="checkbox" v-model="row.checked"/>
+                </td>
                 <td>{{"row.id"|js}}
                 </td>
                 <td>
@@ -45,9 +51,28 @@
             </tbody>
         </table>
 
-        <div class="has-text-right field">
-            <button class="button is-info" type="button" @click.stop="open_import">Импортировать...</button>
+        <div class="columns">
+            <div class="column">
+                <button class="button is-info is-outlined" type="button" @click.stop="export_selected">Экспортировать выбранные</button>
+            </div>
+            <div class="column has-text-right">
+                <button class="button is-info is-outlined" type="button" @click.stop="open_import">Импорт</button>
+            </div>
         </div>
+
+        <modal id="importExportModal" :submit="submit_import">
+            <template slot="header">
+                Экспорт / импорт страниц сайта
+            </template>
+
+            <textarea class="textarea" rows="10" v-model="content_json">
+
+        </textarea>
+
+            <template slot="actions">
+                <button type="submit" class="button is-success">Импорт</button>
+            </template>
+        </modal>
     {{/capture}}
 
     {{capture name="buttons_pre"}}
@@ -57,26 +82,12 @@
     {{/capture}}
     {{include file="db:_comp/vted"}}
 
-    <modal id="importExportModal" :submit="submit_import">
-        <template slot="header">
-            Экспорт / импорт страниц сайта
-        </template>
 
-        <textarea class="textarea" rows="10" v-model="content_json">
-
-        </textarea>
-
-        <template slot="actions">
-            <button type="submit" class="button is-success">Импорт</button>
-        </template>
-    </modal>
 
 </div>
 <div class="app-loading">
     {{include file="db:inc/spinner"}}
 </div>
-
-<script src="/mjs/admin-vv-content/content.js" defer></script>
 
 <script>
     var string_imported = "Успешно импортировано";

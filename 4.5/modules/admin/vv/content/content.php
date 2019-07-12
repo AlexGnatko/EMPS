@@ -10,7 +10,7 @@ if ($emps->auth->credentials('admin')):
     require_once $emps->common_module('videos/videos.class.php');
 
 
-    class EMPS_MenuEditor extends EMPS_VueTableEditor
+    class EMPS_ContentEditor extends EMPS_VueTableEditor
     {
         public $ref_type = DT_CONTENT;
         public $ref_sub = 1;
@@ -47,7 +47,7 @@ if ($emps->auth->credentials('admin')):
         }
     }
 
-    $ited = new EMPS_MenuEditor;
+    $ited = new EMPS_ContentEditor;
 
     require_once $emps->page_file_name("_admin/vv/content,common", "controller");
 
