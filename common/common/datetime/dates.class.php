@@ -517,6 +517,7 @@ class EMPS_Dates
         $month = date("m", $dt);
 
         $ti['month'] = $this->months[$month - 1];
+        $ti['fmonth'] = $this->fmonths[$month - 1];
         $ti['rfmonth'] = $this->rfmonths[$month - 1];
         $ti['rfmonthi'] = $this->rfmonthsi[$month - 1];
 

@@ -141,6 +141,9 @@ class EMPS extends EMPS_Common
                     $ra['sel'] = 1;
                 }
             }
+            if ($ra['link'] == $this->menu_URI) {
+                $ra['exact_sel'] = true;
+            }
 
             if ($md['grant']) {
                 if (!$this->auth->credentials($md['grant'])) continue;
