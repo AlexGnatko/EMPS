@@ -12,6 +12,8 @@
     {{capture name="list"}}
         {{include file="db:_comp/vted,controls" controls_type="top"}}
 
+        {{include file="db:page/vue_paginator"}}
+
         <table class="table is-fullwidth">
             <thead>
             <tr>
@@ -51,6 +53,8 @@
             </tbody>
         </table>
 
+        {{include file="db:page/vue_paginator"}}
+
         <div class="columns">
             <div class="column">
                 <button class="button is-info is-outlined" type="button" @click.stop="export_selected">Экспортировать выбранные</button>
@@ -59,6 +63,7 @@
                 <button class="button is-info is-outlined" type="button" @click.stop="open_import">Импорт</button>
             </div>
         </div>
+
 
         <modal id="importExportModal" :submit="submit_import">
             <template slot="header">

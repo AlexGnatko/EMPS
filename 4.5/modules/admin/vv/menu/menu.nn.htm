@@ -38,6 +38,8 @@
     {{capture name="list"}}
         {{include file="db:_comp/vted,controls" controls_type="top"}}
 
+        {{include file="db:page/vue_paginator"}}
+
         <table class="table is-fullwidth">
             <thead>
             <tr>
@@ -87,6 +89,8 @@
             </tr>
             </tbody>
         </table>
+
+        {{include file="db:page/vue_paginator"}}
     {{/capture}}
 
     <modal id="menuExportModal" :submit="submit_import">
