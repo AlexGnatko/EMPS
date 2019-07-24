@@ -13,6 +13,9 @@ class EMPS_Categories {
     public $explain_list_nodes = false;
     public $tag_list_nodes = false;
 
+    public $and_struct = "";
+    public $and_item = "";
+
     public function ensure_item_in_node($item_id, $node_id)
     {
         global $emps;
@@ -46,7 +49,6 @@ class EMPS_Categories {
         if ($ra['parent'] != 0) {
             $parent = $this->load_node($ra['parent']);
         }
-
 
         $ra['tags'] = [];
         if (trim($ra['code']) != "") {
@@ -135,5 +137,28 @@ class EMPS_Categories {
             $node = $this->explain_structure_node($node);
             return $node;
         }
+    }
+
+    public function count_items_in_node($node_id) {
+        global $emps;
+
+        $lst = $this->list_child_nodes_self(['parent' => $node_id]);
+
+        $q = "select count(distinct l.item_id) 
+              from ".TP.$this->table_link." as l
+              join ".TP.$this->table_struct." as s
+              on l.struct_id in ({$lst})
+              and s.id = l.struct_id
+              {$this->and_struct}
+              join ".TP.$this->table_items." as i
+              on i.id = l.item_id
+              {$this->and_item}
+                ";
+        $this->last_count_query = $q;
+
+        $r = $emps->db->query($q);
+        $ra = $emps->db->fetch_row($r);
+
+        return $ra[0];
     }
 }
