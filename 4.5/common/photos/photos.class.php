@@ -529,6 +529,21 @@ class EMPS_Photos
         return $ra;
     }
 
+    function is_jpeg(&$pict)
+    {
+        return (bin2hex($pict[0]) == 'ff' && bin2hex($pict[1]) == 'd8');
+    }
+
+    function is_png(&$pict)
+    {
+        return (bin2hex($pict[0]) == '89' && $pict[1] == 'P' && $pict[2] == 'N' && $pict[3] == 'G');
+    }
+
+    function is_gif(&$pict)
+    {
+        return ($pict[0] == 'G' && $pict[1] == 'I' && $pict[2] == 'F');
+    }
+
     public function download_image($context_id, $url)
     {
         global $emps, $SET;
@@ -563,6 +578,18 @@ class EMPS_Photos
         if (stristr($url, ".gif")) {
             $filename = "file.gif";
             $type = "image/gif";
+        }
+
+        if ($this->check_type) {
+            if ($this->is_jpeg($data)) {
+                $type = "image/jpeg";
+            };
+            if ($this->is_png($data)) {
+                $type = "image/png";
+            };
+            if ($this->is_gif($data)) {
+                $type = "image/gif";
+            };
         }
 
         $path = parse_url($url, PHP_URL_PATH);
