@@ -408,6 +408,7 @@ CREATE TEMPORARY TABLE `temp_e_userlog` (
 CREATE TEMPORARY TABLE `temp_e_users` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `site` tinyint(4) NOT NULL,
+  `type` tinyint(4) NOT NULL,
   `context_id` bigint NOT NULL,
   `twitter_id` bigint NOT NULL,  
   `username` varchar(255) NOT NULL,
@@ -422,6 +423,7 @@ CREATE TEMPORARY TABLE `temp_e_users` (
   KEY `twitter_id` (`twitter_id`),  
   KEY `status` (`status`),
   KEY `cdt` (`cdt`),
+  KEY `type` (`type`),
   KEY `site` (`site`),
   KEY `context_id` (`context_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
