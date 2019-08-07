@@ -36,6 +36,9 @@ class EMPS_NG_PickList
             $x = explode("|", $extra);
             foreach ($x as $v) {
                 $xx = explode("=", $v, 2);
+                if ($xx[0] == 'group') {
+                    continue;
+                }
                 if (count($xx) == 2) {
                     $and .= " and ";
                     $and .= $emps->db->sql_escape($xx[0]) . " = '" . $emps->db->sql_escape($xx[1]) . "'";
@@ -81,17 +84,20 @@ class EMPS_NG_PickList
                 }
             }
 
+            $and = $this->make_and($this->filter);
+
             $perpage = $this->perpage;
             $start = intval($start);
 
             $sql = "select SQL_CALC_FOUND_ROWS * from " . TP .  $this->table_name . "
-                where (username like '%{$text}%' or fullname like '%{$text}%') limit {$start}, {$perpage}";
+                where (username like '%{$text}%' or fullname like '%{$text}%') {$and} limit {$start}, {$perpage}";
             if ($el['group']) {
                 $sql = "select SQL_CALC_FOUND_ROWS t.* from " . TP . $this->table_name . " as t 
                 join " . TP . "e_users_groups as ug on
                 ug.user_id = t.id
-                and ug.group_id = '" . $el['group'] . "'
-                where (t.username like '%{$text}%' or t.fullname like '%{$text}%') limit {$start}, {$perpage}";
+                and ug.group_id = '" . $el['group'] . "' 
+                where (t.username like '%{$text}%' or t.fullname like '%{$text}%') {$and} limit {$start}, {$perpage}";
+
             }
 
             $r = $emps->db->query($sql);
