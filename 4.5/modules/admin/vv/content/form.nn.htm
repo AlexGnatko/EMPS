@@ -1,3 +1,10 @@
+{{if $lang == "en"}}
+    {{$str_with_slashes = "(with slashes)"}}
+    {{$str_title = "Title"}}
+{{else}}
+    {{$str_with_slashes = "(со слэшами)"}}
+    {{$str_title = "Название"}}
+{{/if}}
 <div class="field is-horizontal">
     <div class="field-label is-normal">
         <label class="label">URI</label>
@@ -8,7 +15,7 @@
                 <input class="input" type="text" placeholder="/some-page/ or /some-page.html" v-model="new_row.uri">
             </div>
             <p class="help is-danger">
-                (со слэшами)
+                {{$str_with_slashes}}
             </p>
         </div>
     </div>
@@ -16,7 +23,7 @@
 </div>
 <div class="field is-horizontal">
     <div class="field-label is-normal">
-        <label class="label">Название</label>
+        <label class="label">{{$str_title}}</label>
     </div>
     <div class="field-body">
         <div class="field">

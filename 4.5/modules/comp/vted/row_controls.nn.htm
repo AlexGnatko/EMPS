@@ -1,8 +1,15 @@
+{{if $lang == "en"}}
+    {{$str_edit = "Edit"}}
+    {{$str_delete = "Delete"}}
+{{else}}
+    {{$str_edit = "Правка"}}
+    {{$str_delete = "Удалить"}}
+{{/if}}
 <div class="buttons is-justified-end">
     <button class="button is-small is-primary" @click="navigate(row.ilink, $event)">
-        <i class="fa fa-pencil"></i> &nbsp; Правка
+        <i class="fa fa-pencil"></i> &nbsp; {{$str_edit}}
     </button>
     <button class="button is-small is-danger" @click="ask_delete(row)">
-        <i class="fa fa-remove"></i> &nbsp; Удалить
+        <i class="fa fa-remove"></i> &nbsp; {{$str_delete}}
     </button>
 </div>

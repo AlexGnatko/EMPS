@@ -1,3 +1,38 @@
+{{if $lang == "en"}}
+    {{$str_sections = "Sections"}}
+    {{$str_below = "Below"}}
+    {{$str_name = "Name"}}
+    {{$str_actions = "Actions"}}
+    {{$str_back = "Back to List"}}
+    {{$str_section = "Section"}}
+    {{$str_create_title = "Create a new item"}}
+    {{$str_create = "Create"}}
+    {{$str_please_confirm = "Please confirm"}}
+    {{$str_delete_item = "Delete item"}}
+    {{$str_yes = "Yes"}}
+    {{$str_sorry = "Sorry"}}
+    {{$str_cant_load = "Can't find an item with this id."}}
+    {{$str_filters = "Filters"}}
+    {{$str_clear_filter = "Clear Filter"}}
+    {{$str_set_filter = "Set Filter"}}
+{{else}}
+    {{$str_sections = "Подразделы"}}
+    {{$str_below = "Ниже"}}
+    {{$str_name = "Наименование"}}
+    {{$str_actions = "Действия"}}
+    {{$str_back = "Назад в список"}}
+    {{$str_section = "Подраздел"}}
+    {{$str_create_title = "Создать новый элемент"}}
+    {{$str_create = "Создать"}}
+    {{$str_please_confirm = "Подтвердите, пожалуйста"}}
+    {{$str_delete_item = "Удалить позицию"}}
+    {{$str_yes = "Да"}}
+    {{$str_sorry = "Извините"}}
+    {{$str_cant_load = "Невозможно загрузить элемент с указанным идентификатором."}}
+    {{$str_filters = "Фильтры"}}
+    {{$str_clear_filter = "Очистить фильтр"}}
+    {{$str_set_filter = "Установить фильтр"}}
+{{/if}}
 <vted inline-template>
     <div>
         <div v-if="list_mode">
@@ -7,7 +42,7 @@
                         <aside class="menu" >
                             {{include file="db:_comp/vted,controls" controls_type="toptree"}}
                             <p class="menu-label">
-                                Подразделы
+                                {{$str_sections}}
                             </p>
                             <div class="emps-tree-left">
                             <ul class="menu-list tree-list">
@@ -44,18 +79,18 @@
                             </th>
                             {{if $Multilevel}}
                                 <th width="10%" class="has-text-centered">
-                                    Ниже
+                                    {{$str_below}}
                                 </th>
                                 <th width="65%">
-                                    Наименование
+                                    {{$str_name}}
                                 </th>
                             {{else}}
                                 <th width="75%">
-                                    Наименование
+                                    {{$str_name}}
                                 </th>
                             {{/if}}
                             <th width="15%" class="has-text-right">
-                                Действия
+                                {{$str_actions}}
                             </th>
                         </tr>
                     </thead>
@@ -98,7 +133,7 @@
                             {{/if}}
                             <a :href="back_link()" class="button is-link" @click="navigate(back_link(), $event)">
                                 <i class="fa fa-reply"></i> &nbsp;
-                                Назад в список</a>
+                                {{$str_back}}</a>
                             {{if $smarty.capture.buttons_post}}
                                 {{$smarty.capture.buttons_post}}
                             {{/if}}
@@ -133,7 +168,7 @@
                 <div class="panel-heading">
                     <div class="columns">
                         <div class="column is-size-4">
-                            Подраздел:
+                            {{$str_section}}:
                             {{if $smarty.capture.vted_header}}
                                 {{$smarty.capture.vted_header}}
                             {{else}}
@@ -146,7 +181,7 @@
                             {{/if}}
                             <a :href="back_link()" class="button is-link" @click="navigate(back_link(), $event)">
                                 <i class="fa fa-reply"></i> &nbsp;
-                                Назад в список</a>
+                                {{$str_back}}</a>
                             {{if $smarty.capture.buttons_post}}
                                 {{$smarty.capture.buttons_post}}
                             {{/if}}
@@ -181,43 +216,43 @@
 
         <modal id="createModal" :submit="submit_create">
             <template slot="header">
-                Создать новый элемент
+                {{$str_create_title}}
             </template>
 
             {{include file=$form_name}}
 
             <template slot="actions">
-                <button type="submit" class="button is-success">Создать</button>
+                <button type="submit" class="button is-success">{{$str_create}}</button>
             </template>
         </modal>
 
         <modal id="deleteRowModal" size="sm">
-            <template slot="header">Подтвердите, пожалуйста</template>
+            <template slot="header">{{$str_please_confirm}}</template>
 
-            Удалить позицию <strong>{{"selected_row.name"|js}}</strong>? <span class="tag is-primary">{{"selected_row.id"|js}}</span>
+            {{$str_delete_item}} <strong>{{"selected_row.name"|js}}</strong>? <span class="tag is-primary">{{"selected_row.id"|js}}</span>
 
             <template slot="actions">
-                <button type="button" class="button is-danger" @click="delete_selected_row()">Да</button>
+                <button type="button" class="button is-danger" @click="delete_selected_row()">{{$str_yes}}</button>
             </template>
         </modal>
 
         <modal id="cantLoadRowModal" size="sm">
-            <template slot="header">Извините</template>
+            <template slot="header">{{$str_sorry}}</template>
 
-            Невозможно загрузить элемент с указанным идентификатором.
+            {{$str_cant_load}}
 
         </modal>
 
         <modal id="vtedFilterModal">
-            <template slot="header">Фильтры</template>
+            <template slot="header">{{$str_filters}}</template>
 
             {{if $smarty.capture.vted_filter}}
             {{$smarty.capture.vted_filter}}
             {{/if}}
 
             <template slot="actions">
-                <button type="button" class="button is-warning" @click="clear_filter()">Очистить фильтр</button>
-                <button type="button" class="button is-primary" @click="post_set_filter()">Установить фильтр</button>
+                <button type="button" class="button is-warning" @click="clear_filter()">{{$str_clear_filter}}</button>
+                <button type="button" class="button is-primary" @click="post_set_filter()">{{$str_set_filter}}</button>
             </template>
         </modal>
 

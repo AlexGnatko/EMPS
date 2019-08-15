@@ -1,12 +1,53 @@
+{{if $lang == "en"}}
+    {{$str_code = "Code"}}
+    {{$str_type = "Type"}}
+    {{$str_value = "Value"}}
+    {{$str_delete_selected = "Delete Selected"}}
+    {{$str_export_sel = "Export Selected"}}
+    {{$str_export_sel_txt = "Export Selected (.txt)"}}
+    {{$str_import = "Import"}}
+    {{$str_add = "Add Setting"}}
+    {{$str_edit_title = "Edit Setting"}}
+    {{$str_add_title = "Add Setting"}}
+    {{$str_set_code = "Setting Code"}}
+    {{$str_data_type = "Data Type"}}
+    {{$str_save_changes = "Save Changes"}}
+    {{$str_create = "Create"}}
+    {{$str_ex_im = "Export / Import"}}
+    {{$str_json = "JSON-code or text"}}
+    {{$str_please_confirm = "Please confirm"}}
+    {{$str_con_delete = "Delete selected settings?"}}
+    {{$str_yes = "Yes"}}
+{{else}}
+    {{$str_code = "Код"}}
+    {{$str_type = "Тип"}}
+    {{$str_value = "Значение"}}
+    {{$str_delete_selected = "Удалить выбранные"}}
+    {{$str_export_sel = "Экспортировать выбранные"}}
+    {{$str_export_sel_txt = "Экспортировать выбранные (.txt)"}}
+    {{$str_import = "Импорт"}}
+    {{$str_add = "Добавить настройку"}}
+    {{$str_edit_title = "Редактировать настройку"}}
+    {{$str_add_title = "Добавить настройку"}}
+    {{$str_set_code = "Код настройки"}}
+    {{$str_data_type = "Тип данных"}}
+    {{$str_save_changes = "Сохранить изменения"}}
+    {{$str_create = "Создать"}}
+    {{$str_ex_im = "Экспорт / Импорт"}}
+    {{$str_json = "JSON-код или текст"}}
+    {{$str_please_confirm = "Подтвердите, пожалуйста"}}
+    {{$str_con_delete = "Удалить выбранные настройки?"}}
+    {{$str_yes = "Да"}}
+{{/if}}
 <props-editor inline-template>
 
     <div>
         <table class="table is-fullwidth">
             <tr>
                 <th width="5%" class="has-text-centered"><button type="button" class="button is-small is-white" @click="select_inverse()"><i class="fa fa-check-square-o"></i></button></th>
-                <th width="30%">Код</th>
-                <th width="10%">Тип</th>
-                <th width="50%">Значение</th>
+                <th width="30%">{{$str_code}}</th>
+                <th width="10%">{{$str_type}}</th>
+                <th width="50%">{{$str_value}}</th>
                 <th width="5%">&nbsp;</th>
             </tr>
             <tr v-for="row in lst">
@@ -21,29 +62,29 @@
 
         <div class="columns">
             <div class="column is-narrow">
-                <button class="button is-danger" @click="ask_delete()">Удалить выбранные</button>
-                <button class="button is-info" @click="export_selected('json')">Экспортировать выбранные</button>
-                <button class="button is-info" @click="export_selected('txt')">Экспортировать выбранные (.txt)</button>
+                <button class="button is-danger" @click="ask_delete()">{{$str_delete_selected}}</button>
+                <button class="button is-info" @click="export_selected('json')">{{$str_export_sel}}</button>
+                <button class="button is-info" @click="export_selected('txt')">{{$str_export_sel_txt}}</button>
             </div>
             <div class="column is-hidden-mobile"></div>
             <div class="column is-narrow">
-                <button class="button is-info" @click="open_modal('exportModal')">Импорт</button>
-                <button class="button is-primary" @click="add_prop()">Добавить настройку</button>
+                <button class="button is-info" @click="open_modal('exportModal')">{{$str_import}}</button>
+                <button class="button is-primary" @click="add_prop()">{{$str_add}}</button>
             </div>
         </div>
 
         <modal id="editModal" :submit="submit_changes">
             <template slot="header">
-                <span v-if="edit_mode">Редактировать настройку</span>
-                <span v-else>Добавить настройку</span>
+                <span v-if="edit_mode">{{$str_edit_title}}</span>
+                <span v-else>{{$str_add_title}}</span>
             </template>
             <div class="columns">
                 <div class="column field">
-                    <label class="label">Код настройки:</label>
+                    <label class="label">{{$str_set_code}}:</label>
                     <input type="text" class="input" v-model="current_row.code"/>
                 </div>
                 <div class="column field">
-                    <label class="label">Тип данных:</label>
+                    <label class="label">{{$str_data_type}}:</label>
                     <div class="select is-fullwidth">
                         <select v-model="current_row.type">
                             <option v-for="option in types" :value="option.code">
@@ -54,39 +95,38 @@
                 </div>
             </div>
             <div class="field">
-                <label class="label">Значение:</label>
+                <label class="label">{{$str_value}}:</label>
                 <textarea v-model="current_row.value" class="textarea" rows="5"></textarea>
             </div>
             <template slot="actions">
-                <button type="submit" class="button is-success" v-if="edit_mode">Сохранить изменения</button>
-                <button type="submit" class="button is-success" v-else>Создать</button>
+                <button type="submit" class="button is-success" v-if="edit_mode">{{$str_save_changes}}</button>
+                <button type="submit" class="button is-success" v-else>{{$str_create}}</button>
             </template>
         </modal>
 
         <modal id="exportModal">
-            <template slot="header">Экспорт / Импорт</template>
+            <template slot="header">{{$str_ex_im}}</template>
 
             <div class="field">
-                <label class="label">JSON-код или текст:</label>
+                <label class="label">{{$str_json}}:</label>
                 <textarea v-model="import_text" class="textarea" rows="8"></textarea>
             </div>
 
             <template slot="actions">
-                <button type="button" @click.stop="do_import" class="button is-success">Импорт</button>
+                <button type="button" @click.stop="do_import" class="button is-success">{{$str_import}}</button>
             </template>
         </modal>
 
 
         <modal id="deleteModal" size="sm">
-            <template slot="header">Подтвердите, пожалуйста</template>
+            <template slot="header">{{$str_please_confirm}}</template>
 
-            Удалить выбранные настройки?
+            {{$str_con_delete}}
 
             <template slot="actions">
-                <button type="button" class="button is-danger" @click="delete_props()">Да</button>
+                <button type="button" class="button is-danger" @click="delete_props()">{{$str_yes}}</button>
             </template>
         </modal>
-
 
     </div>
 

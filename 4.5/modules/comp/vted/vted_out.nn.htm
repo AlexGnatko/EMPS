@@ -1,3 +1,4 @@
+
 {{include file="db:_comp/selector"}}
 {{if $has_tree}}
     {{include file="db:_comp/treeitem"}}
@@ -7,7 +8,15 @@
 <script src="/mjs/comp-vted/vted.js" defer></script>
 <script>
     var vted_title = "{{$page.title}}";
+    {{if $lang == "en"}}
+    var string_saved = "Saved";
+    var string_created = "Created";
+    var string_deleted = "Deleted";
+
+    {{else}}
     var string_saved = "Сохранено";
     var string_created = "Создано";
     var string_deleted = "Удалено";
+
+    {{/if}}
 </script>

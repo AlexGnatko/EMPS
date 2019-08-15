@@ -1,4 +1,24 @@
-<h1>Страницы сайта</h1>
+{{if $lang == "en"}}
+    {{$str_pages = "Content Pages"}}
+    {{$str_name = "Page Title"}}
+    {{$str_actions = "Actions"}}
+    {{$str_export_selected = "Export Selected"}}
+    {{$str_import = "Import"}}
+    {{$str_exim = "Export / Import Pages"}}
+    {{$str_view = "Preview"}}
+    {{$str_im_success = "Successfully imported!"}}
+{{else}}
+    {{$str_pages = "Страницы сайта"}}
+    {{$str_name = "Название страницы"}}
+    {{$str_actions = "Действия"}}
+    {{$str_export_selected = "Экспортировать выбранные"}}
+    {{$str_import = "Импорт"}}
+    {{$str_exim = "Экспорт / импорт страниц сайта"}}
+    {{$str_view = "Просмотр"}}
+    {{$str_im_success = "Успешно импортировано"}}
+{{/if}}
+
+<h1>{{$str_pages}}</h1>
 
 <script src="/mjs/admin-vv-content/content.js" defer></script>
 
@@ -26,10 +46,10 @@
                     URI
                 </th>
                 <th width="50%">
-                    Название страницы
+                    {{$str_name}}
                 </th>
                 <th width="15%" class="has-text-right">
-                    Действия
+                    {{$str_actions}}
                 </th>
             </tr>
             </thead>
@@ -57,17 +77,17 @@
 
         <div class="columns">
             <div class="column">
-                <button class="button is-info is-outlined" type="button" @click.stop="export_selected">Экспортировать выбранные</button>
+                <button class="button is-info is-outlined" type="button" @click.stop="export_selected">{{$str_export_selected}}</button>
             </div>
             <div class="column has-text-right">
-                <button class="button is-info is-outlined" type="button" @click.stop="open_import">Импорт</button>
+                <button class="button is-info is-outlined" type="button" @click.stop="open_import">{{$str_import}}</button>
             </div>
         </div>
 
 
         <modal id="importExportModal" :submit="submit_import">
             <template slot="header">
-                Экспорт / импорт страниц сайта
+                {{$str_exim}}
             </template>
 
             <textarea class="textarea" rows="10" v-model="content_json">
@@ -75,7 +95,7 @@
         </textarea>
 
             <template slot="actions">
-                <button type="submit" class="button is-success">Импорт</button>
+                <button type="submit" class="button is-success">{{$str_import}}</button>
             </template>
         </modal>
     {{/capture}}
@@ -83,7 +103,7 @@
     {{capture name="buttons_pre"}}
         <a :href="selected_row.uri" class="button is-info is-outlined">
             <i class="fa fa-eye"></i> &nbsp;
-            Просмотр</a>
+            {{$str_view}}</a>
     {{/capture}}
     {{include file="db:_comp/vted"}}
 
@@ -95,5 +115,5 @@
 </div>
 
 <script>
-    var string_imported = "Успешно импортировано";
+    var string_imported = "{{$str_im_success}}";
 </script>

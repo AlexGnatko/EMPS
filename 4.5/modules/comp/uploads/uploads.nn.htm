@@ -1,3 +1,8 @@
+{{if $lang == "en"}}
+    {{$str_select = "Select Files"}}
+{{else}}
+    {{$str_select = "Выбрать файлы"}}
+{{/if}}
 <script type="text/x-template" id="uploads-component-template">
     <div class="file-uploader">
         <input type="file" multiple id="files" ref="files" @change="handle_uploads()"/>
@@ -16,7 +21,7 @@
         <div class="columns is-variable is-2">
             <div class="column is-narrow buttons">
                 <button type="button" @click="add_files()" class="button is-primary is-outlined">
-                    <i class="fa fa-hand-pointer-o"></i> &nbsp; Выбрать файлы</button>
+                    <i class="fa fa-hand-pointer-o"></i> &nbsp; {{$str_select}}</button>
                 <div></div>
             </div>
             <div class="column">
@@ -36,5 +41,10 @@
         EMPS.load_css('/mjs/comp-uploads/uploads.css');
     });
 
+    {{if $lang == "en"}}
+    var string_failed = "Can't upload: ";
+    {{else}}
     var string_failed = "Невозможно загрузить: ";
+    {{/if}}
+
 </script>

@@ -1,3 +1,8 @@
+{{if $lang == "en"}}
+    {{$str_close = "Close"}}
+{{else}}
+    {{$str_close = "Закрыть"}}
+{{/if}}
 <script type="text/x-template" id="modal-component-template">
     <div class="modal" :id="id">
         <div class="modal-background" @click="close_modal($event)"></div>
@@ -14,7 +19,7 @@
             </section>
             <footer class="modal-card-foot flex-end">
                 <form @submit.prevent="submit_form()">
-                <button type="button" class="button" @click="close_modal($event)">Закрыть</button>
+                <button type="button" class="button" @click="close_modal($event)">{{$str_close}}</button>
                 <slot name="actions">
                 </slot>
                 </form>

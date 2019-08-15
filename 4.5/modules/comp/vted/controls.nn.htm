@@ -1,3 +1,28 @@
+{{if $lang == "en"}}
+    {{$str_totop = "To Top Level"}}
+    {{$str_create = "Create"}}
+    {{$str_open_by_id = "Open by ID"}}
+    {{$str_search = "Searcg"}}
+    {{$str_filters = "Filter"}}
+    {{$str_create_subsection = "Create Section"}}
+    {{$str_all = "All"}}
+    {{$str_select_all = "Select All"}}
+    {{$str_copy = "Copy"}}
+    {{$str_cut = "Cut"}}
+    {{$str_paste = "Paste"}}
+{{else}}
+    {{$str_totop = "На самый верх"}}
+    {{$str_create = "Создать"}}
+    {{$str_open_by_id = "Открыть по номеру"}}
+    {{$str_search = "Искать"}}
+    {{$str_filters = "Фильтры"}}
+    {{$str_create_subsection = "Создать подраздел"}}
+    {{$str_all = "Все"}}
+    {{$str_select_all = "Выделить все"}}
+    {{$str_copy = "Копировать"}}
+    {{$str_cut = "Вырезать"}}
+    {{$str_paste = "Вставить"}}
+{{/if}}
 {{if $controls_type == "top"}}
 
     {{if $Multilevel}}
@@ -5,7 +30,7 @@
             <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
                 <ul>
                     <li><a href="{{$ToTopLink}}" @click="navigate('{{$ToTopLink}}', $event)">
-                            <i class="fa fa-level-up"></i> &nbsp; На самый верх</a></li>
+                            <i class="fa fa-level-up"></i> &nbsp; {{$str_totop}}</a></li>
                     <li v-for="(level, index) in parents">
                         <a :href="level.link" @click="navigate(level.link, $event)">{{"level.name"|js}}</a></li>
                 </ul>
@@ -17,7 +42,7 @@
         {{if !$vted_no_create}}
             <div class="field">
                 <button class="button is-primary is-outlined" @click="create_new()">
-                    <i class="fa fa-file-o"></i> &nbsp; Создать</button> &nbsp;
+                    <i class="fa fa-file-o"></i> &nbsp; {{$str_create}}</button> &nbsp;
             </div>
         {{/if}}
 
@@ -28,7 +53,7 @@
                 </div>
                 <div class="control">
                     <button type="submit" class="button is-link is-outlined">
-                        <i class="fa fa-id-card"></i> &nbsp; Открыть по номеру
+                        <i class="fa fa-id-card"></i> &nbsp; {{$str_open_by_id}}
                     </button>
                 </div>
                 &nbsp;
@@ -56,7 +81,7 @@
                 </div>
                 <div class="control">
                     <button type="submit" class="button is-success is-outlined">
-                        <i class="fa fa-search"></i> &nbsp; Искать
+                        <i class="fa fa-search"></i> &nbsp; {{$str_search}}
                     </button>
                 </div>
                 &nbsp;
@@ -67,7 +92,7 @@
             &nbsp;
             <div class="field">
                 <button :class="{'button is-outlined': true, 'is-danger': has_filter(), 'is-info': !has_filter()}" @click="open_filter()">
-                    <i class="fa fa-filter"></i> &nbsp; Фильтры</button>
+                    <i class="fa fa-filter"></i> &nbsp; {{$str_filters}}</button>
             </div>
         {{/if}}
     </div>
@@ -78,9 +103,9 @@
     <div class="is-flex-desktop">
         <div class="field">
             <button class="button is-primary is-outlined" @click="make_folder()">
-                <i class="fa fa-file-o"></i> &nbsp; Создать подраздел</button> &nbsp;
+                <i class="fa fa-file-o"></i> &nbsp; {{$str_create_subsections}}</button> &nbsp;
             <button class="button is-info is-outlined" @click.stop="navigate(all_items_link(), $event)">
-                <i class="fa fa-search"></i> &nbsp; Все</button> &nbsp;
+                <i class="fa fa-search"></i> &nbsp; {{$str_all}}</button> &nbsp;
             <button class="button is-info is-outlined" @click.stop="refresh_tree">
                 <i class="fa fa-refresh"></i></button> &nbsp;
         </div>
@@ -89,9 +114,9 @@
 
 {{if $controls_type == "selected"}}
     <div class="buttons">
-        <button type="button" class="button" @click.stop="select_all"><i class="fa fa-check-square-o"></i>&nbsp; Выделить все</button>
-        <button type="button" class="button" v-if="has_selected" @click.stop="copy_selected"><i class="fa fa-copy"></i>&nbsp; Копировать</button>
-        <button type="button" class="button" v-if="has_selected" @click.stop="cut_selected"><i class="fa fa-cut"></i>&nbsp; Вырезать</button>
-        <button type="button" class="button" v-if="has_clipboard" @click.stop="paste"><i class="fa fa-paste"></i>&nbsp; Вставить</button>
+        <button type="button" class="button" @click.stop="select_all"><i class="fa fa-check-square-o"></i>&nbsp; {{$str_select_all}}</button>
+        <button type="button" class="button" v-if="has_selected" @click.stop="copy_selected"><i class="fa fa-copy"></i>&nbsp; {{$str_copy}}</button>
+        <button type="button" class="button" v-if="has_selected" @click.stop="cut_selected"><i class="fa fa-cut"></i>&nbsp; {{$str_cut}}</button>
+        <button type="button" class="button" v-if="has_clipboard" @click.stop="paste"><i class="fa fa-paste"></i>&nbsp; {{$str_paste}}</button>
     </div>
 {{/if}}

@@ -1,3 +1,22 @@
+{{if $lang == "en"}}
+    {{$str_help = "Relative, with slashes (e.g. <code>/admin-menu/</code>)"}}
+    {{$str_title = "Page Title"}}
+    {{$str_help_title = "TITLE HTML tag"}}
+    {{$str_descr = "Description"}}
+    {{$str_help_descr = "Description meta-tag"}}
+    {{$str_keywords = "Keywords"}}
+    {{$str_help_keywords = "Keywords meta-tag"}}
+    {{$str_save = "Save Changes"}}
+{{else}}
+    {{$str_help = "Относительный, полный, со слэшами (например <code>/admin-menu/</code>)"}}
+    {{$str_title = "Заголовок страницы"}}
+    {{$str_help_title = "HTML-тэг TITLE"}}
+    {{$str_descr = "Описание"}}
+    {{$str_help_descr = "Мета-тэг description"}}
+    {{$str_keywords = "Ключевые слова"}}
+    {{$str_help_keywords = "Мета-тэг keywords"}}
+    {{$str_save = "Сохранить изменения"}}
+{{/if}}
 <form action="./" method="post" @submit="submit_form">
     <input type="hidden" name="post_save" value="1" />
 
@@ -7,40 +26,40 @@
             <input class="input" type="text" placeholder="" v-model="selected_row.uri">
         </div>
         <div class="help">
-            Относительный, полный, со слэшами (например <code>/admin-menu/</code>)
+            {{$str_help}}
         </div>
     </div>
     <div class="field">
-        <label class="label">Заголовок страницы:</label>
+        <label class="label">{{$str_title}}:</label>
         <div class="control">
             <input class="input" type="text" placeholder="" v-model="selected_row.title">
         </div>
         <div class="help">
-            HTML-тэг TITLE
+            {{$str_help_title}}
         </div>
     </div>
     <div class="field">
-        <label class="label">Описание:</label>
+        <label class="label">{{$str_descr}}:</label>
         <div class="control">
             <textarea class="textarea" v-model="selected_row.descr" rows="3"></textarea>
         </div>
         <div class="help">
-            Мета-тэг description
+            {{$str_help_descr}}
         </div>
     </div>
     <div class="field">
-        <label class="label">Ключевые слова:</label>
+        <label class="label">{{$str_keywords}}:</label>
         <div class="control">
             <input class="input" type="text" placeholder="" v-model="selected_row.keywords">
         </div>
         <div class="help">
-            Мета-тэг keywords
+            {{$str_help_keywords}}
         </div>
     </div>
 
 
     <p class="has-text-right">
-        <button type="submit" class="button is-medium is-primary">Сохранить изменения</button>
+        <button type="submit" class="button is-medium is-primary">{{$str_save}}</button>
     </p>
 
 </form>

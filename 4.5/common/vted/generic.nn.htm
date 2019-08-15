@@ -1,6 +1,10 @@
 <div class="field is-horizontal">
     <div class="field-label is-normal">
-        <label class="label">Наименование</label>
+        {{if $lang == "en"}}
+            <label class="label">Name</label>
+        {{else}}
+            <label class="label">Наименование</label>
+        {{/if}}
     </div>
     <div class="field-body">
         <div class="field">

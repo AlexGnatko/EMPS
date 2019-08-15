@@ -1,3 +1,12 @@
+{{if $lang == "en"}}
+    {{$str_select = "Select an Item"}}
+    {{$str_help = "Start typing to search"}}
+    {{$str_notfound = "(nothing found)"}}
+{{else}}
+    {{$str_select = "Выбрать элемент"}}
+    {{$str_help = "Начните набирать название для поиска"}}
+    {{$str_notfound = "(ничего не найдено)"}}
+{{/if}}
 <script type="text/x-template" id="selector-template">
     <div>
         <div :class="[{'field': !noField}, {'has-addons': !noClear}]">
@@ -13,7 +22,7 @@
 
         <modal :id="modal_name()" :size="size" >
             <template slot="header">
-                Выбрать элемент: <span v-html="title"></span>
+                {{$str_select}}: <span v-html="title"></span>
             </template>
 
             <template>
@@ -21,7 +30,7 @@
                     <input type="text"
                            v-model="searchtext"
                            @keyup="ask_reload"
-                           class="input" placeholder="Начните набирать название для поиска"/>
+                           class="input" placeholder="{{$str_help}}"/>
                 </div>
                 <div style="min-height:40vh">
                     <nav class="panel">
@@ -36,7 +45,7 @@
                         </a>
                     </nav>
                     <div v-if="lst.length == 0" class="has-text-centered">
-                        (ничего не найдено)
+                        {{$str_notfound}}
                     </div>
 
                 </div>
