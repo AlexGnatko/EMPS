@@ -2,7 +2,7 @@
 
     Vue.component('flatpickr', {
         template: '#flatpickr-component-template',
-        props: ['size', 'value', 'hasTime', 'minDate'],
+        props: ['size', 'value', 'hasTime', 'minDate', 'dateFormat'],
         data: function(){
             return {
                 picker: null,
@@ -28,12 +28,16 @@
             this.config.minDate = this.minDate;
             if (!this.picker) {
                 this.config.onValueUpdate = this.date_updated;
+                var dateFormat = "d.m.Y";
+                if (this.dateFormat !== undefined) {
+                    dateFormat = this.dateFormat;
+                }
                 if (this.hasTime) {
                     this.config.enableTime = true;
-                    this.config.dateFormat = "d.m.Y H:i";
+                    this.config.dateFormat = dateFormat + " H:i";
                 } else {
                     this.config.enableTime = false;
-                    this.config.dateFormat = "d.m.Y";
+                    this.config.dateFormat = dateFormat;
                 }
 
                 this.picker = flatpickr(this.$refs.input, this.config);
