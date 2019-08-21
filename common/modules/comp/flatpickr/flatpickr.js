@@ -17,11 +17,17 @@
                 this.picker.jumpToDate();
             },
             set_date: function(newDate, oldDate) {
-                (newDate != oldDate) && this.picker.setDate(newDate);
+                if ((newDate !== oldDate) && newDate !== undefined && newDate != '') {
+                    this.picker.setDate(newDate);
+                    //console.log("Setting date: " + newDate + " / " + oldDate);
+                }
             },
             date_updated: function(selectedDates, dateStr) {
-                this.value = dateStr;
-                this.$emit("input", this.value);
+                if (dateStr !== undefined && dateStr != '') {
+                    //console.log("Date updated: "  + dateStr);
+                    this.value = dateStr;
+                    this.$emit("input", this.value);
+                }
             }
         },
         mounted: function(){

@@ -4,10 +4,10 @@
   "description": "EMPS Framework for PHP",
   "dependencies": {
     "@tinymce/tinymce-vue": "~1",
-    "vue-sortable": "latest",
+    "flatpickr": "^4.6.2",
+    "simplebar": "^4.1.0",
     "vue-numeric": "latest",
-    "flatpickr": "latest",
-    "simplebar": "latest"
+    "vue-sortable": "latest"
   },
   "author": "Alex Gnatko",
   "license": "ISC"
