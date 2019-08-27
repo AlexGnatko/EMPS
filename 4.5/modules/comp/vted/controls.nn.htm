@@ -46,6 +46,10 @@
             </div>
         {{/if}}
 
+        {{if $smarty.capture.vted_after_create}}
+            {{$smarty.capture.vted_after_create}}
+        {{/if}}
+
         {{if !$vted_no_open}}
             <form class="field has-addons" @submit="open_by_id">
                 <div class="control">

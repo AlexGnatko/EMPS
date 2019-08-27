@@ -13,6 +13,7 @@
 	"clipboard": "latest",
 	"flag-icon-css": "latest",
 	"angular-ui-tinymce": "latest",
+	"select2": "~4.0",
     "angular-ui-tree": "latest",
     "angular-ui-sortable": "latest",
     "angular-ui-switch": "latest",

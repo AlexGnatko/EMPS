@@ -147,6 +147,14 @@
     </script>
 {{/if}}
 
+{{if $page.select2}}
+    <link rel="stylesheet" href="/bower_components/select2/dist/select2.min.css" {{$add_media}}/>
+    <script src="/bower_components/select2/dist/select2.full.min.js" {{$add_defer}}></script>
+    {{if $lang == "ru"}}
+        <script src="/bower_components/select2/dist/js/i18n/ru.js" {{$add_defer}}></script>
+    {{/if}}
+{{/if}}
+
 {{if $page.simplebar}}
     <link rel="stylesheet" href="/node_modules/simplebar/dist/simplebar.min.css" {{$add_media}}/>
     <script src="/node_modules/simplebar/dist/simplebar.min.js" {{$add_defer}}></script>
