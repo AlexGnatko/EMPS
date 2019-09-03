@@ -578,6 +578,21 @@ class EMPS_Common
     }
 
     /**
+     * Pre-init handler
+     *
+     * Called before the initialization of the EMPS object.
+     */
+    public function pre_init()
+    {
+        if(strstr($_SERVER["CONTENT_TYPE"], "application/json")){
+            $raw = file_get_contents("php://input");
+            $request = json_decode($raw, true);
+            $_REQUEST = array_merge($_REQUEST, $request);
+            $_POST = array_merge($_POST, $request);
+        }
+    }
+
+    /**
      * Pre-controller handler
      *
      * Called immediately before a module controller PHP script is called.

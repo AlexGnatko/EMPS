@@ -80,6 +80,8 @@ $emps_bots = array(
     'Googlebot',
 );
 
+$emps->pre_init();
+
 $emps->initialize();    // initialization and automatic configuration
 
 $emps->start_time = emps_microtime_float($emps_start_time);

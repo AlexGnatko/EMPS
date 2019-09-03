@@ -2,9 +2,10 @@
 
     Vue.component('modal', {
         template: '#modal-component-template',
-        props: ['id', 'form', 'submit', 'size'],
+        props: ['id', 'form', 'submit', 'size', 'buttonClass'],
         data: function(){
             return {
+                btn_class: {'button': true}
             };
         },
         methods: {
@@ -33,6 +34,8 @@
             }
         },
         mounted: function(){
+            this.btn_class = Vue.util.extend(this.btn_class, this.buttonClass);
+            this.$forceUpdate();
             vuev.$on("modal:open:" + this.id, this.on_open);
         }
     });

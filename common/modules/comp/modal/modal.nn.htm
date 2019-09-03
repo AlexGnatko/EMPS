@@ -13,13 +13,13 @@
                 <button type="button" class="delete" aria-label="close" @click="close_modal($event)"></button>
             </header>
             <section class="modal-card-body">
-                <form @submit.prevent="submit_form()">
+                <form @submit.prevent="submit_form">
                 <slot></slot>
                 </form>
             </section>
             <footer class="modal-card-foot flex-end">
-                <form @submit.prevent="submit_form()">
-                <button type="button" class="button" @click="close_modal($event)">{{$str_close}}</button>
+                <form @submit.prevent="submit_form">
+                <button type="button" :class="btn_class" @click="close_modal($event)">{{$str_close}}</button>
                 <slot name="actions">
                 </slot>
                 </form>

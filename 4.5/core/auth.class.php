@@ -227,10 +227,12 @@ class EMPS_Auth
     public function handle_logon()
     {
         global $smarty, $emps;
+
         $this->no_login_error();
 
         if (isset($_POST['post_login'])) {
             if ($_POST['post_login'] == 1) {
+
                 $this->AUTH_R = $this->create_session($_POST['login_username'], $_POST['login_password'], 0);
             }
         }
@@ -272,6 +274,18 @@ class EMPS_Auth
 
                 $emps->json_response($response); exit;
             }*/
+        }
+
+        if ($_POST['json']) {
+
+            $response = [];
+            if ($this->credentials("users")) {
+                $response['code'] = "OK";
+            } else {
+                $response['code'] = "Error";
+                $response['error'] = $_SESSION['login']['error'];
+            }
+            $emps->json_response($response); exit;
         }
 
         if (isset($smarty)) {
