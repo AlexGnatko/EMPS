@@ -21,6 +21,9 @@
                     this.picker.setDate(newDate);
                     //console.log("Setting date: " + newDate + " / " + oldDate);
                 }
+                if (newDate === undefined || newDate == '') {
+                    $(this.$refs.input).val('');
+                }
             },
             date_updated: function(selectedDates, dateStr) {
                 if (dateStr !== undefined && dateStr != '') {
