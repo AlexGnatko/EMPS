@@ -180,6 +180,9 @@ class EMPS_DB
             $parts[] = $part;
         }
 
+        if (count($parts) == 0) {
+            return "";
+        }
         return "(" . implode(" and ", $parts) . ")";
     }
 
@@ -190,6 +193,9 @@ class EMPS_DB
             $parts[] = $part;
         }
 
+        if (count($parts) == 0) {
+            return "";
+        }
         return "(" . implode(" or ", $parts) . ")";
     }
 
@@ -217,6 +223,9 @@ class EMPS_DB
                     } elseif (isset($v['$lte'])) {
                         $value = $v['$lte'];
                         $part .= " <= {$value}";
+                    } elseif (isset($v['$like'])) {
+                        $value = $v['$like'];
+                        $part .= " like ('$value') ";
                     } else {
                         $a = [];
                         foreach ($v as $item) {
