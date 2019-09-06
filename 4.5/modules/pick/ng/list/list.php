@@ -74,7 +74,6 @@ class EMPS_NG_PickList
                 $text = "";
             }
 
-
             if ($this->filter) {
                 $x = explode('|', $this->filter);
                 $el = array();
@@ -132,7 +131,9 @@ class EMPS_NG_PickList
             $perpage = $this->perpage;
             $start = intval($start);
 
-            $r = $emps->db->query("select SQL_CALC_FOUND_ROWS " . $this->what . " from " . TP . $this->table_name . " as t " . $this->join . " where t.name like '%$text%' " . $and . " " . $this->where . $this->orderby . " limit $start, $perpage");
+            $r = $emps->db->query("select SQL_CALC_FOUND_ROWS " . $this->what . " from " . TP .
+                $this->table_name . " as t " . $this->join . " where t.name like '%$text%' " . $and . " " .
+                $this->where . $this->orderby . " limit {$start}, {$perpage}");
 
             $pages = $emps->count_pages($emps->db->found_rows());
 
@@ -144,8 +145,7 @@ class EMPS_NG_PickList
             }
         }
 
-
-        $response = array();
+        $response = [];
         $response['code'] = "OK";
         $response['list'] = $lst;
         $response['pages'] = $pages;

@@ -161,4 +161,22 @@ class EMPS_Categories {
 
         return $ra[0];
     }
+
+    public function list_parents($row) {
+        global $emps;
+
+        if ($row['parent']) {
+            $parent = $this->load_node($row['parent']);
+            $parents = $this->list_parents($parent);
+            if (!$parents) {
+                return [$parent];
+            } else {
+                array_unshift($parents, $parent);
+                return $parents;
+            }
+        } else {
+            return false;
+        }
+
+    }
 }
