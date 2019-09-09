@@ -254,6 +254,12 @@
     <script type="text/javascript" src="/bower_components/angular-ui-sortable/sortable.min.js" {{$add_defer}}></script>
 {{/if}}
 
+{{if $page.sortable}}
+    <link href="/js/sortable/sortable-theme-bootstrap.css" rel="stylesheet"
+          type="text/css" {{$add_media}}/>
+    <script type="text/javascript" src="/js/sortable/sortable.js" defer></script>
+{{/if}}
+
 {{if $page.ng_switch}}
     <link href="/bower_components/angular-ui-switch/angular-ui-switch.min.css" rel="stylesheet"
           type="text/css" {{$add_media}}/>
