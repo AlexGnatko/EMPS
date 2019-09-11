@@ -114,5 +114,18 @@ var EMPS = {
     },
     close_modal: function(s) {
         $(s).removeClass("is-active");
+    },
+    into_view: function(selector) {
+        var $target = $(selector);
+        if ($target.position()) {
+            if ($target.position().top + $target.height() >
+                $(window).scrollTop() + (
+                    window.innerHeight || document.documentElement.clientHeight
+                ))
+            {
+                $(window).scrollTop($(selector).offset().top - 50);
+            }
+        }
+
     }
 }
