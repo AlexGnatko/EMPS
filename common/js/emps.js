@@ -112,13 +112,18 @@ var EMPS = {
         $("#siteLoginModal").addClass("is-active");
         $.ajax({url: '/ensure_session/'});
     },
+    open_modal: function(s) {
+        $(s).addClass("is-active");
+    },
     close_modal: function(s) {
         $(s).removeClass("is-active");
     },
     into_view: function(selector) {
         var $target = $(selector);
         if ($target.position()) {
-            if ($target.position().top >
+            if ($target.position().top + ((
+                    window.innerHeight || document.documentElement.clientHeight
+                ) / 3) >
                 $(window).scrollTop() + (
                     window.innerHeight || document.documentElement.clientHeight
                 ))
