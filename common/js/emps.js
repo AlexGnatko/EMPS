@@ -118,7 +118,7 @@ var EMPS = {
     into_view: function(selector) {
         var $target = $(selector);
         if ($target.position()) {
-            if ($target.position().top + $target.height() >
+            if ($target.position().top >
                 $(window).scrollTop() + (
                     window.innerHeight || document.documentElement.clientHeight
                 ))
