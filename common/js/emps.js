@@ -121,12 +121,23 @@ var EMPS = {
     into_view: function(selector) {
         var $target = $(selector);
         if ($target.position()) {
-            if ($target.position().top + ((
-                    window.innerHeight || document.documentElement.clientHeight
-                ) / 3) >
-                $(window).scrollTop() + (
-                    window.innerHeight || document.documentElement.clientHeight
-                ))
+            if (
+
+
+                (
+                    $target.position().top + ((
+                        window.innerHeight || document.documentElement.clientHeight
+                    ) / 3) >
+                    $(window).scrollTop() + (
+                        window.innerHeight || document.documentElement.clientHeight
+                    )
+                ) ||
+                (
+                    $(window).scrollTop() > ($target.offset().top + 50)
+                )
+
+
+            )
             {
                 $(window).scrollTop($(selector).offset().top - 50);
             }
