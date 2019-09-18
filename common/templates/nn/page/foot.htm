@@ -9,7 +9,7 @@
 {{include file="db:page/commonfoot"}}
 {{include file="db:page/footscripts"}}
 
-{{if !$page.noscripts}}
+{{if !$page.noscripts && !$page.notracking}}
 {{include file="db:inc/google"}}
 {{/if}}
 
