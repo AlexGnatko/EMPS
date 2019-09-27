@@ -383,7 +383,7 @@ class EMPS_ImprovedTableEditor
         $smarty->assign("lang", $emps->lang);
 
         $emps->loadvars();
-        $this->ref_id = $key + 0;
+        $this->ref_id = intval($key);
 
         if ($_GET['part']) {
             $emps->no_smarty = true;
