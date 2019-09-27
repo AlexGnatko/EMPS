@@ -94,7 +94,7 @@ if ($emps->get_setting("admin_tools")){
         }
     }
 
-    if ($_POST['post_import']) {
+    if ($_POST['post_import_menu']) {
         $lst = json_decode($_POST['json'], true);
         import_menu($lst, false, 0);
         $emps->redirect_elink();
