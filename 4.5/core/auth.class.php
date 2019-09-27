@@ -276,7 +276,7 @@ class EMPS_Auth
             }*/
         }
 
-        if ($_POST['json']) {
+        if ($_POST['json_auth_result']) {
 
             $response = [];
             if ($this->credentials("users")) {
