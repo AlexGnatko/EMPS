@@ -70,6 +70,15 @@ var EMPS = {
         link.media = 'all';
         head.appendChild(link);
     },
+    load_js: function(src, target, after) {
+        var tag = document.createElement('script');
+        tag.src = src;
+
+        tag.onload = after;
+        tag.onreadystatechange = after;
+
+        target.appendChild(tag);
+    },
     format_size: function(bytes) {
         var units = [
             {size: 1000000000, suffix: ' GB'},

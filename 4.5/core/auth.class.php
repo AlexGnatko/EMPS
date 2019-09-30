@@ -56,9 +56,9 @@ class EMPS_Auth
     {
         global $SET, $emps;
 
-        if (mb_substr($username, 0, 1) == '8') {
+/*        if (mb_substr($username, 0, 1) == '8') {
             $username = '+7' . mb_substr($username, 1);
-        }
+        }*/
 
         $user = $emps->db->get_row('e_users', "username='{$username}'");
         if (!$user) {

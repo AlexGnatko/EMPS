@@ -66,4 +66,13 @@
     </script>
 {{/if}}
 
+{{if $page.vue_select}}
+    <script type="text/javascript" src="/node_modules/vue-select/dist/vue-select.js" defer></script>
+    <script>
+        emps_scripts.push(function(){
+            EMPS.load_css('/node_modules/vue-select/dist/vue-select.css');
+        });
+    </script>
+{{/if}}
+
 {{include file="db:site/footscripts"}}

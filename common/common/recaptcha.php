@@ -62,6 +62,6 @@ if ($json['success'] && $json['action'] == $action) {
 }
 $response['challenge_ts'] = $json['challenge_ts'];
 
-$_SESSION['last_rc_token_' . $action] = ['token' => $token, 'result' => $response['result']];
+$_SESSION['last_rc_token_' . $action] = ['token' => $token, 'action' => $action, 'result' => $response['result']];
 
 $emps->json_response($response); exit;
