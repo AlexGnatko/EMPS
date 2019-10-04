@@ -21,6 +21,8 @@ class EMPS_DB
 
     public $always_use_wt = false;
 
+    public $was_inserted = false;
+
     public function connect()
     {
         global $emps_db_config;
@@ -351,6 +353,7 @@ class EMPS_DB
         $update = ['SET' => $row];
         $this->sql_insert_row($table, $update);
         $id = $this->last_insert();
+        $this->was_inserted = true;
         $row = $this->get_row($table, "id = {$id}");
         return $row;
     }

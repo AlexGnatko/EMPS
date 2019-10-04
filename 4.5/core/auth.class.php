@@ -905,6 +905,16 @@ class EMPS_Auth
         return false;
     }
 
+    public function taken_user_fast($username)
+    {
+        global $emps;
+        $row = $emps->db->get_row("e_users", "username = '{$username}' and status > 0");
+        if ($row) {
+            return $row;
+        }
+        return false;
+    }
+
     public function load_user($user_id)
     {
         global $emps;
