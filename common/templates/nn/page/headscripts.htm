@@ -320,3 +320,7 @@
 {{if $page.yandex_maps}}
     <script src="//api-maps.yandex.ru/1.1/index.xml" type="text/javascript"></script>
 {{/if}}
+
+{{if $smarty.capture.headscripts}}
+    {{$smarty.capture.headscripts}}
+{{/if}}
