@@ -324,3 +324,8 @@
 {{if $smarty.capture.headscripts}}
     {{$smarty.capture.headscripts}}
 {{/if}}
+
+{{if $page.bulma_extensions}}
+    <link href="/node_modules/bulma-extensions/dist/css/bulma-extensions.min.css" rel="stylesheet" type="text/css" {{$add_media}}/>
+    <script type="text/javascript" src="/node_modules/bulma-extensions/dist/js/bulma-extensions.min.js" {{$add_defer}}></script>
+{{/if}}

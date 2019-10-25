@@ -677,7 +677,12 @@ class EMPS_Common
             $e['value'] = $xx[1];
             $dx = explode(",", $xx[2]);
             foreach($dx as $vv){
-                $e[$vv] = 1;
+                if ($vv) {
+                    $e[$vv] = 1;
+                }
+            }
+            if ($e['str']) {
+                $e['code'] = strval($e['code']);
             }
             $lst[] = $e;
         }
