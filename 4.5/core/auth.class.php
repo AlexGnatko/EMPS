@@ -169,6 +169,10 @@ class EMPS_Auth
         $this->login = $_SESSION['login'];
 
         $user = $this->load_user($this->USER_ID);
+        if ($user) {
+            $user['groups'] = $this->list_user_groups($user['id']);
+        }
+
         $this->login['user'] = $user;
 
         $this->AUTH_R = 1;
