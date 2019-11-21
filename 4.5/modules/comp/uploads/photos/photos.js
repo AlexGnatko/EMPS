@@ -1,7 +1,19 @@
 emps_scripts.push(function() {
-    Vue.component('uploads', {
-        template: '#uploads-component-template',
-        props: ['context'],
+    Vue.component('uploads-photos', {
+        template: '#uploads-photos-component-template',
+        props: {
+            context: {
+                required: true,
+            },
+            cols: {
+                type: Number,
+                default: 4
+            },
+            single: {
+                type: Boolean,
+                default: false
+            }
+        },
         data: function(){
             return {
                 selected_file: '',
@@ -34,8 +46,11 @@ emps_scripts.push(function() {
                     if (!file.started) {
                         file.started = true;
                         var form_data = new FormData();
-                        form_data.append('post_upload_file', '1');
+                        form_data.append('post_upload_photo', '1');
                         form_data.append('files[0]', file);
+                        if (this.single) {
+                            form_data.append("single_mode", '1');
+                        }
                         var that = this;
                         axios.post( this.target,
                             form_data,
@@ -88,12 +103,12 @@ emps_scripts.push(function() {
                 }
             },
             delete_file: function(file) {
-                if (!confirm("Удалить файл?")) {
+                if (!confirm("Delete this photo?")) {
                     return;
                 }
                 var that = this;
                 axios
-                    .get(this.target + "?delete_uploaded_file=" + file.id)
+                    .get(this.target + "?delete_uploaded_photo=" + file.id)
                     .then(function(response){
                         var data = response.data;
                         if (data.code == 'OK') {
@@ -110,7 +125,7 @@ emps_scripts.push(function() {
                 }
                 var that = this;
                 axios
-                    .get(this.target + "?list_uploaded_files=1")
+                    .get(this.target + "?list_uploaded_photos=1")
                     .then(function(response){
                         var data = response.data;
                         if (data.code == 'OK') {
@@ -153,7 +168,7 @@ emps_scripts.push(function() {
         },
         computed: {
             target: function() {
-                return "/json-upload/" + this.context + "/";
+                return "/json-upload-photos/" + this.context + "/";
             }
         },
         mounted: function(){

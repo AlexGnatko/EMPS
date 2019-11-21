@@ -1,0 +1,82 @@
+{{if $lang == "en"}}
+    {{$str_select = "Select Files"}}
+    {{$str_select1 = "Select File"}}
+{{else}}
+    {{$str_select = "Выбрать файлы"}}
+    {{$str_select1 = "Выбрать файл"}}
+{{/if}}
+<script type="text/x-template" id="uploads-photos-component-template">
+    <div class="file-uploader">
+        <input type="file" multiple id="files" ref="files" @change="handle_uploads()"/>
+
+        <div class="columns is-multiline">
+            <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in files">
+                <a :href="file.url" target="_blank"><img :src="file.url" style="width: 100%"/></a>
+                <template v-if="!single">
+                    <button type="button"
+                            @click="delete_file(file)"
+                            class="button is-outlined is-danger is-small">
+                        <i class="fa fa-trash"></i>
+                    </button>&nbsp;
+                    <strong><a :href="file.url" target="_blank">{{"file.name"|js}}</a></strong>
+                </template>
+            </div>
+            <div class="column" v-if="single">
+                <div class="field"  v-for="(file, index) in files">
+                    <button type="button"
+                            @click="delete_file(file)"
+                            class="button is-outlined is-danger is-small">
+                        <i class="fa fa-trash"></i>
+                    </button>&nbsp;
+                    <strong><a :href="file.url" target="_blank">{{"file.name"|js}}</a></strong>
+
+                </div>
+
+                <div class="columns is-variable is-2">
+                    <div class="column is-narrow buttons">
+                        <button type="button" @click="add_files()" class="button is-primary is-outlined">
+                            <i class="fa fa-hand-pointer-o"></i> &nbsp; {{$str_select1}}</button>
+                        <div></div>
+                    </div>
+                    <div class="column">
+                        <div class="button-size is-fullwidth">
+                            <progress class="progress is-info"
+                                      v-if="is_uploading()"
+                                      :value="get_total_progress()" max="100"></progress>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns is-variable is-2" v-if="!single">
+            <div class="column is-narrow buttons">
+                <button type="button" @click="add_files()" class="button is-primary is-outlined">
+                    <i class="fa fa-hand-pointer-o"></i> &nbsp; {{$str_select}}</button>
+                <div></div>
+            </div>
+            <div class="column">
+                <div class="button-size is-fullwidth">
+                    <progress class="progress is-info"
+                              v-if="is_uploading()"
+                              :value="get_total_progress()" max="100"></progress>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</script>
+<script src="/mjs/comp-uploads-photos/photos.js" defer></script>
+<script>
+    emps_scripts.push(function(){
+        EMPS.load_css('/mjs/comp-uploads-photos/photos.css');
+    });
+
+    {{if $lang == "en"}}
+    var string_failed = "Can't upload: ";
+    {{else}}
+    var string_failed = "Невозможно загрузить: ";
+    {{/if}}
+
+</script>

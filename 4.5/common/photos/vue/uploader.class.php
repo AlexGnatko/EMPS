@@ -24,6 +24,13 @@ class EMPS_VuePhotosUploader {
 
         $this->files = $this->list_uploaded_files();
 
+        if ($_REQUEST['single_mode']) {
+            foreach ($this->files as $file) {
+                $this->p->delete_photo($file['id']);
+            }
+            $this->files = [];
+        }
+
         foreach($_FILES as $v){
             if($v['name'][0]){
                 if(!$v['error'][0]){
@@ -185,7 +192,7 @@ class EMPS_VuePhotosUploader {
             $emps->copy_values($file, $ra, "filename,descr,ord,md5,qual,id");
             $file['name'] = $ra['filename'];
             $file['size'] = intval($ra['size']);
-            $file['url'] = "/pic/{$ra['md5']}.{$ra['ext']}&dt={$ra['dt']}";
+            $file['url'] = "/pic/{$ra['md5']}/{$ra['filename']}&dt={$ra['dt']}";
             $file['thumbnail'] = "/freepic/{$ra['md5']}.{$ra['ext']}?size={$this->thumb_size}&opts=inner&dt={$ra['dt']}";
 
             $lst[] = $file;
