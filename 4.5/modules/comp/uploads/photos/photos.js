@@ -124,6 +124,7 @@ emps_scripts.push(function() {
                     return;
                 }
                 var that = this;
+                this.files = [];
                 axios
                     .get(this.target + "?list_uploaded_photos=1")
                     .then(function(response){
