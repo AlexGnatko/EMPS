@@ -41,6 +41,11 @@ emps_scripts.push(function() {
                 }
             },
             start_uploading: function() {
+                if (this.context === undefined) {
+                    alert("cant upload");
+                    return;
+                }
+                alert("WILL upload");
                 for (var i = 0; i < this.queue.length; i++ ) {
                     var file = this.queue[i];
                     if (!file.started) {

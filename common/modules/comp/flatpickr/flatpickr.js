@@ -2,7 +2,7 @@
 
     Vue.component('flatpickr', {
         template: '#flatpickr-component-template',
-        props: ['size', 'value', 'hasTime', 'minDate', 'dateFormat'],
+        props: ['size', 'value', 'hasTime', 'minDate', 'maxDate', 'dateFormat'],
         data: function(){
             return {
                 picker: null,
@@ -13,6 +13,7 @@
             redraw: function(newConfig) {
                 this.picker.config = Object.assign(this.picker.config, newConfig);
                 this.picker.config.minDate = this.minDate;
+                this.picker.config.maxDate = this.maxDate;
                 this.picker.redraw();
                 this.picker.jumpToDate();
             },
@@ -35,6 +36,7 @@
         },
         mounted: function(){
             this.config.minDate = this.minDate;
+            this.config.maxDate = this.maxDate;
             if (!this.picker) {
                 this.config.onValueUpdate = this.date_updated;
                 var dateFormat = "d.m.Y";
@@ -53,6 +55,7 @@
                 this.set_date(this.value);
             }
             this.$watch('minDate', this.redraw);
+            this.$watch('maxDate', this.redraw);
             this.$watch('config', this.redraw);
             this.$watch('value', this.set_date);
         }
