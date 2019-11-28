@@ -1493,13 +1493,13 @@ class EMPS_Common
             if ($_SERVER['HTTPS'] != 'on') {
                 header("HTTP/1.1 301 Moved Permanently");
                 header("Location: https://" . $addr);
-                //exit();
+                exit;
             }
         } elseif ($protocol == 'http') {
             if ($_SERVER['HTTPS'] == 'on') {
                 header("HTTP/1.1 301 Moved Permanently");
                 header("Location: http://" . $addr);
-                //exit();
+                exit;
             }
         }
     }
