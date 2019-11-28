@@ -15,7 +15,7 @@ class EMPS extends EMPS_Common
     public $db;
     public $cas;
 
-    public $settings_cache, $content_cache;
+    public $settings_cache, $settings_cache_common, $content_cache;
 
     public $period_size = 60 * 60 * 24 * 7;
 
@@ -176,6 +176,20 @@ class EMPS extends EMPS_Common
         }
         $a = array($name => $value);
         $this->p->save_properties($a, $this->website_ctx, $code);
+
+        unset($this->settings_cache);
+    }
+
+    public function save_setting_common($code, $value)
+    {
+        $x = explode(':', $code);
+        $name = $x[0];
+        if (!isset($x[1])) {
+            $code = $name . ":t";
+        }
+        $a = array($name => $value);
+        $this->p->save_properties($a, $this->default_ctx, $code);
+        unset($this->settings_cache_common);
     }
 
     public function get_setting($code)
@@ -203,6 +217,29 @@ class EMPS extends EMPS_Common
         $rv = $this->settings_cache[$code];
         if(isset($rv)){
             if(intval($this->settings_cache['_full'][$code]['id']) > 0){
+                return $rv;
+            }
+        }
+        return false;
+    }
+
+    public function get_setting_common($code)
+    {
+        // Get a fine-tuning setting
+        if (!is_array($this->settings_cache_common)) {
+            $website_settings = $this->p->read_properties(array(), $this->default_ctx);
+            if (!$website_settings) {
+                $website_settings = array();
+            }
+            if (!$website_settings['_full']) {
+                $website_settings['_full'] = array();
+            }
+            $this->settings_cache_common = $website_settings;
+//			dump($this->settings_cache);
+        }
+        $rv = $this->settings_cache_common[$code];
+        if(isset($rv)){
+            if(intval($this->settings_cache_common['_full'][$code]['id']) > 0){
                 return $rv;
             }
         }

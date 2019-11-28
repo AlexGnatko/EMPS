@@ -2,10 +2,11 @@
 
     Vue.component('flatpickr', {
         template: '#flatpickr-component-template',
-        props: ['size', 'value', 'hasTime', 'minDate', 'maxDate', 'dateFormat'],
+        props: ['size', 'value', 'hasTime', 'minDate', 'maxDate', 'setclass', 'dateFormat'],
         data: function(){
             return {
                 picker: null,
+                set_class: '',
                 config: emps_flatpickr_options,
             };
         },
@@ -58,6 +59,9 @@
             this.$watch('maxDate', this.redraw);
             this.$watch('config', this.redraw);
             this.$watch('value', this.set_date);
+            this.$watch('setclass', function(newval, oldval) {
+                this.set_class = newval;
+            });
         }
     });
 
