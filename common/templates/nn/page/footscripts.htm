@@ -79,4 +79,8 @@
     <script type="text/javascript" src="/node_modules/bulma-extensions/dist/js/bulma-extensions.min.js" {{$add_defer}}></script>
 {{/if}}
 
+{{if $page.lazy}}
+    <script type="text/javascript" src="/js/lazy/jquery.lazy.min.js" {{$add_defer}}></script>
+{{/if}}
+
 {{include file="db:site/footscripts"}}
