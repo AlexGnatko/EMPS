@@ -81,6 +81,13 @@
 
 {{if $page.lazy}}
     <script type="text/javascript" src="/js/lazy/jquery.lazy.js" defer></script>
+    <script>
+        emps_scripts.push(function() {
+            $(function() {
+                $('.lazy').lazy();
+            });
+        });
+    </script>
 {{/if}}
 
 {{include file="db:site/footscripts"}}
