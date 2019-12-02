@@ -33,6 +33,10 @@ emps_scripts.push(function() {
                     return;
                 }
 
+                if (this.single) {
+                    this.queue = [];
+                }
+
                 for (var i = 0; i < files.length; i++ ) {
                     files[i].image_url = URL.createObjectURL(files[i]);
                     files[i].started = false;
