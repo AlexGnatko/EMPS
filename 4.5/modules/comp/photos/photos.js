@@ -132,6 +132,9 @@
                 }
             },
             load_files: function() {
+                if (!this.context) {
+                    this.files = [];
+                }
                 this.loading = true;
                 var that = this;
                 axios

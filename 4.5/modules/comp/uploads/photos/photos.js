@@ -18,7 +18,8 @@ emps_scripts.push(function() {
             return {
                 selected_file: '',
                 queue: [],
-                files: []
+                files: [],
+                need_upload: false,
             };
         },
         methods: {
@@ -42,10 +43,12 @@ emps_scripts.push(function() {
             },
             start_uploading: function() {
                 if (this.context === undefined) {
-                    alert("cant upload");
+                    this.need_upload = true;
                     return;
                 }
-                alert("WILL upload");
+
+                this.need_upload = false;
+
                 for (var i = 0; i < this.queue.length; i++ ) {
                     var file = this.queue[i];
                     if (!file.started) {
@@ -57,6 +60,7 @@ emps_scripts.push(function() {
                             form_data.append("single_mode", '1');
                         }
                         var that = this;
+
                         axios.post( this.target,
                             form_data,
                             {
@@ -124,8 +128,12 @@ emps_scripts.push(function() {
                         }
                     });
             },
+            delete_queue: function(idx) {
+                this.queue.splice(idx, 1);
+            },
             load_files: function() {
                 if (!this.context) {
+                    this.files = [];
                     return;
                 }
                 var that = this;
@@ -175,6 +183,13 @@ emps_scripts.push(function() {
         computed: {
             target: function() {
                 return "/json-upload-photos/" + this.context + "/";
+            }
+        },
+        watch: {
+            context: function(new_val, old_val) {
+                if (this.need_upload) {
+                    this.start_uploading();
+                }
             }
         },
         mounted: function(){

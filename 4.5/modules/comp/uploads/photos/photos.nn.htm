@@ -10,17 +10,32 @@
         <input type="file" multiple id="files" ref="files" @change="handle_uploads()"/>
 
         <div class="columns is-multiline">
-            <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in files">
-                <a :href="file.url" target="_blank"><img :src="file.url" style="width: 100%"/></a>
-                <template v-if="!single">
-                    <button type="button"
-                            @click="delete_file(file)"
-                            class="button is-outlined is-danger is-small">
-                        <i class="fa fa-trash"></i>
-                    </button>&nbsp;
-                    <strong><a :href="file.url" target="_blank">{{"file.name"|js}}</a></strong>
-                </template>
-            </div>
+            <template v-if="queue.length > 0">
+                <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in queue">
+                    <a :href="file.url" target="_blank"><img :src="file.image_url" style="width: 100%"/></a>
+                    <template v-if="!single">
+                        <button type="button"
+                                @click="delete_queue(index)"
+                                class="button is-outlined is-danger is-small">
+                            <i class="fa fa-trash"></i>
+                        </button>&nbsp;
+                        <strong><a :href="file.url" target="_blank">{{"file.name"|js}}</a></strong>
+                    </template>
+                </div>
+            </template>
+            <template v-else>
+                <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in files">
+                    <a :href="file.url" target="_blank"><img :src="file.url" style="width: 100%"/></a>
+                    <template v-if="!single">
+                        <button type="button"
+                                @click="delete_file(file)"
+                                class="button is-outlined is-danger is-small">
+                            <i class="fa fa-trash"></i>
+                        </button>&nbsp;
+                        <strong><a :href="file.url" target="_blank">{{"file.name"|js}}</a></strong>
+                    </template>
+                </div>
+            </template>
             <div class="column" v-if="single">
                 <div class="field"  v-for="(file, index) in files">
                     <button type="button"
@@ -29,7 +44,6 @@
                         <i class="fa fa-trash"></i>
                     </button>&nbsp;
                     <strong><a :href="file.url" target="_blank">{{"file.name"|js}}</a></strong>
-
                 </div>
 
                 <div class="columns is-variable is-2">
