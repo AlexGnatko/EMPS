@@ -511,6 +511,13 @@ class EMPS_VueTableEditor
             $emps->json_response($response); exit;
         }
 
+        if ($_GET['set_filter']) {
+            $filter = $_GET;
+            unset($filter['set_filter']);
+            $_SESSION['vted_filter_' . $this->table_name] = $filter;
+            $emps->redirect_elink(); exit;
+        }
+
         if ($_POST['post_clear_filter']) {
             unset($_SESSION['vted_filter_' . $this->table_name]);
             $response = [];
