@@ -1,3 +1,27 @@
+{{if $lang == "en"}}
+    {{$str_login = "Login"}}
+    {{$str_password = "Password"}}
+    {{$str_password_info = "Если пусто, то пароль не меняется"}}
+    {{$str_name = "First Name"}}
+    {{$str_lastname = "Last Name"}}
+    {{$str_codes = "Access group codes"}}
+    {{$str_codes_info = "Comma-separated. Sample codes: admin, root, seo"}}
+    {{$str_login = "Login As"}}
+    {{$str_save = "Save Changes"}}
+
+{{else}}
+    {{$str_login = "Логин"}}
+    {{$str_password = "Пароль"}}
+    {{$str_password_info = "Если пусто, то пароль не меняется"}}
+    {{$str_name = "Имя"}}
+    {{$str_lastname = "Фамилия"}}
+    {{$str_codes = "Коды групп доступа"}}
+    {{$str_codes_info = "Через запятую. Примеры кодов групп: admin, root, seo"}}
+    {{$str_login = "Войти как"}}
+    {{$str_save = "Сохранить изменения"}}
+
+{{/if}}
+
 <form action="./" method="post" @submit="submit_form">
     <input type="hidden" name="post_save" value="1" />
 
@@ -5,30 +29,30 @@
 
 
     <div class="field column">
-        <label class="label">Логин:</label>
+        <label class="label">{{$str_login}}:</label>
         <div class="control">
             <input class="input" type="text" placeholder="" v-model="selected_row.username">
         </div>
     </div>
     <div class="field column">
-        <label class="label">Пароль:</label>
+        <label class="label">{{$str_password}}:</label>
         <div class="control">
             <input class="input" type="password" placeholder="" v-model="selected_row.password" autocomplete="false">
         </div>
         <div class="help">
-            Если пусто, то пароль не меняется
+            {{$str_password_info}}
         </div>
     </div>
     </div>
     <div class="columns">
         <div class="column field">
-            <label class="label">Имя:</label>
+            <label class="label">{{$str_name}}:</label>
             <div class="control">
                 <input class="input" type="text" placeholder="" v-model="selected_row.firstname">
             </div>
         </div>
         <div class="column field">
-            <label class="label">Фамилия:</label>
+            <label class="label">{{$str_lastname}}:</label>
             <div class="control">
                 <input class="input" type="text" placeholder="" v-model="selected_row.lastname">
             </div>
@@ -36,22 +60,22 @@
     </div>
 
     <div class="field">
-        <label class="label">Коды групп доступа:</label>
+        <label class="label">{{$str_codes}}:</label>
         <div class="control">
             <input class="input" type="text" placeholder="" v-model="selected_row.grp">
         </div>
         <div class="help">
-            Через запятую. Примеры кодов групп: admin, root, seo
+            {{$str_codes_info}}
         </div>
     </div>
 
 
     <div class="columns">
         <div class="column field">
-            <a href="./?login_as=1" class="button is-medium is-primary">Войти как</a>
+            <a href="./?login_as=1" class="button is-medium is-primary">{{$str_login}}</a>
         </div>
         <div class="column field has-text-right">
-            <button type="submit" class="button is-medium is-primary">Сохранить изменения</button>
+            <button type="submit" class="button is-medium is-primary">{{$str_save}}</button>
         </div>
     </div>
 

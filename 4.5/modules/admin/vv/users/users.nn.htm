@@ -1,4 +1,18 @@
-<h1>Пользователи сайта</h1>
+{{if $lang == "en"}}
+    {{$str_title = "Website Users"}}
+    {{$str_login = "Login"}}
+    {{$str_fullname = "Full Name"}}
+    {{$str_access = "Access"}}
+    {{$str_actions = "Actions"}}
+{{else}}
+    {{$str_title = "Пользователи сайта"}}
+    {{$str_login = "Логин"}}
+    {{$str_fullname = "Полное имя"}}
+    {{$str_access = "Права"}}
+    {{$str_actions = "Действия"}}
+{{/if}}
+
+<h1>{{$str_title}}</h1>
 
 <div id="e_users_app" style="display: none">
 
@@ -18,7 +32,7 @@
                     Id
                 </th>
                 <th width="20%">
-                    Логин
+                    {{$str_login}}
                 </th>
                 <th width="5%">
                     <i class="fa fa-globe"></i>
@@ -27,11 +41,11 @@
                     <i class="fa fa-unlock"></i>
                 </th>
                 <th width="45%">
-                    Полное имя
-                    <small class="is-pulled-right">Права</small>
+                    {{$str_fullname}}
+                    <small class="is-pulled-right">{{$str_access}}</small>
                 </th>
                 <th width="15%" class="has-text-right">
-                    Действия
+                    {{$str_actions}}
                 </th>
             </tr>
             </thead>
