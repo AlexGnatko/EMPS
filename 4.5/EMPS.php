@@ -176,8 +176,6 @@ class EMPS extends EMPS_Common
         }
         $a = array($name => $value);
         $this->p->save_properties($a, $this->website_ctx, $code);
-
-        unset($this->settings_cache);
     }
 
     public function save_setting_common($code, $value)
@@ -189,7 +187,6 @@ class EMPS extends EMPS_Common
         }
         $a = array($name => $value);
         $this->p->save_properties($a, $this->default_ctx, $code);
-        unset($this->settings_cache_common);
     }
 
     public function get_setting($code)
