@@ -15,6 +15,7 @@
                 this.picker.config = Object.assign(this.picker.config, newConfig);
                 this.picker.config.minDate = this.minDate;
                 this.picker.config.maxDate = this.maxDate;
+                this.picker.config.disableMobile = true;
                 this.picker.redraw();
                 this.picker.jumpToDate();
             },
