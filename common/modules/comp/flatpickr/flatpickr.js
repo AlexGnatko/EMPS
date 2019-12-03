@@ -41,6 +41,7 @@
             this.config.maxDate = this.maxDate;
             if (!this.picker) {
                 this.config.onValueUpdate = this.date_updated;
+                this.config.disableMobile = true;
                 var dateFormat = "d.m.Y";
                 if (this.dateFormat !== undefined) {
                     dateFormat = this.dateFormat;
