@@ -48,6 +48,7 @@ class EMPS_SMS
             ));
         } catch (Exception $e) {
             $this->error_message = $e->getMessage();
+            error_log("Twilio: " . $this->error_message);
             $rv = false;
         };
 
