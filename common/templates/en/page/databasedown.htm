@@ -1,7 +1,10 @@
-<div class="content">
+{{include file="db:page/headtags"}}
+<body>
+<div class="container">
 
     <h1 class="display-4">500 - Internal Server Error</h1>
     <p>The server can not execute your request because of a problem with the database.</p>
     <p>The problem will be fixed soon. Please come back a bit later.</p>
-
+    <p><a href="{{$smarty.const.EMPS_SCRIPT_WEB}}">{{$smarty.const.EMPS_SCRIPT_WEB}}</a></p>
 </div>
+</body>

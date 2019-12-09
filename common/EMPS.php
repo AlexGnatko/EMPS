@@ -1115,11 +1115,8 @@ class EMPS_Common
     {
         global $smarty;
         header("HTTP/1.1 500 Internal Server Error");
-        $smarty->assign("main_body", "db:page/databasedown");
         $this->pre_display();
-        $this->page_property("plain", $this->get_setting("plain_404"));
-        $smarty->assign('page', $this->page_properties);
-        $smarty->display("db:main");
+        $smarty->display("db:page/databasedown");
     }
 
     public function deny_access($reason)
