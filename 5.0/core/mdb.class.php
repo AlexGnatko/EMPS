@@ -5,6 +5,7 @@ require_once "mongo-php-library/src/functions.php";
 
 class EMPS_MongoDB {
 	public $mdb, $mongo;
+	public $operational = false;
 	
 	public $last_result, $last_id;
 	
@@ -18,6 +19,8 @@ class EMPS_MongoDB {
 		$this->mongo = new MongoDB\Driver\Manager($emps_mongodb_config['url'], $options);
 		$this->mdb = new MongoDB\Database($this->mongo, $emps_mongodb_config['database']);
 		$this->database_name = $emps_mongodb_config['database'];
+
+		$this->operational = true;
 
 		unset($emps_mongodb_config);
 	}	

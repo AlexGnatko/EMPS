@@ -1103,8 +1103,19 @@ class EMPS_Common
     public function not_found()
     {
         global $smarty;
-        header("HTTP/1.0 404 Not Found");
+        header("HTTP/1.1 404 Not Found");
         $smarty->assign("main_body", "db:page/notfound");
+        $this->pre_display();
+        $this->page_property("plain", $this->get_setting("plain_404"));
+        $smarty->assign('page', $this->page_properties);
+        $smarty->display("db:main");
+    }
+
+    public function database_down()
+    {
+        global $smarty;
+        header("HTTP/1.1 500 Internal Server Error");
+        $smarty->assign("main_body", "db:page/databasedown");
         $this->pre_display();
         $this->page_property("plain", $this->get_setting("plain_404"));
         $smarty->assign('page', $this->page_properties);

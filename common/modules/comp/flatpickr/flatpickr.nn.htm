@@ -1,6 +1,8 @@
 <script type="text/x-template" id="flatpickr-component-template">
     <p class="control has-icons-right">
-        <input :class="{'input': true, 'is-medium': size == 'md', 'is-danger': set_class == 'danger'}" type="text" ref="input">
+        <input :class="{'input': true, 'is-medium': size == 'md', 'is-danger': set_class == 'danger'}"
+               :placeholder="placeholder"
+               type="text" ref="input">
         <span class="icon is-small is-right">
             <i class="fa fa-calendar"></i>
         </span>

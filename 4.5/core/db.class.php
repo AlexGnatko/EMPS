@@ -3,7 +3,7 @@
 class EMPS_DB
 {
     public $db;
-    public $operational = FALSE;
+    public $operational = false;
     public $sql_errors = array();
     public $sql_timing = array();
     public $sql_time = 0;
@@ -28,11 +28,11 @@ class EMPS_DB
         global $emps_db_config;
         $this->db = mysqli_connect($emps_db_config['host'], $emps_db_config['user'], $emps_db_config['password'], $emps_db_config['database']);
 
-        if ($this->db == FALSE) {
+        if (!$this->db) {
             return;
         }
 
-        $this->operational = TRUE;
+        $this->operational = true;
 
         $this->query('set names "' . $emps_db_config['charset'] . '"');
 
@@ -57,6 +57,10 @@ class EMPS_DB
     public function query($query)
     {
         global $emps;
+
+        if (!$this->db) {
+            return false;
+        }
 
         if (EMPS_TIMING) {
             $s = emps_microtime_float(microtime());

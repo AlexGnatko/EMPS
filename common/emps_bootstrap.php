@@ -84,6 +84,12 @@ $emps->pre_init();
 
 $emps->initialize();    // initialization and automatic configuration
 
+if (!$emps->db->operational) {
+    // could not connect to a DB
+    $emps->database_down();
+    exit;
+}
+
 $emps->start_time = emps_microtime_float($emps_start_time);
 
 ob_start();
