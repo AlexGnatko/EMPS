@@ -531,6 +531,7 @@ CREATE TEMPORARY TABLE `temp_e_cache` (
   `dt` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `context_id` (`context_id`),
+  KEY `code` (`code`),
   KEY `dt` (`dt`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
