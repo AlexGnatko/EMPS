@@ -9,7 +9,15 @@ emps_scripts.push(function() {
                 type: Number,
                 default: 4
             },
+            max: {
+                type: Number,
+                default: 0
+            },
             single: {
+                type: Boolean,
+                default: false
+            },
+            centered: {
                 type: Boolean,
                 default: false
             }
@@ -42,6 +50,9 @@ emps_scripts.push(function() {
                     files[i].started = false;
                     files[i].progress = 0;
                     this.queue.push(files[i]);
+                    if (this.queue.length > this.max) {
+                        this.queue.splice(i, this.queue.length - this.max);
+                    }
                     this.start_uploading();
                 }
             },
@@ -91,6 +102,9 @@ emps_scripts.push(function() {
                             if (data.code == 'OK') {
                                 // remove from queue, add to files
                                 that.files = data.files;
+                                if (that.max > 0) {
+                                    that.enforce_max();
+                                }
                             }else{
                                 toastr.error(file.name, string_failed, {positionClass: "toast-bottom-full-width"});
                             }
@@ -115,13 +129,21 @@ emps_scripts.push(function() {
                     }
                 }
             },
-            delete_file: function(file) {
-                if (!confirm("Delete this photo?")) {
-                    return;
+            enforce_max: function() {
+                if (this.files.length > this.max) {
+                    var i, l;
+                    l = this.files.length - this.max;
+                    var lst = [];
+                    for (i = 0; i < l; i++) {
+                        lst.push(this.files[i].id);
+                    }
+                    this.do_delete_file(lst.join(","));
                 }
+            },
+            do_delete_file: function(lst) {
                 var that = this;
                 axios
-                    .get(this.target + "?delete_uploaded_photo=" + file.id)
+                    .get(this.target + "?delete_uploaded_photo=" + lst)
                     .then(function(response){
                         var data = response.data;
                         if (data.code == 'OK') {
@@ -131,6 +153,12 @@ emps_scripts.push(function() {
                             alert(data.message);
                         }
                     });
+            },
+            delete_file: function(file) {
+                if (!confirm("Delete this photo?")) {
+                    return;
+                }
+                this.do_delete_file(file.id);
             },
             delete_queue: function(idx) {
                 this.queue.splice(idx, 1);
