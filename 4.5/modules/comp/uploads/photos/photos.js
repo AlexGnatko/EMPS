@@ -20,6 +20,14 @@ emps_scripts.push(function() {
             centered: {
                 type: Boolean,
                 default: false
+            },
+            label: {
+                type: String,
+                default: null,
+            },
+            defaultimg: {
+                type: String,
+                default: null,
             }
         },
         data: function(){
@@ -50,7 +58,7 @@ emps_scripts.push(function() {
                     files[i].started = false;
                     files[i].progress = 0;
                     this.queue.push(files[i]);
-                    if (this.queue.length > this.max) {
+                    if (this.max > 0 && this.queue.length > this.max) {
                         this.queue.splice(i, this.queue.length - this.max);
                     }
                     this.start_uploading();

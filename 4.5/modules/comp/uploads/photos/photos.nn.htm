@@ -13,7 +13,7 @@
             <template v-if="queue.length > 0">
                 <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in queue">
                     <div class="container-1x1 field">
-                        <figure class="image upload-image">
+                        <figure class="image simple-upload-image">
                             <a :href="file.url" target="_blank"><img :src="file.image_url" style="width: 100%"/></a>
                         </figure>
                     </div>
@@ -31,7 +31,7 @@
             <template v-else>
                 <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in files">
                     <div class="container-1x1 field">
-                        <figure class="image upload-image">
+                        <figure class="image simple-upload-image">
                             <a :href="file.url" target="_blank"><img :src="file.url"/></a>
                         </figure>
                     </div>
@@ -44,6 +44,13 @@
                         <strong><a :href="file.url" target="_blank">{{"file.name"|js}}</a></strong>
                     </template>
                 </div>
+                <template v-if="(files.length == 0) && (defaultimg !== null)">
+                    <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}">
+                        <figure class="image simple-upload-image">
+                            <a :href="defaultimg"><img :src="defaultimg"/></a>
+                        </figure>
+                    </div>
+                </template>
             </template>
             <div class="column" v-if="single">
                 <div class="field"  v-for="(file, index) in files">
@@ -58,7 +65,10 @@
                 <div class="columns is-variable is-2">
                     <div class="column is-narrow buttons">
                         <button type="button" @click="add_files()" class="button is-primary is-outlined">
-                            <i class="fa fa-hand-pointer-o"></i> &nbsp; {{$str_select1}}</button>
+                            <i class="fa fa-hand-pointer-o"></i> &nbsp;
+                            <template v-if="label !== null">{{"label"|js}}</template>
+                            <template v-else>{{$str_select1}}</template>
+                            </button>
                         <div></div>
                     </div>
                     <div class="column">
@@ -76,7 +86,10 @@
         <div class="columns is-variable is-2" v-if="!single">
             <div class="column is-narrow buttons">
                 <button type="button" @click="add_files()" class="button is-primary is-outlined">
-                    <i class="fa fa-hand-pointer-o"></i> &nbsp; {{$str_select}}</button>
+                    <i class="fa fa-hand-pointer-o"></i> &nbsp;
+                    <template v-if="label !== null">{{"label"|js}}</template>
+                    <template v-else>{{$str_select}}</template>
+                </button>
                 <div></div>
             </div>
             <div class="column">
