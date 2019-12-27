@@ -673,18 +673,6 @@ class EMPS extends EMPS_Common
         }
     }
 
-    public function page_properties_from_settings($list){
-        $x = explode(",", $list);
-        foreach($x as $v){
-            $v = trim($v);
-            $value = $this->get_setting($v);
-            if(!$value) {
-                continue;
-            }
-            $this->page_property($v, $value);
-        }
-    }
-
     public function add_stat($metric, $value) {
         $period = floor(time() / ($this->period_size));
 

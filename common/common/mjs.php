@@ -28,6 +28,10 @@ if ($ext == "php") {
     $emps->not_found();
     exit;
 }
+if ($ext == "htm") {
+    $emps->not_found();
+    exit;
+}
 
 $page = "_{$part},{$file}";
 
