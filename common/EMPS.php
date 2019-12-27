@@ -649,7 +649,7 @@ class EMPS_Common
             require_once $fn;
         }
 
-        header("ReferrerPolicy: unsafe-url");
+        header("Referrer-Policy: unsafe-url");
 
         $smarty->assign("spath", $this->spath);
 
