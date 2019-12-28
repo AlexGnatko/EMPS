@@ -13,7 +13,7 @@
             <template v-if="queue.length > 0">
                 <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in queue">
                     <div class="container-1x1 field">
-                        <figure class="image simple-upload-image">
+                        <figure class="image upload-image">
                             <a :href="file.url" target="_blank"><img :src="file.image_url" style="width: 100%"/></a>
                         </figure>
                     </div>
@@ -31,7 +31,7 @@
             <template v-else>
                 <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in files">
                     <div class="container-1x1 field">
-                        <figure class="image simple-upload-image">
+                        <figure class="image upload-image">
                             <a :href="file.url" target="_blank"><img :src="file.url"/></a>
                         </figure>
                     </div>
@@ -46,7 +46,7 @@
                 </div>
                 <template v-if="(files.length == 0) && (defaultimg !== null)">
                     <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}">
-                        <figure class="image simple-upload-image">
+                        <figure class="image upload-image">
                             <a :href="defaultimg"><img :src="defaultimg"/></a>
                         </figure>
                     </div>
