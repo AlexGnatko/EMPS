@@ -1,6 +1,6 @@
 <?php
 
-// The session handler based on $emps->db (SQL abstraction interface)
+// The session handler based on $emps->db (database abstraction interface)
 
 class EMPS_SessionHandler implements SessionHandlerInterface
 {
