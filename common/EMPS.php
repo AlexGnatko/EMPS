@@ -2184,6 +2184,14 @@ class EMPS_Common
         echo json_encode($response, $this->json_options);
     }
 
+    public function plaintext_response()
+    {
+        global $emps;
+
+        $emps->no_smarty = true;
+        header("Content-Type: text/plain; charset=utf-8");
+    }
+
     public function array_info($array){
         return json_encode($array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
