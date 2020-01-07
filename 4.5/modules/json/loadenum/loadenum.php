@@ -25,6 +25,14 @@ if (isset($emps->enum[$code])) {
         }
         $enum = $ne;
     }
+    if ($_GET['string']) {
+        $ne = array();
+        foreach ($enum as $v) {
+            $v['code'] = strval($v['code']);
+            $ne[] = $v;
+        }
+        $enum = $ne;
+    }
 
     $response['enum'] = $enum;
 } else {
