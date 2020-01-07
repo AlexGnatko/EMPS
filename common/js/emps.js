@@ -117,6 +117,20 @@ var EMPS = {
                 }
             });
     },
+    load_enum_str: function(code, then) {
+        axios
+            .get("/json-loadenum/" + code + "/?string=1")
+            .then(function(response){
+                var data = response.data;
+                if (data.code == 'OK') {
+                    if (then !== undefined) {
+                        then(data.enum);
+                    }
+                }else{
+                    alert(data.message);
+                }
+            });
+    },
     login: function() {
         $("#siteLoginModal").addClass("is-active");
         $.ajax({url: '/ensure_session/'});
