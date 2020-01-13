@@ -922,7 +922,7 @@ class EMPS_Auth
     public function load_user($user_id)
     {
         global $emps;
-        $user_id += 0;
+        $user_id = intval($user_id);
         if (!$user_id) {
             return false;
         }
@@ -933,6 +933,9 @@ class EMPS_Auth
         if (!$user['fullname']) {
             $ra = $this->form_fullname($user);
             $user['fullname'] = $ra['fullname'];
+            $nr = [];
+            $nr['fullname'] = $user['fullname'];
+            $emps->db->sql_update_row("e_users", ['SET' => $nr], "id = {$user_id}");
         }
 
         if (!$user['display_name']) {
