@@ -16,7 +16,7 @@
                 <a class="navbar-item brand-item" href="/" title="{{"page/mainhead"|emps:get_setting}}">
                     {{$navbar_image = ("page/brand_image"|emps:get_setting)}}
                     {{if $navbar_image}}
-                        <img src="{{$navbar_image}}">
+                        <img class="brand-logo" src="{{$navbar_image}}" />
                     {{else}}
                         {{$navbar_brand = ("page/brand"|emps:get_setting)}}
                         {{if $navbar_brand}}
