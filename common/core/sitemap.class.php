@@ -6,6 +6,7 @@
 class EMPS_Sitemap
 {
     public $menu_items = [];
+    public $main_pages = [];
     public $sitemaps = [];
     public $lists = [];
 
@@ -117,6 +118,27 @@ class EMPS_Sitemap
         $smarty->display("db:sitemap/list");
     }
 
+    public function add_page($name, $link, $dt) {
+        $this->main_pages[] = ['dname' => $name, 'link' => $link, 'dt' => $dt];
+    }
+
+    public function handle_main(){
+        global $smarty;
+
+        $lst = [];
+        foreach($this->main_pages as $item){
+            $a = [];
+            $a['name'] = $item['dname'];
+            $a['link'] = $item['link'];
+            $dt = $item['dt'];
+            $a['lastmod'] = $this->form_date($dt);
+            $a['freq'] = $this->freq_grade($dt);
+            $lst[] = $a;
+        }
+        $smarty->assign("lst", $lst);
+        $smarty->display("db:sitemap/list");
+    }
+
     public function list_page($code, $page_start){
         return [];
     }
@@ -150,6 +172,11 @@ class EMPS_Sitemap
             return;
         }
 
+        if($key == "main.xml"){
+            $this->handle_main();
+            return;
+        }
+
         $x = explode(".", $key);
         if($x[1] == 'xml'){
             $xx = explode("-", $x[0]);
@@ -173,4 +200,10 @@ class EMPS_Sitemap
         return "weekly";
     }
 
+    function days($number, $dt) {
+        $z = $dt / ($number * 24 * 60 * 60);
+        $z = floor($z);
+        $rdt = $z * ($number * 24 * 60 * 60);
+        return $rdt;
+    }
 }
