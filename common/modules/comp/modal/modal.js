@@ -2,7 +2,7 @@
 
     Vue.component('modal', {
         template: '#modal-component-template',
-        props: ['id', 'form', 'submit', 'size', 'buttonClass'],
+        props: ['id', 'form', 'submit', 'size', 'buttonClass', 'noFooter'],
         data: function(){
             return {
                 btn_class: {'button': true}
@@ -31,6 +31,12 @@
                         break;
                 }
                 return c;
+            }
+        },
+        watch: {
+            id: function(new_val, old_val) {
+                vuev.$off("modal:open:" + old_val);
+                vuev.$on("modal:open:" + new_val, this.on_open);
             }
         },
         mounted: function(){

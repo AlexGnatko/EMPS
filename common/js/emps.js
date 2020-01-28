@@ -166,5 +166,28 @@ var EMPS = {
             }
         }
 
+    },
+    get_context: function(ref_type, ref_sub, ref_id, then) {
+        if (ref_type <= 0) {
+            return 0;
+        }
+        if (ref_sub <= 0) {
+            return 0;
+        }
+        if (ref_id <= 0) {
+            return 0;
+        }
+        axios
+            .get("/json-context/" + ref_type + "-" + ref_sub + "-" + ref_id + "/")
+            .then(function(response){
+                var data = response.data;
+                if (data.code == 'OK') {
+                    if (then !== undefined) {
+                        then(data.context_id);
+                    }
+                }else{
+                    alert(data.message);
+                }
+            });
     }
 }

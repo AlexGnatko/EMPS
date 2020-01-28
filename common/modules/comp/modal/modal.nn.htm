@@ -17,7 +17,7 @@
                 <slot></slot>
                 </form>
             </section>
-            <footer class="modal-card-foot flex-end">
+            <footer v-if="!noFooter" class="modal-card-foot flex-end">
                 <form @submit.prevent="submit_form">
                 <button type="button" :class="btn_class" @click="close_modal($event)">{{$str_close}}</button>
                 <slot name="actions">

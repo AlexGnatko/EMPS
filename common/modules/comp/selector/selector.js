@@ -2,7 +2,9 @@
 
     Vue.component('selector', {
         template: '#selector-template',
-        props: ['value', 'type', 'title', 'size', 'search', 'noClear', 'noPages', 'noField', 'placeholder', 'hasExtra'],
+        props: ['value', 'type', 'title', 'size', 'search', 'noClear', 'noPages', 'noField',
+            'infoButton', 'onInfo',
+            'placeholder', 'hasExtra'],
         data: function(){
             return {
                 guid: guid(),
@@ -82,6 +84,11 @@
                             alert(data.message);
                         }
                     });
+            },
+            follow_link: function() {
+                if (this.value > 0) {
+                    this.onInfo(this.value);
+                }
             }
         },
         mounted: function(){

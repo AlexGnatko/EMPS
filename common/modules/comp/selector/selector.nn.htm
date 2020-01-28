@@ -9,17 +9,6 @@
 {{/if}}
 <script type="text/x-template" id="selector-template">
     <div>
-        <div :class="[{'field': !noField}, {'has-addons': !noClear}]">
-            <p class="control is-expanded">
-            <input class="input" :value="description" :placeholder="placeholder" readonly="readonly" @click="select()"/>
-            </p>
-            <p class="control" v-if="!noClear">
-                <a class="button" @click="clear()">
-                    <i class="fa fa-remove"></i>
-                </a>
-            </p>
-        </div>
-
         <modal :id="modal_name()" :size="size" >
             <template slot="header">
                 {{$str_select}}: <span v-html="title"></span>
@@ -51,13 +40,29 @@
                 </div>
 
                 <div v-if="!noPages">
-                {{include file="db:page/vue_paginator"}}
+                    {{include file="db:page/vue_paginator"}}
                 </div>
 
 
             </template>
 
         </modal>
+
+        <div :class="[{'field': !noField}, {'has-addons': !noClear}]">
+            <p class="control is-expanded">
+            <input class="input" :value="description" :placeholder="placeholder" readonly="readonly" @click="select()"/>
+            </p>
+            <p class="control" v-if="infoButton && (value > 0)">
+                <a class="button" @click="follow_link">
+                    <i class="fa fa-ellipsis-v"></i>
+                </a>
+            </p>
+            <p class="control" v-if="!noClear">
+                <a class="button" @click="clear()">
+                    <i class="fa fa-remove"></i>
+                </a>
+            </p>
+        </div>
 
     </div>
 </script>

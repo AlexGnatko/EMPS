@@ -217,3 +217,7 @@ table.is-table-collapsible .td-tag {
     overflow-Y: auto;
     max-height: calc(80vh - 5rem);
 }
+
+.is-ghost {
+    opacity: 0.5;
+}

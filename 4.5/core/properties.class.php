@@ -481,6 +481,7 @@ class EMPS_Properties
         }
 
         $context = $emps->db->get_row("e_contexts", "id = {$context_id}");
+        $context = $emps->db->row_types("e_contexts", $context);
         $this->load_context_cache[$context_id] = $context;
         return $context;
     }
