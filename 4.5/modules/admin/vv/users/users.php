@@ -54,7 +54,14 @@ if ($emps->auth->credentials("root")) {
         }
 
         public function pre_save($nr) {
+            global $emps;
 
+            if ($nr['id'] == 1) {
+                if ($emps->auth->USER_ID != 1) {
+                    // only root can change root password
+                    unset($nr['password']);
+                }
+            }
             if ($nr['password'] == "") {
                 unset($nr['password']);
             } else {
