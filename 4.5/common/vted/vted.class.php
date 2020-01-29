@@ -74,6 +74,10 @@ class EMPS_VueTableEditor
         return true;
     }
 
+    public function can_delete_row($id) {
+        return true;
+    }
+
     public function can_view_pad()
     {
         return true;
@@ -617,13 +621,20 @@ class EMPS_VueTableEditor
 
         if ($_POST['post_delete']) {
             if ($this->can_delete()) {
+
                 $id = intval($_POST['post_delete']);
+                if ($this->can_delete_row($id)) {
+                    $this->delete_row($id);
 
-                $this->delete_row($id);
-
-                $response = [];
-                $response['code'] = "OK";
-                $emps->json_response($response); exit;
+                    $response = [];
+                    $response['code'] = "OK";
+                    $emps->json_response($response); exit;
+                } else {
+                    $response = [];
+                    $response['code'] = "Error";
+                    $response['message'] = "Удаление элемента запрещено!";
+                    $emps->json_response($response); exit;
+                }
             } else {
                 $response = [];
                 $response['code'] = "Error";

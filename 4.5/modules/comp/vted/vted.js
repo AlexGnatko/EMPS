@@ -144,7 +144,7 @@
                             that.update_tree(that.tree, data.tree);
 
                         }else{
-                            alert(data.message);
+                            toastr.error(data.message);
                         }
                     });
             },
@@ -184,7 +184,7 @@
                                     after.call();
                                 }
                             }else{
-                                alert(data.message);
+                                toastr.error(data.message);
                             }
                         });
                 }
@@ -274,8 +274,10 @@
                         var data = response.data;
 
                         if(data.code == 'OK'){
-                            toastr.error(window.string_deleted);
+                            toastr.success(window.string_deleted);
                             that.to_current_list();
+                        } else {
+                            toastr.error(data.message);
                         }
                     });
                 this.close_modal("deleteRowModal");
@@ -341,7 +343,7 @@
                             $('form *').blur();
                             toastr.info(window.string_created);
                         } else {
-                            alert(data.message);
+                            toastr.error(data.message);
                         }
                     });
 
@@ -361,7 +363,7 @@
                             that.load_list();
                             that.close_modal("vtedFilterModal");
                         } else {
-                            alert(data.message);
+                            toastr.error(data.message);
                         }
                     });
 
@@ -380,7 +382,7 @@
                             that.load_list();
                             that.close_modal("vtedFilterModal");
                         } else {
-                            alert(data.message);
+                            toastr.error(data.message);
                         }
                     });
 
@@ -433,7 +435,7 @@
                         if (data.code == 'OK') {
                             that.load_list();
                         } else {
-                            alert(data.message);
+                            toastr.error(data.message);
                         }
                     });
             },
@@ -493,7 +495,7 @@
                             that.unselect_all_folders();
                             that.delete_item(that.tree, item);
                         } else {
-                            alert(data.message);
+                            toastr.error(data.message);
                         }
                     });
             },
@@ -520,7 +522,7 @@
                         if (data.code == 'OK') {
                             tree.push(data.row);
                         } else {
-                            alert(data.message);
+                            toastr.error(data.message);
                         }
                     });
             },

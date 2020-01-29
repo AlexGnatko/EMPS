@@ -1,5 +1,6 @@
 
 var EMPS = {
+    enum_cache: {},
     get_path_vars: function(){
         var l = window.location.href;
         var p = l.split('//');
@@ -104,12 +105,18 @@ var EMPS = {
         }
     },
     load_enum: function(code, then) {
+        if (this.enum_cache[code] !== undefined) {
+            then(this.enum_cache[code]);
+            return;
+        }
+        var that = this;
         axios
             .get("/json-loadenum/" + code + "/")
             .then(function(response){
                 var data = response.data;
                 if (data.code == 'OK') {
                     if (then !== undefined) {
+                        that.enum_cache[code] = data.enum;
                         then(data.enum);
                     }
                 }else{
@@ -118,12 +125,18 @@ var EMPS = {
             });
     },
     load_enum_str: function(code, then) {
+        if (this.enum_cache[code] !== undefined) {
+            then(this.enum_cache[code]);
+            return;
+        }
+        var that = this;
         axios
             .get("/json-loadenum/" + code + "/?string=1")
             .then(function(response){
                 var data = response.data;
                 if (data.code == 'OK') {
                     if (then !== undefined) {
+                        that.enum_cache[code] = data.enum;
                         then(data.enum);
                     }
                 }else{
