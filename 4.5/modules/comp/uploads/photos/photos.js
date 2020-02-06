@@ -28,7 +28,11 @@ emps_scripts.push(function() {
             defaultimg: {
                 type: String,
                 default: null,
-            }
+            },
+            noImage: {
+                type: Boolean,
+                default: false,
+            },
         },
         data: function(){
             return {
@@ -230,6 +234,9 @@ emps_scripts.push(function() {
                 if (this.need_upload) {
                     this.start_uploading();
                 }
+            },
+            files: function(new_val, old_val) {
+                this.$emit("update", new_val);
             }
         },
         mounted: function(){

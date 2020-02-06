@@ -5,6 +5,7 @@ emps_scripts.push(function() {
         data: function(){
             return {
                 selected_file: '',
+                need_upload: false,
                 queue: [],
                 files: []
             };
@@ -20,6 +21,7 @@ emps_scripts.push(function() {
                     return;
                 }
 
+                this.$emit("uptodate", false);
                 for (var i = 0; i < files.length; i++ ) {
                     files[i].image_url = URL.createObjectURL(files[i]);
                     files[i].started = false;
@@ -29,6 +31,13 @@ emps_scripts.push(function() {
                 }
             },
             start_uploading: function() {
+                if (this.context === undefined || this.context === null || !this.context) {
+                    this.need_upload = true;
+                    return;
+                }
+
+                this.need_upload = false;
+
                 for (var i = 0; i < this.queue.length; i++ ) {
                     var file = this.queue[i];
                     if (!file.started) {
@@ -63,6 +72,7 @@ emps_scripts.push(function() {
                             if (data.code == 'OK') {
                                 // remove from queue, add to files
                                 that.files = data.files;
+                                that.$emit("uptodate", true);
                             }else{
                                 toastr.error(file.name, string_failed, {positionClass: "toast-bottom-full-width"});
                             }
@@ -104,8 +114,12 @@ emps_scripts.push(function() {
                         }
                     });
             },
+            delete_queue: function(idx) {
+                this.queue.splice(idx, 1);
+            },
             load_files: function() {
                 if (!this.context) {
+                    this.files = [];
                     return;
                 }
                 var that = this;
@@ -155,6 +169,28 @@ emps_scripts.push(function() {
             target: function() {
                 return "/json-upload/" + this.context + "/";
             }
+        },
+        watch: {
+            context: function(new_val, old_val) {
+                if (this.need_upload) {
+                    this.start_uploading();
+                } else {
+                    if (new_val === undefined || new_val === null || !new_val) {
+                        var that = this;
+                        setTimeout(function() {
+                            that.load_files();
+                        }, 500);
+                    }
+                    this.$emit("uptodate", true);
+                }
+
+            },
+            files: function(new_val, old_val) {
+                this.$emit("update", new_val);
+                if (new_val.length == 0) {
+                    this.$emit("uptodate", true);
+                }
+            },
         },
         mounted: function(){
             this.$watch('context', this.load_files);

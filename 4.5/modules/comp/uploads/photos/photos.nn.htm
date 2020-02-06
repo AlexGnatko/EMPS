@@ -10,7 +10,7 @@
         <input type="file" multiple id="files" ref="files" @change="handle_uploads()"/>
 
         <div :class="{'columns is-multiline': true, 'is-centered': centered}">
-            <template v-if="queue.length > 0">
+            <template v-if="(queue.length > 0) && !noImage">
                 <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in queue">
                     <div class="container-1x1 field">
                         <figure class="image upload-image">
@@ -28,7 +28,7 @@
                     </template>
                 </div>
             </template>
-            <template v-else>
+            <template v-else-if="!noImage">
                 <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in files">
                     <div class="container-1x1 field">
                         <figure class="image upload-image">
@@ -62,16 +62,16 @@
                     <strong><a :href="file.url" target="_blank">{{"file.name"|js}}</a></strong>
                 </div>
 
-                <div class="columns is-variable is-2">
-                    <div class="column is-narrow buttons">
-                        <button type="button" @click="add_files()" class="button is-primary is-outlined">
+                <div :class="{'columns is-variable is-2': true, 'is-multiline': cols == 1}">
+                    <div :class="{'column is-narrow buttons': cols != 1, 'column is-full': cols == 1}">
+                        <button type="button" @click="add_files()" class="button is-primary is-outlined is-fullwidth">
                             <i class="fa fa-hand-pointer-o"></i> &nbsp;
                             <template v-if="label !== null">{{"label"|js}}</template>
                             <template v-else>{{$str_select1}}</template>
                             </button>
-                        <div></div>
+                        <div v-if="cols !=1"></div>
                     </div>
-                    <div class="column">
+                    <div :class="{'column': cols != 1, 'column is-full': cols == 1}">
                         <div class="button-size is-fullwidth">
                             <progress class="progress is-info"
                                       v-if="is_uploading()"

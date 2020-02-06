@@ -306,7 +306,9 @@
                 return link;
             },
             submit_form: function(e) {
-                e.preventDefault();
+                if (e !== undefined) {
+                    e.preventDefault();
+                }
 
                 var that = this;
                 var row = {};
@@ -319,6 +321,7 @@
 
                         if(data.code == 'OK'){
                             that.load_row();
+                            vuev.$emit("form_submitted");
                             $('form *').blur();
                             toastr.success(window.string_saved);
                         }

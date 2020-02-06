@@ -97,6 +97,9 @@
         watch: {
             value: function(val) {
                 this.describe();
+            },
+            type: function(val) {
+                this.clear();
             }
         }
     });

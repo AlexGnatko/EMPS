@@ -1,0 +1,9 @@
+<script type="text/x-template" id="downloads-component-template">
+<div class="columns is-variable is-2">
+    <div class="column is-4" v-for="(file, index) in files">
+        <i class="fa fa-download"></i>&nbsp;
+        <a :href="'/retrieve/' + file.md5 + '/' + file.file_name">{{"file.file_name"|js}}</a>
+    </div>
+</div>
+</script>
+<script src="/mjs/comp-downloads/downloads.js" defer></script>
