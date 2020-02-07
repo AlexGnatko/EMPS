@@ -1,0 +1,57 @@
+.photobanner-main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.photobanner-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@keyframes photobanner-fade {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+.fade-out {
+    animation-name: photobanner-fade;
+    animation-duration: 0.5s;
+}
+
+.photobanner-overlay {
+    z-index: 1000;
+}
+
+a.photobanner-left-control, a.photobanner-right-control {
+    position: absolute;
+    z-index: 10000;
+    opacity: 0.5;
+    font-size: 2rem;
+    color: white;
+    bottom: 0;
+    display: block;
+    padding: 2rem;
+    transition: opacity 0.5s, transform 0.1s;
+}
+
+a.photobanner-left-control:hover, a.photobanner-right-control:hover {
+    opacity: 0.8;
+    transform: scale(1.1);
+}
+
+.photobanner-left-control {
+    left: 0;
+}
+
+.photobanner-right-control {
+    right: 0;
+}

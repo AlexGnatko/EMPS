@@ -39,9 +39,10 @@ if ($ra) {
         } else {
             header("Content-Type: image/jpeg");
             header("Content-Length: " . $size);
-            header("Last-Modified: ", date("r", $ra['dt']));
-            header("Expires: ", date("r", time() + 60 * 60 * 24 * 7));
+            header("Last-Modified: " . date("r", $ra['dt']));
+            header("Expires: " . date("r", time() + 60 * 60 * 24 * 7));
             header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+            header("Pragma: ");
 
             fpassthru($fh);
         }

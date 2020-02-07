@@ -240,6 +240,7 @@ class EMPS_VuePhotosUploader {
             }
 
             if ($_POST['post_import_photos']) {
+                $emps->no_time_limit();
                 $x = explode("\n", $_POST['list']);
 
                 $r = $emps->db->query("select max(ord) from ".TP."e_uploads where 

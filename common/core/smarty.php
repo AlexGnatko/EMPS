@@ -207,9 +207,22 @@ function smarty_modifier_js($v)
     return "{{" . $v . "}}";
 }
 
+function smarty_modifier_syn($v)
+{
+    global $emps;
+
+    if(isset($params['v'])) {
+        $x = explode("|", $v);
+        $id = $emps->prand(0, count($x) - 1);
+        return $x[$id];
+    }
+}
+
+
 $smarty->registerPlugin("modifier", "hyp", "smarty_modifier_hyp");
 $smarty->registerPlugin("modifier", "emps", "smarty_modifier_emps");
 $smarty->registerPlugin("modifier", "js", "smarty_modifier_js");
+$smarty->registerPlugin("modifier", "syn", "smarty_modifier_syn");
 
 if (defined('EMPS_PRE_MINIFY')) {
     if (EMPS_PRE_MINIFY) {

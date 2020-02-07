@@ -1,0 +1,25 @@
+<script type="text/x-template" id="photobanner-component-template">
+<div class="photobanner-main">
+    <div class="photobanner-item" v-for="(file, iindex) in display"
+         :class="{'fade-out': (iindex == 0) && fade_out}"
+         :style="{'background-image': 'url(' + photo_link(file) + ')', 'z-index': (-iindex * 10) + 10}">
+    </div>
+    <div class="photobanner-item photobanner-overlay">
+        <slot></slot>
+    </div>
+
+    <a href="javascript:;" @click.stop.prevent="go(-1)" class="photobanner-left-control">
+        <i class="fa fa-chevron-left"></i>
+    </a>
+
+    <a href="javascript:;" @click.stop.prevent="go(1)" class="photobanner-right-control">
+        <i class="fa fa-chevron-right"></i>
+    </a>
+</div>
+</script>
+<script src="/mjs/comp-photobanner/photobanner.js" defer></script>
+<script>
+    emps_scripts.push(function(){
+        EMPS.load_css('/mjs/comp-photobanner/photobanner.css');
+    });
+</script>

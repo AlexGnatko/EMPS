@@ -54,9 +54,10 @@ if ($ra) {
 
             header("Content-Type: ".$content_type);
             header("Content-Length: " . $size);
-            header("Last-Modified: ", date("r", $ra['dt']));
-            header("Expires: ", date("r", time() + 60 * 60 * 24 * 7));
+            header("Last-Modified: " . date("r", $ra['dt']));
+            header("Expires: " . date("r", time() + 60 * 60 * 24 * 7));
             header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+            header("Pragma: ");
 
             fpassthru($fh);
         }
