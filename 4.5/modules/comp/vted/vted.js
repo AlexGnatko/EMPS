@@ -28,6 +28,7 @@
                 tree: [],
                 clipboard: {},
                 need_new_tree: true,
+                mhtml_vars: [{name: "HTML", var: "html"}],
             }
         },
         components: {

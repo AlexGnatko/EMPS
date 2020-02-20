@@ -116,9 +116,7 @@ class EMPS_NG_PickList
             $text = $emps->db->sql_escape($emps->utf8_urldecode($_GET['text']));
             $id = 0;
             if ($text) {
-                $matches = array();
-                preg_match_all("/<([^>]+)>/", $text, $matches);
-                $id = $matches[1][count($matches[1]) - 1];
+                $id = intval($text);
             }
 
             $default_text = $emps->db->sql_escape($emps->utf8_urldecode($_GET['default_text']));
@@ -132,7 +130,7 @@ class EMPS_NG_PickList
             $start = intval($start);
 
             $r = $emps->db->query("select SQL_CALC_FOUND_ROWS " . $this->what . " from " . TP .
-                $this->table_name . " as t " . $this->join . " where t.name like '%$text%' " . $and . " " .
+                $this->table_name . " as t " . $this->join . " where ((t.name like '%$text%') or (t.id = {$id})) " . $and . " " .
                 $this->where . $this->orderby . " limit {$start}, {$perpage}");
 
             $pages = $emps->count_pages($emps->db->found_rows());

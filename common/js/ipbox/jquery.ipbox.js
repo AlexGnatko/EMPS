@@ -114,14 +114,14 @@
 				zoom = img.attr("href");
 			}
 			col.css("background-image", "url('"+zoom+"')");
-			
+
 			img.data("col", col);
 
 			img.off('click');
 						
 			img.on('click', function(e){
 				var obj = $(this).data('EMPS_IPBox');
-				
+
 				obj.open_wrapper();				
 				
 				obj.change(obj.current_row, $(this).data('col'));

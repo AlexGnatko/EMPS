@@ -46,7 +46,7 @@ if ($emps->auth->credentials("admin")) {
         }
     }
 
-    $ited = new {{$data.class_name}};
+    $ited = new {{$data.class_name}}();
 
     require_once $emps->page_file_name("_{{$data.dir_path}},common", "controller");
 

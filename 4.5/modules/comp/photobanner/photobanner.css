@@ -33,7 +33,7 @@
 
 a.photobanner-left-control, a.photobanner-right-control {
     position: absolute;
-    z-index: 10000;
+    z-index: 2000;
     opacity: 0.5;
     font-size: 2rem;
     color: white;

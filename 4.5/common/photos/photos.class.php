@@ -338,6 +338,8 @@ class EMPS_Photos
     }
 
     public function explain_pic($ra){
+        global $emps;
+
         $psize = $ra['psize'];
         $ra = $this->image_extension($ra);
         $x = explode("x", $psize);
@@ -349,6 +351,29 @@ class EMPS_Photos
             }
             $ra['h'] = $h;
             $ra['w'] = $w;
+        }
+
+
+        $f = mb_substr($ra['descr'], 0, 1);
+        if ($f == "@") {
+            $x = explode("\n", $ra['descr']);
+            foreach ($x as $v) {
+                $v = trim($v);
+                $f = mb_substr($v, 0, 1);
+                if ($f == "@") {
+                    $xx = explode(":", $v, 2);
+                    $lang = mb_substr($xx[0], 1);
+                    if ($lang == $emps->lang) {
+                        $ra['vdescr'] = $xx[1];
+                    }
+                } else {
+                    if (!$ra['vdescr']) {
+                        $ra['vdescr'] = $v;
+                    }
+                }
+            }
+        } else {
+            $ra['vdescr'] = $ra['descr'];
         }
         return $ra;
     }

@@ -24,7 +24,6 @@ emps_scripts.push(function() {
             load_list: function() {
                 if (!this.context) {
                     this.files = [];
-                    alert("no context");
                     return;
                 }
                 var that = this;
