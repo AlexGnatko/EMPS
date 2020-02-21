@@ -1,0 +1,8 @@
+<script type="text/x-template" id="multiinput-component-template">
+    <div>
+        <div class="field" v-for="(row, index) in lst">
+            <input type="text" class="input" v-model="row.text" />
+        </div>
+    </div>
+</script>
+<script src="/mjs/comp-multiinput/multiinput.js" defer></script>

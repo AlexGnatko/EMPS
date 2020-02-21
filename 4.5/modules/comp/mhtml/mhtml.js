@@ -9,6 +9,7 @@
             return {
                 html: "",
                 evar: "",
+                emps_tinymce_settings: window.emps_tinymce_settings,
             };
         },
         methods: {
