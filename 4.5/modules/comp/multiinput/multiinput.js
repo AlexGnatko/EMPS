@@ -48,7 +48,7 @@ emps_scripts.push(function() {
                     if (this.block_list) {
                         return;
                     }
-                    console.log("handler");
+                    //console.log("handler");
                     var l = val.length;
                     for (var i = 0; i < l; i++) {
                         if (val[i] === undefined) {
@@ -78,7 +78,7 @@ emps_scripts.push(function() {
             },
             value: {
                 handler: function (new_val) {
-                    console.log("set value");
+                    //console.log("set value");
                     this.set_value(new_val);
                 },
                 deep: true
