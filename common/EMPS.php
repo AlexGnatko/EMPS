@@ -1401,6 +1401,17 @@ class EMPS_Common
     {
         return date("d.m.Y", $dt + EMPS_TZ_CORRECT * 60 * 60);
     }
+
+    public function form_date_full($dt)
+    {
+        $months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября',
+        'ноября', 'декабря'];
+
+        $month = intval(date("m", $dt)) - 1;
+        $month_name = $months[$month];
+        return sprintf("%s %s %s", date("d", $dt), $month_name, date("Y", $dt));
+    }
+
     public function form_date_us($dt)
     {
         return date("m/d/Y", $dt + EMPS_TZ_CORRECT * 60 * 60);
@@ -2288,7 +2299,7 @@ class EMPS_Common
         $this->prand_seed = $val;
         //echo $val;
 
-        $diff = abs($max - $min) + 1;
+        $diff = abs($max - $min);
         $rv = $val / (100000 / $diff);
         $rv += $min;
         return $rv;

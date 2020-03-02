@@ -165,7 +165,12 @@ function smarty_syn($params, Smarty_Internal_Template $template)
 
     if(isset($params['v'])) {
         $x = explode("|", $params['v']);
-        $id = $emps->prand(0, count($x) - 1);
+        $max = count($x) - 1;
+        $oid = $emps->prand(0, $max);
+        $id = round($oid);
+        if ($id > $max) {
+            $id = $max;
+        }
         return $x[$id];
     }
     if(isset($params['seed'])){
@@ -211,11 +216,18 @@ function smarty_modifier_syn($v)
 {
     global $emps;
 
-    if(isset($params['v'])) {
+    if(isset($v)) {
         $x = explode("|", $v);
-        $id = $emps->prand(0, count($x) - 1);
+        $max = count($x) - 1;
+        $oid = $emps->prand(0, $max);
+        $id = round($oid);
+        if ($id > $max) {
+            $id = $max;
+        }
+//        echo $id . " ({$oid}, {$max}) // ";
         return $x[$id];
     }
+    return "";
 }
 
 
