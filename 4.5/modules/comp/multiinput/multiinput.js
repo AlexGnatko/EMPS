@@ -39,7 +39,7 @@ emps_scripts.push(function() {
         watch: {
             lst: {
                 handler: function(val) {
-//                    console.log("handler");
+                    console.log("handler");
                     var l = val.length;
                     for (var i = 0; i < l; i++) {
                         if (val[i] === undefined) {
@@ -69,6 +69,7 @@ emps_scripts.push(function() {
             },
             value: {
                 handler: function (new_val) {
+                    console.log("set value");
                     this.set_value(new_val);
                 },
                 deep: true
