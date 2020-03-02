@@ -5,6 +5,7 @@ emps_scripts.push(function() {
         data: function(){
             return {
                 lst: [{text: ""}],
+                block_list: false,
                 timeout: null,
             };
         },
@@ -26,12 +27,17 @@ emps_scripts.push(function() {
                 //console.log("Emitting: " + l + " = " + JSON.stringify(this.value));
             },
             set_value: function(new_val) {
+                this.block_list = true;
                 var l = new_val.length;
                 for (var i = 0; i < l; i++) {
                     this.$set(this.lst, i, {text: new_val[i]});
                 }
                 this.lst.splice(l);
                 this.lst.push({text: ""});
+                var that = this;
+                setTimeout(function() {
+                    that.block_list = false;
+                }, 100);
             }
         },
         computed: {
@@ -39,6 +45,9 @@ emps_scripts.push(function() {
         watch: {
             lst: {
                 handler: function(val) {
+                    if (this.block_list) {
+                        return;
+                    }
                     console.log("handler");
                     var l = val.length;
                     for (var i = 0; i < l; i++) {
