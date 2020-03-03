@@ -19,7 +19,7 @@
         },
         watch: {
             html: function(new_val, old_val) {
-                if (this.evar && this.value && new_val) {
+                if (this.evar && (this.value !== undefined) && (new_val !== undefined)) {
                     this.$set(this.value, this.evar, new_val);
                     this.$emit('input', this.value);
                 }
