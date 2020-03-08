@@ -6,6 +6,20 @@ if ($_POST['post_message']) {
     $rc = $_SESSION['last_rc_token_' . $action];
     if (isset($rc) && ($rc['token'] == $payload['token']) && ($rc['action'] == $action)) {
 
+        if ((!$payload['email']) && (!$payload['phone'])){
+            $response = [];
+            $response['code'] = "Error";
+            $response['message'] = "Пожалуйста, укажите контактные данные!";
+            $emps->json_response($response); exit;
+        }
+
+        if (!trim($payload['msg'])) {
+            $response = [];
+            $response['code'] = "Error";
+            $response['message'] = "Пожалуйста, введите ваше сообщение!";
+            $emps->json_response($response); exit;
+        }
+
         require_once($emps->common_module("mail/mail.class.php"));
 
         $mail = new EMPS_Mail;

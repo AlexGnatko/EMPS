@@ -54,6 +54,8 @@ class EMPS_VueTableEditor
 
     public $debug = false;
 
+    public $extra_message = "";
+
     public function __construct()
     {
         $this->pad_templates[] = "vted/pads,%s";
@@ -633,6 +635,9 @@ class EMPS_VueTableEditor
                     $response = [];
                     $response['code'] = "Error";
                     $response['message'] = "Удаление элемента запрещено!";
+                    if ($this->extra_message) {
+                        $response['message'] .= " " . $this->extra_message;
+                    }
                     $emps->json_response($response); exit;
                 }
             } else {
