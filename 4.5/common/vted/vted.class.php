@@ -431,6 +431,9 @@ class EMPS_VueTableEditor
 
     public function load_sorting() {
         $this->sorting = $_SESSION['vted_sorting_' . $this->table_name];
+        if (!$this->sorting) {
+            $this->sorting = $this->default_sorting;
+        }
         return $this->sorting;
     }
 
