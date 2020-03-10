@@ -429,6 +429,11 @@ class EMPS_VueTableEditor
         return $this->filter;
     }
 
+    public function load_sorting() {
+        $this->sorting = $_SESSION['vted_sorting_' . $this->table_name];
+        return $this->sorting;
+    }
+
     public function handle_request()
     {
         global $emps, $perpage, $smarty, $key, $sd, $ss, $vted, $start;
@@ -512,6 +517,15 @@ class EMPS_VueTableEditor
             $filter = $this->process_post_filter($filter);
 
             $_SESSION['vted_filter_' . $this->table_name] = $filter;
+            $response = [];
+            $response['code'] = "OK";
+            $emps->json_response($response); exit;
+        }
+
+        if ($_POST['post_sorting']) {
+            $sort = $_REQUEST['payload'];
+
+            $_SESSION['vted_sorting_' . $this->table_name] = $sort;
             $response = [];
             $response['code'] = "OK";
             $emps->json_response($response); exit;
@@ -796,6 +810,10 @@ class EMPS_VueTableEditor
             $this->load_filter();
             if ($this->filter) {
                 $response['filter'] = $this->filter;
+            }
+            $this->load_sorting();
+            if ($this->sorting) {
+                $response['sort'] = $this->sorting;
             }
 
             $response = $this->pre_send_response($response);

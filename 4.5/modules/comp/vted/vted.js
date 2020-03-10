@@ -14,6 +14,7 @@
                 guid: guid(),
                 selected_row: {},
                 new_row: {},
+                sort: {},
                 lst: [],
                 pages: {},
                 path: {},
@@ -179,6 +180,9 @@
                                 }
                                 if (data.parents !== undefined) {
                                     that.parents = data.parents;
+                                }
+                                if (data.sort !== undefined) {
+                                    that.sort = data.sort;
                                 }
                                 that.lookup_id = undefined;
                                 if (after !== undefined){
@@ -366,6 +370,30 @@
                         if (data.code == 'OK') {
                             that.load_list();
                             that.close_modal("vtedFilterModal");
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    });
+
+                return false;
+            },
+            sorting: function(field) {
+                if (this.sort[field] === undefined) {
+                    this.sort[field] = 1;
+                } else {
+                    this.sort[field] *= -1;
+                }
+                var that = this;
+                var row = {};
+                row.post_sorting = 1;
+                row.payload = this.sort;
+                axios
+                    .post(this.url_prefix, row)
+                    .then(function(response){
+                        var data = response.data;
+
+                        if (data.code == 'OK') {
+                            that.load_list();
                         } else {
                             toastr.error(data.message);
                         }
