@@ -378,11 +378,13 @@
                 return false;
             },
             sorting: function(field) {
+                var new_sort = {};
                 if (this.sort[field] === undefined) {
-                    this.sort[field] = 1;
+                    new_sort[field] = 1;
                 } else {
-                    this.sort[field] *= -1;
+                    new_sort[field] = this.sort[field] * -1;
                 }
+                this.sort = new_sort;
                 var that = this;
                 var row = {};
                 row.post_sorting = 1;
