@@ -20,6 +20,7 @@
                 this.picker.jumpToDate();
             },
             set_date: function(newDate, oldDate) {
+//                alert(newDate + " / " + oldDate);
                 if ((newDate !== oldDate) && newDate !== undefined && newDate != '') {
                     this.picker.setDate(newDate);
                     //console.log("Setting date: " + newDate + " / " + oldDate);

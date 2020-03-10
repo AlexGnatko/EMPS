@@ -201,6 +201,7 @@
                 return true;
             },
             parse_path: function() {
+//                alert("parse path");
                 vuev.$emit("vted:navigate");
                 this.path = EMPS.get_path_vars();
                 var list_mode;
