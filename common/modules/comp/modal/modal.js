@@ -29,6 +29,9 @@
                     case "sm":
                         c += " modal-sm";
                         break;
+                    case "full":
+                        c += " modal-full";
+                        break;
                 }
                 return c;
             }

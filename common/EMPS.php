@@ -1189,7 +1189,7 @@ class EMPS_Common
 
         if ($total < $GLOBALS[$this->page_var] && !$this->no_autopage && $total > 0) {
             $GLOBALS[$this->page_var] = 0;
-            $this->redirect_elink();
+            $this->redirect_page($this->elink() . "?" . $_SERVER['QUERY_STRING']);
         }
 
         if (!$perpage) {
@@ -1211,7 +1211,7 @@ class EMPS_Common
         $f = ceil($total / $perpage);
 
         $cf = $f;
-        $scl = floor($GLOBALS[$this->page_var] / $perpage) - 4;
+        $scl = floor($GLOBALS[$this->page_var] / $perpage) - 3;
         if ($scl < 0) $scl = 0;
 
         if ($f > 7) $f = 7;

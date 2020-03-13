@@ -16,6 +16,10 @@
     }
 }
 
+.modal-full {
+    width: 95vw;
+}
+
 .is-justified-end {
     justify-content: flex-end;
 }

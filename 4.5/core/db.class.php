@@ -418,6 +418,9 @@ class EMPS_DB
             if(strpos($type, "decimal") !== false){
                 $v = floatval($v);
             }
+            if(strpos($type, "double") !== false){
+                $v = doubleval($v);
+            }
             if(strpos($type, "float") !== false){
                 $v = floatval($v);
             }
