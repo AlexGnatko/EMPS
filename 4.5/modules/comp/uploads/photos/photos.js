@@ -197,9 +197,11 @@ emps_scripts.push(function() {
             is_uploading: function() {
                 for (var i = 0; i < this.queue.length; i++ ) {
                     if (this.queue[i].started) {
+                        this.$emit("is_uploading", true);
                         return true;
                     }
                 }
+                this.$emit("is_uploading", false);
                 return false;
             },
             get_total_progress: function() {
@@ -221,6 +223,7 @@ emps_scripts.push(function() {
                 }
 
                 var rv = Math.round((loaded / total) * 100, 2);
+                this.$emit("progress", rv);
                 return rv;
             },
         },
@@ -237,6 +240,9 @@ emps_scripts.push(function() {
             },
             files: function(new_val, old_val) {
                 this.$emit("update", new_val);
+            },
+            need_upload: function(new_val, old_val) {
+                this.$emit("need_upload", new_val);
             }
         },
         mounted: function(){

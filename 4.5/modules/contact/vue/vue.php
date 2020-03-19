@@ -4,6 +4,8 @@ if ($_POST['post_message']) {
     $action = $_POST['action'];
     $payload = $_REQUEST['payload'];
     $rc = $_SESSION['last_rc_token_' . $action];
+    $smarty->assign("contact_action", $action);
+
     if (isset($rc) && ($rc['token'] == $payload['token']) && ($rc['action'] == $action)) {
 
         if ((!$payload['email']) && (!$payload['phone'])){

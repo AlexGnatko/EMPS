@@ -6,6 +6,10 @@
     justify-content: center;
 }
 
+.flex-items-center {
+    align-items: center;
+}
+
 @media screen and (min-width: 1088px) {
     .modal-lg {
         width: 1000px;
