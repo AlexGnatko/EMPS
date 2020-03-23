@@ -29,6 +29,7 @@
                 tree: [],
                 clipboard: {},
                 need_new_tree: true,
+                show_tree: true,
                 mhtml_vars: [{name: "HTML", var: "html"}],
             }
         },
@@ -43,6 +44,13 @@
                 that.parse_path();
             };
             vuev.$on("navigate", this.parse_path);
+
+            if (localStorage.getItem("show_tree") === "true") {
+                this.show_tree = true;
+            } else {
+                this.show_tree = false;
+                this.$forceUpdate();
+            }
         },
         methods: {
             insert_at_cursor: function(id, text) {
@@ -717,6 +725,10 @@
                 }
 
                 return false;
+            },
+            toggle: function(v) {
+                this[v] = !this[v];
+                $('a, button').blur();
             }
         },
         computed: {
@@ -758,6 +770,11 @@
                 }
 
                 return false;
+            }
+        },
+        watch: {
+            show_tree: function(new_val) {
+                localStorage.setItem("show_tree", new_val);
             }
         }
     });

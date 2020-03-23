@@ -13,9 +13,9 @@
     <li >
         <a
                 href="javascript:;"
-                :class="[{'is-active': is_active}]"
+                :class="[{'is-active': is_active, 'is-tree-item': true}]"
                 @click.stop="set_active">
-            <span class="is-pulled-left menu-buttons">
+            <span class="menu-buttons">
                 <button
                         @click.stop="toggle"
                         v-if="is_folder"
@@ -24,14 +24,15 @@
                     <i class="fa fa-chevron-down" v-if="item.is_open"></i>
                 </button>
                 </span>
-            {{ item.name }}
-
-            <span class="is-pulled-right menu-buttons">
+            <span class="tree-item-name">
+                {{ item.name }}
+            </span>
+            <span class="menu-buttons">
 
                 <div class="dropdown is-right is-hoverable">
   <div class="dropdown-trigger">
                 <button type="button"
-                        class="button is-small is-white" title="{{$str_actions}}">
+                        :class="{'button is-small': true, 'is-white': item.pub == 0, 'is-success': item.pub == 10}" title="{{$str_actions}}">
                     <i class="fa fa-ellipsis-h"></i>
                 </button>
   </div>

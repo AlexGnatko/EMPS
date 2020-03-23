@@ -38,7 +38,7 @@
         <div v-if="list_mode">
             {{if $has_tree}}
                 <div class="columns">
-                    <div class="column is-3" @click.stop="unselect_all_folders()">
+                    <div class="column is-3" @click.stop="unselect_all_folders()" v-if="show_tree">
                         <aside class="menu" >
                             {{include file="db:_comp/vted,controls" controls_type="toptree"}}
                             <p class="menu-label">
@@ -63,7 +63,7 @@
                             </div>
                         </aside>
                     </div>
-                    <div class="column is-9">
+                    <div class="column">
             {{/if}}
             {{if $smarty.capture.list}}
                 {{$smarty.capture.list}}

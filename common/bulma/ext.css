@@ -229,3 +229,14 @@ table.is-table-collapsible .td-tag {
 .is-ghost {
     opacity: 0.5;
 }
+
+a.is-tree-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tree-item-name {
+    flex: 5;
+    padding-left: 0.75rem;
+    padding-right: 0.5rem;
+}
