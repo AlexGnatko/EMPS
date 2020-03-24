@@ -757,7 +757,7 @@ class EMPS_Common
             $GLOBALS['pp'] = $sp;
             $this->page_property('front', 1);
         }
-        if ($vp = $this->page_exists($this->PLURI)) {
+        if ($vp = $this->page_exists_external($this->PLURI)) {
             // virtual object (CMS database item)
             $this->virtual_path = $vp;
         } elseif ($vp = $this->page_exists($this->PLURI . '/')) {
@@ -805,6 +805,11 @@ class EMPS_Common
         $ra = $this->get_db_content_item($uri);
         if ($ra) return $ra;
         return false;
+    }
+
+    public function page_exists_external($uri)
+    {
+        return $this->page_exists($uri);
     }
 
     public function try_page_file_name($page_name, $first_name, $include_name, $type, $path, $lang)
