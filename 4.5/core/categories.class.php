@@ -163,8 +163,6 @@ class EMPS_Categories {
     }
 
     public function list_parents($row) {
-        global $emps;
-
         if ($row['parent']) {
             $parent = $this->load_node($row['parent']);
             $parents = $this->list_parents($parent);
@@ -179,4 +177,20 @@ class EMPS_Categories {
         }
 
     }
+
+    public function update_nodes($item_id, $nodes){
+        $lst = $this->list_nodes($item_id);
+        foreach ($lst as $v) {
+            if($nodes[$v['id']]){
+                unset($nodes[$v['id']]);
+            }else{
+                $this->remove_item_from_node($item_id, $v['id']);
+            }
+        }
+
+        foreach ($nodes as $n => $v) {
+            $this->ensure_item_in_node($item_id,$n);
+        }
+    }
+
 }
