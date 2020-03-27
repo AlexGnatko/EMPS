@@ -45,6 +45,22 @@ class EMPS_Categories {
         return $ra;
     }
 
+    public function list_structure($parent_id) {
+        global $emps;
+
+        $r = $emps->db->query("select * from ".TP.$this->table_struct." where pub = 10
+                                and parent = {$parent_id} order by ord asc, name asc, id asc");
+
+        $lst = [];
+
+        while ($ra = $emps->db->fetch_named($r)) {
+            $ra = $this->explain_structure_node($ra);
+            $lst[] = $ra;
+        }
+
+        return $lst;
+    }
+
     public function tag_structure_node($ra) {
         if ($ra['parent'] != 0) {
             $parent = $this->load_node($ra['parent']);
