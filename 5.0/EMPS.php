@@ -396,5 +396,17 @@ class EMPS extends EMPS_Common {
             return null;
         }
     }
+
+    public function page_exists_external($uri) {
+        $rv = $this->page_exists($uri);
+        if ($rv) {
+            $data = $this->get_content_data($rv);
+            if ($data['internal']) {
+                return false;
+            }
+        }
+        return $rv;
+    }
+
 }
 
