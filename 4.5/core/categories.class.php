@@ -141,6 +141,18 @@ class EMPS_Categories {
             $node = $this->tag_structure_node($node);
             return $node;
         }
+        return false;
+    }
+
+    public function load_item($id) {
+        global $emps;
+
+        $item = $emps->db->get_row($this->table_items, "id = {$id}");
+        if ($item) {
+            $item = $this->explain_item($item);
+            return $item;
+        }
+        return false;
     }
 
     public function node_by_code($code) {
@@ -208,5 +220,23 @@ class EMPS_Categories {
             $this->ensure_item_in_node($item_id,$n);
         }
     }
+
+    public function get_node_top_code($node_id)
+    {
+        global $emps;
+        $node_id = intval($node_id);
+        if ($node_id) {
+            $node = $emps->db->get_row($this->table_struct, "id = " . $node_id);
+        }
+        if ($node) {
+            if (substr($node['code'], 0, 2) == '__') {
+                return $node['code'];
+            } else {
+                return $this->get_node_top_code($node['parent']);
+            }
+        }
+        return false;
+    }
+
 
 }
