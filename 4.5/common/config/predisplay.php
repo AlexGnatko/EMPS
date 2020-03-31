@@ -1,6 +1,6 @@
 <?php
 // CALLED FOR ALL PAGES (program modules if they have .htm templates, database content pages) right before the page is displayed
-global $emps;
+global $emps, $smarty;
 
 if (!$emps->enums_loaded) {
     $emps->load_enums_from_file();
@@ -10,6 +10,12 @@ if ($emps->virtual_path) {
     $emps->shadow_properties_link($emps->virtual_path['uri']);
     $page_data = $emps->get_content_data($emps->virtual_path);
     $emps->page_property("context_id", $page_data['context_id']);
+
+    if ($emps->auth->credentials("admin,oper")) {
+        if (isset($smarty)) {
+            $smarty->assign("AdminMode", 1);
+        }
+    }
 } else {
     $emps->loadvars();
     $start = "";
