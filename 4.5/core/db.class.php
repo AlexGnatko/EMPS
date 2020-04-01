@@ -495,6 +495,9 @@ class EMPS_DB
 
     public function free($r)
     {
+        if ($r === false) {
+            return;
+        }
         return mysqli_free_result($r);
     }
 }
