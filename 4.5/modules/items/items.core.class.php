@@ -542,5 +542,4 @@ class EMPS_Items_Base
         return $new_item_id;
     }
 
-
 }

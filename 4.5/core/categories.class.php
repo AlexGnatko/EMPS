@@ -132,6 +132,18 @@ class EMPS_Categories {
         return $lst;
     }
 
+    public function list_child_nodes($node_id){
+        global $emps;
+
+        $lst = [];
+        $r = $emps->db->query("select * from ".TP.$this->table_struct." where parent = {$node_id} and pub > 0 order by ord asc");
+        while($ra = $emps->db->fetch_named($r)){
+            $ra = $this->explain_structure_node($ra);
+            $lst[] = $ra;
+        }
+        return $lst;
+    }
+
     public function load_node($id) {
         global $emps;
 
