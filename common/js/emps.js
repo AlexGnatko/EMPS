@@ -1,6 +1,7 @@
 
 var EMPS = {
     enum_cache: {},
+    scroll_data: {},
     get_path_vars: function(){
         var l = window.location.href;
         var p = l.split('//');
@@ -178,7 +179,22 @@ var EMPS = {
                 $(window).scrollTop($(selector).offset().top - 50);
             }
         }
-
+    },
+    scroll_to_pos: function(selector) {
+        var key = JSON.stringify(this.get_path_vars());
+        var value = this.scroll_data[key];
+        if (value !== undefined) {
+            $(window).scrollTop(value);
+//            console.log("Scroll restored: " + value + " / " + key);
+        } else {
+            this.into_view(selector);
+        }
+    },
+    save_scroll_pos: function() {
+        var key = JSON.stringify(this.get_path_vars());
+        var value = $(window).scrollTop();
+        this.scroll_data[key] = value;
+//        console.log("Scroll saved: " + value + " / " + key);
     },
     get_context: function(ref_type, ref_sub, ref_id, then) {
         if (ref_type <= 0) {
