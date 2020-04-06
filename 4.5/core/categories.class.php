@@ -233,9 +233,12 @@ class EMPS_Categories {
         }
     }
 
-    public function get_node_top_code($node_id)
+    public function get_node_top_code_ex($node_id, $level)
     {
         global $emps;
+        if ($level > 10) {
+            return false;
+        }
         $node_id = intval($node_id);
         if ($node_id) {
             $node = $emps->db->get_row($this->table_struct, "id = " . $node_id);
@@ -244,10 +247,15 @@ class EMPS_Categories {
             if (substr($node['code'], 0, 2) == '__') {
                 return $node['code'];
             } else {
-                return $this->get_node_top_code($node['parent']);
+                return $this->get_node_top_code_ex($node['parent'], $level + 1);
             }
         }
         return false;
+    }
+
+    public function get_node_top_code($node_id)
+    {
+        return $this->get_node_top_code_ex($node_id, 0);
     }
 
 
