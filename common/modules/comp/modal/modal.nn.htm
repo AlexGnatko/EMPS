@@ -1,3 +1,6 @@
+{{if !$comp_modal_included}}
+    {{assign var="comp_modal_included" value=true scope="global"}}
+
 {{if $lang == "en"}}
     {{$str_close = "Close"}}
 {{else}}
@@ -29,3 +32,5 @@
     </div>
 </script>
 <script src="/mjs/comp-modal/modal.js" defer></script>
+
+{{/if}}

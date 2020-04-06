@@ -29,6 +29,8 @@
                     case "sm":
                         c += " modal-sm";
                         break;
+                    case "container":
+                        c += " modal-container";
                     case "full":
                         c += " modal-full";
                         break;
