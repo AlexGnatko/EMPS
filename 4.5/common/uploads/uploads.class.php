@@ -229,7 +229,13 @@ class EMPS_Uploads
 
         $SET = array();
         $SET['md5'] = md5(uniqid(time()));
+        if ($this->use_md5) {
+            $SET['md5'] = $this->use_md5;
+        }
         $SET['file_name'] = $filename;
+        if ($this->download_filename) {
+            $SET['file_name'] = $this->download_filename;
+        }
         $SET['content_type'] = $type;
         $SET['context_id'] = $context_id;
         $SET['size'] = strlen($data);

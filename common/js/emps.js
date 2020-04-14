@@ -2,6 +2,7 @@
 var EMPS = {
     enum_cache: {},
     scroll_data: {},
+    sp_id: 0,
     get_path_vars: function(){
         var l = window.location.href;
         var p = l.split('//');
@@ -184,7 +185,7 @@ var EMPS = {
         var key = JSON.stringify(this.get_path_vars());
         var value = this.scroll_data[key];
         if (value !== undefined) {
-            $(window).scrollTop(value);
+            $(window).scrollTop(value.pos);
 //            console.log("Scroll restored: " + value + " / " + key);
         } else {
             this.into_view(selector);
@@ -193,7 +194,19 @@ var EMPS = {
     save_scroll_pos: function() {
         var key = JSON.stringify(this.get_path_vars());
         var value = $(window).scrollTop();
-        this.scroll_data[key] = value;
+        this.scroll_data[key] = {pos: value, id: this.sp_id++};
+        var keys = Object.keys(this.scroll_data);
+        var l = keys.length;
+        if (l > 3) {
+            var min_sp = this.sp_id - 3;
+            for (var i = 0; i < l; i++) {
+                var ckey = keys[i];
+                var o = this.scroll_data[ckey];
+                if (o.sp_id < min_sp) {
+                    this.scroll_data[ckey] = undefined;
+                }
+            }
+        }
 //        console.log("Scroll saved: " + value + " / " + key);
     },
     get_context: function(ref_type, ref_sub, ref_id, then) {
