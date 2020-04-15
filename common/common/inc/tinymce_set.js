@@ -27,12 +27,20 @@ var emps_tinymce_settings = {
 
 {{else}}
 {title: "Сайт - блоки", items: [
+    {{if $page.css_fw == "bulma"}}
+    {title: 'Заголовок страницы', block: 'div', classes: "title", wrapper: true},
+    {title: 'Красный фон', block: 'p', classes: "notification is-danger"},
+    {title: 'Зелёный фон', block: 'p', classes: "notification is-success"},
+    {title: 'Основной фон', block: 'p', classes: "notification is-primary"},
+    {title: 'Серый фон', block: 'p', classes: "notification"},
+    {title: 'Коробка', block: 'div', classes: "box"}
+    {{else}}
     {title: 'Заголовок страницы', block: 'div', classes: "page-header", wrapper: true},
     {title: 'Красный фон', block: 'p', classes: "alert alert-danger"},
     {title: 'Зелёный фон', block: 'p', classes: "alert alert-success"},
     {title: 'Колодец', block: 'div', classes: "well"},
     {title: 'Мелкий колодец', block: 'div', classes: "well well-sm"}
-
+    {{/if}}
 ]},
 
 {title: "Сайт - строчные", items: [
