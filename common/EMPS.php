@@ -854,6 +854,14 @@ class EMPS_Common
         return $fn;
     }
 
+    public function module_exists($name) {
+        $fn = $this->page_file_name("_{$name}", "controller");
+        if (file_exists($fn)) {
+            return true;
+        }
+        return false;
+    }
+
     public function page_file_name($page_name, $type)
     {
         // This function controls the naming of files used by the application

@@ -15,6 +15,10 @@
 <meta name="robots" content="index,follow" />
 {{/if}}
 
+{{if "sitemap"|emps:module_exists }}
+<link rel="sitemap" href="/sitemap/index.xml" />
+{{/if}}
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 {{if $page.canonical}}
