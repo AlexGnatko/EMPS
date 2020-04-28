@@ -218,7 +218,7 @@ class EMPS_Sitemap
             if (!$a['descr']) {
                 $a['descr'] = $default_name;
             }
-            $a['url'] = EMPS_SCRIPT_WEB."/pic/".$ra['md5']."/".$ra['file_name'];
+            $a['url'] = EMPS_SCRIPT_WEB."/pic/".$ra['md5']."/".$ra['filename'];
             $lst[] = $a;
         }
         return $lst;
