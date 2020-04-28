@@ -6,14 +6,12 @@
         <loc>{{$BaseURL}}{{$item.link}}</loc>
         <lastmod>{{$item.lastmod}}</lastmod>
         <changefreq>{{$item.freq}}</changefreq>
-        {{foreach from=$item.images item="image"}}
-
+{{foreach from=$item.images item="image"}}
         <image:image>
             <image:loc>{{$image.url}}</image:loc>
             <image:title>{{$image.descr}}</image:title>
         </image:image>
-
-        {{/foreach}}
+{{/foreach}}
     </url>
 {{/foreach}}
 </urlset>
