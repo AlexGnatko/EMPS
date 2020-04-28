@@ -206,4 +206,21 @@ class EMPS_Sitemap
         $rdt = $z * ($number * 24 * 60 * 60);
         return $rdt;
     }
+
+    public function pics_to_images($default_name, $context_id) {
+        global $emps;
+
+        $r = $emps->db->query("select * from ".TP."e_uploads where context_id = {$context_id} order by ord asc, id asc");
+        $lst = [];
+        while ($ra = $emps->db->fetch_named($r)) {
+            $a = [];
+            $a['descr'] = $ra['descr'];
+            if (!$a['descr']) {
+                $a['descr'] = $default_name;
+            }
+            $a['url'] = EMPS_SCRIPT_WEB."/pic/".$ra['md5']."/".$ra['file_name'];
+            $lst[] = $a;
+        }
+        return $lst;
+    }
 }
