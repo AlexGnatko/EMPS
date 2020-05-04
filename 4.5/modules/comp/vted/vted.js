@@ -31,6 +31,7 @@
                 need_new_tree: true,
                 show_tree: true,
                 mhtml_vars: [{name: "HTML", var: "html"}],
+                emps_tinymce_settings: Vue.util.extend(window.emps_tinymce_settings, {}),
             }
         },
         components: {

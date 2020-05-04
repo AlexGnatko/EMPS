@@ -56,6 +56,8 @@ class EMPS_VueTableEditor
 
     public $extra_message = "";
 
+    public $has_error = false;
+
     public function __construct()
     {
         $this->pad_templates[] = "vted/pads,%s";
@@ -283,6 +285,11 @@ class EMPS_VueTableEditor
             $this->join . ' ' . $this->where . ' ' . $this->group . ' ' . $this->having . ' ' . $this->order .
             ' limit ' . $start . ',' . $perpage;
         $r = $emps->db->query($q);
+
+        if (!$r) {
+            $this->has_error = true;
+            return [];
+        }
         $this->last_sql_query = $q;
         $this->pages = $emps->count_pages($emps->db->found_rows());
         $lst = [];
@@ -791,6 +798,13 @@ class EMPS_VueTableEditor
                 }
             }
             $lst = $this->list_rows();
+
+            if ($this->has_error) {
+                $response = [];
+                $response['code'] = "Error";
+                $response['message'] = "Database error!";
+                $emps->json_response($response); exit;
+            }
 
             $response = [];
             $response['code'] = "OK";

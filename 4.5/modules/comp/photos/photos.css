@@ -13,6 +13,10 @@
     align-items: center;
 }
 
+.container-1x1 .upload-image {
+    position: absolute;
+}
+
 .upload-image a {
     width: 100%;
     object-fit: contain;
