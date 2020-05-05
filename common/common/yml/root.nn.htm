@@ -15,6 +15,7 @@
         </categories>
         <offers>
 {{foreach from=$items item="item"}}
+{{if $item.pic}}
             <offer id="{{$item.id}}">
                 <name>{{$item.name|escape:html}}</name>
                 <url>{{$BaseURL}}{{$item.link}}</url>
@@ -24,17 +25,19 @@
 {{/if}}
                 <currencyId>RUB</currencyId>
                 <categoryId>{{$item.node_id}}</categoryId>
-{{if $item.pic}}
+
                 <picture>{{$BaseURL}}/pic/{{$item.pic.md5}}/{{$item.pic.filename}}</picture>
-{{/if}}
+{{if $item.html|trim }}
                 <description>
                     <![CDATA[
 {{$item.html}}
                     ]]>
                 </description>
+{{/if}}
                 <delivery>true</delivery>
                 <pickup>true</pickup>
             </offer>
+{{/if}}
 {{/foreach}}
         </offers>
     </shop>
