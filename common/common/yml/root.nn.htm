@@ -27,6 +27,11 @@
 {{if $item.pic}}
                 <picture>{{$BaseURL}}/pic/{{$item.pic.md5}}/{{$item.pic.filename}}</picture>
 {{/if}}
+                <description>
+                    <![CDATA[
+{{$item.html}}
+                    ]]>
+                </description>
                 <delivery>true</delivery>
                 <pickup>true</pickup>
             </offer>
