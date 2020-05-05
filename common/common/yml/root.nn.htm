@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<yml_catalog date="{{"Y-m-d H:i"|date}}">
+    <shop>
+        <name>{{"yml_name"|emps:get_setting}}</name>
+        <company>{{"yml_company"|emps:get_setting}}</company>
+        <url>{{$BaseURL}}{{"yml_url"|emps:get_setting}}</url>
+        <currencies>
+            <currency id="RUB" rate="1"/>
+        </currencies>
+        <categories>
+{{foreach from=$categories item="cat"}}
+            <category id="{{$cat.id}}"{{if $cat.parent > 0}} parentId="{{$cat.parent}}"{{/if}}>{{$cat.name|escape:html}}</category>
+{{/foreach}}
+        </categories>
+        <offers>
+{{foreach from=$items item="item"}}
+            <offer id="{{$item.id}}">
+                <name>{{$item.name|escape:html}}</name>
+                <url>{{$BaseURL}}{{$item.link}}</url>
+                <price>{{$item.price}}</price>
+{{if $item.old_price > 0}}
+                <oldprice>{{$item.old_price}}</oldprice>
+{{/if}}
+                <currencyId>RUB</currencyId>
+                <categoryId>{{$item.node_id}}</categoryId>
+{{if $item.pic}}
+                <picture>{{$BaseURL}}/pic/{{$item.pic.md5}}/{{$item.pic.filename}}</picture>
+{{/if}}
+                <delivery>true</delivery>
+                <pickup>true</pickup>
+            </offer>
+{{/foreach}}
+        </offers>
+    </shop>
+</yml_catalog>
