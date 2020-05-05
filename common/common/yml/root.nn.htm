@@ -27,7 +27,7 @@
                 <categoryId>{{$item.node_id}}</categoryId>
 
                 <picture>{{$BaseURL}}/pic/{{$item.pic.md5}}/{{$item.pic.filename}}</picture>
-{{if $item.html|trim }}
+{{if $item.html|trim|strlen > 0 }}
                 <description>
                     <![CDATA[
 {{$item.html}}
