@@ -9,7 +9,7 @@
 {{foreach from=$item.images item="image"}}
         <image:image>
             <image:loc>{{$image.url}}</image:loc>
-            <image:title>{{$image.descr}}</image:title>
+            <image:title>{{$image.descr|escape:html}}</image:title>
         </image:image>
 {{/foreach}}
     </url>
