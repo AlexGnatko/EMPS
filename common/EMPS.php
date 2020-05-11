@@ -1731,11 +1731,14 @@ class EMPS_Common
             return true;
         }
         $ua = $_SERVER['HTTP_USER_AGENT'];
-        reset($emps_bots);
         foreach ($emps_bots as $bot) {
             if (strpos($ua, $bot) != false) {
                 return true;
             }
+        }
+
+        if (strpos($ua, "1C") != false) {
+            return false;
         }
         if (!$emps_just_set_cookie) {
             if (!isset($_COOKIE['EMPS'])) {
