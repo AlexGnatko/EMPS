@@ -1770,6 +1770,16 @@ class EMPS_Common
         return false;
     }
 
+    public function values_match($row, $copy, $list) {
+        $x = explode(",", $list);
+        foreach ($x as $v) {
+            if ($row[$v] != $copy[$v]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function copy_values(&$target, $source, $list)
     {
         $x = explode(",", $list);
