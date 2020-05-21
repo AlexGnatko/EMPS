@@ -150,7 +150,7 @@ class EMPS_Categories {
         $node = $emps->db->get_row($this->table_struct, "id = {$id}");
         if ($node) {
             $node = $this->explain_structure_node($node);
-            $node = $this->tag_structure_node($node);
+//            $node = $this->tag_structure_node($node);
             return $node;
         }
         return false;
