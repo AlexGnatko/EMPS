@@ -34,6 +34,10 @@ class Smarty_Resource_EMPS_DB extends Smarty_Resource_Custom
 
         $r = $emps->get_setting($name);
 
+        if ($emps->p->database_error) {
+            return false;
+        }
+
         if (!$r) {
             $fn = $emps->page_file_name($name, 'view');
             if (file_exists($fn)) {
@@ -62,6 +66,10 @@ class Smarty_Resource_EMPS_DB extends Smarty_Resource_Custom
         global $emps;
 
         $r = $emps->get_setting_time($name);
+
+        if ($emps->p->database_error) {
+            return false;
+        }
 
         if ($r == -1 || !$r) {
             $fn = $emps->page_file_name($name, 'view');

@@ -6,6 +6,7 @@
             return {
                 lst: [],
                 pics: [],
+                videos: [],
                 insert_params: {
                     class: 'pic-full',
                     new_mode: 'upload',
@@ -28,6 +29,13 @@
                     selected_pic: {},
                 };
             },
+            pic_url: function(pic) {
+                if (!pic) {
+                    return "/i/b.gif";
+                }
+                return "/freepic/" + pic.md5 + "/" + pic.filename + "?size=640x360";
+            },
+
             insert: function(text) {
                 tinymce.get(this.id).execCommand('mceInsertContent', false, text);
             },
@@ -70,6 +78,11 @@
                 this.reset_params();
                 this.insert(html);
             },
+            insert_video: function(video) {
+                var html = '{{emps plugin=video id=' + video.id + '}}';
+                this.close_modal('htmlinsertVideosModal');
+                this.insert(html);
+            },
             open_modal: function(id){
                 vuev.$emit("modal:open:" + id);
             },
@@ -85,7 +98,8 @@
                 this.open_modal('htmlinsertPhotosetModal');
             },
             on_video: function(data) {
-                alert('video' + JSON.stringify(data));
+                this.load_videos();
+                this.open_modal('htmlinsertVideosModal');
             },
             on_audio: function(data) {
                 alert('audio' + JSON.stringify(data));
@@ -101,6 +115,19 @@
                         var data = response.data;
                         if (data.code == 'OK') {
                             that.pics = data.files;
+                        }else{
+                            alert(data.message);
+                        }
+                    });
+            },
+            load_videos: function() {
+                var that = this;
+                axios
+                    .get("/json-list-videos/" + this.context_id + "/")
+                    .then(function(response){
+                        var data = response.data;
+                        if (data.code == 'OK') {
+                            that.videos = data.videos;
                         }else{
                             alert(data.message);
                         }

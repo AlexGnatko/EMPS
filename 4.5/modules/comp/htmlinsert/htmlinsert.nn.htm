@@ -242,6 +242,28 @@
 
 
         </modal>
+
+        <modal id="htmlinsertVideosModal" size="lg">
+            <template slot="header">{{$str_insert_gallery}}</template>
+
+            <div class="field">
+                {{$str_click_pics}}:
+            </div>
+
+            <div class="columns is-gapless is-mobile is-multiline">
+                <div class="column is-2 is-4-mobile" v-for="(video, index) in videos">
+                    <div class="container-16x9">
+                        <a class="pic" @click="insert_video(video)">
+                            <img :src="pic_url(video.pic)" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </modal>
+
     </div>
 </html-insert>
 <script src="/mjs/comp-htmlinsert/htmlinsert.js" defer></script>

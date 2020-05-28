@@ -7,3 +7,4 @@ $uploader = new EMPS_VideoProcessor();
 $uploader->context_id = $context_id;
 
 $uploader->handle_request();
+

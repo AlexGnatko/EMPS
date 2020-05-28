@@ -15,6 +15,8 @@ class EMPS_Properties
 
     public $wt = false;
 
+    public $database_error = false;
+
     public function clear_cache() {
         $this->context_cache = [];
         $this->load_context_cache = [];
@@ -320,6 +322,9 @@ class EMPS_Properties
     {
         global $emps;
         $r = $emps->db->query('select * from ' . TP . "e_properties where context_id=$context_id and status=0 order by idx asc");
+        if (!$r) {
+            $this->database_error = true;
+        }
         while ($ra = $emps->db->fetch_named($r)) {
             switch ($ra['type']) {
                 case "i":

@@ -72,6 +72,10 @@ class EMPS_VideoProcessor
         $ra['time'] = $emps->form_time($ra['cdt']);
         $ra = $emps->p->read_properties($ra, $cctx);
 
+        if ($ra['youtube_id']) {
+            $ra['url'] = "https://youtube.com/watch?v=" . $ra['youtube_id'];
+        }
+
         return $ra;
     }
 
@@ -85,8 +89,8 @@ class EMPS_VideoProcessor
                 $this->handle_list();
             }
 
-            if ($_GET['process']) {
-                $this->v->process_video(intval($_GET['process']));
+            if ($_REQUEST['process']) {
+                $this->v->process_video(intval($_REQUEST['process']));
                 $this->handle_list();
             }
 
@@ -97,6 +101,7 @@ class EMPS_VideoProcessor
                 $this->handle_list();
             }
 
+            error_log("process");
             if ($_GET['delete_video']) {
                 $id = $_GET['delete_video'];
                 $r = $emps->db->query("select * from ".TP."e_videos 
@@ -119,6 +124,10 @@ class EMPS_VideoProcessor
 //                    error_log("Updated: {$id} to ord = {$ord}");
                     $ord += 100;
                 }
+                $this->handle_list();
+            }
+
+            if ($_GET['list_videos']) {
                 $this->handle_list();
             }
         }else{

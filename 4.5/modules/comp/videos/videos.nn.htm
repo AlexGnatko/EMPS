@@ -1,12 +1,67 @@
 {{if $lang == "en"}}
-
+    {{$str_delete = "Delete"}}
+    {{$str_cancel = "Cancel"}}
+    {{$str_no_descr = "(no description)"}}
+    {{$str_descr = "Description"}}
 {{else}}
-
+    {{$str_delete = "Удалить"}}
+    {{$str_cancel = "Отмена"}}
+    {{$str_no_descr = "(нет описания)"}}
+    {{$str_descr = "Описание"}}
 {{/if}}
-<script type="text/x-template" id="videos-component-template">
+<videos inline-template :context="{{$context_id}}">
     <div class="videos">
+
+        <div v-sortable="{onUpdate: on_sort_videos}">
+            <div class="box" v-for="(video, index) in lst">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image upload-image">
+                            <img :src="pic_url(video.pic)" :alt="video.name">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <div class="columns">
+                            <div class="column is-6">
+                                <p>
+                                    <a :href="video.url" target="_blank"><strong>{{"video.name"|js}}</strong></a>
+                                    <span class="tag is-light">{{"video.id"|js}}</span>
+                                </p>
+                                <p v-if="video.description == ''">{{$str_no_descr}}</p>
+                                <p v-else>{{ video.description }}</p>
+                            </div>
+                            <div class="column is-4 has-text-centered">
+                                {{ video.dur }}
+                            </div>
+                            <div class="column is-2 has-text-right">
+                                &nbsp;<br/>
+                                <button type="button"
+                                        @click="delete_video(index)"
+                                        class="button is-outlined is-danger">
+                                    <i class="fa fa-remove"></i> &nbsp; {{$str_delete}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="media-right has-text-right">
+                        <i class="button-size handle"><i class="fa fa-hand-grab-o"></i></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>&nbsp;</div>
+        <form @submit.stop.prevent="process_video">
+            <div class="field">
+                <label class="label">Страница видеоролика на видеохостинге:</label>
+                <input type="text" class="input" v-model="video_url" placeholder="https://www.youtube.com/watch?v=Код_видеоролика"/>
+            </div>
+            <div class="field has-text-right">
+                <button class="button is-primary" type="submit">Добавить видео</button>
+            </div>
+        </form>
     </div>
-</script>
+</videos>
 <script src="/mjs/comp-videos/videos.js" defer></script>
 <script>
     {{if $lang == "en"}}

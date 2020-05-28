@@ -1,5 +1,7 @@
 <h1>Редактор таблицы</h1>
 
+<script src="/mjs/{{$data.url_path}}/{{$data.file_name}}.js" defer></script>
+
 <div id="{{$data.element_id}}" style="display: none">
 
     {{literal}}{{include file="db:_comp/vted"}}{{/literal}}
@@ -9,5 +11,4 @@
     {{literal}}{{include file="db:inc/spinner"}}{{/literal}}
 </div>
 
-<script src="/mjs/{{$data.url_path}}/{{$data.file_name}}.js" defer></script>
 
