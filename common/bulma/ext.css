@@ -255,6 +255,11 @@ a.is-tree-item {
     flex-direction: row-reverse;
 }
 
+div.embed-responsive {
+    max-width: 90vw;
+    margin: 0 auto;
+}
+
 .embed-responsive iframe.embed-responsive {
     position: absolute;
     width: 100%;
