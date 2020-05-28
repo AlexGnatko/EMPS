@@ -19,6 +19,8 @@
     {{$str_tile = "Tile"}}
     {{$str_insert_all = "Insert all photos"}}
     {{$str_insert_selected = "Insert selected photos"}}
+    {{$str_insert_video = "Insert a video"}}
+    {{$str_click_video = "Click on the video to insert"}}
 {{else}}
     {{$str_insert_photo = "Вставка фотографии"}}
     {{$str_select_another = "Выбрать другое фото"}}
@@ -40,6 +42,8 @@
     {{$str_tile = "Плитка"}}
     {{$str_insert_all = "Вставить все фото"}}
     {{$str_insert_selected = "Вставить выбранные фото"}}
+    {{$str_insert_video = "Вставить видео"}}
+    {{$str_click_video = "Кликните на видео для вставки в текст"}}
 {{/if}}
 <html-insert inline-template id="{{$id}}" context_id="{{$context_id}}">
     <div class="htmlinsert">
@@ -244,10 +248,10 @@
         </modal>
 
         <modal id="htmlinsertVideosModal" size="lg">
-            <template slot="header">{{$str_insert_gallery}}</template>
+            <template slot="header">{{$str_insert_video}}</template>
 
             <div class="field">
-                {{$str_click_pics}}:
+                {{$str_click_video}}:
             </div>
 
             <div class="columns is-gapless is-mobile is-multiline">
