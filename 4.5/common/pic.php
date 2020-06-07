@@ -34,6 +34,9 @@ if ($ra) {
             $resp->setHeader("Last-Modified", date("r", $ra['dt']));
             $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * 7));
             $resp->setHeader("Pragma", "");
+            if ($_GET['download']) {
+                $resp->setContentDisposition(["attachment" => ["filename" => $file['filename']]]);
+            }
             $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
             //$resp->setThrottleRate(1024 * 512, 0);
 
@@ -44,6 +47,9 @@ if ($ra) {
             header("Content-Length: " . $size);
             header("Last-Modified: " . date("r", $ra['dt']));
             header("Expires: " . date("r", time() + 60 * 60 * 24 * 7));
+            if ($_GET['download']) {
+                header("Content-Disposition: attachment; filename=\"" . $file['filename'] . "\"");
+            }
             header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
             header("Pragma: ");
 

@@ -1030,5 +1030,14 @@ class EMPS_Photos
             }
         }
     }
+
+    public function count_photos($context_id){
+        global $emps;
+
+        $r = $emps->db->query("select count(*) from " . TP . "e_uploads where context_id = " . $context_id);
+        $ra = $emps->db->fetch_row($r);
+
+        return intval($ra[0]);
+    }
 }
 

@@ -121,7 +121,7 @@ class EMPS_Uploads
         $r = $emps->db->query("select count(*) from " . TP . "e_files where context_id=" . $context_id);
         $ra = $emps->db->fetch_row($r);
 
-        return $ra[0];
+        return intval($ra[0]);
     }
 
     public function delete_file($file_id, $mode)

@@ -216,7 +216,7 @@ class EMPS_VueTableEditor
         $r = $emps->db->query("select count(*) from " . TP . $this->table_name . " where parent = $id");
         $ra = $emps->db->fetch_row($r);
 
-        return $ra[0];
+        return intval($ra[0]);
     }
 
     public function get_next_ord($id)
