@@ -57,6 +57,7 @@ class EMPS_VueTableEditor
     public $extra_message = "";
 
     public $has_error = false;
+    public $open_new = false;
 
     public function __construct()
     {
@@ -585,6 +586,16 @@ class EMPS_VueTableEditor
 
                 $response = [];
                 $response['code'] = "OK";
+
+                if ($this->open_new) {
+                    $response['open_new'] = true;
+                    $emps->loadvars();
+                    $ss = "info";
+                    $key = $id;
+                    $response['new_url'] = $emps->elink();
+                    $emps->loadvars();
+                }
+
                 $emps->json_response($response); exit;
 
             } else {

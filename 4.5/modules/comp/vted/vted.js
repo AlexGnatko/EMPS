@@ -360,6 +360,9 @@
                             that.new_row = {};
                             $('form *').blur();
                             toastr.info(window.string_created);
+                            if (data.open_new) {
+                                that.navigate(data.new_url);
+                            }
                         } else {
                             toastr.error(data.message);
                         }
