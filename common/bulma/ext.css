@@ -209,6 +209,9 @@ table.is-table-collapsible .td-tag {
     background-color: rgba(120, 220, 120, 0.25);
 }
 
+.table tr.is-yellow th, .table tr.is-yellow td, .table td.is-yellow, .table th.is-yellow {
+    background-color: rgba(220, 199, 101, 0.25);
+}
 
 .menu-buttons {
     margin: -0.25rem -0.5rem;
