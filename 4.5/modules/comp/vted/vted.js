@@ -329,8 +329,13 @@
                 var row = {};
                 row.post_save = 1;
                 row.payload = this.selected_row;
+                var url = this.url_prefix;
+                if (this.list_mode) {
+                    url = this.selected_row.ilink;
+                }
+
                 axios
-                    .post(this.url_prefix, row)
+                    .post(url, row)
                     .then(function(response){
                         var data = response.data;
 

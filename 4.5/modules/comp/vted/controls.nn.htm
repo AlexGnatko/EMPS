@@ -49,7 +49,7 @@
         {{/if}}
         {{if !$vted_no_create}}
             <div class="field">
-                <button class="button is-primary is-outlined" @click="create_new()">
+                <button class="button is-primary is-outlined" @click="{{if $vted_create_immediately}}submit_create{{else}}create_new{{/if}}">
                     <i class="fa fa-file-o"></i> &nbsp; {{$str_create}}</button> &nbsp;
             </div>
         {{/if}}
