@@ -1,8 +1,10 @@
 {{if $lang == "en"}}
     {{$str_select = "Select Files"}}
+    {{$str_full = "Full Uploader"}}
     {{$str_select1 = "Select File"}}
 {{else}}
     {{$str_select = "Выбрать файлы"}}
+    {{$str_full = "Детальный загрузчик"}}
     {{$str_select1 = "Выбрать файл"}}
 {{/if}}
 <script type="text/x-template" id="uploads-photos-component-template">
@@ -13,7 +15,7 @@
             <template v-if="(queue.length > 0) && !noImage">
                 <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in queue">
                     <div class="container-1x1 field">
-                        <figure class="image upload-image">
+                        <figure class="image up-upload-image">
                             <a :href="file.url" target="_blank"><img :src="file.image_url" style="width: 100%"/></a>
                         </figure>
                     </div>
@@ -31,7 +33,7 @@
             <template v-else-if="!noImage">
                 <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}" v-for="(file, index) in files">
                     <div class="container-1x1 field">
-                        <figure class="image upload-image">
+                        <figure class="image up-upload-image">
                             <a :href="file.url" target="_blank"><img :src="file.url"/></a>
                         </figure>
                     </div>
@@ -46,7 +48,7 @@
                 </div>
                 <template v-if="(files.length == 0) && (defaultimg !== null)">
                     <div :class="{'column': true, 'is-3': cols == 4, 'is-full': cols == 1, 'is-half': cols == 2, 'is-4': cols == 3}">
-                        <figure class="image upload-image">
+                        <figure class="image up-upload-image">
                             <a :href="defaultimg"><img :src="defaultimg"/></a>
                         </figure>
                     </div>
@@ -90,6 +92,9 @@
                     <template v-if="label !== null">{{"label"|js}}</template>
                     <template v-else>{{$str_select}}</template>
                 </button>
+                <a v-if="fullLink" :href="'/admin-context-photos/' + context + '/'" class="button is-link is-outlined" target="_blank">
+                    {{$str_full}}
+                </a>
                 <div></div>
             </div>
             <div class="column">

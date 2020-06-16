@@ -188,11 +188,16 @@ if ($emps->virtual_path && !$emps->fast) {
         $out = ob_get_clean();
         $smarty->assign("ob_out", $out);
 
-
         if (file_exists($tn)) {
-            $smarty->assign("main_body", $tn);
+            $x = explode("-", $pp);
+            if ($x[0] == "comp") {
+                // Prevent component HTML from being displayed
+                $emps->not_found();
+            } else {
+                $smarty->assign("main_body", $tn);
 
-            $smarty->display("db:main");
+                $smarty->display("db:main");
+            }
         } else {
             $emps->not_found();
         }

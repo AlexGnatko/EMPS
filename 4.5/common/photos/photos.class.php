@@ -80,6 +80,8 @@ class EMPS_Photos
                 $img = imagecreatefrompng($fname);
             } elseif (strstr($ra['type'], "gif")) {
                 $img = imagecreatefromgif($fname);
+            } elseif (strstr($ra['type'], "webp")) {
+                $img = imagecreatefromwebp($fname);
             } else {
                 $ra['fname'] = $fname;
                 return $ra;
@@ -241,6 +243,8 @@ class EMPS_Photos
             $img = imagecreatefrompng($oname);
         } elseif (strstr($ra['type'], "gif")) {
             $img = imagecreatefromgif($oname);
+        } elseif (strstr($ra['type'], "webp")) {
+            $img = imagecreatefromwebp($oname);
         } else {
             copy($oname, $fname);
             return;
@@ -537,6 +541,9 @@ class EMPS_Photos
         if (strstr($ra['type'], 'svg')) {
             $ra['ext'] = "svg";
         }
+        if (strstr($ra['type'], 'webp')) {
+            $ra['ext'] = "webp";
+        }
 
         if (!$ra['qual']) {
             $ra['qual'] = 100;
@@ -567,6 +574,13 @@ class EMPS_Photos
     function is_gif(&$pict)
     {
         return ($pict[0] == 'G' && $pict[1] == 'I' && $pict[2] == 'F');
+    }
+
+    function is_webp(&$pict)
+    {
+        return (($pict[0] == 'R' && $pict[1] == 'I' && $pict[2] == 'F' && $pict[3] == 'F')
+            &&
+            ($pict[8] == 'W' && $pict[9] == 'E' && $pict[10] == 'B' && $pict[11] == 'P'));
     }
 
     public function download_image($context_id, $url)
@@ -605,7 +619,23 @@ class EMPS_Photos
             $type = "image/gif";
         }
 
+        $path = parse_url($url, PHP_URL_PATH);
+
+        $x = explode("/", $path);
+        if (count($x) > 1) {
+            $fn = trim($x[count($x) - 1]);
+            if ($fn) {
+                $filename = $fn;
+            }
+        }
+
         if ($this->check_type) {
+            if ($this->download_filename) {
+                $filename = $this->download_filename;
+            }
+            $x = explode(".", $filename);
+            $ext = array_pop($x);
+
             if ($this->is_jpeg($data)) {
                 $type = "image/jpeg";
             };
@@ -615,15 +645,20 @@ class EMPS_Photos
             if ($this->is_gif($data)) {
                 $type = "image/gif";
             };
-        }
+            if ($this->is_webp($data)) {
+                $type = "image/webp";
+            };
 
-        $path = parse_url($url, PHP_URL_PATH);
+            $rv = $this->image_extension(['type' => $type]);
+            $correct_ext = $rv['ext'];
 
-        $x = explode("/", $path);
-        if (count($x) > 1) {
-            $fn = trim($x[count($x) - 1]);
-            if ($fn) {
-                $filename = $fn;
+            if ((strlen($ext) > 0) && (strlen($correct_ext) > 0)) {
+                if ($ext != $correct_ext) {
+                    $filename = str_replace(".".$ext, ".".$correct_ext, $filename);
+                    if ($this->download_filename) {
+                        $this->download_filename = $filename;
+                    }
+                }
             }
         }
 
@@ -750,6 +785,8 @@ class EMPS_Photos
                 $img = imagecreatefrompng($orig_name);
             } elseif (strstr($ra['type'], "gif")) {
                 $img = imagecreatefromgif($orig_name);
+            } elseif (strstr($ra['type'], "webp")) {
+                $img = imagecreatefromwebp($orig_name);
             } else {
                 return;
             }
@@ -813,6 +850,8 @@ class EMPS_Photos
                 $img = imagecreatefrompng($fname);
             } elseif (strstr($ra['type'], "gif")) {
                 $img = imagecreatefromgif($fname);
+            } elseif (strstr($ra['type'], "webp")) {
+                $img = imagecreatefromwebp($fname);
             } else {
                 return;
             }
@@ -935,6 +974,8 @@ class EMPS_Photos
                 $img = imagecreatefrompng($orig_name);
             } elseif (strstr($ra['type'], "gif")) {
                 $img = imagecreatefromgif($orig_name);
+            } elseif (strstr($ra['type'], "webp")) {
+                $img = imagecreatefromwebp($orig_name);
             } else {
                 return;
             }
@@ -991,6 +1032,8 @@ class EMPS_Photos
                 $img = imagecreatefrompng($orig_name);
             } elseif (strstr($ra['type'], "gif")) {
                 $img = imagecreatefromgif($orig_name);
+            } elseif (strstr($ra['type'], "webp")) {
+                $img = imagecreatefromwebp($orig_name);
             } else {
                 return;
             }

@@ -33,6 +33,10 @@ emps_scripts.push(function() {
                 type: Boolean,
                 default: false,
             },
+            fullLink: {
+                type: Boolean,
+                default: false,
+            }
         },
         data: function(){
             return {

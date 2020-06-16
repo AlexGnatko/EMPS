@@ -251,6 +251,7 @@ class EMPS_VuePhotosUploader {
                     $v = trim($v);
                     if($v){
                         $this->p->ord += 100;
+                        $this->p->check_type = true;
                         $this->p->download_image($this->context_id, $v);
                     }
                 }

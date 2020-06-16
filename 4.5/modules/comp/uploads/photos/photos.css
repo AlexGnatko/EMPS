@@ -8,7 +8,7 @@
     height: 0;
 }
 
-.upload-image {
+.up-upload-image {
     height: 100%;
     width: 100%;
     object-fit: contain;
@@ -17,7 +17,7 @@
     align-items: center;
 }
 
-.upload-image a {
+.up-upload-image a {
     width: 100%;
     object-fit: cover;
     max-height: 100%;
@@ -25,11 +25,11 @@
 
 }
 
-.upload-image a img {
+.up-upload-image a img {
     max-height: 100%;
     max-width: 100%;
 }
 
-.upload-image.image img {
+.up-upload-image.image img {
     width: auto;
 }

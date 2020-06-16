@@ -1,0 +1,17 @@
+<h1>Фотографии контекста №{{$context_id}}</h1>
+
+
+<div id="context_photos_app" style="display: none">
+
+    {{include file="db:_comp/photos" pad="photos"}}
+
+</div>
+<div class="app-loading">
+    {{include file="db:inc/spinner"}}
+</div>
+
+{{include file="db:_comp/modal"}}
+
+<script src="/mjs/admin-context-photos/photos.js" defer></script>
+
+
