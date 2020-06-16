@@ -34,10 +34,6 @@ class Smarty_Resource_EMPS_DB extends Smarty_Resource_Custom
 
         $r = $emps->get_setting($name);
 
-        if ($emps->p->database_error) {
-            return false;
-        }
-
         if (!$r) {
             $fn = $emps->page_file_name($name, 'view');
             if (file_exists($fn)) {
@@ -51,7 +47,7 @@ class Smarty_Resource_EMPS_DB extends Smarty_Resource_Custom
                     $mtime = filemtime($fn);
                 } else {
                     $source = "";
-                    $mtime = time() - 60 * 15;
+                    $mtime = time() - 60 * 60 * 24 * 7;
                 }
             }
         } else {
@@ -67,16 +63,12 @@ class Smarty_Resource_EMPS_DB extends Smarty_Resource_Custom
 
         $r = $emps->get_setting_time($name);
 
-        if ($emps->p->database_error) {
-            return false;
-        }
-
         if ($r == -1 || !$r) {
             $fn = $emps->page_file_name($name, 'view');
             if (!file_exists($fn)) {
                 $fn = $emps->common_module_html($name);
                 if (!file_exists($fn)) {
-                    return time() - 60 * 15;
+                    return time() - 60 * 60 * 24 * 7;
                 } else {
                     $r = filemtime($fn);
                 }
