@@ -29,6 +29,9 @@ class EMPS_Common
     public $virtual_path = 0;
     public $VA = array();
 
+    public $log_file_path = EMPS_SCRIPT_PATH."/local/log.txt";
+    public $log_enabled = false;
+
     public $page_properties = array();
 
     /**
@@ -2442,5 +2445,19 @@ class EMPS_Common
             $rv[$xx[0]] = $xx[1];
         }
         return $rv;
+    }
+
+    public function log($v) {
+        if (!$this->log_enabled) {
+            return;
+        }
+        if (is_array($v) || is_object($v)) {
+            $v = "\r\n".json_encode($v, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        }
+        $time = microtime(true);
+        $dt = floor($time);
+        $micro = sprintf("%03d", round(($time - $dt)*1000));
+        $output = $this->form_time_full($dt).".".$micro.": ".$v."\r\n";
+        error_log($output, 3, $this->log_file_path);
     }
 }
