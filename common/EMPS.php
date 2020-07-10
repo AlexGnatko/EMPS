@@ -2460,4 +2460,8 @@ class EMPS_Common
         $output = $this->form_time_full($dt).".".$micro.": ".$v."\r\n";
         error_log($output, 3, $this->log_file_path);
     }
+
+    public function usergroup($group) {
+        return $this->auth->credentials($group);
+    }
 }
