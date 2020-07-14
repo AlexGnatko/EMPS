@@ -13,6 +13,7 @@
     <link href="/bulma/css/bulma.min.css" rel="stylesheet" {{$add_media}}/>
     <link href="/bulma/ext.css" rel="stylesheet" {{$add_media}}/>
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" {{$add_media}}/>
+
 {{elseif $page.css_fw == "bootstrap4"}}
     <link href="/bootstrap4/css/bootstrap.min.css" rel="stylesheet" {{$add_media}}/>
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" {{$add_media}}/>
@@ -25,6 +26,10 @@
         <link href="/css/bootstrap.min.css" rel="stylesheet" {{$add_media}}/>
         <link href="/css/bootstrap-theme.min.css" rel="stylesheet" {{$add_media}} />
     {{/if}}
+{{/if}}
+
+{{if $page.line_awesome}}
+    <link href="/line-awesome/css/line-awesome.min.css" rel="stylesheet" {{$add_media}}/>
 {{/if}}
 
 {{if $page.toastr}}

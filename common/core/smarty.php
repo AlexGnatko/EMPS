@@ -181,12 +181,20 @@ function smarty_syn($params, Smarty_Internal_Template $template)
     }
 }
 
+function smarty_function_var($params, Smarty_Internal_Template $template)
+{
+    foreach ($params as $n => $v) {
+        $template->assignGlobal($n, $v);
+    }
+}
+
 $smarty->registerPlugin("function", "emps", "smarty_emps");
 
 // Angular JS markup helpers
 $smarty->registerPlugin("function", "AJ", "smarty_AJ");
 $smarty->registerPlugin("function", "JA", "smarty_JA");
 $smarty->registerPlugin("function", "syn", "smarty_syn");
+$smarty->registerPlugin("function", "var", "smarty_function_var");
 
 function smarty_modifier_hyp($v)
 {
