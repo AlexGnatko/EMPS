@@ -2464,4 +2464,47 @@ class EMPS_Common
     public function usergroup($group) {
         return $this->auth->credentials($group);
     }
+
+    public function static_svg($url) {
+        if (mb_substr($url, 0, 9) == "/modules/") {
+            return "";
+        }
+        if (mb_substr($url, 0, 7) == "/local/") {
+            return "";
+        }
+        if (strstr($url, "..")) {
+            return "";
+        }
+
+        $file_name = EMPS_WEBSITE_SCRIPT_PATH.$url;
+
+        if (file_exists($file_name)) {
+            $data = file_get_contents($file_name);
+            return $data;
+        }
+
+        $file_name = EMPS_SCRIPT_PATH.$url;
+
+        if (file_exists($file_name)) {
+            $data = file_get_contents($file_name);
+            return $data;
+        }
+
+        $file_name = EMPS_PATH_PREFIX.$url;
+        $file_name = stream_resolve_include_path($file_name);
+
+        if (file_exists($file_name)) {
+            $data = file_get_contents($file_name);
+            return $data;
+        }
+
+        $file_name = EMPS_COMMON_PATH_PREFIX.$url;
+        $file_name = stream_resolve_include_path($file_name);
+        if (file_exists($file_name)) {
+            $data = file_get_contents($file_name);
+            return $data;
+        }
+
+        return "";
+    }
 }
