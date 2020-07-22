@@ -10,6 +10,10 @@ sleep(mt_rand(1,3));
 
 $srv->init("last_sendmail", 30);
 
+require_once $emps->common_module("mail/mail.class.php");
+
+$mail = new EMPS_Mail();
+
 if($srv->is_runnable()) {
     $tn = TP . "e_msgcache";
 
@@ -19,10 +23,6 @@ if($srv->is_runnable()) {
     for ($i = 0; $i < 20; $i++) {
         $r = $emps->db->query("select * from $tn where status < 50 order by status asc, sdt asc limit 1");
         $dt = time();
-
-        require_once $emps->common_module("mail/mail.class.php");
-
-        $mail = new EMPS_Mail();
 
         while ($ra = $emps->db->fetch_named($r)) {
             if ($ra['sdt'] > (time() - 60)) {
