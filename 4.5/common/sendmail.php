@@ -39,7 +39,7 @@ if($srv->is_runnable()) {
             }
             $xr = $mail->mail_smtp($ra['to'], $ra['title'], $ra['message'], $smtpdata, $params);
             if ($xr) {
-                $emps->db->query("update {$tn} set status = 50, sdt = {$dt} where id = {$msg_id}");
+                $emps->db->query("update {$tn} set `status` = 50, `sdt` = {$dt} where id = {$msg_id}");
                 echo "Sent: $to ($msg_id)\r\n";
             } else {
                 echo "Delayed: $to ($msg_id), status " . ($status + 1) . "\r\n";
