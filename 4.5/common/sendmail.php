@@ -14,15 +14,15 @@ if($srv->is_runnable()) {
     $tn = TP . "e_msgcache";
 
     $dt = time() - 7 * 24 * 60 * 60;
-    $emps->db->query("delete from $tn where status=50 and sdt<$dt and sdt>0");
+    $emps->db->query("delete from {$tn} where status >= 50 and sdt < {$dt} and sdt > 0");
 
     for ($i = 0; $i < 20; $i++) {
-        $r = $emps->db->query("select * from $tn where status<>50 order by status asc, sdt asc limit 1");
+        $r = $emps->db->query("select * from $tn where status < 50 order by status asc, sdt asc limit 1");
         $dt = time();
 
         require_once $emps->common_module("mail/mail.class.php");
 
-        $mail = new EMPS_Mail;
+        $mail = new EMPS_Mail();
 
         while ($ra = $emps->db->fetch_named($r)) {
             if ($ra['sdt'] > (time() - 60)) {
@@ -31,7 +31,7 @@ if($srv->is_runnable()) {
             $to = $ra['to'];
             $msg_id = $ra['id'];
             $status = $ra['status'];
-            $emps->db->query("update $tn set status=status+1,sdt=$dt where id=$msg_id");
+            $emps->db->query("update $tn set status=status+1, sdt = {$dt} where id = {$msg_id}");
             $params = unserialize($ra['params']);
             $smtpdata = unserialize($ra['smtpdata']);
             if (!$smtpdata) {
@@ -39,7 +39,7 @@ if($srv->is_runnable()) {
             }
             $xr = $mail->mail_smtp($ra['to'], $ra['title'], $ra['message'], $smtpdata, $params);
             if ($xr) {
-                $emps->db->query("update $tn set status=50,sdt=$dt where id=$msg_id");
+                $emps->db->query("update {$tn} set status = 50, sdt = {$dt} where id = {$msg_id}");
                 echo "Sent: $to ($msg_id)\r\n";
             } else {
                 echo "Delayed: $to ($msg_id), status " . ($status + 1) . "\r\n";

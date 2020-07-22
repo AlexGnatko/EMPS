@@ -170,7 +170,7 @@ function format_paragraph($txt, $pfx, $indent)
     $res = $pfx . $txt;
     $x = explode("\r\n", $res);
     $xr = "";
-    while (list($n, $v) = each($x)) {
+    foreach ($x as $n => $v) {
         if ($n == 0) {
             $xr .= wrap_string($v, $indent, false);
         } else {

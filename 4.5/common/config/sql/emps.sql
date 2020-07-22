@@ -2,7 +2,7 @@
 -- Write regular MySQL queries to create the tables for this database.
 -- Add TEMPORARY everywhere.
 -- Replace the project's "TP" constant with "temp_".
--- For example, if the TP constant is "c_", and you want the final table to be "temp_e_content", use "temp_e_content"
+-- For example, if the TP constant is "c_", and you want the final table to be "c_e_content", use "temp_e_content"
 
 -- HOW IT WORKS:
 -- A special script will create the temporary tables and check their structure against the existing corresponding tables.
@@ -16,9 +16,10 @@
 -- then have the field manually renamed in the database. Otherwise the script will create another column with no data.
 
 -- Please put "-- table" before each table creating statement. That's to make it easier to divide the code into
--- individual statments.
+-- individual statements.
 
--- Table name is the piece of text inside the first occurence of a pair of ` accents in a table statement.
+-- Table name is the piece of text inside the first occurrence of a pair of ` accents in a table statement.
+-- So, the accents are required, otherwise EMPS will not be able to detect the table name.
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_actkeys` (
@@ -47,7 +48,6 @@ CREATE TEMPORARY TABLE `temp_e_content` (
   KEY `cdt` (`cdt`),
   KEY `dt` (`dt`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_contexts` (
@@ -208,7 +208,6 @@ CREATE TEMPORARY TABLE `temp_e_posts_topics` (
   KEY `context_id` (`context_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-
 -- table
 CREATE TEMPORARY TABLE `temp_e_properties` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -296,7 +295,6 @@ CREATE TEMPORARY TABLE `temp_e_watchlist` (
   KEY `dt` (`dt`),
   KEY `ip` (`ip`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_sessions` (

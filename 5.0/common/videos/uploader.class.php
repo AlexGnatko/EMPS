@@ -20,7 +20,7 @@ class EMPS_VideoUploader
         global $emps, $SET;
         reset($_POST['name']);
         $SET = array();
-        while (list($n, $v) = each($_POST['name'])) {
+        foreach ($_POST['name'] as $n => $v) {
             $SET['name'] = $v;
             $SET['description'] = $_POST['descr'][$n];
             $SET['ord'] = $_POST['ord'][$n];
@@ -39,7 +39,7 @@ class EMPS_VideoUploader
         $params['options'] = ['limit' => 1, 'sort' => ['ord' => -1]];
         $cursor = $emps->db->find($this->table_name, $params);
 
-        foreach($cursor as $ra){
+        foreach ($cursor as $ra) {
             $ord = $ra['ord'] + 10;
         }
 
@@ -58,7 +58,7 @@ class EMPS_VideoUploader
 
             $item_id = $emps->db->last_id;
             $this->v->process_video($emps->db->oid($item_id));
-        }else{
+        } else {
             $emps->flash("error", 1);
         }
     }
@@ -70,7 +70,7 @@ class EMPS_VideoUploader
         }
 
         if ($_POST['post_kill'] && !$_POST['postsave']) {
-            while (list($n, $v) = each($_POST['sel'])) {
+            foreach ($_POST['sel'] as $n => $v) {
                 $this->v->delete_video($n);
             }
         }
@@ -189,7 +189,7 @@ class EMPS_VideoUploader
 
         $lst = array();
 
-        foreach($cursor as $ra){
+        foreach ($cursor as $ra) {
             $ra['dur'] = $this->v->convert_duration($ra['duration']);
             $ctx = $emps->p->get_context(DT_VIDEO, 1, $ra['_id']);
             $ra['pic'] = $this->v->p->first_pic($ctx);
