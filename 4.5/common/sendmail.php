@@ -13,7 +13,7 @@ $srv->init("last_sendmail", 30);
 if($srv->is_runnable()) {
     $tn = TP . "e_msgcache";
 
-    $dt = time() - 7 * 24 * 60 * 60;
+    $dt = time() - 24 * 60 * 60;
     $emps->db->query("delete from {$tn} where status >= 50 and sdt < {$dt} and sdt > 0");
 
     for ($i = 0; $i < 20; $i++) {
