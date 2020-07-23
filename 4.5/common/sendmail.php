@@ -31,7 +31,7 @@ if($srv->is_runnable()) {
             $to = $ra['to'];
             $msg_id = $ra['id'];
             $status = $ra['status'];
-            $emps->db->query("update $tn set status=status+1, sdt = {$dt} where id = {$msg_id}");
+            $emps->db->query("update {$tn} set status = status + 1, sdt = {$dt} where id = {$msg_id}");
             $params = unserialize($ra['params']);
             $smtpdata = unserialize($ra['smtpdata']);
             if (!$smtpdata) {

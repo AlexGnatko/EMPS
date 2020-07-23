@@ -1,0 +1,23 @@
+<h1>E-mail Queue</h1>
+
+{{include file="db:page/paginator"}}
+<table class="table table-striped table-condensed">
+    <tr >
+        <th width="40">Id</th>
+        <th width="80">Status</th>
+        <th width="120">To</th>
+        <th width="300">Subject</th>
+        <th width="120">Mod. time</th>
+        <th width="120">Sent time</th>
+    </tr>
+    {{foreach from=$lst item="item"}}
+        <tr >
+            <td>{{$item.id}}</td>
+            <td>{{$item.to}}</td>
+            <td>{{$item.title}}</td>
+            <td>{{$item.dt|emps:form_time_full}}</td>
+            <td>{{$item.sdt|emps:form_time_full}}</td>
+        </tr>
+    {{/foreach}}
+</table>
+{{include file="db:page/paginator"}}
