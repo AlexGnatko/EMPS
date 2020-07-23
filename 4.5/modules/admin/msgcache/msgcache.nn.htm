@@ -13,6 +13,7 @@
     {{foreach from=$lst item="item"}}
         <tr >
             <td>{{$item.id}}</td>
+            <td>{{$item.status}}</td>
             <td>{{$item.to}}</td>
             <td>{{$item.title}}</td>
             <td>{{$item.dt|emps:form_time_full}}</td>
