@@ -204,6 +204,10 @@ class EMPS_Mail
         return $res;
     }
 
+    public function decode_string($string) {
+        return imap_mime_header_decode($string);
+    }
+
     public function send_message($user_id, $template, $title)
     {
         return $this->send_message_ex($user_id, $template, $title, 0);
