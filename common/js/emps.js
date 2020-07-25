@@ -146,6 +146,18 @@ var EMPS = {
                 }
             });
     },
+    vue_load_enum: function(that, code) {
+        this.load_enum(code, function(e) {
+            that.enums[code] = e;
+        });
+    },
+    vue_load_enums: function(that, codes) {
+        var x = codes.split(",");
+        var l = x.length;
+        for (var i = 0; i < l; i++) {
+            this.vue_load_enum(that, x[i]);
+        }
+    },
     login: function() {
         $("#siteLoginModal").addClass("is-active");
         $.ajax({url: '/ensure_session/'});

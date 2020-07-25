@@ -2221,6 +2221,20 @@ class EMPS_Common
         echo json_encode($response, $this->json_options);
     }
 
+    public function json_error($message) {
+        $response = [];
+        $response['code'] = "Error";
+        $response['message'] = $message;
+        $this->json_response($response);
+    }
+
+    public function json_ok($data) {
+        $response = [];
+        $response['code'] = "OK";
+        $response = array_merge($response, $data);
+        $this->json_response($response);
+    }
+
     public function plaintext_response()
     {
         global $emps;
