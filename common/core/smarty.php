@@ -188,6 +188,20 @@ function smarty_function_var($params, Smarty_Internal_Template $template)
     }
 }
 
+function smarty_function_script($params, Smarty_Internal_Template $template)
+{
+    global $emps;
+
+    $defer = "";
+    if (isset($params['defer'])) {
+        $defer = " defer";
+    }
+    $reset = $emps->get_setting("css_reset");
+    $val = sprintf("<script src=\"%s%s\"%s></script>", $params['src'], $reset, $defer);;
+    return $val;
+}
+
+
 $smarty->registerPlugin("function", "emps", "smarty_emps");
 
 // Angular JS markup helpers
@@ -195,6 +209,7 @@ $smarty->registerPlugin("function", "AJ", "smarty_AJ");
 $smarty->registerPlugin("function", "JA", "smarty_JA");
 $smarty->registerPlugin("function", "syn", "smarty_syn");
 $smarty->registerPlugin("function", "var", "smarty_function_var");
+$smarty->registerPlugin("function", "script", "smarty_function_script");
 
 function smarty_modifier_hyp($v)
 {

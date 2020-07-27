@@ -113,7 +113,7 @@ var EMPS = {
         }
         var that = this;
         axios
-            .get("/json-loadenum/" + code + "/")
+            .get("/json-loadenum/" + code + "/" + css_reset)
             .then(function(response){
                 var data = response.data;
                 if (data.code == 'OK') {
