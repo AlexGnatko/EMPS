@@ -49,10 +49,7 @@
         </modal>
 
         <div v-if="readOnly">
-            <div class="input">
-                <template v-if="description !== undefined">
-                    {{ description }}
-                </template>
+            <div class="input" v-html="description">
             </div>
         </div>
         <div v-else :class="[{'field': !noField}, {'has-addons': !noClear}]">
