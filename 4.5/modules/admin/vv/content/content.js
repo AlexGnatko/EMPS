@@ -5,7 +5,7 @@ emps_scripts.push(function(){
     app = new Vue({
         el: '#content_app',
         data: function() {
-
+            return {};
         },
         mounted: function(){
             $("#content_app").show();

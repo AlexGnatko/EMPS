@@ -80,6 +80,9 @@
                         var data = response.data;
                         if (data.code == 'OK') {
                             that.description = data.display;
+                            if (!that.description) {
+                                that.description = "";
+                            }
                         }else{
                             alert(data.message);
                         }

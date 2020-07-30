@@ -3,6 +3,7 @@
 if ($emps->auth->credentials('admin')):
 
     $emps->page_property("vuejs", 1);
+    //$emps->page_property("vue_debug", 1);
 
     $context_id = $emps->website_ctx;
 

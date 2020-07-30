@@ -3,10 +3,20 @@
 
     <script type="text/x-template" id="zoomview-component-template">
         <div :class="divClass">
-            <a :class="aClass">
+            <a href="javascript:;"
+               @mousemove="move" @mouseenter="dozoom" @mouseleave="unzoom"
+               :class="aClass"
+               :style="{backgroundImage: 'url(\'' + normal + '\')'}">
+                <img :src="spacer" />
+                <img :class="{'zoom-image': true, 'zoomed': zoomed}" :src="zoom" />
             </a>
         </div>
     </script>
     {{script src="/mjs/comp-zoomview/zoomview.js" defer=1}}
 
+    <script type="application/javascript">
+        emps_scripts.push(function(){
+            EMPS.load_css('/mjs/comp-zoomview/zoomview.css');
+        });
+    </script>
 {{/if}}

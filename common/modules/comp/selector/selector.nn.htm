@@ -50,7 +50,9 @@
 
         <div v-if="readOnly">
             <div class="input">
-                {{ description }}
+                <template v-if="description !== undefined">
+                    {{ description }}
+                </template>
             </div>
         </div>
         <div v-else :class="[{'field': !noField}, {'has-addons': !noClear}]">
