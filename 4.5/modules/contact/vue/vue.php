@@ -48,7 +48,9 @@ if ($_POST['post_message']) {
 
         $body = $smarty->fetch("db:msg/enquiry");
         $params = $emps_smtp_params;
-        $params['Reply-To'] = $row['email'];
+        if ($row['email']) {
+            $params['Reply-To'] = $row['email'];
+        }
         $params['Content-Type'] = "text/html; charset=utf-8";
         $r = $mail->queued_email($to, $mail->encode_string($smarty->fetch("db:msg/enquiryhead"),'utf-8'),
             $body, $params);

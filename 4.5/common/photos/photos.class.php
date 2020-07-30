@@ -392,6 +392,7 @@ class EMPS_Photos
         }
         $r = $emps->db->query("select * from " . TP . "e_uploads where context_id=$context_id order by ord $sql_limit");
         while ($ra = $emps->db->fetch_named($r)) {
+            $ra = $emps->db->row_types("e_uploads", $ra);
             $ra = $this->explain_pic($ra);
             $lst[] = $ra;
         }

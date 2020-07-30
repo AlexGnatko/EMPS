@@ -1,0 +1,12 @@
+{{if !$comp_zoomview_included}}
+    {{assign var="comp_zoomview_included" value=true scope="global"}}
+
+    <script type="text/x-template" id="zoomview-component-template">
+        <div :class="divClass">
+            <a :class="aClass">
+            </a>
+        </div>
+    </script>
+    {{script src="/mjs/comp-zoomview/zoomview.js" defer=1}}
+
+{{/if}}

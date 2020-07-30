@@ -197,7 +197,7 @@ function smarty_function_script($params, Smarty_Internal_Template $template)
         $defer = " defer";
     }
     $reset = $emps->get_setting("css_reset");
-    $val = sprintf("<script src=\"%s%s\"%s></script>", $params['src'], $reset, $defer);;
+    $val = sprintf("<script type=\"application/javascript\" src=\"%s%s\"%s></script>", $params['src'], $reset, $defer);;
     return $val;
 }
 

@@ -48,7 +48,12 @@
 
         </modal>
 
-        <div :class="[{'field': !noField}, {'has-addons': !noClear}]">
+        <div v-if="readOnly">
+            <div class="input">
+                {{ description }}
+            </div>
+        </div>
+        <div v-else :class="[{'field': !noField}, {'has-addons': !noClear}]">
             <p class="control is-expanded">
             <input class="input" :value="description" :placeholder="placeholder" readonly="readonly" @click="select()"/>
             </p>

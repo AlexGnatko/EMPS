@@ -11,7 +11,12 @@
 <h4>Сообщение с сайта {{include file="db:msg/sitename"}}</h4>
 <div style="border:1px solid #999999;background-color:#F0F0F0;padding:6px">
 <p><strong>Имя</strong>: {{$msg.name}}</p>
-<p><strong>E-mail</strong>: {{$msg.email}}</p>
+{{if !$msg.email}}
+    <p><strong>E-mail</strong>: <strong style="color:red">Внимание! Не указан е-майл. Ответ на это письмо никому не дойдёт</strong></p>
+{{else}}
+    <p><strong>E-mail</strong>: {{$msg.email}}</p>
+{{/if}}
+
 <p><strong>Телефон</strong>: {{$msg.phone}}</p>
 <p>{{$msg.msg|nl2br}}</p>
 </div>
