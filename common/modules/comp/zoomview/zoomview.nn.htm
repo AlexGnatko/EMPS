@@ -7,8 +7,8 @@
                @mousemove="move" @mouseenter="dozoom" @mouseleave="unzoom"
                :class="aClass"
                :style="{backgroundImage: 'url(\'' + normal + '\')'}">
-                <img :src="spacer" />
-                <img :class="{'zoom-image': true, 'zoomed': zoomed}" :src="zoom" />
+                <img :src="spacer" :class="spacerClass" />
+                <img ref="zoom" :class="{'zoom-image': true, 'zoomed': zoomed}" :src="zoom" />
             </a>
         </div>
     </script>
