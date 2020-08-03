@@ -4,7 +4,8 @@
     <script type="text/x-template" id="zoomview-component-template">
         <div :class="divClass">
             <a href="javascript:;"
-               @mousemove="move" @mouseenter="dozoom" @mouseleave="unzoom"
+               @mousemove="move" @mouseenter="dozoom" @mouseleave="unzoom" @touchstart="touchzoom"
+               @touchmove.stop.prevent="touchmove"
                :class="aClass"
                :style="{backgroundImage: 'url(\'' + normal + '\')'}">
                 <img :src="spacer" :class="spacerClass" />

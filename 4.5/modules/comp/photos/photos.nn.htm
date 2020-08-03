@@ -1,5 +1,6 @@
 {{if $lang == "en"}}
     {{$str_select = "Select files"}}
+    {{$str_select_one = "Select file"}}
     {{$str_by_url = "By URL"}}
     {{$str_delete = "Delete"}}
     {{$str_cancel = "Cancel"}}
@@ -24,8 +25,12 @@
     {{$str_download_by_url = "Download by URL"}}
     {{$str_uploading_progress = "Uploading a new file..."}}
     {{$str_file_link = "URL of the file"}}
+    {{$str_export = "Export"}}
+    {{$str_export_zip = "Download ZIP"}}
+    {{$str_import_zip = "Import ZIP"}}
 {{else}}
     {{$str_select = "Выбрать файлы"}}
+    {{$str_select_one = "Выбрать файл"}}
     {{$str_by_url = "По ссылке"}}
     {{$str_delete = "Удалить"}}
     {{$str_cancel = "Отмена"}}
@@ -50,6 +55,9 @@
     {{$str_download_by_url = "Скачать по ссылке"}}
     {{$str_uploading_progress = "Идёт загрузка нового файла..."}}
     {{$str_file_link = "Ссылка на файл"}}
+    {{$str_export = "Экспорт"}}
+    {{$str_export_zip = "Скачать ZIP"}}
+    {{$str_import_zip = "Загрузить ZIP"}}
 {{/if}}
 <photo-uploader inline-template pad="{{$pad}}">
 
@@ -60,13 +68,15 @@
 
         <div class="columns is-gapless">
             <div class="column is-narrow buttons">
-                <button type="button" @click="add_files()" class="button is-primary is-outlined">
+                <button type="button" @click="add_files" class="button is-primary is-outlined">
                     <i class="fa fa-hand-pointer-o"></i> &nbsp; {{$str_select}}</button>
                 <div></div>
             </div>
             <div class="column is-narrow buttons">
-                <button type="button" @click="download_files()" class="button is-primary is-outlined">
+                <button type="button" @click="download_files" class="button is-primary is-outlined">
                     <i class="fa fa-download"></i> &nbsp; {{$str_by_url}}</button>
+                <button type="button" @click="upload_zip" class="button is-primary is-outlined">
+                    <i class="fa fa-upload"></i> &nbsp; {{$str_import_zip}}</button>
                 <div></div>
             </div>
             <div class="column">
@@ -78,9 +88,11 @@
 
             </div>
             <div class="column buttons is-justified-end is-narrow">
-                <button type="button" @click="delete_selected()" v-if="!is_uploading()" class="button is-danger is-outlined">
+                <button type="button" @click="export_pics" class="button is-info is-outlined">
+                    <i class="fa fa-save"></i> &nbsp; {{$str_export}}</button>
+                <button type="button" @click="delete_selected" v-if="!is_uploading()" class="button is-danger is-outlined">
                     <i class="fa fa-remove"></i> &nbsp; {{$str_delete}}</button>
-                <button type="button" @click="cancel_all()" v-else class="button is-warning is-outlined">
+                <button type="button" @click="cancel_all" v-else class="button is-warning is-outlined">
                     <i class="fa fa-ban"></i> &nbsp; {{$str_cancel}}</button>
                 <button type="button" class="button is-white" @click="inverse_selection()" >
                     <i class="fa fa-check-square-o" ></i>
@@ -222,6 +234,37 @@
 
             <template slot="actions">
                 <button type="submit" class="button is-success" :disabled="importing">{{$str_download}}</button>
+            </template>
+        </modal>
+
+        <modal id="exportPicsModal">
+            <template slot="header">{{$str_export}}</template>
+
+            <div class="field">
+                <label class="label">{{$str_links}}:</label>
+                <textarea v-model="export_list" class="textarea" rows="5"></textarea>
+            </div>
+            <template slot="actions">
+                <a :href="export_zip_link" class="button is-success">{{$str_export_zip}}</a>
+            </template>
+        </modal>
+
+        <modal id="uploadZipModal" :submit="handle_zip_upload">
+            <template slot="header">{{$str_import_zip}}</template>
+
+            <div class="field" v-if="!uploading_zip">
+                <input type="file" id="zip-file" ref="zip_file" @change="handle_zip_upload"/>
+                <button type="button" @click="select_zip_file" class="button is-primary is-outlined">
+                    <i class="fa fa-hand-pointer-o"></i> &nbsp; {{$str_select_one}}</button>
+
+            </div>
+            <div v-else class="content">
+                <p>{{$str_uploading_progress}}</p>
+                <progress class="progress is-warning"></progress>
+            </div>
+
+            <template slot="actions">
+                <button type="submit" class="button is-success">{{$str_import_zip}}</button>
             </template>
         </modal>
 

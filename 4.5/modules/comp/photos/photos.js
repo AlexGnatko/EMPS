@@ -7,12 +7,15 @@
                 selected_photo: '',
                 import_list: '',
                 importing: false,
+                export_list: '',
+                export_zip_link: '',
                 change_uploading: false,
                 change_mode: 'upload',
                 change_download_url: '',
                 queue: [],
                 files: [],
-                loading: false
+                loading: false,
+                uploading_zip: false,
             };
         },
         methods: {
@@ -21,6 +24,9 @@
             },
             select_change_file: function() {
                 this.$refs.change_file.click();
+            },
+            select_zip_file: function() {
+                this.$refs.zip_file.click();
             },
             handle_uploads: function(){
                 var files = this.$refs.files.files;
@@ -37,6 +43,43 @@
                     this.queue.push(files[i]);
                     this.start_uploading();
                 }
+            },
+            handle_zip_upload: function() {
+                this.uploading_zip = true;
+                this.$forceUpdate();
+
+                var files = this.$refs.zip_file.files;
+                var file = files[0];
+
+                var form_data = new FormData();
+                form_data.append('post_upload_zip', '1');
+                form_data.append('files[0]', file);
+                var that = this;
+                axios.post( './',
+                    form_data,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then(function(response){
+                    var data = response.data;
+                    that.uploading_zip = false;
+
+                    if (data.code == 'OK') {
+                        that.files = data.files;
+                        that.close_modal("uploadZipModal");
+                    }else{
+                        toastr.error(file.name, string_failed, {positionClass: "toast-bottom-full-width"});
+                    }
+
+                }).catch(function(){
+                    that.uploading_zip = false;
+                    if (!file.cancelled) {
+                        toastr.error(file.name, string_failed, {positionClass: "toast-bottom-full-width"});
+                    }
+                });
+
             },
             handle_change_upload: function() {
                 this.change_uploading = true;
@@ -221,6 +264,32 @@
                     }
                 }
                 this.$forceUpdate();
+            },
+            export_pics: function() {
+                var lst = [];
+                var id_lst = [];
+                var get_url = window.location;
+                var base_url = get_url.protocol + "//" + get_url.host;
+
+                var i = 0;
+                for (i = 0; i < this.files.length; i++ ) {
+                    if (this.files[i].mark) {
+                        lst.push(base_url + this.files[i].url);
+                        id_lst.push(this.files[i].id);
+                    }
+                }
+                if (lst.length === 0) {
+                    for (i = 0; i < this.files.length; i++ ) {
+                        lst.push(base_url + this.files[i].url);
+                        id_lst.push(this.files[i].id);
+                    }
+                }
+                this.export_list = lst.join("\r\n");
+                this.export_zip_link = "./?zip=" + id_lst.join(",");
+                this.open_modal("exportPicsModal");
+            },
+            upload_zip: function() {
+                this.open_modal("uploadZipModal");
             },
             open_modal: function(id){
                 vuev.$emit("modal:open:" + id);

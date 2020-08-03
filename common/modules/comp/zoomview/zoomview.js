@@ -18,6 +18,18 @@
                     x: rect.left + scrollLeft
                 }
             },
+            touchzoom: function(event) {
+                this.zoomed = !this.zoomed
+            },
+            touchmove: function(event) {
+                if (!this.zoomed) {
+                    this.zoomed = true;
+                }
+                var touch = event.targetTouches.item(0);
+                if (touch !== undefined) {
+                    this.move(touch);
+                }
+            },
             dozoom: function() {
                 this.zoomed = true;
             },
@@ -31,19 +43,38 @@
                 var offset = this.offset(this.$el);
                 var relativeX = event.clientX - offset.x + window.pageXOffset;
                 var relativeY = event.clientY - offset.y + window.pageYOffset;
-                var ze = this.$refs.zoom;
                 var ow = this.$el.offsetWidth;
                 var oh = this.$el.offsetHeight;
-                var magX = ze.offsetWidth / ow;
-                var magY = ze.offsetHeight / oh;
-                var resultX = -1 * (relativeX * magX - ow);
-                var resultY = -1 * (relativeY * magY - oh);
+
+                if (relativeX < 0) {
+                    relativeX = 0;
+                }
+                if (relativeY < 0) {
+                    relativeY = 0;
+                }
+                if (relativeX > ow) {
+                    relativeX = ow;
+                }
+                if (relativeY > oh) {
+                    relativeY = oh;
+                }
+                var ze = this.$refs.zoom;
+                var magX = (ze.offsetWidth - ow) / ow;
+                var magY = (ze.offsetHeight - oh) / oh;
+                var resultX = -1 * (relativeX * magX);
+                var resultY = -1 * (relativeY * magY);
                 ze.style.left = resultX + "px";
                 ze.style.top = resultY + "px";
 //                console.log(magX + " / " + magY);
             },
         },
         watch: {
+            normal: function() {
+                this.zoomed = false;
+            },
+            zoom: function() {
+                this.zoomed = false;
+            },
         },
         mounted: function(){
         }

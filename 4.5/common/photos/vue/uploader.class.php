@@ -215,6 +215,129 @@ class EMPS_VuePhotosUploader {
         }
     }
 
+    public function handle_zip() {
+
+        $ids = $_GET['zip'];
+        $x = explode(",", $ids);
+        $lst = $this->list_uploaded_files();
+        $files = [];
+        foreach ($lst as $file) {
+            foreach ($x as $zip_id) {
+                if ($zip_id == $file['id']) {
+                    $files[] = $file;
+                }
+            }
+        }
+
+        $tmpfname = tempnam($this->p->up->UPLOAD_PATH, "zip");
+
+        $zip = new ZipArchive();
+        if ($zip->open($tmpfname, ZipArchive::CREATE)!==TRUE) {
+            exit("cannot open <$tmpfname>\n");
+        }
+
+        $names = [];
+        foreach ($files as $n => $file) {
+            if (!isset($names[$file['filename']])) {
+                $names[$file['filename']] = 1;
+            } else {
+                $names[$file['filename']]++;
+            }
+        }
+
+        foreach ($files as $n => $file) {
+            $filepath = $this->p->up->upload_filename($file['id'], DT_IMAGE);
+            $filename = $file['filename'];
+            if ($names[$filename] > 1) {
+                $filename = $names[$filename] . " " . $filename;
+                $names[$filename]--;
+            }
+            $zip->addFile($filepath, $filename);
+            $zip->setCompressionIndex($n, ZipArchive::CM_STORE);
+        }
+        $zip->close();
+
+        $fh = fopen($tmpfname, "rb");
+
+        $zip_filename = "Photos-" . $this->context_id . ".zip";
+
+        if ($fh) {
+            ob_end_clean();
+
+            $size = filesize($tmpfname);
+
+            if (class_exists('http\Env\Response')) {
+                $body = new http\Message\Body($fh);
+                $resp = new http\Env\Response;
+                $resp->setContentType("application/octet-stream");
+                $resp->setHeader("Content-Length", $size);
+                $resp->setHeader("Last-Modified", date("r", time()));
+                $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * 7));
+                $resp->setContentDisposition(["attachment" => ["filename" => $zip_filename]]);
+                $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+                $resp->setBody($body);
+                //			$resp->setThrottleRate(50000, 1);
+                $resp->send();
+            } else {
+                header("Content-Type: application/octet-stream");
+                header("Content-Length: " . $size);
+                header("Last-Modified: ", date("r", time()));
+                header("Expires: ", date("r", time() + 60 * 60 * 24 * 7));
+                header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+                header("Content-Disposition: attachment; filename=\"" . $zip_filename . "\"");
+
+                fpassthru($fh);
+            }
+
+            fclose($fh);
+        }
+
+        unlink($tmpfname);
+
+    }
+
+    public function handle_upload_zip() {
+        global $emps;
+
+
+        foreach($_FILES as $v){
+            if($v['name'][0]){
+                $zip = new ZipArchive;
+                $source = $v['tmp_name'][0];
+
+                $tmpfname = $this->p->up->UPLOAD_PATH."zip-upload-".md5(uniqid(time().$source));
+
+                if (!file_exists($tmpfname)) {
+                    mkdir($tmpfname);
+                    chmod($tmpfname, 0777);
+                }
+
+                if ($zip->open($source) === TRUE) {
+                    $zip->extractTo($tmpfname);
+                    $zip->close();
+                    $lst = scandir($tmpfname);
+                    foreach ($lst as $s_name) {
+                        if ($s_name == "." || $s_name == "..") {
+                            continue;
+                        }
+                        if (is_dir($s_name)) {
+                            continue;
+                        }
+                        $s_path = $tmpfname . "/" . $s_name;
+                        $this->p->check_type = true;
+                        $this->p->download_filename = $s_name;
+                        $this->p->download_image($this->context_id, $s_path);
+                        unlink($s_path);
+                    }
+                    unlink($tmpfname);
+                }
+            }
+        }
+
+
+        $this->handle_list();
+    }
+
     public function handle_request()
     {
         global $emps;
@@ -226,6 +349,10 @@ class EMPS_VuePhotosUploader {
 
             if ($_POST['post_reupload_photo']) {
                 $this->handle_reupload(intval($_POST['photo_id']));
+            }
+
+            if ($_POST['post_upload_zip']) {
+                $this->handle_upload_zip();
             }
 
             if ($_POST['post_reimport_photo']) {
@@ -288,6 +415,10 @@ class EMPS_VuePhotosUploader {
 
             $emps->json_response($response); exit;
 
+        }
+
+        if ($_GET['zip']) {
+            $this->handle_zip();
         }
 
         if ($_GET['list_uploaded_photos']) {
