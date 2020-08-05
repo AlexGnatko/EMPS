@@ -2522,4 +2522,74 @@ class EMPS_Common
         return "";
     }
 
+    private $md5_shortener = "yenaEFGHIJKLMNOPQRSTUVWXYZDbcdBfghijklmCopqrstuvwxAz0123456789-$";
+
+    public function short_md5($md5) {
+        $bin = hex2bin($md5);
+        $rv = "";
+        $byte_index = 0;
+        $src_bit = 0;
+        $dst_bit = 0;
+        $value = 0;
+        $length = 16;
+
+        while (true) {
+            $byte = ord($bin[$byte_index]);
+            $bit = ($byte >> $src_bit) & 0x1;
+            $add = $bit << $dst_bit;
+
+//            echo "Byte #{$byte_index}: {$byte} Bit: {$bit} - Add: {$add}\r\n";
+            $value += $add;
+            $src_bit++;
+            $dst_bit++;
+            if ($dst_bit >= 6) {
+                $rv .= $this->md5_shortener[$value];
+                $value = 0;
+                $dst_bit = 0;
+            }
+            if ($src_bit >= 8) {
+                $src_bit = 0;
+                $byte_index++;
+                if ($byte_index >= $length) {
+                    $rv .= $this->md5_shortener[$value];
+                    break;
+                }
+            }
+        }
+        return $rv;
+    }
+
+    public function long_md5($short_md5) {
+        $rv = "";
+        $byte_index = 0;
+        $src_bit = 0;
+        $dst_bit = 0;
+        $value = 0;
+        $length = strlen($short_md5);
+
+        while (true) {
+            $char = $short_md5[$byte_index];
+            $byte = strpos($this->md5_shortener, $char);
+            $bit = ($byte >> $src_bit) & 0x1;
+            $add = $bit << $dst_bit;
+
+//            echo "Byte #{$byte_index}: {$byte} Bit: {$bit} - Add: {$add}\r\n";
+            $value += $add;
+            $src_bit++;
+            $dst_bit++;
+            if ($dst_bit >= 8) {
+                $rv .= chr($value);
+                $value = 0;
+                $dst_bit = 0;
+            }
+            if ($src_bit >= 6) {
+                $src_bit = 0;
+                $byte_index++;
+                if ($byte_index >= $length) {
+                    break;
+                }
+            }
+        }
+        return bin2hex($rv);
+    }
 }

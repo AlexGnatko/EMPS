@@ -107,6 +107,11 @@
                     <i class="fa fa-filter"></i> &nbsp; {{$str_filters}}</button>
             </div>
         {{/if}}
+        {{if $smarty.capture.vted_after_filter}}
+            &nbsp;
+            {{$smarty.capture.vted_after_filter}}
+        {{/if}}
+
     </div>
 
 

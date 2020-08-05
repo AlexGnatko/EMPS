@@ -172,6 +172,7 @@ emps_scripts.push(function() {
         },
         watch: {
             context: function(new_val, old_val) {
+//                alert("New context: " + new_val);
                 if (this.need_upload) {
                     this.start_uploading();
                 } else {
@@ -187,7 +188,14 @@ emps_scripts.push(function() {
             },
             files: function(new_val, old_val) {
                 this.$emit("update", new_val);
+                if (new_val.length == 0 && this.queue.length == 0) {
+//                    alert("Empty files update");
+                    this.$emit("uptodate", true);
+                }
+            },
+            queue: function(new_val, old_val) {
                 if (new_val.length == 0) {
+//                    alert("Empty queue update");
                     this.$emit("uptodate", true);
                 }
             },
