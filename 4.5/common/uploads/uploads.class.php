@@ -300,4 +300,25 @@ class EMPS_Uploads
 
         }
     }
+
+    public function copy_files($old_context_id, $new_context_id) {
+        global $emps;
+
+        $lst = $this->list_files($old_context_id, 1000000);
+        foreach ($lst as $file) {
+            $nr = $file;
+            unset($nr['id']);
+            unset($nr['cdt']);
+            unset($nr['dt']);
+            $nr['context_id'] = $new_context_id;
+            $nr['md5'] = md5(uniqid(time().$file['id']));
+            $emps->db->sql_insert_row("e_files", ['SET' => $nr]);
+            $file_id = $emps->db->last_insert();
+
+            $old_name = $this->upload_filename($file['id'], DT_FILE);
+            $new_name = $this->upload_filename($file_id, DT_FILE);
+
+            copy($old_name, $new_name);
+        }
+    }
 }

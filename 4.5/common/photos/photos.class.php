@@ -697,7 +697,6 @@ class EMPS_Photos
         return true;
     }
 
-
     function flex_watermark($img)
     {
         global $emps;
