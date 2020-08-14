@@ -34,7 +34,7 @@ class EMPS_VuePhotosUploader {
         foreach($_FILES as $v){
             if($v['name'][0]){
                 if(!$v['error'][0]){
-                    if(strstr($v['type'][0],"jpeg") || strstr($v['type'][0],"gif") || strstr($v['type'][0],"png") || strstr($v['type'][0],"svg")){
+                    if(strstr($v['type'][0],"webp") || strstr($v['type'][0],"jpeg") || strstr($v['type'][0],"gif") || strstr($v['type'][0],"png") || strstr($v['type'][0],"svg")){
                         $q = "select max(ord) from ".TP."e_uploads where context_id = {$this->context_id}";
                         $r = $emps->db->query($q);
                         $ra = $emps->db->fetch_row($r);
