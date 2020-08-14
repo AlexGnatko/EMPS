@@ -168,6 +168,7 @@ class EMPS_Photos
         $r = $emps->db->query("select * from " . TP . "e_thumbs where size='$size' and upload_id=$id limit 1");
         $ra = $emps->db->fetch_named($r);
         $ra['fname'] = $dname;
+        error_log("ensure_thumb return");
 
         return $ra;
     }
