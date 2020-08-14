@@ -70,7 +70,7 @@ class EMPS_VuePhotosUploader {
                             $file['md5'] = $row['md5'];
                             $file['size'] = intval($row['size']);
                             $file['url'] = "/pic/".$row['md5'].".".$row['ext']."&dt=".$row['dt'];
-                            $file['thumbnail'] = "/freepic/".$row['md5'].".".$row['ext']."?size=".
+                            $file['thumbnail'] = "/freepic/".$row['md5'].".jpg?size=".
                                 $this->thumb_size."&opts=inner&dt=".$row['dt'];
 
                             $this->files[] = $file;
@@ -193,7 +193,7 @@ class EMPS_VuePhotosUploader {
             $file['name'] = $ra['filename'];
             $file['size'] = intval($ra['size']);
             $file['url'] = "/pic/{$ra['md5']}/{$ra['filename']}&dt={$ra['dt']}";
-            $file['thumbnail'] = "/freepic/{$ra['md5']}.{$ra['ext']}?size={$this->thumb_size}&opts=inner&dt={$ra['dt']}";
+            $file['thumbnail'] = "/freepic/{$ra['md5']}.jpg?size={$this->thumb_size}&opts=inner&dt={$ra['dt']}";
 
             $lst[] = $file;
         }
