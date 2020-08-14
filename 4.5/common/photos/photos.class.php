@@ -84,6 +84,7 @@ class EMPS_Photos
                 $img = imagecreatefromwebp($fname);
             } else {
                 $ra['fname'] = $fname;
+                error_log("skip thumbnail");
                 return $ra;
             }
 
@@ -142,6 +143,7 @@ class EMPS_Photos
                 $dst = $this->apply_watermark($dst, $tx, $ty);
             }
 
+            error_log("writing: {$dname}, {$quality}");
             imagejpeg($dst, $dname, $quality);
 
             $emps->db->query("delete from ".TP."e_thumbs where size = '{$size}' and upload_id = {$ra['id']}");
