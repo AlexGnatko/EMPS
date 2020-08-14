@@ -73,7 +73,7 @@ class EMPS_Photos
         $thumb_row = $emps->db->get_row("e_thumbs", "size='{$size}' and upload_id = {$ra['id']} limit 1");
 
         if (!file_exists($dname) || ($this->bypass_time > filemtime($dname)) || !$thumb_row) {
-            error_log("modifying image: ".$ra['id']." ".$emps->form_time($this->bypass_time)." / ".$emps->form_time(filemtime($dname)));
+//            error_log("modifying image: ".$ra['id']." ".$emps->form_time($this->bypass_time)." / ".$emps->form_time(filemtime($dname)));
             if (strstr($ra['type'], "jpeg")) {
                 $img = imagecreatefromjpeg($fname);
             } elseif (strstr($ra['type'], "png")) {
@@ -84,7 +84,7 @@ class EMPS_Photos
                 $img = imagecreatefromwebp($fname);
             } else {
                 $ra['fname'] = $fname;
-                error_log("skip thumbnail");
+//                error_log("skip thumbnail");
                 return $ra;
             }
 
@@ -143,7 +143,7 @@ class EMPS_Photos
                 $dst = $this->apply_watermark($dst, $tx, $ty);
             }
 
-            error_log("writing: {$dname}, {$quality}");
+//            error_log("writing: {$dname}, {$quality}");
             imagejpeg($dst, $dname, $quality);
 
             $emps->db->query("delete from ".TP."e_thumbs where size = '{$size}' and upload_id = {$ra['id']}");
@@ -162,13 +162,13 @@ class EMPS_Photos
                 imagedestroy($img);
             }
         } else {
-            error_log("thumb creation not needed");
+//            error_log("thumb creation not needed");
         }
         $id = $ra['id'];
         $r = $emps->db->query("select * from " . TP . "e_thumbs where size='$size' and upload_id=$id limit 1");
         $ra = $emps->db->fetch_named($r);
         $ra['fname'] = $dname;
-        error_log("ensure_thumb return");
+//        error_log("ensure_thumb return");
 
         return $ra;
     }
