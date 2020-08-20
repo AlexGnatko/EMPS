@@ -1,5 +1,10 @@
 <?php
 
+$filename = $emps->page_file_name("_contact,project", "controller");
+if (file_exists($filename)) {
+    require_once $filename;
+}
+
 if ($_POST['post_message']) {
     $action = $_POST['action'];
     $payload = $_REQUEST['payload'];
@@ -63,6 +68,9 @@ if ($_POST['post_message']) {
         }else{
             $response = [];
             $response['code'] = "OK";
+            if (function_exists('on_ok_contact')) {
+                on_ok_contact($response);
+            }
             $emps->json_response($response); exit;
 
         }
