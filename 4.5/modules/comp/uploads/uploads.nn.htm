@@ -18,6 +18,7 @@
             </div>
             <div class="column is-3" v-for="(file, index) in files">
                 <button type="button"
+                        v-if="!readonly"
                         @click="delete_file(file)"
                         class="button is-outlined is-danger is-small">
                     <i class="fa fa-trash"></i>
@@ -26,7 +27,7 @@
             </div>
         </div>
 
-        <div class="columns is-variable is-2">
+        <div class="columns is-variable is-2" v-if="!readonly">
             <div class="column is-narrow buttons">
                 <button type="button" @click="add_files()" class="button is-primary is-outlined">
                     <i class="fa fa-hand-pointer-o"></i> &nbsp; {{$str_select}}</button>
