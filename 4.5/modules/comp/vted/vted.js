@@ -27,6 +27,7 @@
                 no_scroll: false,
                 parents: [],
                 tree: [],
+                loading_list: false,
                 clipboard: {},
                 need_new_tree: true,
                 show_tree: true,
@@ -166,6 +167,7 @@
             load_list: function(after) {
                 if (this.path.key === undefined) {
                     var that = this;
+                    this.loading_list = true;
                     vuev.$emit("vted:load_list");
                     if (this.has_tree) {
                         this.load_tree(0);
@@ -173,6 +175,7 @@
                     axios
                         .get(this.url_prefix + "?load_list=1")
                         .then(function(response){
+                            that.loading_list = false;
                             var data = response.data;
                             if (data.code == 'OK') {
                                 that.lst = data.lst;
