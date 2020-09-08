@@ -53,9 +53,15 @@
             <tr v-for="row in lst">
                 <td class="has-text-centered"><input type="checkbox" v-model="row.checked"/>
                 </td>
-                <td><a href="javascript:;" @click="edit_prop(row)">{{"row.code"|js}}</a></td>
+                <td>
+                    <a style="overflow-wrap: break-word" href="javascript:;" @click="edit_prop(row)">{{"row.code"|js}}</a>
+                </td>
                 <td>{{"type_name(row.type)"|js}}</td>
-                <td>{{"row.value"|js}}</td>
+                <td>
+                    <div style="overflow-wrap: break-word">
+                        {{"row.value"|js}}
+                    </div>
+                </td>
                 <td class="has-text-right"><button type="button" class="button is-primary is-small" @click="edit_prop(row)"><i class="fa fa-pencil"></i></button></td>
             </tr>
         </table>
