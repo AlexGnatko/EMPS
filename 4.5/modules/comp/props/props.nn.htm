@@ -54,11 +54,11 @@
                 <td class="has-text-centered"><input type="checkbox" v-model="row.checked"/>
                 </td>
                 <td>
-                    <a style="overflow-wrap: break-word" href="javascript:;" @click="edit_prop(row)">{{"row.code"|js}}</a>
+                    <a style="word-wrap: anywhere; overflow-wrap: break-word" href="javascript:;" @click="edit_prop(row)">{{"row.code"|js}}</a>
                 </td>
                 <td>{{"type_name(row.type)"|js}}</td>
                 <td>
-                    <div style="overflow-wrap: break-word">
+                    <div style="word-wrap: anywhere; overflow-wrap: break-word">
                         {{"row.value"|js}}
                     </div>
                 </td>
