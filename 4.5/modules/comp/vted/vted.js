@@ -35,6 +35,12 @@
                 emps_tinymce_settings: Vue.util.extend(window.emps_tinymce_settings, {}),
             }
         },
+        props: {
+            filterSize: {
+                required: false,
+                default: "",
+            },
+        },
         components: {
             'editor': Editor // <- Important part
         },

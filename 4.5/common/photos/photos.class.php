@@ -550,11 +550,47 @@ class EMPS_Photos
         if (strstr($ra['type'], 'webp')) {
             $ra['ext'] = "webp";
         }
+        if (strstr($ra['type'], 'jpeg')) {
+            $ra['ext'] = "jpg";
+        }
+        if (strstr($ra['new_type'], 'jpeg')) {
+            $ra['ext'] = "jpg";
+        }
+        if (strstr($ra['new_type'], 'jpg')) {
+            $ra['ext'] = "jpg";
+        }
+        if (strstr($ra['new_type'], 'webp')) {
+            $ra['ext'] = "webp";
+        }
 
         if (!$ra['qual']) {
             $ra['qual'] = 100;
         }
 
+        return $ra;
+    }
+
+    public function explain_for_editor($ra) {
+        $orig_name = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-orig.dat";
+        $mod_name = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-mod.dat";
+        if (file_exists($orig_name)) {
+            $ra['has_orig'] = true;
+        } else {
+            $ra['has_orig'] = false;
+        }
+        if (file_exists($mod_name)) {
+            $ra['has_mod'] = true;
+        } else {
+            $ra['has_mod'] = false;
+        }
+
+        $ra['size'] = filesize($this->up->upload_filename($ra['id'], DT_IMAGE));
+        $ra['orig_size'] = filesize($orig_name);
+        $ra['mod_size'] = filesize($mod_name);
+        if (!$ra['new_type']) {
+            $ra['new_type'] = $ra['type'];
+        }
+        $ra = $this->image_extension($ra);
         return $ra;
     }
 
@@ -770,6 +806,118 @@ class EMPS_Photos
         }
     }
 
+    public function image_from_orig($orig_name) {
+        $data = file_get_contents($orig_name, FALSE, NULL, 0, 16);
+        if ($this->is_jpeg($data)) {
+            $img = imagecreatefromjpeg($orig_name);
+        } elseif ($this->is_png($data)) {
+            $img = imagecreatefrompng($orig_name);
+        } elseif ($this->is_gif($data)) {
+            $img = imagecreatefromgif($orig_name);
+        } elseif ($this->is_webp($data)) {
+            $img = imagecreatefromwebp($orig_name);
+        } else {
+            return false;
+        }
+        return $img;
+    }
+
+    public function save_current_image($ra, $dst, $fname) {
+        global $emps;
+
+        $mode = "jpeg";
+        if (strstr($ra['type'], "webp")) {
+            $mode = "webp";
+        }
+        if (strstr($ra['new_type'], "webp")) {
+            $mode = "webp";
+        }
+
+        $qual = 100;
+        if ($ra['qual'] > 0) {
+            $qual = $ra['qual'];
+        }
+
+        if ($mode == "jpeg") {
+            imagejpeg($dst, $fname, $qual);
+        }
+
+        if ($mode == "webp") {
+            imagewebp($dst, $fname, $qual);
+        }
+
+        $size = filesize($fname);
+
+        $emps->db->sql_update_row("e_uploads", ['SET' => ['dt' => time(), 'size' => $size]], "id = {$ra['id']}");
+
+        $this->delete_thumbs($ra['id']);
+    }
+
+    public function get_orig_name($ra) {
+        $fname = $this->up->upload_filename($ra['id'], DT_IMAGE);
+        $orig_name = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-orig.dat";
+        if (!file_exists($orig_name)) {
+            copy($fname, $orig_name);
+        }
+
+        return $orig_name;
+    }
+
+    public function get_mod_name($ra) {
+        $orig_name = $this->get_orig_name($ra);
+        $mod_name = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-mod.dat";
+        if (!file_exists($mod_name)) {
+            copy($orig_name, $mod_name);
+        }
+
+        return $mod_name;
+    }
+
+    public function set_webp($file_id, $mode) {
+        global $emps;
+
+        $ra = $emps->db->get_row("e_uploads", "id = {$file_id}");
+        if ($ra) {
+
+            $fname = $this->up->upload_filename($file_id, DT_IMAGE);
+
+            $orig_name = $this->get_mod_name($ra);
+
+            $img = $this->image_from_orig($orig_name);
+
+            if (!$img) {
+                return;
+            }
+
+            $save = true;
+            $nr = [];
+            if ($mode) {
+                $nr['new_type'] = "image/webp";
+            } else {
+                $nr['new_type'] = $ra['type'];
+                $nr['qual'] = 100;
+                copy($orig_name, $fname);
+                $save = false;
+            }
+
+            $filename = $ra['filename'];
+            $x = explode(".", $filename);
+            array_pop($x);
+            $rv = $this->image_extension(['type' => $nr['new_type']]);
+            $x[] = $rv['ext'];
+            $filename = implode(".", $x);
+            $nr['filename'] = $filename;
+
+            $emps->db->sql_update_row("e_uploads", ['SET' => $nr], "id = {$file_id}");
+
+            $ra = $emps->db->get_row("e_uploads", "id = {$file_id}");
+
+            if ($save) {
+                $this->save_current_image($ra, $img, $fname);
+            }
+        }
+    }
+
     public function ensure_tilt($file_id, $angle)
     {
         global $emps;
@@ -784,15 +932,9 @@ class EMPS_Photos
                 copy($fname, $orig_name);
             }
 
-            if (strstr($ra['type'], "jpeg")) {
-                $img = imagecreatefromjpeg($orig_name);
-            } elseif (strstr($ra['type'], "png")) {
-                $img = imagecreatefrompng($orig_name);
-            } elseif (strstr($ra['type'], "gif")) {
-                $img = imagecreatefromgif($orig_name);
-            } elseif (strstr($ra['type'], "webp")) {
-                $img = imagecreatefromwebp($orig_name);
-            } else {
+            $img = $this->image_from_orig($orig_name);
+
+            if (!$img) {
                 return;
             }
 
@@ -823,7 +965,7 @@ class EMPS_Photos
 
                 $emps->db->query("update " . TP . "e_uploads set dt = " . time() . " where id = " . $ra['id']);
 
-                imagejpeg($dst2, $fname, 100);
+                $this->save_current_image($ra, $dst2, $fname);
 
                 if (is_resource($dst)) {
                     imagedestroy($dst);
@@ -867,8 +1009,9 @@ class EMPS_Photos
             $wmname = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-wm.dat";
 
 //			dump($img);
-//			dump($dst);exit();			
-            imagejpeg($dst, $wmname, 100);
+//			dump($dst);exit();
+//            imagejpeg($dst, $wmname, 100);
+            $this->save_current_image($ra, $dst, $wmname);
 
             if (is_resource($img)) {
                 imagedestroy($img);
@@ -1026,27 +1169,20 @@ class EMPS_Photos
 
             $fname = $this->up->upload_filename($file_id, DT_IMAGE);
 
-            $orig_name = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-orig.dat";
-            if (!file_exists($orig_name)) {
-                copy($fname, $orig_name);
-            }
+            $orig_name = $this->get_mod_name($ra);
 
-            if (strstr($ra['type'], "jpeg")) {
-                $img = imagecreatefromjpeg($orig_name);
-            } elseif (strstr($ra['type'], "png")) {
-                $img = imagecreatefrompng($orig_name);
-            } elseif (strstr($ra['type'], "gif")) {
-                $img = imagecreatefromgif($orig_name);
-            } elseif (strstr($ra['type'], "webp")) {
-                $img = imagecreatefromwebp($orig_name);
-            } else {
+            $img = $this->image_from_orig($orig_name);
+
+            if (!$img) {
                 return;
             }
 
-            imagejpeg($img, $fname, $mode);
+            $ra = $emps->db->get_row("e_uploads", "id = " . $file_id);
+
+            $this->save_current_image($ra, $img, $fname);
 
             $size = filesize($fname);
-            $emps->db->query("update " . TP . "e_uploads set size=$size where id=" . $file_id);
+            $emps->db->query("update " . TP . "e_uploads set size = $size where id=" . $file_id);
 
             if (is_resource($img)) {
                 imagedestroy($img);
@@ -1068,7 +1204,7 @@ class EMPS_Photos
         $emps->db->sql_insert_row("e_uploads", ['SET' => $row]);
         $new_id = $emps->db->last_insert();
         $templates = [
-            "%d-img.dat", "thumb_%d-img.dat", "%d-wm.dat", "%d-orig.dat"
+            "%d-img.dat", "thumb_%d-img.dat", "%d-wm.dat", "%d-orig.dat", "%d-mod.dat"
         ];
         foreach ($templates as $t) {
             $old_file_name = $this->up->UPLOAD_PATH . $row['folder'] . "/" . sprintf($t, $id);

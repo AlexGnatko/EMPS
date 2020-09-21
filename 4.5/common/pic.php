@@ -24,18 +24,31 @@ if ($ra) {
 
         $size = filesize($fname);
 
+        $type = $ra['type'];
+        if ($ra['new_type']) {
+            $type = $ra['new_type'];
+        }
+
+        $filename = $file['filename'];
+        if ($type == "image/webp") {
+            $x = explode(".", $filename);
+            array_pop($x);
+            $x[] = "webp";
+            $filename = implode(".", $x);
+        }
+
         if (class_exists('http\Env\Response')) {
 
             $body = new http\Message\Body($fh);
             $resp = new http\Env\Response;
 
-            $resp->setContentType($ra['type']);
+            $resp->setContentType($type);
             $resp->setHeader("Content-Length", $size);
             $resp->setHeader("Last-Modified", date("r", $ra['dt']));
             $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * 7));
             $resp->setHeader("Pragma", "");
             if ($_GET['download']) {
-                $resp->setContentDisposition(["attachment" => ["filename" => $file['filename']]]);
+                $resp->setContentDisposition(["attachment" => ["filename" => $filename]]);
             }
             $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
             //$resp->setThrottleRate(1024 * 512, 0);
@@ -43,12 +56,12 @@ if ($ra) {
             $resp->setBody($body);
             $resp->send();
         }else{
-            header("Content-Type: ".$ra['type']);
+            header("Content-Type: ".$type);
             header("Content-Length: " . $size);
             header("Last-Modified: " . date("r", $ra['dt']));
             header("Expires: " . date("r", time() + 60 * 60 * 24 * 7));
             if ($_GET['download']) {
-                header("Content-Disposition: attachment; filename=\"" . $file['filename'] . "\"");
+                header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
             }
             header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
             header("Pragma: ");

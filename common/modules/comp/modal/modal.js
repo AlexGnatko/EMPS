@@ -2,7 +2,7 @@
 
     Vue.component('modal', {
         template: '#modal-component-template',
-        props: ['id', 'form', 'submit', 'size', 'buttonClass', 'noFooter', 'plain'],
+        props: ['id', 'form', 'submit', 'size', 'buttonClass', 'noFooter', 'noActions', 'plain'],
         data: function(){
             return {
                 btn_class: {'button': true}

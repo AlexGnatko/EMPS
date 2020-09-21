@@ -60,18 +60,23 @@ class EMPS_VuePhotosUploader {
 
                         $row = $emps->db->get_row("e_uploads","id = {$file_id}");
                         if($row){
+
                             $fname = $this->p->thumb_filename($file_id);
                             $this->p->treat_upload($oname, $fname, $row);
 
-                            $row = $this->p->image_extension($row);
+                            $row = $this->p->explain_for_editor($row);
+
                             $file = array();
-                            $emps->copy_values($file, $row, "filename,descr,ord,md5,qual,id");
+                            $emps->copy_values($file, $row, "filename,descr,ord,md5,qual,id,dt,ext,has_orig,has_mod,type,new_type,size,orig_size,mod_size");
                             $file['name'] = $row['filename'];
                             $file['md5'] = $row['md5'];
                             $file['size'] = intval($row['size']);
                             $file['url'] = "/pic/".$row['md5'].".".$row['ext']."&dt=".$row['dt'];
                             $file['thumbnail'] = "/freepic/".$row['md5'].".jpg?size=".
                                 $this->thumb_size."&opts=inner&dt=".$row['dt'];
+                            $file['dt'] = $row['dt'];
+                            $file['ext'] = $row['ext'];
+                            $file['has_orig'] = $row['has_orig'];
 
                             $this->files[] = $file;
                         }
@@ -187,9 +192,10 @@ class EMPS_VuePhotosUploader {
         $lst = [];
 
         while($ra = $emps->db->fetch_named($r)){
-            $ra = $this->p->image_extension($ra);
+            $ra = $emps->db->row_types("e_uploads", $ra);
+            $ra = $this->p->explain_for_editor($ra);
             $file = [];
-            $emps->copy_values($file, $ra, "filename,descr,ord,md5,qual,id");
+            $emps->copy_values($file, $ra, "filename,descr,ord,md5,qual,id,dt,ext,has_orig,has_mod,type,new_type,size,orig_size,mod_size");
             $file['name'] = $ra['filename'];
             $file['size'] = intval($ra['size']);
             $file['url'] = "/pic/{$ra['md5']}/{$ra['filename']}&dt={$ra['dt']}";
@@ -338,6 +344,16 @@ class EMPS_VuePhotosUploader {
         $this->handle_list();
     }
 
+    public function handle_manipulate($file_id, $command) {
+        if (isset($command['set_webp'])) {
+            $this->p->set_webp($file_id, $command['set_webp']);
+        }
+        if (isset($command['set_quality'])) {
+            $this->p->set_quality($file_id, $command['set_quality']);
+        }
+        $this->handle_list();
+    }
+
     public function handle_request()
     {
         global $emps;
@@ -364,6 +380,11 @@ class EMPS_VuePhotosUploader {
                 $nr = ['descr' => $_POST['descr']];
                 $emps->db->sql_update_row("e_uploads", ['SET' => $nr], "id = {$id}");
                 $this->handle_list();
+            }
+
+            if ($_POST['post_manipulate']) {
+                $id = intval($_POST['photo_id']);
+                $this->handle_manipulate($id, $_REQUEST['payload']);
             }
 
             if ($_POST['post_import_photos']) {
@@ -408,6 +429,7 @@ class EMPS_VuePhotosUploader {
                 }
                 $this->handle_list();
             }
+
         }else{
             $response = [];
             $response['code'] = "Error";

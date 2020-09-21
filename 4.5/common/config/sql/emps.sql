@@ -375,6 +375,7 @@ CREATE TEMPORARY TABLE `temp_e_uploads` (
   `qual` tinyint(4) NOT NULL,
   `protect` tinyint(4) NOT NULL,
   `type` varchar(255) NOT NULL,
+  `new_type` varchar(255) NOT NULL,
   `thumb` varchar(128) NOT NULL DEFAULT '0',
   `folder` varchar(255) NOT NULL,
   `descr` text NOT NULL,

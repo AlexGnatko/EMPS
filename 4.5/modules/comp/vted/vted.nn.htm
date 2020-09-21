@@ -33,7 +33,7 @@
     {{$str_clear_filter = "Очистить фильтр"}}
     {{$str_set_filter = "Установить фильтр"}}
 {{/if}}
-<vted inline-template>
+<vted filter-size="{{$filter_size}}" inline-template>
     <div>
         <div v-if="list_mode">
             {{if $has_tree}}
@@ -243,7 +243,7 @@
 
         </modal>
 
-        <modal id="vtedFilterModal">
+        <modal id="vtedFilterModal" :size="filterSize">
             <template slot="header">{{$str_filters}}</template>
 
             {{if $smarty.capture.vted_filter}}

@@ -28,6 +28,7 @@
     {{$str_export = "Export"}}
     {{$str_export_zip = "Download ZIP"}}
     {{$str_import_zip = "Import ZIP"}}
+    {{$str_edit_photo = "Edit Photo"}}
 {{else}}
     {{$str_select = "Выбрать файлы"}}
     {{$str_select_one = "Выбрать файл"}}
@@ -58,6 +59,7 @@
     {{$str_export = "Экспорт"}}
     {{$str_export_zip = "Скачать ZIP"}}
     {{$str_import_zip = "Загрузить ZIP"}}
+    {{$str_edit_photo = "Редактировать фотографию"}}
 {{/if}}
 <photo-uploader inline-template pad="{{$pad}}">
 
@@ -126,7 +128,9 @@
                                         class="button is-small is-primary is-outlined">
                                     <i class="fa fa-exchange"></i> &nbsp; {{$str_change_file}}
                                 </button>
-                                <button type="button" class="button is-small is-primary is-outlined">
+                                <button type="button"
+                                        @click="photo_editor(file)"
+                                        class="button is-small is-primary is-outlined">
                                     <i class="fa fa-ellipsis-h"></i> &nbsp; {{$str_extra}}
                                 </button>
                             </div>
@@ -311,6 +315,107 @@
             </template>
         </modal>
 
+        <modal id="editPhotoModal" size="lg">
+            <template slot="header">{{$str_edit_photo}} #{{ file.id }}</template>
+            <div class="columns">
+                <div class="column is-7">
+                    <div class="photo-editor-viewer">
+                        <img src="/i/b.gif" class="spacer" />
+                        <div class="photo-editor-cropper" v-if="edit_mode != 'q'">
+                            <img v-if="file !== undefined" :src="'/pic/' + file.md5 + '/pic.' + file.ext + '?dt=' + file.dt"/>
+                        </div>
+                        <div class="photo-editor-scroller" v-else>
+                            <img v-if="file !== undefined" :src="'/pic/' + file.md5 + '/pic.' + file.ext + '?dt=' + file.dt" style="width: auto; height: auto"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-5">
+
+                    <div class="tabs is-small">
+                        <ul>
+                            <li :class="{'is-active': edit_mode == 'q'}"><a href="javascript:;" @click="edit_mode = 'q'">Качество</a></li>
+                            <li :class="{'is-active': edit_mode == 'c'}"><a href="javascript:;" @click="edit_mode = 'c'">Кадр</a></li>
+                            <li :class="{'is-active': edit_mode == 'r'}"><a href="javascript:;" @click="edit_mode = 'r'">Поворот</a></li>
+                        </ul>
+                    </div>
+
+                    <div v-if="edit_mode == 'q'">
+                        <div class="field">
+                            <label class="label">Качество (%):</label>
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <div class="select is-fullwidth">
+                                        <select name="country" v-model="file.qual">
+                                            <option :value="100" :selected="file.qual == 100">100</option>
+                                            <option :value="95" :selected="file.qual == 95">95</option>
+                                            <option :value="90" :selected="file.qual == 90">90</option>
+                                            <option :value="85" :selected="file.qual == 85">85</option>
+                                            <option :value="80" :selected="file.qual == 80">80</option>
+                                            <option :value="75" :selected="file.qual == 75">75</option>
+                                            <option :value="50" :selected="file.qual == 50">50</option>
+                                            <option :value="25" :selected="file.qual == 25">25</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="control">
+                                    <button type="button"
+                                            @click="manipulate_pic(file.id, {set_quality: file.qual})"
+                                            class="button is-primary">Установить</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="file.new_type != 'image/webp'" class="buttons">
+                            <button type="button"
+                                    @click="manipulate_pic(file.id, {set_webp: true})"
+                                    class="button is-primary">
+                                Преобразовать в WebP
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="edit_mode == 'c'">
+
+                    </div>
+                    <div v-if="edit_mode == 'r'">
+
+                    </div>
+
+                    <hr size="1" />
+                    <div class="tags">
+                        <span class="tag is-info">
+                            {{ file.filename }}
+                        </span>
+                    </div>
+                    <div class="tags">
+                        <span class="tag is-medium">
+                            Тип: {{ file.new_type }}
+                        </span>
+                        <span class="tag is-medium">
+                            Тип оригинала: {{ file.type }}
+                        </span>
+                        <span class="tag is-medium">
+                            Качество: {{ file.qual }}%
+                        </span>
+                        <span class="tag is-medium">
+                            Размер: {{ file.size|size_format }}
+                        </span>
+                        <span class="tag is-medium" v-if="file.orig_size">
+                            Изменённый: {{ file.mod_size|size_format }}
+                        </span>
+                        <span class="tag is-medium" v-if="file.orig_size">
+                            Оригинал: {{ file.orig_size|size_format }}
+                        </span>
+                    </div>
+                    <div v-if="file.has_orig" class="buttons">
+                        <button type="button"
+                                @click="manipulate_pic(file.id, {set_webp: false})"
+                                class="button is-primary">
+                            Вернуть оригинал
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </modal>
     </div>
 
 

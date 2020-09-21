@@ -1,4 +1,10 @@
 (function() {
+    Vue.filter('size_format', function (value) {
+        var s = value / (1024 * 1024);
+        s = Math.round(s * 10);
+        s /= 10;
+        return s.toString() + " MB";
+    });
 
     Vue.component('photo-uploader', {
         props: ['pad'],
@@ -14,8 +20,10 @@
                 change_download_url: '',
                 queue: [],
                 files: [],
+                file: {},
                 loading: false,
                 uploading_zip: false,
+                edit_mode: 'q',
             };
         },
         methods: {
@@ -174,7 +182,7 @@
                     }
                 }
             },
-            load_files: function() {
+            load_files: function(after) {
                 if (!this.context) {
                     this.files = [];
                 }
@@ -187,6 +195,9 @@
                         var data = response.data;
                         if (data.code == 'OK') {
                             that.files = data.files;
+                            if (after !== undefined) {
+                                call(after);
+                            }
                         }else{
                             alert(data.message);
                         }
@@ -447,6 +458,35 @@
                         this.load_files();
                     }
                 }
+            },
+            photo_editor: function(file) {
+                this.file = Vue.util.extend({}, file);
+                this.open_modal("editPhotoModal");
+            },
+            manipulate_pic: function(file_id, payload) {
+                var that = this;
+                var row = {};
+                row.post_manipulate = 1;
+                row.photo_id = file_id;
+                row.payload = payload;
+                axios
+                    .post("./", row)
+                    .then(function(response){
+                        var data = response.data;
+                        if(data.code == 'OK')
+                        {
+                            that.files = data.files;
+
+                            var l = that.files.length;
+                            for (var i = 0; i < l; i++) {
+                                if (that.files[i].id == file_id) {
+                                    that.file = Vue.util.extend({}, that.files[i]);
+                                }
+                            }
+
+                            $("button").blur();
+                        }
+                    });
             }
         },
         computed: {

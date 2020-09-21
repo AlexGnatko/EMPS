@@ -37,3 +37,47 @@
 .panel-block input[type=checkbox].image-check {
     margin-right: 0;
 }
+
+.photo-editor-viewer {
+    background-color: #666666;
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.photo-editor-viewer .spacer {
+    display: block;
+    width: 100%;
+}
+
+.photo-editor-scroller {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+}
+
+.photo-editor-scroller img {
+    max-width: none;
+    display: block;
+}
+
+.photo-editor-cropper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.photo-editor-cropper img {
+    max-height: 100%;
+}
+
