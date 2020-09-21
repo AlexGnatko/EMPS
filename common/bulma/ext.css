@@ -205,6 +205,10 @@ table.is-table-collapsible .td-tag {
     background-color: rgba(220, 220, 220, 0.25);
 }
 
+.table tr.is-blue th, .table tr.is-blue td, .table td.is-blue, .table th.is-blue {
+    background-color: rgba(89, 102, 220, 0.25);
+}
+
 .table tr.is-green th, .table tr.is-green td, .table td.is-green, .table th.is-green {
     background-color: rgba(120, 220, 120, 0.25);
 }
