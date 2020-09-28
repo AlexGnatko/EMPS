@@ -853,6 +853,28 @@ class EMPS_Photos
         $this->delete_thumbs($ra['id']);
     }
 
+    public function save_modified_image($ra, $dst, $fname) {
+        global $emps;
+
+        $mode = "jpeg";
+        if (strstr($ra['type'], "webp")) {
+            $mode = "webp";
+        }
+
+        $qual = 100;
+
+        if ($mode == "jpeg") {
+            imagejpeg($dst, $fname, $qual);
+        }
+
+        if ($mode == "webp") {
+            imagewebp($dst, $fname, $qual);
+        }
+
+        $this->delete_thumbs($ra['id']);
+    }
+
+
     public function get_orig_name($ra) {
         $fname = $this->up->upload_filename($ra['id'], DT_IMAGE);
         $orig_name = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-orig.dat";
@@ -882,6 +904,7 @@ class EMPS_Photos
             $fname = $this->up->upload_filename($file_id, DT_IMAGE);
 
             $orig_name = $this->get_mod_name($ra);
+            $oorig_name = $this->get_orig_name($ra);
 
             $img = $this->image_from_orig($orig_name);
 
@@ -896,7 +919,8 @@ class EMPS_Photos
             } else {
                 $nr['new_type'] = $ra['type'];
                 $nr['qual'] = 100;
-                copy($orig_name, $fname);
+                copy($oorig_name, $fname);
+                copy($oorig_name, $orig_name);
                 $save = false;
             }
 
@@ -918,7 +942,7 @@ class EMPS_Photos
         }
     }
 
-    public function ensure_tilt($file_id, $angle)
+    public function ensure_tilt($file_id, $angle, $crop = true)
     {
         global $emps;
 
@@ -927,10 +951,8 @@ class EMPS_Photos
 
             $fname = $this->up->upload_filename($file_id, DT_IMAGE);
 
-            $orig_name = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-orig.dat";
-            if (!file_exists($orig_name)) {
-                copy($fname, $orig_name);
-            }
+            $orig_name = $this->get_orig_name($ra);
+            $mod_name = $this->get_mod_name($ra);
 
             $img = $this->image_from_orig($orig_name);
 
@@ -961,10 +983,13 @@ class EMPS_Photos
                 $rect['width'] = $dsx - $diffx * 2;
                 $rect['height'] = $dsy - $diffy * 2;
 
-                $dst2 = imagecrop($dst, $rect);
+                if ($crop) {
+                    $dst2 = imagecrop($dst, $rect);
+                } else {
+                    $dst2 = $dst;
+                }
 
-                $emps->db->query("update " . TP . "e_uploads set dt = " . time() . " where id = " . $ra['id']);
-
+                $this->save_modified_image($ra, $dst2, $mod_name);
                 $this->save_current_image($ra, $dst2, $fname);
 
                 if (is_resource($dst)) {
@@ -973,13 +998,13 @@ class EMPS_Photos
                 if (is_resource($dst2)) {
                     imagedestroy($dst2);
                 }
-
+            } else {
+                error_log("IMAGE ROTATE ERROR");
             }
             if (is_resource($img)) {
                 imagedestroy($img);
             }
 
-            $this->delete_thumbs($file_id);
         }
     }
 

@@ -71,7 +71,7 @@ class EMPS_VuePhotosUploader {
                             $file['name'] = $row['filename'];
                             $file['md5'] = $row['md5'];
                             $file['size'] = intval($row['size']);
-                            $file['url'] = "/pic/".$row['md5'].".".$row['ext']."&dt=".$row['dt'];
+                            $file['url'] = "/pic/".$row['md5'].".".$row['ext']."?dt=".$row['dt'];
                             $file['thumbnail'] = "/freepic/".$row['md5'].".jpg?size=".
                                 $this->thumb_size."&opts=inner&dt=".$row['dt'];
                             $file['dt'] = $row['dt'];
@@ -198,7 +198,7 @@ class EMPS_VuePhotosUploader {
             $emps->copy_values($file, $ra, "filename,descr,ord,md5,qual,id,dt,ext,has_orig,has_mod,type,new_type,size,orig_size,mod_size");
             $file['name'] = $ra['filename'];
             $file['size'] = intval($ra['size']);
-            $file['url'] = "/pic/{$ra['md5']}/{$ra['filename']}&dt={$ra['dt']}";
+            $file['url'] = "/pic/{$ra['md5']}/{$ra['filename']}?dt={$ra['dt']}";
             $file['thumbnail'] = "/freepic/{$ra['md5']}.jpg?size={$this->thumb_size}&opts=inner&dt={$ra['dt']}";
 
             $lst[] = $file;
@@ -350,6 +350,9 @@ class EMPS_VuePhotosUploader {
         }
         if (isset($command['set_quality'])) {
             $this->p->set_quality($file_id, $command['set_quality']);
+        }
+        if (isset($command['set_angle'])) {
+            $this->p->ensure_tilt($file_id, -1 * floatval($command['set_angle']), false);
         }
         $this->handle_list();
     }

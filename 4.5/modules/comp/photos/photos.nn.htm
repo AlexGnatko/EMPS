@@ -376,7 +376,19 @@
 
                     </div>
                     <div v-if="edit_mode == 'r'">
-
+                        <div class="field">
+                            <label class="label">Угол по часовой стрелке (&pm;):</label>
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <input type="text" v-model="file.angle" class="input" />
+                                </div>
+                                <div class="control">
+                                    <button type="button"
+                                            @click="manipulate_pic(file.id, {set_angle: file.angle})"
+                                            class="button is-primary">Установить</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <hr size="1" />
