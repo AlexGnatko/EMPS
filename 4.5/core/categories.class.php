@@ -239,12 +239,16 @@ class EMPS_Categories {
         if ($level > 10) {
             return false;
         }
+        if (isset($this->node_top_code_cache[$node_id])) {
+            return $this->node_top_code_cache[$node_id];
+        }
         $node_id = intval($node_id);
         if ($node_id) {
             $node = $emps->db->get_row($this->table_struct, "id = " . $node_id);
         }
         if ($node) {
             if (substr($node['code'], 0, 2) == '__') {
+                $this->node_top_code_cache[$node_id] = $node['code'];
                 return $node['code'];
             } else {
                 return $this->get_node_top_code_ex($node['parent'], $level + 1);
