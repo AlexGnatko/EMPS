@@ -45,12 +45,13 @@ if (!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/")
         $type->useFileCmd = false;
 
         $content_type = $type->autoDetect($fname);
-        if ($content_type == "application/javascript") {
-            $content_type .= "; charset=utf-8";
-        }
 
         if (PEAR::isError($content_type)) {
             $content_type = "application/x-octetstream";
+        }
+
+        if ($content_type == "application/javascript") {
+            $content_type = $content_type . "; charset=utf-8";
         }
 
         ob_end_clean();
