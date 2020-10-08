@@ -21,7 +21,7 @@ if ($ext == "css") {
 }
 
 if ($ext == "js") {
-    header("Content-Type: application/javascript");
+    header("Content-Type: application/javascript; charset=utf-8");
 }
 
 if ($ext == "php") {
