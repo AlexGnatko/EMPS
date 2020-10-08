@@ -47,11 +47,12 @@ if (!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/")
         $content_type = $type->autoDetect($fname);
 
         if (PEAR::isError($content_type)) {
-            $content_type = "application/x-octetstream";
+            $content_type = new MIME_Type("application/x-octetstream");
         }
 
-        if ($content_type == "application/javascript") {
-            $content_type = $content_type . "; charset=utf-8";
+        if ($content_type->get() == "application/javascript") {
+            //$content_type = $content_type . "; charset=utf-8";
+            $content_type->addParameter("charset", "utf-8");
         }
 
         ob_end_clean();
