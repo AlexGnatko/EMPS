@@ -106,7 +106,7 @@ class EMPS_TelegramBot {
         $this->post_mode = "application/json";
         $url = $this->get_api_url($resource);
         $headers = $this->default_http_headers();
-        $data_json = $this->json_encode($data);
+        $data_json = json_encode($data);
 
         $ch = curl_init($url);
         $this->curl_opts($ch);
