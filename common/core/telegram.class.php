@@ -77,7 +77,7 @@ class EMPS_TelegramBot {
         return $response;
     }
 
-    protected function post($resource, $data)
+    function post($resource, $data)
     {
         $this->post_mode = "application/x-www-form-urlencoded";
         $url = $this->get_api_url($resource);
@@ -101,7 +101,7 @@ class EMPS_TelegramBot {
         return $response;
     }
 
-    protected function post_json($resource, $data)
+    function post_json($resource, $data)
     {
         $this->post_mode = "application/json";
         $url = $this->get_api_url($resource);
