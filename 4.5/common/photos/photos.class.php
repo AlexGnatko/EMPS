@@ -723,6 +723,7 @@ class EMPS_Photos
         $SET['descr'] = $this->descr;
         $emps->db->sql_insert("e_uploads");
         $file_id = $emps->db->last_insert();
+        $this->last_downloaded_id = $file_id;
 
         $oname = $this->up->upload_filename($file_id, DT_IMAGE);
         file_put_contents($oname, $data);
