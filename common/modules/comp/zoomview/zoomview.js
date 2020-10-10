@@ -27,7 +27,9 @@
                         that.tapped = false;
                     }, 300);
                 } else {
-                    this.zoomed = !this.zoomed
+                    this.zoomed = !this.zoomed;
+                    event.preventDefault();
+                    event.stopPropagation();
                 }
             },
             touchmove: function(event) {
