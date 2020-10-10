@@ -212,7 +212,7 @@ var EMPS = {
         var value = this.scroll_data[key];
         if (value !== undefined) {
             $(window).scrollTop(value.pos);
-//            console.log("Scroll restored: " + value + " / " + key);
+            console.log("Scroll restored: " + value + " / " + key);
         } else {
             this.into_view(selector);
         }

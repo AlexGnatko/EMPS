@@ -5,7 +5,8 @@
         props: ['spacer', 'normal', 'zoom', 'scale', 'divClass', 'aClass', 'spacerClass'],
         data: function(){
             return {
-                zoomed: false
+                zoomed: false,
+                tapped: false,
             };
         },
         methods: {
@@ -19,7 +20,15 @@
                 }
             },
             touchzoom: function(event) {
-                this.zoomed = !this.zoomed
+                if (!this.tapped) {
+                    this.tapped = true;
+                    var that = this;
+                    setTimeout(function() {
+                        that.tapped = false;
+                    }, 300);
+                } else {
+                    this.zoomed = !this.zoomed
+                }
             },
             touchmove: function(event) {
                 if (!this.zoomed) {
