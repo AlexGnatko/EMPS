@@ -29,12 +29,17 @@ if ($ra) {
 
         $size = filesize($fname);
 
+        $type = $ra['type'];
+        if ($ra['new_type']) {
+            $type = $ra['new_type'];
+        }
+
         $content_type = "image/jpeg";
         if (strstr($ra['type'], "jpeg")) {
         } elseif (strstr($ra['type'], "png")) {
         } elseif (strstr($ra['type'], "gif")) {
         } else {
-            $content_type = $ra['type'];
+            $content_type = $type;
         }
 
         if (class_exists('http\Env\Response')) {
