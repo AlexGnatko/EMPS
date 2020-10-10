@@ -29,6 +29,7 @@ class EMPS_DB
         $this->db = mysqli_connect($emps_db_config['host'], $emps_db_config['user'], $emps_db_config['password'], $emps_db_config['database']);
 
         if (!$this->db) {
+            error_log("mysqli error: " . mysqli_connect_error());
             return;
         }
 
