@@ -36,6 +36,9 @@ if ($ra) {
 
         $content_type = "image/jpeg";
         if (strstr($ra['type'], "jpeg")) {
+            if ($type == "image/webp") {
+                $content_type = $type;
+            }
         } elseif (strstr($ra['type'], "png")) {
         } elseif (strstr($ra['type'], "gif")) {
         } else {
