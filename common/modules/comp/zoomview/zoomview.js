@@ -32,7 +32,7 @@
             },
             touchmove: function(event) {
                 if (!this.zoomed) {
-                    this.zoomed = true;
+                    return;
                 }
                 var touch = event.targetTouches.item(0);
                 if (touch !== undefined) {
