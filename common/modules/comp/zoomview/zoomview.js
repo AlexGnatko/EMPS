@@ -38,6 +38,9 @@
                 if (touch !== undefined) {
                     this.move(touch);
                 }
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
             },
             dozoom: function() {
                 this.zoomed = true;
