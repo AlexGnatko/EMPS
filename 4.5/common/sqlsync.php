@@ -81,6 +81,9 @@ function get_not_null($column)
 
 function get_default($sc, $di) {
     if ($sc['Default'] != $di['Default']) {
+        if (!$sc['Default'] && !$di['Default']) {
+            return "";
+        }
         return "default " . $sc['Default'];
     }
     return "";
