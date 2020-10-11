@@ -80,6 +80,8 @@ function get_not_null($column)
 }
 
 function get_default($sc, $di) {
+    global $emps;
+
     if ($sc['Default'] != $di['Default']) {
         if (!$sc['Default'] && !$di['Default']) {
             return "";
@@ -87,7 +89,12 @@ function get_default($sc, $di) {
         if ($sc['Default'] == NULL && $di['Default'] == "0") {
             return "";
         }
-        return "default " . $sc['Default'];
+        if ((intval($sc['Default']) == $sc['Default']) && (intval($sc['Default']) != 0)) {
+            return "default " . $sc['Default'];
+        } else {
+            return "default '" . $emps->db->sql_escape($sc['Default']) . "'";
+        }
+
     }
     return "";
 }
