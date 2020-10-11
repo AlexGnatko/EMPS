@@ -117,9 +117,11 @@ function sync_structure($dest_table, $src_table, $dest, $src)
                     if (($di['Extra'] != $sc['Extra']) && ($sc['Extra'] != "NULL")) {
                         echo $field . ": extra change: " . $di['Extra'] . " => " . $sc['Extra'] . "\r\n";
                         $auto = get_auto($sc);
-                        $query = "alter table `$dest_table` modify `$field` " . $sc['Type'] . " " . $auto;
-                        $emps->db->query($query);
-                        echo $query("\r\n");
+                        if ($auto) {
+                            $query = "alter table `$dest_table` modify `$field` " . $sc['Type'] . " " . $auto;
+                            $emps->db->query($query);
+                            echo $query("\r\n");
+                        }
                     }
                 }
             }
