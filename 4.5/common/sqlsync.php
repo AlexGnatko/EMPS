@@ -84,6 +84,9 @@ function get_default($sc, $di) {
         if (!$sc['Default'] && !$di['Default']) {
             return "";
         }
+        if ($sc['Default'] == NULL && $di['Default'] == "0") {
+            return "";
+        }
         return "default " . $sc['Default'];
     }
     return "";
@@ -142,7 +145,7 @@ function sync_structure($dest_table, $src_table, $dest, $src)
                 }
             }
 
-            if ($di['Default'] != $sc['Default']) {
+            if ($di['Default'] != $sc['Default'] && !($sc['Default'] == NULL && $di['Default'] == "0")) {
                 echo $field . ": default change: '" . $di['Default'] . "' => '" . $sc['Default'] . "'\r\n";
                 if ($sc['Default'] == 'NULL') {
                     $query = "alter table `$dest_table` alter column `$field` drop default ";
