@@ -103,12 +103,12 @@ function sync_structure($dest_table, $src_table, $dest, $src)
 
             $di = $dest[$field];
 
-            echo "DI:\r\n";
+/*            echo "DI:\r\n";
             var_dump($di);
             echo "SC:\r\n";
             var_dump($sc);
 
-            echo "\r\n";
+            echo "\r\n";*/
 
             if ($di['Type'] != $sc['Type']) {
 
