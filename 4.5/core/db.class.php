@@ -36,6 +36,7 @@ class EMPS_DB
         $this->operational = true;
 
         $this->query('set names "' . $emps_db_config['charset'] . '"');
+        $this->query('set autocommit = 1');
 
         unset($emps_db_config);
     }
