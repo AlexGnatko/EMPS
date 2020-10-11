@@ -76,7 +76,14 @@ function get_not_null($column)
     if ($column['Null'] == 'YES') {
         return "null";
     }
-    return "not null default 0";
+    return "not null";
+}
+
+function get_default($sc, $di) {
+    if ($sc['Default'] != $di['Default']) {
+        return "default " . $sc['Default'];
+    }
+    return "";
 }
 
 function sync_structure($dest_table, $src_table, $dest, $src)
@@ -102,25 +109,31 @@ function sync_structure($dest_table, $src_table, $dest, $src)
                 echo $field . ": type change: " . $di['Type'] . " => " . $sc['Type'] . "\r\n";
                 $null = get_not_null($sc);
                 $auto = get_auto($sc);
-                $query = "alter table `$dest_table` modify `$field` " . $sc['Type'] . " " . $null . " " . $auto;
+                $default = get_default($sc, $di);
+                $query = "alter table `$dest_table` modify `$field` " . $sc['Type'] . " " . $null . " " .$default . " ". $auto;
                 $emps->db->query($query);
                 echo $query."\r\n";
+                $di['Default'] = $sc['Default'];
             } else {
                 if ($di['Null'] != $sc['Null']) {
                     echo $field . ": null change: " . $di['Null'] . " => " . $sc['Null'] . "\r\n";
                     $null = get_not_null($sc);
                     $auto = get_auto($sc);
-                    $query = "alter table `$dest_table` modify `$field` " . $sc['Type'] . " " . $null . " " . $auto;
+                    $default = get_default($sc, $di);
+                    $query = "alter table `$dest_table` modify `$field` " . $sc['Type'] . " " . $null . " " .$default ." " . $auto;
                     $emps->db->query($query);
                     echo $query."\r\n";
+                    $di['Default'] = $sc['Default'];
                 } else {
                     if (($di['Extra'] != $sc['Extra']) && ($sc['Extra'] != "NULL")) {
                         echo $field . ": extra change: " . $di['Extra'] . " => " . $sc['Extra'] . "\r\n";
                         $auto = get_auto($sc);
+                        $default = get_default($sc, $di);
                         if ($auto) {
-                            $query = "alter table `$dest_table` modify `$field` " . $sc['Type'] . " " . $auto;
+                            $query = "alter table `$dest_table` modify `$field` " . $sc['Type'] . " " . $default . " " . $auto;
                             $emps->db->query($query);
                             echo $query."\r\n";
+                            $di['Default'] = $sc['Default'];
                         }
                     }
                 }
@@ -141,7 +154,8 @@ function sync_structure($dest_table, $src_table, $dest, $src)
             echo $field . ": add field\r\n";
             $null = get_not_null($sc);
             $auto = get_auto($sc);
-            $query = "alter table `$dest_table` add column `$field` " . $sc['Type'] . " " . $null . " " . $auto;
+            $default = get_default($sc, []);
+            $query = "alter table `$dest_table` add column `$field` " . $sc['Type'] . " " . $null . " " . $default . " " . $auto;
             $emps->db->query($query);
             echo $query."\r\n";
         }
