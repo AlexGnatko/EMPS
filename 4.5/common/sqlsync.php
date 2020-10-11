@@ -76,7 +76,7 @@ function get_not_null($column)
     if ($column['Null'] == 'YES') {
         return "null";
     }
-    return "not null";
+    return "not null default 0";
 }
 
 function sync_structure($dest_table, $src_table, $dest, $src)
