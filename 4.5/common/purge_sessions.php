@@ -31,6 +31,6 @@ if ($last_purge < (time() - 15 * 60)) {
 
     $emps->service_blacklist();
 
-//    file_get_contents(EMPS_SCRIPT_WEB . "/sqlsync/");
+    file_get_contents(EMPS_SCRIPT_WEB . "/sqlsync/");
 }
 
