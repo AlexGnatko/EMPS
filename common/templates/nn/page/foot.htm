@@ -18,9 +18,10 @@
 {{$smarty.capture.bottomPage}}
 </div>
 {{emps method="display_log"}}
+{{if $page.css_fw != "bulma" && $page.css_fw != "bootstrap4"}}
 <div id='ajax-wait' style='display:none;'></div>
-
 <iframe name="emps_sink" id="emps_sink" frameborder="0"></iframe>
+{{/if}}
 
 <script type="text/javascript" src="/js/emps_scripts.js" defer></script>
 
