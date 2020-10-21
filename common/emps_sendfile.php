@@ -64,7 +64,7 @@ if (!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/")
                     $body = new http\Message\Body($fh);
                     $resp = new http\Env\Response;
 
-                    $resp->setContentType($content_type);
+                    $resp->setContentType("" . $content_type);
                     $resp->setHeader("Content-Length", $size);
                     $resp->setHeader("Last-Modified", date("r", filemtime($fname)));
                     $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * 7));
