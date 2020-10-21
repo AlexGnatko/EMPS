@@ -45,8 +45,15 @@ if(!$file_name){
     exit;
 }
 
-$fh = fopen($file_name, "rb");
-if($fh){
-    fpassthru($fh);
-    fclose($fh);
+if ($ext == "vue") {
+    $emps->pre_display();
+    $page = "_{$part},!{$file}";
+    $smarty->display("db:{$page}");
+} else {
+    $fh = fopen($file_name, "rb");
+    if($fh){
+        fpassthru($fh);
+        fclose($fh);
+    }
 }
+
