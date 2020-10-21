@@ -24,6 +24,10 @@ if ($ext == "js") {
     header("Content-Type: application/javascript; charset=utf-8");
 }
 
+if ($ext == "vue") {
+    header("Content-Type: text/html; charset=utf-8");
+}
+
 if ($ext == "php") {
     $emps->not_found();
     exit;
