@@ -264,5 +264,17 @@ var EMPS = {
         var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
 
         return is_ie;
+    },
+    vue_component: function(name, url, obj) {
+        Vue.component(name, function(resolve) {
+            obj.template = '#' + name + "-component-template";
+            axios
+                .get(url)
+                .then(function(response){
+                    var data = response.data;
+                    $(obj.template).html(data);
+                    resolve(obj);
+                });
+        });
     }
 }
