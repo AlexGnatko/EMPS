@@ -269,7 +269,7 @@ var EMPS = {
         Vue.component(name, function(resolve) {
             obj.template = '#' + name + "-component-template";
             axios
-                .get(url)
+                .get(url + css_reset)
                 .then(function(response){
                     var data = response.data;
                     $(obj.template).html(data);
