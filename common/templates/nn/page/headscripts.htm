@@ -201,10 +201,10 @@
     </script>
 {{/if}}
 
-<script src="/js/emps.js" defer></script>
+<script src="/js/emps.js{{$page.css_reset}}" defer></script>
 {{if $page.vuejs}}
-    <script src="/js/i18n.js" {{$add_defer}}></script>
-    <script src="/js/vuetools.js" {{$add_defer}}></script>
+    <script src="/js/i18n.js{{$page.css_reset}}" {{$add_defer}}></script>
+    <script src="/js/vuetools.js{{$page.css_reset}}" {{$add_defer}}></script>
     {{if $page.vue_debug}}
         <script src="/bower_components/vue/dist/vue.js" {{$add_defer}}></script>
         <script src="/bower_components/vuex/dist/vuex.js" {{$add_defer}}></script>
