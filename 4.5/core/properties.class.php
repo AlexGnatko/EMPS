@@ -637,32 +637,38 @@ class EMPS_Properties
 
     public function save_cache($context_id, $code, $data)
     {
-        global $emps, $SET;
+        global $emps;
 
-        $SET = array();
+        $SET = [];
         $SET['data'] = serialize($data);
         $SET['dt'] = time();
-        $ex = $emps->db->get_row("e_cache", "context_id = $context_id and code = '$code'");
+        $ex = $emps->db->get_row("e_cache", "context_id = {$context_id} and code = '{$code}'");
         if ($ex) {
-            $emps->db->sql_update("e_cache", "id = " . $ex['id']);
+            $emps->db->sql_update_row("e_cache", ['SET' => $SET], "id = " . $ex['id']);
         } else {
             $SET['code'] = $code;
             $SET['context_id'] = $context_id;
-            $emps->db->sql_insert("e_cache");
+            $emps->db->sql_insert_row("e_cache", ['SET' => $SET]);
         }
     }
 
     public function read_cache($context_id, $code)
     {
+        return $this->read_recent_cache($context_id, $code, 0);
+    }
+
+    public function read_recent_cache($context_id, $code, $dt)
+    {
         global $emps;
 
-        $ex = $emps->db->get_row("e_cache", "context_id = $context_id and code = '$code'");
+        $ex = $emps->db->get_row("e_cache", "context_id = {$context_id} and code = '{$code}' and dt > {$dt}");
         if ($ex) {
             $ex['data'] = unserialize($ex['data']);
             return $ex;
         }
         return false;
     }
+
 
 }
 
