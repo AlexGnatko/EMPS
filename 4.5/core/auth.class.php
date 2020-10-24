@@ -199,20 +199,58 @@ class EMPS_Auth
     {
         global $emps;
 
-        if (!$user_id) return false;
-        if (!$lst) return false;
+        $context_id = intval($context_id);
+
+        if (!$user_id) {
+            return false;
+        }
+        if (!$lst) {
+            return false;
+        }
         $user_id += 0;
         $p = explode(",", $lst);
         if ($lst == "users") {
             $user = $emps->db->get_row_cache("e_users", "id=$user_id");
-            if ($user['status'] == 1) return true;
+            if ($user['status'] == 1) {
+                return true;
+            }
         }
 
+        $positive = -1;
+        $negative = -1;
         foreach ($p as $v) {
             $v = trim($v);
-            $context_id += 0;
-            $ug = $emps->db->get_row("e_users_groups", "user_id=$user_id and group_id='$v' and context_id=$context_id");
-            if ($ug) return true;
+            if (mb_substr($v, 0, 1) == "!") {
+                $v = mb_substr($v, 1);
+                $ug = $emps->db->get_row("e_users_groups", "user_id = {$user_id} and group_id = '{$v}' 
+                    and context_id = {$context_id}");
+                if ($ug) {
+                    $negative = 1;
+                } else {
+                    if ($negative == -1) {
+                        $negative = 0;
+                    }
+                }
+
+            } else {
+                $ug = $emps->db->get_row("e_users_groups", "user_id = {$user_id} and group_id = '{$v}' 
+                    and context_id = {$context_id}");
+                if ($ug) {
+                    $positive = 1;
+                } else {
+                    if ($positive == -1) {
+                        $positive = 0;
+                    }
+                }
+            }
+        }
+        if ($negative == 0 && $positive == -1) {
+            // Not in the forbidden groups, no info about allowed groups
+            return true;
+        }
+        if ($positive == 1 && $negative <= 0) {
+            // Is in allowed groups, no info about forbidden groups or not in the forbidden groups
+            return true;
         }
         return false;
     }
