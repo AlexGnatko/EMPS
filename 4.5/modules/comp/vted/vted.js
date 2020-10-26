@@ -25,6 +25,7 @@
                 tree_url_prefix: './',
                 lookup_id: undefined,
                 no_scroll: false,
+                scroll_anyway: false,
                 parents: [],
                 tree: [],
                 loading_list: false,
@@ -257,7 +258,7 @@
                 $('a, button').blur();
                 EMPS.soft_navi(vted_title, url);
                 this.parse_path();
-                if (!this.no_scroll) {
+                if (!this.no_scroll || this.scroll_anyway) {
                     window.scrollTo(0, 0);
                 }
                 this.no_scroll = false;
