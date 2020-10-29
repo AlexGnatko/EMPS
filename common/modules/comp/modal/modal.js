@@ -10,6 +10,7 @@
         },
         methods: {
             close_modal: function(e){
+                console.log("Invoked close_modal");
                 $("#" + this.id).removeClass("is-active");
             },
             on_open: function(data){
