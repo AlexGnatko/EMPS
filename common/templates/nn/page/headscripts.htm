@@ -11,8 +11,8 @@
 </script>
 
 {{if $page.css_fw == "bulma"}}
-    <link href="/bulma/css/bulma.min.css" rel="stylesheet" {{$add_media}}/>
-    <link href="/bulma/ext.css" rel="stylesheet" {{$add_media}}/>
+    <link href="/bulma/css/bulma.min.css{{$page.css_reset}}" rel="stylesheet" {{$add_media}}/>
+    <link href="/bulma/ext.css{{$page.css_reset}}" rel="stylesheet" {{$add_media}}/>
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" {{$add_media}}/>
 
 {{elseif $page.css_fw == "bootstrap4"}}
