@@ -66,7 +66,7 @@ if (!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/")
 
                     $resp->setContentType("" . $content_type);
                     $resp->setHeader("Content-Length", $size);
-                    $resp->setHeader("Access-Control-Allow-Origin:", "*");
+                    $resp->setHeader("Access-Control-Allow-Origin", "*");
                     $resp->setHeader("Last-Modified", date("r", filemtime($fname)));
                     $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * 7));
                     $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
