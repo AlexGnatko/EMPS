@@ -234,6 +234,9 @@ class EMPS_DB
                     } elseif (isset($v['$like'])) {
                         $value = $v['$like'];
                         $part .= " like ('$value') ";
+                    } elseif (isset($v['$not'])) {
+                        $value = $v['$not'];
+                        $part .= " <> $value ";
                     } else {
                         $a = [];
                         foreach ($v as $item) {
