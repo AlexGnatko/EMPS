@@ -6,7 +6,7 @@ var emps_tinymce_settings = {
     language_url : '/bower_components/tinymce/langs/ru.js',
 {{else}}
 	language_url : '/js/tinymce/langs/ru.js',
-{{/if}}}
+{{/if}}
     language: 'ru_RU',
 {{/if}}
 
