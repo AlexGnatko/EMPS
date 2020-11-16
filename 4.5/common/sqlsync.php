@@ -103,6 +103,7 @@ function sync_structure($dest_table, $src_table, $dest, $src)
 {
     global $emps;
 
+    $need_conversion = false;
     foreach ($src as $sc) {
         $field = $sc['Field'];
         if ($dest[$field]) {
@@ -155,9 +156,8 @@ function sync_structure($dest_table, $src_table, $dest, $src)
                             $x = explode("_", $collation, 2);
                             $charset = $x[0];
 
-                            $query = "alter table `$dest_table` convert to character set {$charset} collate {$collation}";
-                            $emps->db->query($query);
-                            echo $query."\r\n";
+                            $need_conversion = true;
+                            $conversion_query = "alter table `$dest_table` convert to character set {$charset} collate {$collation}";
                             $di['Collation'] = $sc['Collation'];
 
                         }
@@ -186,6 +186,12 @@ function sync_structure($dest_table, $src_table, $dest, $src)
             echo $query."\r\n";
         }
     }
+
+    if ($need_conversion) {
+        $emps->db->query($conversion_query);
+        echo $conversion_query."\r\n";
+    }
+
 }
 
 if ($emps->auth->credentials("admin") || $emps->is_empty_database() || true) {
