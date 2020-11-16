@@ -3,6 +3,7 @@ var emps_tinymce_settings = {
 {{if $lang == "en"}}
 {{else}}
 	language_url : '/js/tinymce/langs/ru.js',
+    language: 'ru_RU',
 {{/if}}
 
 	style_formats_merge: true,
