@@ -2,7 +2,11 @@ var emps_tinymce_settings = {
 	content_css: "/editor.css",
 {{if $lang == "en"}}
 {{else}}
+{{if $page.use_bower}}
+    language_url : '/bower_components/tinymce/langs/ru.js',
+{{else}}
 	language_url : '/js/tinymce/langs/ru.js',
+{{/if}}}
     language: 'ru_RU',
 {{/if}}
 
