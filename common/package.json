@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "EMPS Framework for PHP",
   "dependencies": {
+    "tinymce": "latest",
     "@tinymce/tinymce-vue": "latest",
     "bulma-extensions": "latest",
     "flatpickr": "^4.6.3",

@@ -90,6 +90,7 @@ class EMPS_Categories {
         $lst = [];
 
         while($ra = $emps->db->fetch_named($r)){
+            $ra = $emps->db->row_types($this->table_struct, $ra);
             $ra['level'] = (strlen($ra['full_id']) / 4) - 1;
             if($this->explain_list_nodes){
                 $ra = $this->explain_structure_node($ra);
