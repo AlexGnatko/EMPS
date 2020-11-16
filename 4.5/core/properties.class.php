@@ -51,6 +51,13 @@ class EMPS_Properties
             default:
                 $field = "v_text";
         }
+        switch ($datatype) {
+            case "c":
+            case "d":
+            case "t":
+                $value = $emps->db->sql_escape($value);
+                break;
+        }
         $SET[$field] = $value;
         $SET['dt'] = time();
         $SET['status'] = 0;
