@@ -148,6 +148,19 @@ function sync_structure($dest_table, $src_table, $dest, $src)
                             echo $query."\r\n";
                             $di['Default'] = $sc['Default'];
                         }
+                    } else {
+                        if (($di['Collation'] != $sc['Collation']) && isset($sc['Collation'])) {
+                            echo $field . ": charset and collation: " . $di['Collation'] . " => " . $sc['Collation'] . "\r\n";
+                            $collation = $sc['Collation'];
+                            $x = explode("_", $collation, 2);
+                            $charset = $x[0];
+
+                            $query = "alter table `$dest_table` convert to character set {$charset} collate {$collation}";
+                            $emps->db->query($query);
+                            echo $query."\r\n";
+                            $di['Collation'] = $sc['Collation'];
+
+                        }
                     }
                 }
             }
@@ -212,11 +225,11 @@ if ($emps->auth->credentials("admin") || $emps->is_empty_database() || true) {
             $emps->db->query($code);
             echo $emps->db->sql_error();
 
-            $query = "show columns from `$table_name`";
+            $query = "show full columns from `$table_name`";
             $r = $emps->db->query($query);
             $lst_t = collect_columns($r);
 
-            $query = "show columns from `$rt_name`";
+            $query = "show full columns from `$rt_name`";
             $r = $emps->db->query($query);
             $lst_r = collect_columns($r);
 

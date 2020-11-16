@@ -29,7 +29,7 @@ CREATE TEMPORARY TABLE `temp_e_actkeys` (
   KEY `pin` (`pin`),
   KEY `uid` (`user_id`),
   KEY `dt` (`dt`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_content` (
@@ -47,7 +47,7 @@ CREATE TEMPORARY TABLE `temp_e_content` (
   KEY `type` (`type`),
   KEY `cdt` (`cdt`),
   KEY `dt` (`dt`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_contexts` (
@@ -59,7 +59,7 @@ CREATE TEMPORARY TABLE `temp_e_contexts` (
   KEY `ref_type` (`ref_type`),
   KEY `ref_sub` (`ref_sub`),
   KEY `ref_id` (`ref_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_ctx_links` (
@@ -69,7 +69,7 @@ CREATE TEMPORARY TABLE `temp_e_ctx_links` (
   KEY `ctx_1_id` (`ctx_1_id`),
   KEY `ctx_2_id` (`ctx_2_id`),
   KEY `status` (`status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_files` (
@@ -96,7 +96,7 @@ CREATE TEMPORARY TABLE `temp_e_files` (
   KEY `signature` (`user_id`),
   KEY `offloaded` (`offloaded`),
   KEY `ord` (`ord`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_aws_offloading` (
@@ -113,7 +113,7 @@ CREATE TEMPORARY TABLE `temp_e_aws_offloading` (
   KEY `size` (`size`),
   KEY `dt` (`dt`),
   KEY `direct_url` (`direct_url`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_menu` (
@@ -133,7 +133,7 @@ CREATE TEMPORARY TABLE `temp_e_menu` (
   KEY `ord` (`ord`),
   KEY `enabled` (`enabled`),
   KEY `context_id` (`context_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_messages` (
@@ -148,7 +148,7 @@ CREATE TEMPORARY TABLE `temp_e_messages` (
   PRIMARY KEY (`id`),
   KEY `dt` (`dt`),
   KEY `context_id` (`context_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_msgcache` (
@@ -165,7 +165,7 @@ CREATE TEMPORARY TABLE `temp_e_msgcache` (
   KEY `status` (`status`),
   KEY `dt` (`dt`),
   KEY `sdt` (`sdt`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_bin;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_smscache` (
@@ -180,7 +180,7 @@ CREATE TEMPORARY TABLE `temp_e_smscache` (
   KEY `status` (`status`),
   KEY `dt` (`dt`),
   KEY `sdt` (`sdt`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_bin;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_pincode` (
@@ -190,7 +190,7 @@ CREATE TEMPORARY TABLE `temp_e_pincode` (
   KEY `pincode` (`pincode`),
   KEY `dt` (`dt`),
   KEY `access` (`access`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_posts_topics` (
@@ -206,7 +206,7 @@ CREATE TEMPORARY TABLE `temp_e_posts_topics` (
   KEY `dt` (`dt`),
   KEY `ord` (`ord`),
   KEY `context_id` (`context_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_properties` (
@@ -233,7 +233,7 @@ CREATE TEMPORARY TABLE `temp_e_properties` (
   KEY `v_char` (`v_char`),
   KEY `v_float` (`v_float`),
   FULLTEXT KEY `v_search` (`v_char`,`v_text`,`v_data`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_property_references` (
@@ -245,7 +245,7 @@ CREATE TEMPORARY TABLE `temp_e_property_references` (
   KEY `context_id` (`context_id`),
   KEY `property_id` (`property_id`),
   KEY `dt` (`dt`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_redirect` (
@@ -255,7 +255,7 @@ CREATE TEMPORARY TABLE `temp_e_redirect` (
   `dt` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `olduri` (`olduri`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_browsers` (
@@ -264,7 +264,7 @@ CREATE TEMPORARY TABLE `temp_e_browsers` (
   `cdt` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_blacklist` (
@@ -280,7 +280,7 @@ CREATE TEMPORARY TABLE `temp_e_blacklist` (
   KEY `cdt` (`cdt`),
   KEY `dt` (`dt`),
   KEY `ip` (`ip`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_watchlist` (
@@ -294,7 +294,7 @@ CREATE TEMPORARY TABLE `temp_e_watchlist` (
   KEY `cdt` (`cdt`),
   KEY `dt` (`dt`),
   KEY `ip` (`ip`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_sessions` (
@@ -308,7 +308,7 @@ CREATE TEMPORARY TABLE `temp_e_sessions` (
   KEY `cdt` (`cdt`),
   KEY `dt` (`dt`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_php_sessions` (
@@ -323,7 +323,7 @@ CREATE TEMPORARY TABLE `temp_e_php_sessions` (
   KEY `cdt` (`cdt`),
   KEY `dt` (`dt`),
   KEY `sess_id` (`sess_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_shadows` (
@@ -339,7 +339,7 @@ CREATE TEMPORARY TABLE `temp_e_shadows` (
   KEY `dt` (`dt`),
   KEY `website_ctx` (`website_ctx`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_thumbs` (
@@ -351,7 +351,7 @@ CREATE TEMPORARY TABLE `temp_e_thumbs` (
   KEY `upload_id` (`upload_id`),
   KEY `dt` (`dt`),
   KEY `size` (`size`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_topics` (
@@ -362,7 +362,7 @@ CREATE TEMPORARY TABLE `temp_e_topics` (
   PRIMARY KEY (`id`),
   KEY `dt` (`dt`),
   FULLTEXT KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_uploads` (
@@ -389,7 +389,7 @@ CREATE TEMPORARY TABLE `temp_e_uploads` (
   KEY `context_id` (`context_id`),
   KEY `ord` (`ord`),
   KEY `dt` (`dt`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_userlog` (
@@ -401,7 +401,7 @@ CREATE TEMPORARY TABLE `temp_e_userlog` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `dt` (`dt`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_users` (
@@ -423,7 +423,7 @@ CREATE TEMPORARY TABLE `temp_e_users` (
   KEY `type` (`type`),
   KEY `site` (`site`),
   KEY `context_id` (`context_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_users_groups` (
@@ -432,21 +432,21 @@ CREATE TEMPORARY TABLE `temp_e_users_groups` (
   `context_id` bigint NOT NULL,
   KEY `user_id` (`user_id`,`group_id`),
   KEY `context_id` (`context_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_videos` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `description` text CHARACTER SET utf8 NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `context_id` bigint NOT NULL,
   `cdt` int(10) unsigned NOT NULL,
   `rating` int(11) NOT NULL,
   `votes` int(10) unsigned NOT NULL,
   `views` int(10) unsigned NOT NULL,
-  `rutube_id` char(64) COLLATE utf8_bin DEFAULT NULL,
-  `youtube_id` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `vimeo_id` varchar(64) COLLATE utf8_bin DEFAULT NULL,  
+  `rutube_id` char(64) DEFAULT NULL,
+  `youtube_id` varchar(64) DEFAULT NULL,
+  `vimeo_id` varchar(64) DEFAULT NULL,
   `screencast_url` text DEFAULT NULL,  
   `duration` int(10) unsigned NOT NULL,
   `size` int(10) unsigned NOT NULL,
@@ -461,7 +461,7 @@ CREATE TEMPORARY TABLE `temp_e_videos` (
   KEY `youtube_id` (`youtube_id`),
   KEY `ord` (`ord`),
   FULLTEXT KEY `name` (`name`,`description`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_bin;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_websites` (
@@ -487,7 +487,7 @@ CREATE TEMPORARY TABLE `temp_e_websites` (
   KEY `parent` (`parent`),
   KEY `pub` (`pub`),
   KEY `lang` (`lang`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_sources` (
@@ -499,7 +499,7 @@ CREATE TEMPORARY TABLE `temp_e_sources` (
   KEY `name` (`name`),
   KEY `url` (`url`),
   KEY `cdt` (`cdt`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_identities` (
@@ -519,7 +519,7 @@ CREATE TEMPORARY TABLE `temp_e_identities` (
   KEY `provider` (`provider`),
   KEY `identity` (`identity`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_cache` (
@@ -532,7 +532,7 @@ CREATE TEMPORARY TABLE `temp_e_cache` (
   KEY `context_id` (`context_id`),
   KEY `code` (`code`),
   KEY `dt` (`dt`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci ;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_counter` (
@@ -548,7 +548,7 @@ CREATE TEMPORARY TABLE `temp_e_counter` (
   KEY `vle` (`vle`),
   KEY `dt` (`dt`),
   KEY `context_id` (`context_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_unique_texts` (
@@ -569,7 +569,7 @@ CREATE TEMPORARY TABLE `temp_e_unique_texts` (
   KEY `cdt` (`cdt`),
   KEY `dt` (`dt`),
   KEY `context_id` (`context_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_track_events` (
@@ -591,4 +591,4 @@ CREATE TEMPORARY TABLE `temp_e_track_events` (
   KEY `dt` (`dt`),
   KEY `ip` (`ip`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
