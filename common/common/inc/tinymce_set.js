@@ -7,7 +7,7 @@ var emps_tinymce_settings = {
 {{else}}
 	language_url : '/js/tinymce/langs/ru.js',
 {{/if}}
-    language: 'ru_RU',
+    language: 'ru',
 {{/if}}
 
 	style_formats_merge: true,
