@@ -13,7 +13,6 @@
 	"jquery-ui": "latest",
 	"clipboard": "latest",
 	"flag-icon-css": "latest",
-	"angular-ui-tinymce": "latest",
 	"select2": "~4.0",
     "angular-ui-tree": "latest",
     "angular-ui-sortable": "latest",
@@ -27,6 +26,7 @@
     "toastr": "latest"
   },
   "resolutions": {
-    "jquery": "~2"
+    "jquery": "~2",
+    "tinymce": "~5.5"
   }
 }

@@ -4,6 +4,7 @@
   "description": "EMPS Framework for PHP",
   "dependencies": {
     "@tinymce/tinymce-vue": "~3",
+    "bower": "^1.8.8",
     "bulma-extensions": "latest",
     "flatpickr": "^4.6.3",
     "simplebar": "^4.2.3",

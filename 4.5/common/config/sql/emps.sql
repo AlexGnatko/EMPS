@@ -29,7 +29,7 @@ CREATE TEMPORARY TABLE `temp_e_actkeys` (
   KEY `pin` (`pin`),
   KEY `uid` (`user_id`),
   KEY `dt` (`dt`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table
 CREATE TEMPORARY TABLE `temp_e_content` (

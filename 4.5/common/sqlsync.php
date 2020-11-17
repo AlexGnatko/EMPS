@@ -208,6 +208,20 @@ if ($emps->auth->credentials("admin") || $emps->is_empty_database() || true) {
             if ($fn) {
                 $sql .= file_get_contents($fn);
             }
+            $fn = $emps->common_module('config/sqlsync.txt');
+            if ($fn) {
+                $list = file_get_contents($fn);
+                $x = explode(",", $list);
+                foreach ($x as $v) {
+                    $v = trim($v);
+                    $name = "_" . $v . "/sql,module.sql";
+                    $file_name = $emps->page_file_name($name, 'inc');
+                    if (file_exists($file_name)) {
+                        $sub_sql = file_get_contents($file_name);
+                        $sql .= $sub_sql;
+                    }
+                }
+            }
         }
     }
 

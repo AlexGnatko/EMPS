@@ -28,6 +28,7 @@ var emps_tinymce_settings = {
 {title: "Website - inline", items: [
     {title: 'Small font', inline: 'small', classes: ""},
     {title: 'Big font', inline: 'span', classes: "bigger"},
+    {title: 'Code', inline: 'code', classes: ""},
 ]}
 
 {{else}}
@@ -51,6 +52,7 @@ var emps_tinymce_settings = {
 {title: "Сайт - строчные", items: [
     {title: 'Малый шрифт (small)', inline: 'small', classes: ""},
     {title: 'Крупный шрифт (class bigger)', inline: 'span', classes: "bigger"},
+    {title: 'Код', inline: 'code', classes: ""},
 ]}
 {{/if}}
 
