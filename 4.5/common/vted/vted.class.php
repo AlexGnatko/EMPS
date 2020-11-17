@@ -630,12 +630,8 @@ class EMPS_VueTableEditor
                     $emps->p->save_properties($nr, $context_id, $this->tree->track_props);
                 }
 
-                $ord = $emps->db->query("select max(ord) from ".TP.$this->tree->table_name.
-                    " where parent = {$parent_id}");
-                $ord += 100;
                 $nr = [];
                 $nr['name'] = "Подраздел №" . $id;
-                $nr['ord'] = $ord;
                 $emps->db->sql_update_row($this->tree->table_name, ['SET' => $nr], "id = {$id}");
                 $nr = [];
                 $nr['full_id'] = $emps->get_full_id($id, $this->tree->table_name,'parent','ord');
