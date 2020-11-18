@@ -159,7 +159,7 @@ class EMPS_Sitemap
         $smarty->assign("BaseURL", EMPS_SCRIPT_WEB);
 
         $emps->no_smarty = true;
-        header("Content-Type: application/xml; charset=utf-8");
+        header("Content-Type: text/xml; charset=utf-8");
         //header("Content-Type: text/plain; charset=utf-8");
 
         if($key == "index.xml"){
