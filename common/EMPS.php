@@ -671,6 +671,19 @@ class EMPS_Common
         $smarty->assign("current_host", $_SERVER['HTTP_HOST']);
         $smarty->assign("current_uri", $_SERVER['REQUEST_URI']);
 
+/*        $clst = get_defined_constants(true);
+        foreach ($clst['user'] as $n => $v) {
+            if (mb_substr($n, 0, 3) == 'DT_') {
+                foreach ($clst['user'] as $m => $w) {
+                    if (mb_substr($m, 0, 3) == 'DT_') {
+                        if ($m != $n && $v == $w) {
+                            echo "ERROR! DUPLICATE DATA TYPE {$n} / {$m} = {$v} / {$w}\r\n";
+                        }
+                    }
+                }
+            }
+        }*/
+
     }
 
     /**
@@ -2591,5 +2604,75 @@ class EMPS_Common
             }
         }
         return bin2hex($rv);
+    }
+
+    public function join_text($glue, $list) {
+        $pts = [];
+        foreach ($list as $item) {
+            if (!$item) {
+                continue;
+            }
+            $pts[] = $item;
+        }
+        return implode($glue, $pts);
+    }
+
+    public function first_match($list) {
+        foreach ($list as $item) {
+            if (!$item) {
+                continue;
+            }
+            return $item;
+        }
+        return "";
+    }
+
+    function remove_emoji($text) {
+        return preg_replace('/([0-9|#][\x{20E3}])|[\x{00ae}|\x{00a9}|\x{203C}|\x{2047}|\x{2048}|\x{2049}|'.
+                '\x{3030}|\x{303D}|\x{2139}|\x{2122}|\x{3297}|\x{3299}][\x{FE00}-\x{FEFF}]?|'.
+                '[\x{2190}-\x{21FF}][\x{FE00}-\x{FEFF}]?|[\x{2300}-\x{23FF}][\x{FE00}-\x{FEFF}]?|'.
+                '[\x{2460}-\x{24FF}][\x{FE00}-\x{FEFF}]?|[\x{25A0}-\x{25FF}][\x{FE00}-\x{FEFF}]?|'.
+                '[\x{2600}-\x{27BF}][\x{FE00}-\x{FEFF}]?|[\x{2600}-\x{27BF}][\x{1F000}-\x{1FEFF}]?|'.
+                '[\x{2900}-\x{297F}][\x{FE00}-\x{FEFF}]?|[\x{2B00}-\x{2BF0}][\x{FE00}-\x{FEFF}]?|'.
+                '[\x{1F000}-\x{1F9FF}][\x{FE00}-\x{FEFF}]?|'.
+                '[\x{1F000}-\x{1F9FF}][\x{1F000}-\x{1FEFF}]?/u', '', $text);
+    }
+
+    public function make_keywords($list) {
+        $words = [];
+        foreach ($list as $item) {
+            $item = trim(strip_tags($item));
+            $item = $this->remove_emoji($item);
+            $item = preg_replace("#[[:punct:]]#", "", $item);
+            $item = preg_replace("#[[:space:]]#", " ", $item);
+            $x = explode(" ", $item);
+            foreach ($x as $v) {
+                $v = trim($v);
+                if (!$v) {
+                    continue;
+                }
+                if (mb_strlen($v) < 3) {
+                    continue;
+                }
+                $v = mb_strtolower($v);
+                if (!isset($words[$v])) {
+                    $words[$v] = 1;
+                } else {
+                    $words[$v]++;
+                }
+            }
+        }
+
+        arsort($words);
+        $i = 0;
+        $pts = [];
+        foreach ($words as $k => $v) {
+            $pts[] = $k;
+            $i++;
+            if ($i > 10) {
+                break;
+            }
+        }
+        return implode(", ", $pts);
     }
 }
