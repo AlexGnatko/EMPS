@@ -2753,6 +2753,9 @@ class EMPS_Common
 нём
 нужно
 начать
+каждое
+каждый
+каждая
 ";
             $x = explode("\n", $hf_words);
             $hf = [];
