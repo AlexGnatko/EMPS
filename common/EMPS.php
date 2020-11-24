@@ -2784,10 +2784,11 @@ class EMPS_Common
                 if ($this->hf_words[$v]) {
                     continue;
                 }
-                if (!isset($words[$v])) {
+                $key = $this->has_similar_index($words, $v, 60);
+                if (!$key) {
                     $words[$v] = 1;
                 } else {
-                    $words[$v]++;
+                    $words[$key]++;
                 }
             }
         }
@@ -2803,5 +2804,16 @@ class EMPS_Common
             }
         }
         return implode(", ", $pts);
+    }
+
+    public function has_similar_text($words, $word, $target_percent) {
+        foreach ($words as $key => $value) {
+            $percent = 0;
+            similar_text($key,$word,$percent);
+            if ($percent >= $target_percent) {
+                return $key;
+            }
+        }
+        return false;
     }
 }
