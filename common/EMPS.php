@@ -2769,7 +2769,7 @@ class EMPS_Common
         foreach ($list as $item) {
             $item = trim(strip_tags($item));
             $item = $this->remove_emoji($item);
-            $item = preg_replace("#[[:punct:]]#(?<!-)", "", $item);
+            $item = preg_replace("#[[:punct:]](?<!-)#", "", $item);
             $item = preg_replace("#[[:space:]]#", " ", $item);
             $x = explode(" ", $item);
             foreach ($x as $v) {
