@@ -2742,6 +2742,9 @@ class EMPS_Common
 иной
 лучший
 вполне
+иметь
+имеет
+имеют
 ";
             $x = explode("\n", $hf_words);
             $hf = [];
