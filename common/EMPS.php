@@ -2767,7 +2767,13 @@ class EMPS_Common
         }
         $words = [];
         foreach ($list as $item) {
+            if (!$item) {
+                continue;
+            }
             $item = trim(strip_tags($item));
+            if (!$item) {
+                continue;
+            }
             $item = $this->remove_emoji($item);
             $item = preg_replace("#[[:punct:]](?<!-)#", "", $item);
             $item = preg_replace("#[[:space:]]#", " ", $item);
