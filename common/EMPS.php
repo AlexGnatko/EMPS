@@ -2797,7 +2797,7 @@ class EMPS_Common
         $i = 0;
         $pts = [];
         foreach ($words as $k => $v) {
-            $pts[] = $k . " ({$v})";
+            $pts[] = $k;
             $i++;
             if ($i > 10) {
                 break;
