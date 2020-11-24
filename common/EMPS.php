@@ -2781,7 +2781,7 @@ class EMPS_Common
                     continue;
                 }
                 $v = mb_strtolower($v);
-                if ($this->hf_words[$v]) {
+                if ($this->has_similar_index($this->hf_words, $v, 80)) {
                     continue;
                 }
                 $key = $this->has_similar_index($words, $v, 60);
@@ -2806,7 +2806,7 @@ class EMPS_Common
         return implode(", ", $pts);
     }
 
-    public function has_similar_text($words, $word, $target_percent) {
+    public function has_similar_index($words, $word, $target_percent) {
         foreach ($words as $key => $value) {
             $percent = 0;
             similar_text($key,$word,$percent);
