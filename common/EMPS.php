@@ -2809,6 +2809,7 @@ class EMPS_Common
                 break;
             }
         }
+        $this->last_keywords = $words;
         return implode(", ", $pts);
     }
 
