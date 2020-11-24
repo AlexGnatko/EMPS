@@ -2745,6 +2745,8 @@ class EMPS_Common
 иметь
 имеет
 имеют
+нужно
+начать
 ";
             $x = explode("\n", $hf_words);
             $hf = [];
