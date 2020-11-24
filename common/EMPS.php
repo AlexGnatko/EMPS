@@ -2790,7 +2790,7 @@ class EMPS_Common
                 if ($this->has_similar_index($this->hf_words, $v, 80)) {
                     continue;
                 }
-                $key = $this->has_similar_index($words, $v, 60);
+                $key = $this->has_similar_index($words, $v, 80);
                 if (!$key) {
                     $words[$v] = 1;
                 } else {
