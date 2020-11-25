@@ -36,6 +36,10 @@ emps_scripts.push(function() {
             fullLink: {
                 type: Boolean,
                 default: false,
+            },
+            readOnly: {
+                type: Boolean,
+                default: false,
             }
         },
         data: function(){

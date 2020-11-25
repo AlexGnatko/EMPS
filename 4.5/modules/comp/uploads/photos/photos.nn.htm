@@ -22,6 +22,7 @@
 
                     <template v-if="!single">
                         <button type="button"
+                                v-if="!readOnly"
                                 @click="delete_queue(index)"
                                 class="button is-outlined is-danger is-small">
                             <i class="fa fa-trash"></i>
@@ -39,6 +40,7 @@
                     </div>
                     <template v-if="!single">
                         <button type="button"
+                                v-if="!readOnly"
                                 @click="delete_file(file)"
                                 class="button is-outlined is-danger is-small">
                             <i class="fa fa-trash"></i>
@@ -57,6 +59,7 @@
             <div class="column" v-if="single">
                 <div class="field"  v-for="(file, index) in files">
                     <button type="button"
+                            v-if="!readOnly"
                             @click="delete_file(file)"
                             class="button is-outlined is-danger is-small">
                         <i class="fa fa-trash"></i>
@@ -66,7 +69,9 @@
 
                 <div :class="{'columns is-variable is-2': true, 'is-multiline': cols == 1}">
                     <div :class="{'column is-narrow buttons': cols != 1, 'column is-full': cols == 1}">
-                        <button type="button" @click="add_files()" class="button is-primary is-outlined is-fullwidth">
+                        <button
+                                v-if="!readOnly"
+                                type="button" @click="add_files()" class="button is-primary is-outlined is-fullwidth">
                             <i class="fa fa-hand-pointer-o"></i> &nbsp;
                             <template v-if="label !== null">{{"label"|js}}</template>
                             <template v-else>{{$str_select1}}</template>
@@ -85,9 +90,10 @@
             </div>
         </div>
 
-        <div class="columns is-variable is-2" v-if="!single">
+        <div class="columns is-variable is-2" v-if="!single && !readOnly"">
             <div class="column is-narrow buttons">
-                <button type="button" @click="add_files()" class="button is-primary is-outlined">
+                <button
+                        type="button" @click="add_files()" class="button is-primary is-outlined">
                     <i class="fa fa-hand-pointer-o"></i> &nbsp;
                     <template v-if="label !== null">{{"label"|js}}</template>
                     <template v-else>{{$str_select}}</template>
