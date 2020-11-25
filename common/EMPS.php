@@ -2639,11 +2639,146 @@ class EMPS_Common
     }
 
     public function make_keywords($list) {
+        if (!isset($this->hf_words)) {
+            $hf_words = "что
+тот
+быть
+весь
+это
+как
+она
+они
+так
+сказать
+этот
+который
+один
+еще
+такой
+только
+себя
+свое
+какой
+когда
+уже
+для
+вот
+кто
+год
+мой
+или
+если
+нет
+даже
+другой
+наш
+свой
+под
+где
+есть
+сам
+раз
+чтобы
+два
+там
+чем
+ничто
+потом
+очень
+при
+мог
+могли
+могут
+может
+надо
+без
+теперь
+тоже
+сейчас
+можно
+после
+место
+что
+над
+три
+ваш
+несколько
+пока
+хорошо
+более
+хотя
+всегда
+куда
+сразу
+совсем
+об
+почти
+много
+между
+про
+лишь
+однако
+чуть
+зачем
+любой
+назад
+оно
+поэтому
+совершенно
+точно
+среди
+иногда
+ко
+затем
+четыре
+также
+откуда
+чтоб
+мало
+немного
+впрочем
+разве
+против
+иной
+лучший
+вполне
+иметь
+имеет
+имеют
+нужно
+начать
+включает
+понятие
+нем
+нём
+нужно
+начать
+каждое
+каждый
+каждая
+";
+            $x = explode("\n", $hf_words);
+            $hf = [];
+            foreach ($x as $v) {
+                $v = trim($v);
+                if (!$v) {
+                    continue;
+                }
+                $hf[$v] = true;
+            }
+            $this->hf_words = $hf;
+        }
         $words = [];
         foreach ($list as $item) {
+            if (!$item) {
+                continue;
+            }
             $item = trim(strip_tags($item));
+            if (!$item) {
+                continue;
+            }
             $item = $this->remove_emoji($item);
-            $item = preg_replace("#[[:punct:]]#", "", $item);
+            $item = preg_replace("#[[:punct:]](?<!-)#", "", $item);
             $item = preg_replace("#[[:space:]]#", " ", $item);
             $x = explode(" ", $item);
             foreach ($x as $v) {
@@ -2655,10 +2790,14 @@ class EMPS_Common
                     continue;
                 }
                 $v = mb_strtolower($v);
-                if (!isset($words[$v])) {
+                if ($this->has_similar_index($this->hf_words, $v, 80)) {
+                    continue;
+                }
+                $key = $this->has_similar_index($words, $v, 80);
+                if (!$key) {
                     $words[$v] = 1;
                 } else {
-                    $words[$v]++;
+                    $words[$key]++;
                 }
             }
         }
@@ -2673,6 +2812,18 @@ class EMPS_Common
                 break;
             }
         }
+        $this->last_keywords = $words;
         return implode(", ", $pts);
+    }
+
+    public function has_similar_index($words, $word, $target_percent) {
+        foreach ($words as $key => $value) {
+            $percent = 0;
+            similar_text($key,$word,$percent);
+            if ($percent >= $target_percent) {
+                return $key;
+            }
+        }
+        return false;
     }
 }
