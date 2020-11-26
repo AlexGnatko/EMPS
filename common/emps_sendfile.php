@@ -39,16 +39,7 @@ if (!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/")
     }
 
     if ($go) {
-        $type = new MIME_Type();
-        $type->useFinfo = false;
-        $type->useMimeContentType = false;
-        $type->useFileCmd = false;
-
-        $content_type = $type->autoDetect($fname);
-
-        if (PEAR::isError($content_type)) {
-            $content_type = new MIME_Type("application/x-octetstream");
-        }
+        $content_type = \MimeType\MimeType::getType($fname);
 
         ob_end_clean();
 

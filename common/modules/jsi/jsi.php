@@ -20,19 +20,7 @@ $fname = stream_resolve_include_path($uri);
 
 if (file_exists($fname)) {
 
-    // no need with Composer
-    // require_once 'MIME/Type.php';
-
-    $type = new MIME_Type();
-    $type->useFinfo = false;
-    $type->useMimeContentType = false;
-    $type->useFileCmd = false;
-
-    $content_type = $type->autoDetect($fname);
-
-    if (PEAR::isError($content_type)) {
-        $content_type = "application/x-octetstream";
-    }
+    $content_type = \MimeType\MimeType::getType($fname);
 
     $go = false;
     if (stristr($content_type, "javascript")) {
