@@ -22,7 +22,7 @@ if ($key) {
                 $body = new http\Message\Body($fh);
                 $resp = new http\Env\Response;
                 $resp->setContentType("application/octet-stream");
-//                $resp->setHeader("Content-Length", $size);
+                $emps->conditional_content_length($resp, $size);
                 $resp->setHeader("Last-Modified", date("r", $file['dt']));
                 $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * 7));
                 $resp->setContentDisposition(["attachment" => ["filename" => $file['file_name']]]);

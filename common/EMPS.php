@@ -2826,4 +2826,16 @@ class EMPS_Common
         }
         return false;
     }
+
+    public function conditional_content_length($resp, $size) {
+        $range = $_SERVER['HTTP_RANGE'];
+        $x = explode("=", $range);
+        if ($x[0] == "bytes") {
+            $xx = explode("-", $x[1]);
+            $start = intval($xx[0]);
+            if ($start == 0) {
+                $resp->setHeader("Content-Length", $size);
+            }
+        }
+    }
 }
