@@ -3,8 +3,8 @@
 <head>
 <title>{{if $page.title}}{{$page.title|escape:html}}{{else}}{{include file="db:page/mainhead"}}{{/if}}{{include file="db:page/everytitle"}}</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta name="keywords" content="{{eval var=$page.keywords}}" />
-<meta name="description" content="{{eval var=$page.descr}}" />
+<meta name="keywords" content="{{eval var=$page.keywords|escape:html}}" />
+<meta name="description" content="{{eval var=$page.descr|escape:html}}" />
 <meta name="rating" content="general" />
 <meta name="distribution" content="global" />
 <meta name="objecttype" content="document" />
@@ -55,7 +55,7 @@
     <meta name="twitter:title" content="{{$page.title|escape:html}}">
     {{/if}}
     {{if $page.descr}}
-    <meta name="twitter:description" content="{{eval var=$page.descr}}">
+    <meta name="twitter:description" content="{{eval var=$page.descr|escape:html}}">
     {{/if}}
     <meta name="twitter:creator" content="@">
     {{if $page.image_src}}
