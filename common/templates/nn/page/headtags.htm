@@ -41,7 +41,7 @@
 {{/if}}
 
 {{if $page.descr}}
-<meta property="og:description" content="{{eval var=$page.descr}}" />
+<meta property="og:description" content="{{eval var=$page.descr|escape:html}}" />
 {{/if}}
 
 {{if "twitter_metatags"|emps:get_setting}}
