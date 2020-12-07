@@ -706,5 +706,65 @@ class EMPS extends EMPS_Common
         }
         return $rv;
     }
+
+    public function ensure_data_type($dt_name, $code) {
+        if ($code == 0) {
+            $dt_name_e = $this->db->sql_escape($dt_name);
+            $r = $this->db->query("select max(value) from ".TP."e_data_types where name = '{$dt_name_e}'");
+            $ra = $this->db->fetch_row($r);
+            if (!$ra[0]) {
+                $code = 100010;
+            } else {
+                $code = $ra[0] + 10;
+            }
+        }
+        $code = intval($code);
+        while (true) {
+            $row = $this->db->get_row("e_data_types", "value = {$code}");
+            if ($row) {
+                $code += 10000;
+            } else {
+                break;
+            }
+        }
+
+        $nr = [];
+        $nr['name'] = $dt_name;
+        $nr['value'] = $code;
+        $this->db->sql_ensure_row("e_data_types", $nr);
+
+        $this->load_dt_table();
+    }
+
+    public function load_dt_table() {
+        $r = $this->db->query("select * from ".TP."e_data_types order by value asc");
+        if (!$r) {
+            $this->dt_table = -1;
+            return;
+        }
+        $this->dt_table = [];
+        while ($ra = $this->db->fetch_named($r)) {
+            $this->dt_table[$ra['name']] = $ra['value'];
+        }
+    }
+
+    public function dt($dt_name, $code = 0) {
+        if (!isset($this->dt_table)) {
+            $this->load_dt_table();
+        }
+        if ($this->dt_table == -1) {
+            define($dt_name, $code);
+            return $code;
+        }
+        if (!isset($this->dt_table[$dt_name])) {
+
+            $acode = $this->ensure_data_type($dt_name, $code);
+            define($dt_name, $acode);
+            return $acode;
+        }
+        $acode = $this->dt_table[$dt_name];
+        define($dt_name, $acode);
+        return $acode;
+    }
 }
 

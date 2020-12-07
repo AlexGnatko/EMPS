@@ -592,3 +592,17 @@ CREATE TEMPORARY TABLE `temp_e_track_events` (
   KEY `ip` (`ip`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- table
+CREATE TEMPORARY TABLE `temp_e_data_types` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `value` int(11) NOT NULL,
+  `cdt` int(11) NOT NULL,
+  `dt` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `name` (`name`),
+  KEY `value` (`value`),
+  KEY `cdt` (`cdt`),
+  KEY `dt` (`dt`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
