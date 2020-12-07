@@ -2838,4 +2838,10 @@ class EMPS_Common
             }
         }
     }
+
+    public function cached_response($seconds) {
+        header("Last-Modified: ", time());
+        header("Expires: ", date("r", time() + $seconds));
+        header("Cache-Control: max-age=" . $seconds);
+    }
 }
