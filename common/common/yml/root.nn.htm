@@ -38,7 +38,7 @@
                 <group_id>{{$item.group_id}}</group_id>
 {{/if}}
 {{foreach from=$item.yml_params item=$param}}
-                <param name="{{$param.name}}">{{$param.value}}</param>
+                {{$param}}
 {{/foreach}}
                 <delivery>true</delivery>
                 <pickup>true</pickup>
