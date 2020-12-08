@@ -16,7 +16,7 @@
         <offers>
 {{foreach from=$items item="item"}}
 {{if $item.pic && ($item.html|trim|strlen > 0)}}
-            <offer id="{{$item.id}}">
+            <offer id="{{if $item.offer_id}}{{$item.offer_id}}{{else}}{{$item.id}}{{/if}}">
                 <name>{{$item.name|escape:html}}</name>
                 <url>{{$BaseURL}}{{$item.link}}</url>
                 <price>{{$item.price}}</price>
@@ -34,6 +34,12 @@
                     ]]>
                 </description>
 {{/if}}
+{{if $item.group_id}}
+                <group_id>{{$item.group_id}}</group_id>
+{{/if}}
+{{foreach from=$item.yml_params item=$param}}
+                <param name="{{$param.name}}">{{$param.value}}</param>
+{{/foreach}}
                 <delivery>true</delivery>
                 <pickup>true</pickup>
             </offer>
