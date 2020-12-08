@@ -351,12 +351,15 @@ class EMPS_DB
         return $r;
     }
 
-    public function sql_ensure_row($table, $row){
+    public function sql_ensure_row($table, $row, $single = false){
 
         $where = $this->where_clause($row);
         //error_log($table." > ".$where);
         $existing_row = $this->get_row($table, $where);
         if($existing_row){
+            if ($single) {
+                $this->query("delete from ".TP.$table." where " . $where . " and id <> {$existing_row['id']}");
+            }
             return $existing_row;
         }
         $update = ['SET' => $row];
