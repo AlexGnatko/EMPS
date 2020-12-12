@@ -46,25 +46,31 @@
 {{if !$page.noscripts}}
     {{if $page.use_bower}}
         {{if "jquery_debug"|emps:get_setting == 1}}
+            {{if !("no_jquery"|emps:get_setting)}}
             <script type="text/javascript" src="/bower_components/jquery/dist/jquery.js" {{$add_defer}}></script>
             {{if !("no_jquery_ui"|emps:get_setting)}}
             <script src="/bower_components/jquery-ui/jquery-ui.js" {{$add_defer}}></script>
             <link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css"
                   rel="stylesheet" {{$add_media}}>
             {{/if}}
+            {{/if}}
         {{else}}
+            {{if !("no_jquery"|emps:get_setting)}}
             <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js" {{$add_defer}}></script>
             {{if !("no_jquery_ui"|emps:get_setting)}}
             <script src="/bower_components/jquery-ui/jquery-ui.min.js" {{$add_defer}}></script>
             <link href="/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css"
                   rel="stylesheet" {{$add_media}}>
             {{/if}}
+            {{/if}}
         {{/if}}
     {{else}}
+        {{if !("no_jquery"|emps:get_setting)}}
         <script type="text/javascript" src="/js/jquery.js" {{$add_defer}}></script>
         {{if !("no_jquery_ui"|emps:get_setting)}}
         <script src="/js/jquery.ui.js" {{$add_defer}}></script>
         <link href="/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" {{$add_media}}>
+        {{/if}}
         {{/if}}
     {{/if}}
 {{/if}}
