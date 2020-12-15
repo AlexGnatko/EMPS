@@ -10,10 +10,12 @@
         },
         methods: {
             close_modal: function(e){
-                $("#" + this.id).removeClass("is-active");
+                var element = document.getElementById(this.id);
+                element.classList.remove("is-active");
             },
             on_open: function(data){
-                $("#" + this.id).addClass("is-active");
+                var element = document.getElementById(this.id);
+                element.classList.add("is-active");
             },
             submit_form: function(){
                 if(this.submit !== undefined){

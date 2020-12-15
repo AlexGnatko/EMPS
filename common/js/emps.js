@@ -276,5 +276,32 @@ var EMPS = {
                     resolve(obj);
                 });
         });
-    }
+    },
+    after_all_templates: null,
+    after_template_loaded: function() {
+        var all_loaded = true;
+        $(".vue-template").each(function(){
+            if (!$(this).data('loaded')) {
+                all_loaded = false;
+            }
+        });
+        if (all_loaded) {
+            this.after_all_templates();
+        }
+    },
+    load_vue_templates: function(after) {
+        this.after_all_templates = after;
+        $(".vue-template").each(function(){
+            var element = $(this);
+            var url = element.data('src');
+            axios
+                .get(url + css_reset)
+                .then(function(response){
+                    var data = response.data;
+                    element.html(data);
+                    element.data('loaded', true);
+                    EMPS.after_template_loaded();
+                });
+        });
+    },
 }
