@@ -291,7 +291,7 @@ var EMPS = {
     },
     load_vue_templates: function(after) {
         this.after_all_templates = after;
-        if (!$(".vue-template")) {
+        if ($(".vue-template").size() == 0) {
             after();
             return;
         }
