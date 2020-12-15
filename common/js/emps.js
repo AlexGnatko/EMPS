@@ -291,6 +291,10 @@ var EMPS = {
     },
     load_vue_templates: function(after) {
         this.after_all_templates = after;
+        if (!$(".vue-template")) {
+            after();
+            return;
+        }
         $(".vue-template").each(function(){
             var element = $(this);
             var url = element.data('src');
