@@ -4,6 +4,7 @@
     {{$str_open_by_id = "Open by ID"}}
     {{$str_search = "Search"}}
     {{$str_filters = "Filter"}}
+    {{$str_sorting = "Sorting"}}
     {{$str_create_subsection = "Create Section"}}
     {{$str_all = "All"}}
     {{$str_select_all = "Select All"}}
@@ -16,6 +17,7 @@
     {{$str_open_by_id = "Открыть по номеру"}}
     {{$str_search = "Искать"}}
     {{$str_filters = "Фильтры"}}
+    {{$str_sorting = "Сортировка"}}
     {{$str_create_subsection = "Создать подраздел"}}
     {{$str_all = "Все"}}
     {{$str_select_all = "Выделить все"}}
@@ -103,8 +105,15 @@
         {{if $vted_filters}}
             &nbsp;
             <div class="field">
-                <button :class="{'button is-outlined': true, 'is-danger': has_filter(), 'is-info': !has_filter()}" @click="open_filter()">
+                <button :class="{'button is-outlined': true, 'is-danger': has_filter(), 'is-info': !has_filter()}" @click="open_filter">
                     <i class="fa fa-filter"></i> &nbsp; {{$str_filters}}</button>
+            </div>
+        {{/if}}
+        {{if $vted_sorting}}
+            &nbsp;
+            <div class="field">
+                <button :class="{'button is-outlined is-info': true}" @click="open_sorting">
+                    <i class="fa fa-sort"></i> &nbsp; {{$str_sorting}}</button>
             </div>
         {{/if}}
         {{if $smarty.capture.vted_after_filter}}

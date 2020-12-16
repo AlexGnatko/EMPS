@@ -41,6 +41,10 @@
                 required: false,
                 default: "",
             },
+            sortSize: {
+                required: false,
+                default: "",
+            },
         },
         components: {
             'editor': Editor // <- Important part
@@ -196,6 +200,11 @@
                                     that.filter = {};
                                 } else {
                                     that.filter = data.filter;
+                                }
+                                if (!data.sort) {
+                                    that.sort = {};
+                                } else {
+                                    that.sort = data.sort;
                                 }
                                 if (data.parents !== undefined) {
                                     that.parents = data.parents;
@@ -405,6 +414,26 @@
 
                 return false;
             },
+            post_set_sorting: function() {
+                var that = this;
+                var row = {};
+                row.post_sorting = 1;
+                row.payload = this.sort;
+                axios
+                    .post(this.url_prefix, row)
+                    .then(function(response){
+                        var data = response.data;
+
+                        if (data.code == 'OK') {
+                            that.load_list();
+                            that.close_modal("vtedSortModal");
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    });
+
+                return false;
+            },
             sorting: function(field) {
                 var new_sort = {};
                 if (this.sort[field] === undefined) {
@@ -507,6 +536,9 @@
             },
             open_filter: function() {
                 vuev.$emit("modal:open:vtedFilterModal");
+            },
+            open_sorting: function() {
+                vuev.$emit("modal:open:vtedSortModal");
             },
             find_active_item: function(tree) {
                 if (tree === undefined) {

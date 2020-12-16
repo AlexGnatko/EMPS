@@ -13,8 +13,10 @@
     {{$str_sorry = "Sorry"}}
     {{$str_cant_load = "Can't find an item with this id."}}
     {{$str_filters = "Filters"}}
+    {{$str_sorting = "Sorting"}}
     {{$str_clear_filter = "Clear Filter"}}
     {{$str_set_filter = "Set Filter"}}
+    {{$str_set_sorting = "Sort"}}
 {{else}}
     {{$str_sections = "Подразделы"}}
     {{$str_below = "Ниже"}}
@@ -30,8 +32,10 @@
     {{$str_sorry = "Извините"}}
     {{$str_cant_load = "Невозможно загрузить элемент с указанным идентификатором."}}
     {{$str_filters = "Фильтры"}}
+    {{$str_sorting = "Сортировка"}}
     {{$str_clear_filter = "Очистить фильтр"}}
     {{$str_set_filter = "Установить фильтр"}}
+    {{$str_set_sorting = "Сортировать"}}
 {{/if}}
 <vted filter-size="{{$filter_size}}" inline-template>
     <div>
@@ -251,8 +255,20 @@
             {{/if}}
 
             <template slot="actions">
-                <button type="button" class="button is-warning" @click="clear_filter()">{{$str_clear_filter}}</button>
-                <button type="button" class="button is-primary" @click="post_set_filter()">{{$str_set_filter}}</button>
+                <button type="button" class="button is-warning" @click="clear_filter">{{$str_clear_filter}}</button>
+                <button type="button" class="button is-primary" @click="post_set_filter">{{$str_set_filter}}</button>
+            </template>
+        </modal>
+
+        <modal id="vtedSortModal" :size="sortSize">
+            <template slot="header">{{$str_sorting}}</template>
+
+            {{if $smarty.capture.vted_sorting}}
+                {{$smarty.capture.vted_sorting}}
+            {{/if}}
+
+            <template slot="actions">
+                <button type="button" class="button is-primary" @click="post_set_sorting">{{$str_set_sorting}}</button>
             </template>
         </modal>
 
