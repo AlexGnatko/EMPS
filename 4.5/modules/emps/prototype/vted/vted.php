@@ -1,6 +1,8 @@
 <?php
 
 if ($emps->auth->credentials("admin")) {
+    $emps->page_property("adminpage", 1);
+    $emps->page_property("css_fw", "bulma");
     if ($_POST['post']) {
         $emps->no_smarty = true;
         header("Content-Type: text/plain; charset=utf-8");

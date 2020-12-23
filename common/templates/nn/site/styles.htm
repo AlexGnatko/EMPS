@@ -1,6 +1,8 @@
 <link href="/css/default.css" rel="stylesheet" type="text/css" {{$add_media}} />
 <link href="/css/engine.css" rel="stylesheet" type="text/css" {{$add_media}} />
 
-<link href="/css/site-default.css{{$page.css_reset}}" rel="stylesheet" type="text/css" {{$add_media}} />
-<link href="/css/design.css{{$page.css_reset}}" rel="stylesheet" type="text/css" {{$add_media}} />
-<link href="/css/media.css{{$page.css_reset}}" rel="stylesheet" type="text/css" {{$add_media}} />
+{{if !$page.no_design}}
+    <link href="/css/site-default.css{{$page.css_reset}}" rel="stylesheet" type="text/css" {{$add_media}} />
+    <link href="/css/design.css{{$page.css_reset}}" rel="stylesheet" type="text/css" {{$add_media}} />
+    <link href="/css/media.css{{$page.css_reset}}" rel="stylesheet" type="text/css" {{$add_media}} />
+{{/if}}
