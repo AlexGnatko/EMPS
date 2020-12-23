@@ -2441,7 +2441,6 @@ class EMPS_Common
         $str = number_format($number, 10, ",", "");
 
         $str = preg_replace('~\,0+$~','', $str);
-        $str = preg_replace('~0+$~','', $str);
 
         return $str;
     }
