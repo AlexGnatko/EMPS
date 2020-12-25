@@ -124,4 +124,8 @@ class EMPS_TelegramBot {
 
         return $response;
     }
+
+    public function error($message) {
+        error_log($message);
+    }
 }
