@@ -82,6 +82,12 @@ var EMPS = {
 
         target.appendChild(tag);
     },
+    load_all_post_scripts: function() {
+        $(".post-script").each(function(){
+            var src = $(this).data("src");
+            EMPS.load_js(src, document.body);
+        });
+    },
     format_size: function(bytes) {
         var units = [
             {size: 1000000000, suffix: ' GB'},
