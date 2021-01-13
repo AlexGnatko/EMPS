@@ -61,14 +61,15 @@ var emps_tinymce_settings = {
 	convert_urls: false,
 	relative_urls: false,
 	document_base_url: "",	
-	plugins : ["code image charmap paste anchor searchreplace visualblocks visualchars link lists","table emoticons textcolor"],
+	plugins : ["code image charmap paste anchor searchreplace visualblocks visualchars link lists",
+        "table emoticons textcolor nonbreaking"],
 	paste_auto_cleanup_on_paste : true,
 {{if $tinymce_short}}
 	toolbar1: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent "+
 	"| link image charmap emoticons | code ",
 {{else}}
 	toolbar1: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent "+
-	"| link image charmap emoticons | code ",
+	"| link image charmap nonbreaking emoticons | code ",
 	toolbar2: "forecolor backcolor | paste | table | blockquote",
 {{/if}}
 	image_advtab: true,
