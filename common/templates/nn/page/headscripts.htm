@@ -115,6 +115,7 @@
     {{if $page.use_bower}}
         {{if !$page.momentjs}}
             <script type="text/javascript" src="/bower_components/moment/min/moment.min.js" {{$add_defer}}></script>
+            <script type="text/javascript" src="/bower_components/moment-timezone/min/moment-timezone.min.js" {{$add_defer}}></script>
             {{if $lang != "en"}}
                 <script type="text/javascript" src="/bower_components/moment/locale/ru.js" {{$add_defer}}></script>
             {{/if}}

@@ -23,7 +23,9 @@
     "vue": "latest",
     "vuex": "latest",
     "axios": "latest",
-    "toastr": "latest"
+    "toastr": "latest",
+    "moment": "latest",
+    "moment-timezone": "latest"
   },
   "resolutions": {
     "jquery": "~2",
