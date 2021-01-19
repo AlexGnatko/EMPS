@@ -9,4 +9,6 @@
 
 .zoom-image.zoomed {
     display: block;
+    width: auto !important;
+    height: auto !important;
 }
