@@ -1,0 +1,16 @@
+{{if $page.image_src}}
+    <meta name="twitter:card" content="summary_large_image">
+{{else}}
+    <meta name="twitter:card" content="summary">
+{{/if}}
+<meta name="twitter:site" content="@">
+{{if $page.title}}
+    <meta name="twitter:title" content="{{$page.title|escape:html}}">
+{{/if}}
+{{if $page.descr}}
+    <meta name="twitter:description" content="{{eval var=$page.descr|escape:html}}">
+{{/if}}
+<meta name="twitter:creator" content="@">
+{{if $page.image_src}}
+    <meta name="twitter:image" content="{{$page.image_src}}">
+{{/if}}
