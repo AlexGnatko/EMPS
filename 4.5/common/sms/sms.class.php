@@ -22,6 +22,10 @@ class EMPS_SMS
         $this->password = SMSC_PASSWORD;
     }
 
+    public function set_mode($mode) {
+        $this->mode = $mode;
+    }
+
     public function enqueue_message($to, $msg)
     {
         global $emps, $SET;
