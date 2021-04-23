@@ -80,6 +80,10 @@ $emps_bots = array(
     'Googlebot',
 );
 
+if (!defined("EMPS_CACHE_AGE")) {
+    define('EMPS_CACHE_AGE', 180);
+}
+
 $emps->pre_init();
 
 $emps->initialize();    // initialization and automatic configuration

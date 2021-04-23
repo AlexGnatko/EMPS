@@ -24,9 +24,9 @@ if ($key) {
                 $resp->setContentType("application/octet-stream");
                 $emps->conditional_content_length($resp, $size);
                 $resp->setHeader("Last-Modified", date("r", $file['dt']));
-                $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * 7));
+                $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * EMPS_CACHE_AGE));
                 $resp->setContentDisposition(["attachment" => ["filename" => $file['file_name']]]);
-                $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+                $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * EMPS_CACHE_AGE));
                 $resp->setBody($body);
                 //			$resp->setThrottleRate(50000, 1);
                 $resp->send();
@@ -34,8 +34,8 @@ if ($key) {
                 header("Content-Type: application/octet-stream");
                 header("Content-Length: " . $size);
                 header("Last-Modified: ", date("r", $file['dt']));
-                header("Expires: ", date("r", time() + 60 * 60 * 24 * 7));
-                header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+                header("Expires: ", date("r", time() + 60 * 60 * 24 * EMPS_CACHE_AGE));
+                header("Cache-Control: max-age=" . (60 * 60 * 24 * EMPS_CACHE_AGE));
                 header("Content-Disposition: attachment; filename=\"" . $file['file_name'] . "\"");
 
                 fpassthru($fh);

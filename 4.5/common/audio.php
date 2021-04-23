@@ -25,9 +25,9 @@ if ($key) {
             $resp->setContentType("audio/mpeg");
             $resp->setHeader("Content-Length", $size);
             $resp->setHeader("Last-Modified", date("r", $ra['dt']));
-            $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * 7));
+            $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * EMPS_CACHE_AGE));
             $resp->setHeader("Pragma", "");
-            $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+            $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * EMPS_CACHE_AGE));
             //$resp->setThrottleRate(1024 * 512, 0);
 
             $resp->setBody($body);
@@ -36,8 +36,8 @@ if ($key) {
             header("Content-Type: audio/mpeg");
             header("Content-Length: " . $size);
             header("Last-Modified: ", date("r", $ra['dt']));
-            header("Expires: ", date("r", time() + 60 * 60 * 24 * 7));
-            header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+            header("Expires: ", date("r", time() + 60 * 60 * 24 * EMPS_CACHE_AGE));
+            header("Cache-Control: max-age=" . (60 * 60 * 24 * EMPS_CACHE_AGE));
 
             fpassthru($fh);
         }

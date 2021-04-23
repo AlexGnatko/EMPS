@@ -52,8 +52,8 @@ if ($ra) {
             $resp->setContentType($content_type);
             $resp->setHeader("Content-Length", $size);
             $resp->setHeader("Last-Modified", date("r", $ra['dt']));
-            $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * 7));
-            $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+            $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * EMPS_CACHE_AGE));
+            $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * EMPS_CACHE_AGE));
             $resp->setHeader("Pragma", "");
 
             $resp->setBody($body);
@@ -63,8 +63,8 @@ if ($ra) {
             header("Content-Type: ".$content_type);
             header("Content-Length: " . $size);
             header("Last-Modified: " . date("r", $ra['dt']));
-            header("Expires: " . date("r", time() + 60 * 60 * 24 * 7));
-            header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+            header("Expires: " . date("r", time() + 60 * 60 * 24 * EMPS_CACHE_AGE));
+            header("Cache-Control: max-age=" . (60 * 60 * 24 * EMPS_CACHE_AGE));
             header("Pragma: ");
 
             fpassthru($fh);

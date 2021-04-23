@@ -21,8 +21,8 @@ if ($key) {
             $resp->setContentType($file['content_type']);
             $resp->setHeader("Content-Length", $size);
             $resp->setHeader("Last-Modified", date("r", $file['dt']));
-            $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * 7));
-            $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+            $resp->setHeader("Expires", date("r", time() + 60 * 60 * 24 * EMPS_CACHE_AGE));
+            $resp->setCacheControl("Cache-Control: max-age=" . (60 * 60 * 24 * EMPS_CACHE_AGE));
             $resp->setHeader("Pragma", "");
             $resp->setBody($body);
             //			$resp->setThrottleRate(50000, 1);
@@ -31,8 +31,8 @@ if ($key) {
             header("Content-Type: " . $file['content_type']);
             header("Content-Length: " . $size);
             header("Last-Modified: " . date("r", $file['dt']));
-            header("Expires: " . date("r", time() + 60 * 60 * 24 * 7));
-            header("Cache-Control: max-age=" . (60 * 60 * 24 * 7));
+            header("Expires: " . date("r", time() + 60 * 60 * 24 * EMPS_CACHE_AGE));
+            header("Cache-Control: max-age=" . (60 * 60 * 24 * EMPS_CACHE_AGE));
             header("Pragma: ");
 
             fpassthru($fh);
