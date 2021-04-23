@@ -1550,7 +1550,7 @@ class EMPS_Common
 
     public function ensure_protocol($protocol)
     {
-        $addr = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $addr = EMPS_HOST_NAME . $_SERVER['REQUEST_URI'];
         if ($protocol == 'https') {
             if ($_SERVER['HTTPS'] != 'on') {
                 header("HTTP/1.1 301 Moved Permanently");
