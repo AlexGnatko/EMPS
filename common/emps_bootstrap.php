@@ -18,7 +18,7 @@ require_once "EMPS/vendor/autoload.php";
 if ($emps_force_hostname) {
     if ($_SERVER['HTTP_HOST'] != EMPS_HOST_NAME) {
         header("HTTP/1.1 301 Moved Permanently");
-        header("Location: http://" . EMPS_HOST_NAME . $_SERVER['REQUEST_URI']);
+        header("Location: " . EMPS_SCRIPT_WEB . $_SERVER['REQUEST_URI']);
         //exit();
     }
 }
