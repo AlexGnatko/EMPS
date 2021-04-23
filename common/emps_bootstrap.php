@@ -5,6 +5,10 @@
  * This procedure is common for all EMPS versions.
  */
 
+if (!defined("EMPS_CACHE_AGE")) {
+    define('EMPS_CACHE_AGE', 180);
+}
+
 define('EMPS_COMMON_PATH_PREFIX', 'EMPS/common');
 // EMPS_PATH_PREFIX is set in the current version's emps_bootstrap.php file
 
@@ -80,9 +84,6 @@ $emps_bots = array(
     'Googlebot',
 );
 
-if (!defined("EMPS_CACHE_AGE")) {
-    define('EMPS_CACHE_AGE', 180);
-}
 
 $emps->pre_init();
 
