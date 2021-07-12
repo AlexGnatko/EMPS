@@ -11,5 +11,7 @@ if(!$this->can_save()){
 	$biup->can_save = false;
 }
 
+$smarty->assign("context_id", $this->context_id);
+
 $biup->handle_request($this->context_id);
 
