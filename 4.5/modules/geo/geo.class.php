@@ -142,10 +142,11 @@ class EMPS_YandexGeocode
     {
         $query = urlencode(trim($address)) . "&kind=" . $this->default_kind;
 
-        $q = "http://geocode-maps.yandex.ru/1.x/?&geocode={$query}&format=json";
+        $q = "https://geocode-maps.yandex.ru/1.x/?&geocode={$query}&format=json&apikey=" . YMAPS_KEY;
         echo $q;
 
         $answer = file_get_contents($q);
+	echo $answer;
         $data = json_decode($answer, true);
 
         $found = false;
