@@ -923,6 +923,9 @@ class EMPS_Auth
         $SET['password'] = md5($password);
         $SET['context_id'] = $emps->website_ctx;
         $SET['status'] = 0;
+        if ($data['no_activation']) {
+            $SET['status'] = 1;
+        }
         $emps->db->sql_insert("e_users");
         $user_id = $emps->db->last_insert();
 
