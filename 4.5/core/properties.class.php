@@ -22,7 +22,7 @@ class EMPS_Properties
         $this->load_context_cache = [];
     }
 
-    public function save_property($context_id, $code, $datatype, $value, $history, $idx)
+    public function save_property($context_id, $code, $datatype, $value, $history = false, $idx = 0)
     {
         global $emps;
 
