@@ -464,7 +464,9 @@ class EMPS_Properties
         if (isset($this->context_cache[$type][$sub][$ref_id])) {
             return $this->context_cache[$type][$sub][$ref_id];
         }
-        $row = $emps->db->get_row("e_contexts", "ref_type = {$type} and ref_sub = {$sub} and ref_id = {$ref_id}");
+        $emps->db->query("lock tables write");
+        $row = $emps->db->get_row("e_contexts", "ref_type = {$type} and ref_sub = {$sub} and ref_id = {$ref_id}
+            order by id asc");
         if (!$row) {
             if (!$this->default_ctx) {
                 if (!(($type == 1) && ($sub == 1) && ($ref_id == 0))) {
@@ -480,6 +482,7 @@ class EMPS_Properties
             $id = $emps->db->last_insert();
             $row = $emps->db->get_row('e_contexts', 'id = ' . $id);
         }
+        $emps->db->query("unlock tables");
         $this->context_cache[$type][$sub][$ref_id] = $row['id'];
         return $row['id'];
     }
