@@ -464,7 +464,7 @@ class EMPS_Properties
         if (isset($this->context_cache[$type][$sub][$ref_id])) {
             return $this->context_cache[$type][$sub][$ref_id];
         }
-        $emps->db->query("lock tables write");
+        $emps->db->query("lock tables ".TP."e_contexts write");
         $row = $emps->db->get_row("e_contexts", "ref_type = {$type} and ref_sub = {$sub} and ref_id = {$ref_id}
             order by id asc");
         if (!$row) {
