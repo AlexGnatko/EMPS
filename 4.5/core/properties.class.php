@@ -487,6 +487,28 @@ class EMPS_Properties
         return $row['id'];
     }
 
+    public function list_contexts($type, $sub, $ref_id) {
+        global $emps;
+
+        $type = intval($type);
+        $sub = intval($sub);
+        $ref_id = intval($ref_id);
+        if (!$type || !$sub) {
+            return 0;
+        }
+        if (($type != 1) && !$ref_id) {
+            return 0;
+        }
+
+        $r = $emps->db->query("select * from ".TP."e_contexts where ref_type = {$type} 
+        and ref_sub = {$sub} and ref_id = {$ref_id} order by id asc");
+        $lst = [];
+        while ($ra = $emps->db->fetch_named($r)) {
+            $lst[] = $ra['id'];
+        }
+        return $lst;
+    }
+
     public function load_context($context_id)
     {
         global $emps;
