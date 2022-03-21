@@ -209,6 +209,7 @@
             vuev.$off("htmlinsert:video");
             vuev.$off("htmlinsert:audio");
             vuev.$off("htmlinsert:cut");
+            vuev.$off("htmlinsert:files");
 
             vuev.$on("htmlinsert:photo", this.on_photo);
             vuev.$on("htmlinsert:photos", this.on_photos);
