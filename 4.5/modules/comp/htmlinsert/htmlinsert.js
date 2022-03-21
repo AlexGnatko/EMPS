@@ -107,6 +107,9 @@
             on_cut: function(data) {
                 this.insert('{{*cut*}}');
             },
+            on_files: function(data) {
+                this.insert('{{emps plugin=downloads context=' + this.context_id + '}}');
+            },
             load_pics: function() {
                 var that = this;
                 axios
@@ -212,6 +215,7 @@
             vuev.$on("htmlinsert:video", this.on_video);
             vuev.$on("htmlinsert:audio", this.on_audio);
             vuev.$on("htmlinsert:cut", this.on_cut);
+            vuev.$on("htmlinsert:files", this.on_files);
         }
     });
 

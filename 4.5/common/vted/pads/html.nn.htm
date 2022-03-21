@@ -5,6 +5,7 @@
     {{$str_photoset = "Photo Gallery"}}
     {{$str_video = "Video"}}
     {{$str_audio = "Audio"}}
+    {{$str_files = "Files"}}
     {{$str_cut = "Cut"}}
 {{else}}
     {{$str_save_changes = "Сохранить изменения"}}
@@ -13,6 +14,7 @@
     {{$str_photoset = "Фотогалерея"}}
     {{$str_video = "Видео"}}
     {{$str_audio = "Аудио"}}
+    {{$str_files = "Файлы"}}
     {{$str_cut = "Конец"}}
 {{/if}}
 <form action="./" method="post" @submit="submit_form">
@@ -47,6 +49,9 @@
                         <button type="button"
                                 @click="trigger('htmlinsert:audio')"
                                 class="button is-small is-info is-outlined">{{$str_audio}}</button>
+                        <button type="button"
+                                @click="trigger('htmlinsert:files')"
+                                class="button is-small is-info is-outlined">{{$str_files}}</button>
                         <button type="button"
                                 @click="trigger('htmlinsert:cut')"
                                 class="button is-small is-warning is-outlined">{{$str_cut}}</button>
