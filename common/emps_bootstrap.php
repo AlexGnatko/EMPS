@@ -19,7 +19,7 @@ require_once EMPS_COMMON_PATH_PREFIX . "/emps_autoloader.php";
 // Composer Autoloader
 require_once "EMPS/vendor/autoload.php";
 
-if ($emps_force_hostname) {
+if (@$emps_force_hostname) {
     if ($_SERVER['HTTP_HOST'] != EMPS_HOST_NAME) {
         header("HTTP/1.1 301 Moved Permanently");
         header("Location: " . EMPS_SCRIPT_WEB . $_SERVER['REQUEST_URI']);
@@ -54,7 +54,7 @@ require_once EMPS_PATH_PREFIX . "/EMPS.php";                        // EMPS Clas
 $emps = new EMPS();
 $emps->check_fast();
 
-if ($emps_force_protocol && !$_GET['nohttps']) {
+if (@$emps_force_protocol && !@$_GET['nohttps']) {
     $emps->ensure_protocol($emps_force_protocol);
 }
 
@@ -109,7 +109,6 @@ if (!$emps->fast) {
 
     $emps->post_init();
 }
-
 
 $sua = $emps->get_setting("service_unavailable");
 if ($sua == 'yes') {
@@ -185,7 +184,6 @@ if ($emps->virtual_path && !$emps->fast) {
             }
         }
     }
-
 
     // HTML view
     if (!$emps->no_smarty) {

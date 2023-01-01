@@ -128,14 +128,6 @@ class EMPS_Common
      */
     public function initialize()
     {
-        if (!$this->cli_mode) {
-            if (get_magic_quotes_gpc()) {
-                $_REQUEST = $this->unslash_prepare($_REQUEST);
-                $_POST = $this->unslash_prepare($_POST);
-                $_GET = $this->unslash_prepare($_GET);
-            }
-        }
-
 
         $this->early_init();
         $this->select_website();
@@ -420,7 +412,7 @@ class EMPS_Common
      */
     public function add_to_spath($v)
     {
-        if ($v['uri']{0} == '#') {
+        if (substr($v['uri'], 0, 1) == '#') {
             return false;
         }
         reset($this->spath);
@@ -599,7 +591,7 @@ class EMPS_Common
      */
     public function pre_init()
     {
-        if(strstr($_SERVER["CONTENT_TYPE"], "application/json")){
+        if(strstr(@$_SERVER["CONTENT_TYPE"], "application/json")){
             $raw = file_get_contents("php://input");
             $request = json_decode($raw, true);
             $_REQUEST = array_merge($_REQUEST, $request);
@@ -689,8 +681,8 @@ class EMPS_Common
     /**
      * Parse an enum descriptor string into an enum array
      *
-     * @param $name Enum name (code)
-     * @param $list Values list string (e.g. '10=Yes,20=No')
+     * @param $name String Enum name (code)
+     * @param $list String Values list string (e.g. '10=Yes,20=No')
      */
     public function make_enum($name, $list)
     {
@@ -754,13 +746,13 @@ class EMPS_Common
         $this->PLURI = $uri;
         $this->menu_URI = $uri;
 
-        if ($uri{0} == '/') $uri = substr($uri, 1);
+        if (substr($uri, 0, 1) == '/') $uri = substr($uri, 1);
         $ouri = $uri;
         $this->PURI = $ouri;
 
         $this->savevars();
         $uri = $this->PURI;
-        if ($uri{strlen($uri) - 1} == '/') $uri = substr($uri, 0, strlen($uri) - 1);
+        if (substr($uri, strlen($uri) - 1, 1) == '/') $uri = substr($uri, 0, strlen($uri) - 1);
 
         $this->URI = $uri;
 
@@ -885,7 +877,8 @@ class EMPS_Common
             return $this->require_cache['page_file'][$type][$page_name];
         }
         $opage_name = $page_name;
-        if ($page_name{0} == '_') {
+
+        if (substr($page_name, 0, 1) == '_') {
             $page_name = substr($page_name, 1);
             $page_name = str_replace('-', '/', $page_name);
             if ($type == 'inc') {
@@ -901,6 +894,10 @@ class EMPS_Common
                     $x = explode('/', $page_name);
                     $first_name = array_pop($x);
                 }
+            }
+
+            if (!isset($include_name)) {
+                $include_name = $page_name;
             }
 
             $fn = $this->try_page_file_name($page_name, $first_name, $include_name, $type, EMPS_WEBSITE_SCRIPT_PATH, $this->lang);
@@ -1483,7 +1480,7 @@ class EMPS_Common
         $intag = false;
         $cnt = 0;
         for ($i = 0; $i < $l; $i++) {
-            $c = $txt{$i};
+            $c = substr($txt, $i, 1);
 
             if ($c == '<') $intag = true;
             if ($c == '>') {

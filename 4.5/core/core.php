@@ -8,8 +8,8 @@ require_once EMPS_PATH_PREFIX . "/core/properties.class.php";
 if (isset($emps_cassandra_config)) {
     require_once EMPS_PATH_PREFIX . "/core/cassandra.class.php";
 }
-if ($emps_custom_session_handler) {
-    if ($emps_custom_session_handler_mode == "cassandra") {
+if (@$emps_custom_session_handler) {
+    if (@$emps_custom_session_handler_mode == "cassandra") {
         require_once EMPS_PATH_PREFIX . "/core/session_handler_cassandra.class.php";
     } else {
         require_once EMPS_PATH_PREFIX . "/core/session_handler_sql.class.php";
@@ -21,6 +21,7 @@ if ($emps_custom_session_handler) {
 
 if (!$emps->fast) {
     require_once EMPS_PATH_PREFIX . "/core/auth.class.php";
+
     require_once EMPS_COMMON_PATH_PREFIX . "/core/smarty.php";
 }
 
