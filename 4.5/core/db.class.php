@@ -67,7 +67,12 @@ class EMPS_DB
         if (EMPS_TIMING) {
             $s = emps_microtime_float(microtime());
         }
-        $r = $this->db->query($query);
+        try {
+            $r = $this->db->query($query);
+        } catch (\Exception $e) {
+            $r = false;
+        }
+
         if (EMPS_TIMING) {
             $e = emps_microtime_float(microtime());
             $l = ($e - $s) * 1000;
