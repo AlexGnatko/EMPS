@@ -52,9 +52,13 @@ class EMPS_Photos
     public function ensure_thumb($ra, $size, $opts)
     {
         global $emps;
+
+        $size = $emps->db->sql_escape($size);
+        $opts = $emps->db->sql_escape($opts);
+
         $fname = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-img.dat";
         $fname_wm = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-wm.dat";
-        $dname = $this->up->UPLOAD_PATH . $ra['folder'] . "/thumb/" . $ra['id'] . "_" . $size . ".dat";
+        $dname = $this->up->UPLOAD_PATH . $ra['folder'] . "/thumb/" . $ra['id'] . "_" . $size . "_" . $opts . ".dat";
 
         $orig_name = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-orig.dat";
 
@@ -70,7 +74,8 @@ class EMPS_Photos
             }
         }
 
-        $thumb_row = $emps->db->get_row("e_thumbs", "size='{$size}' and upload_id = {$ra['id']} limit 1");
+
+        $thumb_row = $emps->db->get_row("e_thumbs", "size='{$size}' and opts = '{$opts}' and upload_id = {$ra['id']} limit 1");
 
         $pic_type = "jpeg";
         if (strstr($ra['new_type'], "webp")) {
@@ -177,7 +182,7 @@ class EMPS_Photos
 //            error_log("thumb creation not needed");
         }
         $id = $ra['id'];
-        $r = $emps->db->query("select * from " . TP . "e_thumbs where size='$size' and upload_id=$id limit 1");
+        $r = $emps->db->query("select * from " . TP . "e_thumbs where size='{$size}' and opts='{$sopts}' and upload_id=$id limit 1");
         $ra = $emps->db->fetch_named($r);
         $ra['fname'] = $dname;
 //        error_log("ensure_thumb return");
@@ -190,14 +195,14 @@ class EMPS_Photos
         global $emps;
         $folder = $this->up->pick_folder($photo_id, DT_IMAGE);
         if (!$folder) return false;
-        $r = $emps->db->query("select * from " . TP . "e_thumbs where upload_id=$photo_id");
+        $r = $emps->db->query("select * from " . TP . "e_thumbs where upload_id = {$photo_id}");
         while ($ra = $emps->db->fetch_named($r)) {
-            $tname = $this->up->UPLOAD_PATH . $folder . "/thumb/" . $photo_id . "_" . $ra['size'] . ".dat";
+            $tname = $this->up->UPLOAD_PATH . $folder . "/thumb/" . $photo_id . "_" . $ra['size'] . "_" . $ra['opts'] . ".dat";
             if (file_exists($tname)) {
                 unlink($tname);
             }
         }
-        $emps->db->query("delete from " . TP . "e_thumbs where upload_id=$photo_id");
+        $emps->db->query("delete from " . TP . "e_thumbs where upload_id = {$photo_id}");
     }
 
     public function adapt_image($img, $tx, $ty)
