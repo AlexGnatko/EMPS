@@ -164,7 +164,7 @@ class EMPS_Photos
                 imagewebp($dst, $dname, $quality);
             }
 
-            $emps->db->query("delete from ".TP."e_thumbs where size = '{$size}' and upload_id = {$ra['id']}");
+            $emps->db->query("delete from ".TP."e_thumbs where size = '{$size}' and opts = '{$sopts}' and upload_id = {$ra['id']}");
 
             $nr = [];
             $nr['upload_id'] = $ra['id'];
