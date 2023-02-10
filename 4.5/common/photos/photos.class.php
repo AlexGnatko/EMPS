@@ -161,13 +161,11 @@ class EMPS_Photos
 
             $emps->db->query("delete from ".TP."e_thumbs where size = '{$size}' and upload_id = {$ra['id']}");
 
-            $_REQUEST = array();
-            $GLOBALS['id'] = "";
-            $_REQUEST['upload_id'] = $ra['id'];
-            $_REQUEST['size'] = $size;
-            $_REQUEST['opts'] = $opts;
-            $_REQUEST['dt'] = time();
-            $emps->db->sql_insert("e_thumbs");
+            $nr = [];
+            $nr['upload_id'] = $ra['id'];
+            $nr['size'] = $size;
+            $nr['opts'] = $sopts;
+            $emps->db->sql_insert_row("e_thumbs", ['SET' => $nr]);
 
             if (is_resource($dst)) {
                 imagedestroy($dst);
