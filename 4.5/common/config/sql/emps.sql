@@ -346,11 +346,13 @@ CREATE TEMPORARY TABLE `temp_e_thumbs` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `upload_id` bigint NOT NULL DEFAULT '0',
   `size` varchar(128) NOT NULL,
+  `opts` varchar(255) NOT NULL,
   `dt` bigint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `upload_id` (`upload_id`),
   KEY `dt` (`dt`),
-  KEY `size` (`size`)
+  KEY `size` (`size`),
+  KEY `opts` (`opts`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- table

@@ -77,7 +77,7 @@ class EMPS_Photos
             $pic_type = "webp";
         }
 
-        if (!file_exists($dname) || ($this->bypass_time > filemtime($dname)) || !$thumb_row) {
+        if (!file_exists($dname) || ($this->bypass_time > filemtime($dname)) || !$thumb_row || $thumb_row['opts'] != $opts) {
 //            error_log("modifying image: ".$ra['id']." ".$emps->form_time($this->bypass_time)." / ".$emps->form_time(filemtime($dname)));
             if (strstr($ra['type'], "jpeg")) {
                 $img = imagecreatefromjpeg($fname);
@@ -160,9 +160,10 @@ class EMPS_Photos
             $emps->db->query("delete from ".TP."e_thumbs where size = '{$size}' and upload_id = {$ra['id']}");
 
             $_REQUEST = array();
-            $_GLOBALS['id'] = "";
+            $GLOBALS['id'] = "";
             $_REQUEST['upload_id'] = $ra['id'];
             $_REQUEST['size'] = $size;
+            $_REQUEST['opts'] = $opts;
             $_REQUEST['dt'] = time();
             $emps->db->sql_insert("e_thumbs");
 
