@@ -21,7 +21,7 @@
     "eonasdan-bootstrap-datetimepicker": "latest",
     "angular-eonasdan-datetimepicker": "latest",
     "ngstorage": "latest",
-    "vue": "~2.6",
+    "vue": "2.6.14",
     "vuex": "3",
     "axios": "latest",
     "toastr": "latest",
