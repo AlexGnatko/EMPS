@@ -9,7 +9,10 @@
     }
   ],
   "config": {
-    "secure-http": false
+    "secure-http": false,
+    "platform": {
+      "php": "7.4"
+    }
   },
   "require": {
     "php": "~7.4",
