@@ -257,6 +257,14 @@
     {{/if}}
 {{/if}}
 
+{{if $page.fancybox}}
+    <script src="/node_modules/@fancyapps/ui/dist/fancybox/fancybox.umd.js" {{$add_defer}}></script>
+    <link
+            rel="stylesheet"
+            href="/node_modules/@fancyapps/ui/dist/fancybox/fancybox.css" {{$add_media}}
+    />
+{{/if}}
+
 {{if $page.ng_sortable}}
     <script type="text/javascript" src="/bower_components/angular-ui-sortable/sortable.min.js" {{$add_defer}}></script>
 {{/if}}

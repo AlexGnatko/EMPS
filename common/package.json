@@ -10,7 +10,8 @@
     "simplebar": "^4.2.3",
     "vue-numeric": "latest",
     "vue-select": "^3.4.0",
-    "vue-sortable": "latest"
+    "vue-sortable": "latest",
+    "@fancyapps/ui": "latest"
   },
   "author": "Alex Gnatko",
   "license": "ISC"
