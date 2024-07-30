@@ -15,7 +15,7 @@
         </categories>
         <offers>
 {{foreach from=$items item="item"}}
-{{if $item.pic && ($item.html|trim|strlen > 0)}}
+{{if $item.pic}}
             <offer id="{{if $item.offer_id}}{{$item.offer_id}}{{else}}{{$item.id}}{{/if}}">
                 <name>{{$item.name|escape:html}}</name>
                 <url>{{$BaseURL}}{{$item.link}}</url>
