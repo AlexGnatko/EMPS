@@ -70,7 +70,7 @@ class EMPS_Photos
             }
         }else{
             if (file_exists($orig_name)) {
-                $fname = $orig_name;
+                //$fname = $orig_name;
             }
         }
 
