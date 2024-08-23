@@ -80,6 +80,7 @@ class EMPS_Photos
         $pic_type = "jpeg";
         if (strstr($ra['new_type'], "webp")) {
             $pic_type = "webp";
+            $ra['type'] = $ra['new_type'];
         }
 
         $sopts = $opts;

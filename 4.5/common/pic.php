@@ -29,7 +29,7 @@ if ($ra) {
             $type = $ra['new_type'];
         }
 
-        $filename = $file['filename'];
+        $filename = $ra['filename'];
         if ($type == "image/webp") {
             $x = explode(".", $filename);
             array_pop($x);
