@@ -9,6 +9,10 @@ class EMPS_TelegramBot {
         $this->key = $key;
     }
 
+    public function get_key() {
+        return $this->key;
+    }
+
     public function get_api_url($resource)
     {
         $api_url = $this->url;
