@@ -88,6 +88,26 @@ var EMPS = {
             EMPS.load_js(src, document.body);
         });
     },
+    load_module: function(url, varname, module = false) {
+        return new Promise((resolve, reject) => {
+            if (module) {
+                import(url).then((obj) => {
+                    console.log("RESOLVED", obj);
+                    resolve(obj);
+                });
+            } else {
+                const script = document.createElement("script");
+                script.src = url;
+                script.onload = () => {
+                    resolve(window[varname]);
+                }
+
+                script.onerror = () => reject(new Error(`Failed to load script: ${url}`));
+                document.head.appendChild(script);
+            }
+
+        });
+    },
     format_size: function(bytes) {
         var units = [
             {size: 1000000000, suffix: ' GB'},
