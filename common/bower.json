@@ -23,7 +23,7 @@
     "ngstorage": "latest",
     "vue": "2.6.14",
     "vuex": "3",
-    "axios": "latest",
+    "axios": "1.4.0",
     "toastr": "latest",
     "moment": "latest",
     "moment-timezone": "latest"
