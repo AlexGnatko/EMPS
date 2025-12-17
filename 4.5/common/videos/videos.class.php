@@ -184,7 +184,7 @@ class EMPS_Videos
         }
 
         if ($video['rutube_id']) {
-            $raw = file_get_contents("http://rutube.ru/api/video/" . $video['rutube_id'] . "/?format=json");
+            $raw = file_get_contents("https://rutube.ru/api/video/" . $video['rutube_id'] . "/?format=json");
             $data = json_decode($raw, true);
 
 //			dump($data);exit();
