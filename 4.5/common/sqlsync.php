@@ -194,7 +194,12 @@ function sync_structure($dest_table, $src_table, $dest, $src)
 
 }
 
-if ($emps->auth->credentials("admin") || $emps->is_empty_database() || true) {
+/*
+ * The synchronisation itself is open to everyone: it only brings the schema in line with emps.sql
+ * and discloses nothing by itself. What must not leak is the log of what changed - that is printed
+ * at the very end of this file, and only to an administrator or while the database is still empty.
+ */
+if (true) {
     if ($key) {
         $name = "_" . $key . "/sql,module.sql";
         $file_name = $emps->page_file_name($name, 'inc');
