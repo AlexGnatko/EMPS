@@ -956,6 +956,7 @@ class EMPS_Common
             return $this->require_cache['page_file'][$type][$page_name];
         }
         $opage_name = $page_name;
+        $first_name = "";
 
         if (substr($page_name, 0, 1) == '_') {
             $page_name = substr($page_name, 1);
