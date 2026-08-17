@@ -6,7 +6,12 @@ require_once $emps->common_module('photos/photos.class.php');
 $photos = new EMPS_Photos;
 $md5 = $photos->get_pic_md5();
 
-$r = $emps->db->query("select * from " . TP . "e_uploads where md5='$md5'");
+if (!$md5) {
+    http_response_code(404);
+    exit;
+}
+
+$r = $emps->db->query("select * from " . TP . "e_uploads where md5 = " . $emps->db->sql_quote($md5));
 $ra = $emps->db->fetch_named($r);
 if ($ra) {
     header("Last-Modified: " . date("r", $ra['dt']));

@@ -504,6 +504,32 @@ class EMPS_DB
         return mysqli_real_escape_string($this->db, $txt);
     }
 
+    /**
+     * Quote a value for use inside an SQL string
+     *
+     * Returns the value escaped and wrapped in quotes, ready to be concatenated into a query:
+     *
+     *     $row = $emps->db->get_row("e_users", "username = " . $emps->db->sql_quote($username));
+     *
+     * Unlike sql_escape() this also refuses anything that is not a scalar. A value taken from the
+     * request can be an array ("name[]=x" in a form), and an array reaching
+     * mysqli_real_escape_string() is a TypeError, not a safe query. Such a value is quoted as an
+     * empty string, so the query simply matches nothing.
+     */
+    public function sql_quote($value)
+    {
+        if ($value === null) {
+            return "null";
+        }
+        if (is_bool($value)) {
+            return $value ? "1" : "0";
+        }
+        if (!is_scalar($value)) {
+            return "''";
+        }
+        return "'" . $this->sql_escape(strval($value)) . "'";
+    }
+
     public function sql_rewind($r){
         return mysqli_data_seek($r, 0);
     }

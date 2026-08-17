@@ -25,6 +25,29 @@ class EMPS_Photos
         }
     }
 
+    /**
+     * Take the upload hash out of the URL
+     *
+     * The hash is the whole protection of an upload's address, and it is always produced by md5():
+     * both URL shapes in use - /pic/<md5>.jpg and /freepic/<md5>/<filename> - begin with those 32
+     * hex digits. Anything else is a scanner rather than a picture, so it is refused here and never
+     * reaches the database.
+     *
+     * @return string The hash, or "" when the URL carries no usable one
+     */
+    public function get_pic_md5()
+    {
+        global $key;
+
+        $md5 = substr(strval($key), 0, 32);
+
+        if (!preg_match('/^[0-9a-fA-F]{32}$/', $md5)) {
+            return "";
+        }
+
+        return $md5;
+    }
+
     public function thumb_filename($image_id)
     {
         $folder = $this->up->pick_folder($image_id, DT_IMAGE);

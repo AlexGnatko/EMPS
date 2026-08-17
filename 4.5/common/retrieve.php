@@ -1,8 +1,14 @@
 <?php
 $emps->no_smarty = true;
 
-if ($key) {
-    $file = $emps->db->get_row("e_files", "md5='$key'");
+$key = strval($key);
+
+/*
+ * The hash in the URL is what stands in for a password on an uploaded file, and it always comes
+ * from md5(). Nothing else is looked up: a value of another shape is a scanner, not a download.
+ */
+if (preg_match('/^[0-9a-fA-F]{32}$/', $key)) {
+    $file = $emps->db->get_row("e_files", "md5 = " . $emps->db->sql_quote($key));
 
     if ($file) {
 

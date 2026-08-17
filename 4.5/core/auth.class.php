@@ -56,16 +56,27 @@ class EMPS_Auth
     {
         global $SET, $emps;
 
-/*        if (mb_substr($username, 0, 1) == '8') {
-            $username = '+7' . mb_substr($username, 1);
-        }*/
+        /*
+         * $username and $password come straight from the login form, so they may be anything at all
+         * - including an array, which "login_username[]=x" produces. Refuse everything that is not a
+         * plain string before it reaches the database.
+         */
+        if (!is_scalar($username) || (!$mode && !is_scalar($password))) {
+            $this->login_error("no_user");
+            return false;
+        }
+        $username = trim(strval($username));
+        if ($username === '') {
+            $this->login_error("no_user");
+            return false;
+        }
 
-        $user = $emps->db->get_row('e_users', "username='{$username}'");
+        $user = $emps->db->get_row('e_users', "username = " . $emps->db->sql_quote($username));
         if (!$user) {
             $domain = $emps->get_setting("default_user_domain");
             if($domain){
                 $username = $username . "." . $domain;
-                $user = $emps->db->get_row('e_users', "username='{$username}'");
+                $user = $emps->db->get_row('e_users', "username = " . $emps->db->sql_quote($username));
                 if (!$user) {
                     $this->login_error("no_user");
                     return false;
@@ -913,10 +924,20 @@ class EMPS_Auth
     {
         global $SET, $emps;
 
-        $user = $emps->db->get_row("e_users", "lcase(username)=lcase('$userword') and status>0");
+        if (!is_scalar($userword)) {
+            return -1;
+        }
+        $userword = trim(strval($userword));
+        if ($userword === '') {
+            return -1;
+        }
+
+        $e_userword = $emps->db->sql_quote($userword);
+
+        $user = $emps->db->get_row("e_users", "lcase(username)=lcase({$e_userword}) and status>0");
         if ($user) return -1;
 
-        $emps->db->query("delete from " . TP . "e_users where lcase(username)=lcase('$userword')");
+        $emps->db->query("delete from " . TP . "e_users where lcase(username)=lcase({$e_userword})");
 
         $SET = array();
         $SET['username'] = $userword;
@@ -943,7 +964,7 @@ class EMPS_Auth
     public function taken_user($username)
     {
         global $emps;
-        $row = $emps->db->get_row("e_users", "lcase(username)=lcase('" . $username . "') and status>0");
+        $row = $emps->db->get_row("e_users", "lcase(username)=lcase(" . $emps->db->sql_quote($username) . ") and status>0");
         if ($row) {
             return $row;
         }
@@ -953,7 +974,7 @@ class EMPS_Auth
     public function taken_user_fast($username)
     {
         global $emps;
-        $row = $emps->db->get_row("e_users", "username = '{$username}' and status > 0");
+        $row = $emps->db->get_row("e_users", "username = " . $emps->db->sql_quote($username) . " and status > 0");
         if ($row) {
             return $row;
         }

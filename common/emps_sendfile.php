@@ -11,12 +11,28 @@ $uri = $x[0];
 
 $dir = EMPS_SCRIPT_PATH;
 
-$uri = str_replace('../', '/', $uri);
+/*
+ * The URI is turned into a filesystem path below, so it is checked here rather than cleaned up: a
+ * "." or ".." path component, a backslash or a NUL byte means the request is trying to walk out of
+ * the document root. Filtering those out instead of refusing them is famously easy to get wrong -
+ * str_replace('../', '/') leaves "....//" intact, which resolves to a parent directory all the same.
+ */
+$emps_sf_deny = false;
+
+if (strpos($uri, "\0") !== false || strstr($uri, "\\") !== false) {
+    $emps_sf_deny = true;
+}
+
+$emps_sf_parts = explode("/", $uri);
+foreach ($emps_sf_parts as $emps_sf_part) {
+    if ($emps_sf_part == '.' || $emps_sf_part == '..') {
+        $emps_sf_deny = true;
+    }
+}
 
 $fname = $dir . $uri;
 
-
-if (!strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/") && !strstr($uri, "/templates/") && !strstr($uri, "/local/")) {
+if (!$emps_sf_deny && !strstr($uri, ".php") && !strstr($uri, ".sql") && !strstr($uri, "/modules/") && !strstr($uri, "/templates/") && !strstr($uri, "/local/")) {
     $go = false;
 
     if (file_exists($fname)) {

@@ -113,6 +113,41 @@ class EMPS_Common
     }
 
     /**
+     * Make sure the page name cannot address a file outside the modules folder
+     *
+     * $pp names the module whose controller and view are included by the bootstrap, so it ends up
+     * inside a filesystem path. It is also simply the first segment of the URL, which for a CMS page
+     * may be anything the editor typed (including non-latin text), so this is deliberately not a
+     * whitelist: only the characters that let a name step out of its folder are rejected. Note that
+     * hyphens become slashes in page_file_name(), so ".." is refused in any form.
+     *
+     * An offending $pp is blanked rather than answered with an error: the request then goes on to
+     * the normal "page not found" path, and a CMS page that happens to live at that URL still works.
+     */
+    public function check_page_name()
+    {
+        $pp = strval($GLOBALS['pp'] ?? '');
+
+        if ($pp == '') {
+            return true;
+        }
+
+        if (strstr($pp, '..') === false
+            && strstr($pp, '/') === false
+            && strstr($pp, "\\") === false
+            && strpos($pp, "\0") === false) {
+            return true;
+        }
+
+        error_log("EMPS: refused page name: " . str_replace(["\r", "\n"], " ", $pp));
+
+        $GLOBALS['pp'] = '';
+        $this->VA['pp'] = '';
+
+        return false;
+    }
+
+    /**
      * Early initialization procedure
      *
      * Overloaded by EMPS version classes
@@ -135,6 +170,7 @@ class EMPS_Common
         if (!$this->cli_mode) {
             $this->parse_path();
             $this->import_vars();
+            $this->check_page_name();
             $this->savevars();
 
             if ($_GET['plain']) {
@@ -820,8 +856,48 @@ class EMPS_Common
         return $this->page_exists($uri);
     }
 
+    /**
+     * Check that a name is safe to glue onto a folder path
+     *
+     * Almost every file name in EMPS is assembled from parts of the URL, so before a name is
+     * concatenated with a folder it has to be proven relative: no NUL byte, no backslash, no leading
+     * slash and no "." or ".." component. A name that passes this test cannot escape the folder it
+     * is appended to, whatever it contains otherwise (so non-latin page names keep working).
+     *
+     * @param $name string The name to check
+     * @param $leading_slash bool Allow a leading slash (plain_file() is called with "/css/x.css")
+     * @return bool true when the name is safe to concatenate
+     */
+    public function safe_path_name($name, $leading_slash = false)
+    {
+        if (!is_string($name)) {
+            return false;
+        }
+        if (strpos($name, "\0") !== false) {
+            return false;
+        }
+        if (strpos($name, "\\") !== false) {
+            return false;
+        }
+        if (!$leading_slash && substr($name, 0, 1) == '/') {
+            return false;
+        }
+        $x = explode('/', $name);
+        foreach ($x as $part) {
+            if ($part == '.' || $part == '..') {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function try_page_file_name($page_name, $first_name, $include_name, $type, $path, $lang)
     {
+        if (!$this->safe_path_name($page_name)
+            || !$this->safe_path_name($first_name)
+            || !$this->safe_path_name($include_name)) {
+            return false;
+        }
         $fn = $path . '/modules/' . $page_name;
         $exact = false;
         switch ($type) {
@@ -852,6 +928,9 @@ class EMPS_Common
 
     public function try_template_name($path, $page_name, $lang)
     {
+        if (!$this->safe_path_name($page_name)) {
+            return false;
+        }
         $fn = $path . '/templates/' . $lang . '/' . $page_name . '.htm';
         if (isset($this->require_cache['try_template_name'][$fn])) {
             return $this->require_cache['try_template_name'][$fn];
@@ -953,7 +1032,9 @@ class EMPS_Common
 
     public function try_common_module_html($path, $file_name, $lang)
     {
-
+        if (!$this->safe_path_name($file_name)) {
+            return false;
+        }
         $x = explode(".", $file_name);
         $len = mb_strlen($x[count($x) - 1], "utf-8");
         if ($len <= 3) {
@@ -976,6 +1057,9 @@ class EMPS_Common
 
     public function common_module_html($file_name)
     {
+        if (!$this->safe_path_name($file_name)) {
+            return false;
+        }
         // This function controls the naming of files used by common modules
         if (isset($this->require_cache['common_module_html'][$file_name])) {
             return $this->require_cache['common_module_html'][$file_name];
@@ -1023,6 +1107,9 @@ class EMPS_Common
 
     public function try_common_module($path, $file_name)
     {
+        if (!$this->safe_path_name($file_name)) {
+            return false;
+        }
         if (isset($this->require_cache['common_module_try'][$path][$file_name])) {
             return $this->require_cache['common_module_try'][$path][$file_name];
         }
@@ -1036,6 +1123,9 @@ class EMPS_Common
 
     public function common_module_ex($file_name, $level)
     {
+        if (!$this->safe_path_name($file_name)) {
+            return false;
+        }
         // This function controls the naming of files used by common modules
         if (isset($this->require_cache['common_module'][$level][$file_name])) {
             return $this->require_cache['common_module'][$level][$file_name];
@@ -1069,6 +1159,9 @@ class EMPS_Common
 
     public function try_core_script($path, $file_name)
     {
+        if (!$this->safe_path_name($file_name)) {
+            return false;
+        }
         if (isset($this->require_cache['common_script_try'][$path][$file_name])) {
             return $this->require_cache['common_script_try'][$path][$file_name];
         }
@@ -1094,6 +1187,10 @@ class EMPS_Common
 
     public function try_plain_file($path, $file_name)
     {
+        // plain_file() is called with names like "/css/default.css", so a leading slash is expected
+        if (!$this->safe_path_name($file_name, true)) {
+            return false;
+        }
         if (isset($this->require_cache['plain_file_try'][$path][$file_name])) {
             return $this->require_cache['plain_file_try'][$path][$file_name];
         }
@@ -1107,6 +1204,10 @@ class EMPS_Common
 
     public function plain_file($file_name)
     {
+        // plain_file() is called with names like "/css/default.css", so a leading slash is expected
+        if (!$this->safe_path_name($file_name, true)) {
+            return false;
+        }
         // This function finds a file in the websites' folders
         // (first the primary website, then the base website) and then in the main EMPS folder
         if (isset($this->require_cache['plain_file'][$file_name])) {
