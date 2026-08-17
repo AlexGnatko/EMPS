@@ -564,13 +564,6 @@ class EMPS_Photos
         }
     }
 
-    public function get_pic_md5()
-    {
-        global $key;
-        $md5 = substr($key, 0, 32);
-        return $md5;
-    }
-
     public function image_extension($ra)
     {
         if (strstr($ra['type'], 'jpeg')) {
