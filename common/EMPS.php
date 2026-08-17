@@ -870,6 +870,10 @@ class EMPS_Common
      */
     public function safe_path_name($name, $leading_slash = false)
     {
+        if ($name === null) {
+            // an unset name concatenates as "" - inert, and some callers leave one unassigned
+            return true;
+        }
         if (!is_string($name)) {
             return false;
         }
