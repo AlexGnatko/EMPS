@@ -12,6 +12,9 @@
     "secure-http": false,
     "platform": {
       "php": "7.4"
+    },
+    "audit": {
+      "block-insecure": false
     }
   },
   "require": {
