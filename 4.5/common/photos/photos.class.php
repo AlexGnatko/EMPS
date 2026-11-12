@@ -88,9 +88,10 @@ class EMPS_Photos
         $parts = [];
         foreach ($x as $value) {
             $result = preg_replace('/[^a-zA-Z0-9]/', '', $value);
+            $result = substr($result, 0, 16);
             $parts[] = $result;
         }
-        return implode(",", $x);
+        return implode(",", $parts);
     }
 
     public function ensure_thumb($ra, $size, $opts)
