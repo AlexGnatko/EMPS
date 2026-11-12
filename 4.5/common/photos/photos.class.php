@@ -72,12 +72,33 @@ class EMPS_Photos
         $this->delete_thumbs($file_id);
     }
 
+    public function sanitize_size($size) {
+        $x = explode("x", $size, 2);
+        if (count($x) == 1) {
+            $size = intval($x[0]);
+            return $size."x".$size;
+        }
+        $a = intval($x[0]);
+        $b = intval($x[1]);
+        return $a."x".$b;
+    }
+
+    public function sanitize_opts($opts) {
+        $x = explode(",", $opts);
+        $parts = [];
+        foreach ($x as $value) {
+            $result = preg_replace('/[^a-zA-Z0-9]/', '', $value);
+            $parts[] = $result;
+        }
+        return implode(",", $x);
+    }
+
     public function ensure_thumb($ra, $size, $opts)
     {
         global $emps;
 
-        $size = $emps->db->sql_escape($size);
-        $opts = $emps->db->sql_escape($opts);
+        $size = $this->sanitize_size($size);
+        $opts = $this->sanitize_opts($opts);
 
         $fname = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-img.dat";
         $fname_wm = $this->up->UPLOAD_PATH . $ra['folder'] . "/" . $ra['id'] . "-wm.dat";
