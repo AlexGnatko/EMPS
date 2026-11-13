@@ -5,6 +5,20 @@ class EMPS_TelegramBot {
     private $post_mode = "application/x-www-form-urlencoded";
     private $url = "https://api.telegram.org/";
 
+    // Сетевые настройки. Значения по умолчанию сохраняют прежнее поведение,
+    // кроме $connect_timeout: бесконечное (до ~5 минут) ожидание соединения
+    // подвешивало скрипты, когда api.telegram.org недоступен (например, заблокирован).
+    public $connect_timeout = 10;   // секунд на установку соединения, 0 - без ограничения
+    public $timeout = 0;            // секунд на весь запрос, 0 - без ограничения
+    public $force_ipv4 = false;     // true - не использовать IPv6
+    public $proxy = "";             // например "socks5h://host:1080" или "http://host:3128"
+    public $proxy_auth = "";        // "user:password" для прокси, если нужно
+
+    // Адрес API, например "https://tg-proxy.example.com/" - для обратного прокси
+    public function set_api_url($url) {
+        $this->url = rtrim($url, "/") . "/";
+    }
+
     public function set_key($key) {
         $this->key = $key;
     }
@@ -35,6 +49,22 @@ class EMPS_TelegramBot {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        if ($this->connect_timeout > 0) {
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->connect_timeout);
+        }
+        if ($this->timeout > 0) {
+            curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
+        }
+        if ($this->force_ipv4) {
+            curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        }
+        if ($this->proxy) {
+            curl_setopt($ch, CURLOPT_PROXY, $this->proxy);
+            if ($this->proxy_auth) {
+                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxy_auth);
+            }
+        }
 
         return true;
     }
@@ -118,12 +148,13 @@ class EMPS_TelegramBot {
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
         $response = curl_exec($ch);
+        $curl_error = curl_error($ch);
         curl_close($ch);
 
         $response = json_decode($response, true);
 
         if (!is_array($response)) {
-            return $this->error('Unknown error in post');
+            return $this->error('Unknown error in post' . ($curl_error ? ': ' . $curl_error : ''));
         }
 
         return $response;
