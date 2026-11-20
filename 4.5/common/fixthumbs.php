@@ -42,6 +42,11 @@ if ($emps->auth->credentials("admin")) {
     }
     foreach ($folders as $folder => $bool) {
         echo "Check folder: {$folder}\r\n";
+        $path = $photos->up->UPLOAD_PATH . $folder . "/thumb/";
+        $lst = scandir($path);
+        foreach ($lst as $file) {
+            echo $file."\r\n";
+        }
     }
     echo "Total errors: {$errors}\r\n";
     echo "Total file size: {$size}\r\n";
