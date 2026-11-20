@@ -48,7 +48,7 @@ if ($emps->auth->credentials("admin")) {
             if ($file == "." || $file == "..") {
                 continue;
             }
-            $filepath = $path."/".$file;
+            $filepath = $path.$file;
             if (is_dir($filepath)) {
                 echo "Directory should not exist: {$filepath}\r\n";
             }
