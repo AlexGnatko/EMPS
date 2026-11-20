@@ -25,7 +25,7 @@ if ($emps->auth->credentials("admin")) {
                 if ($upload) {
                     echo "{$folder}{$file} - exists\r\n";
                 } else {
-                    echo "Upload does not exist: {$upload_id} ({$folder})\r\n";
+                    echo "Upload does not exist: {$upload_id} ({$folder}/{$file})\r\n";
                 }
             }
         }
