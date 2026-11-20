@@ -45,7 +45,13 @@ if ($emps->auth->credentials("admin")) {
         $path = $photos->up->UPLOAD_PATH . $folder . "/thumb/";
         $lst = scandir($path);
         foreach ($lst as $file) {
-            echo $file."\r\n";
+            if ($file == "." || $file == "..") {
+                continue;
+            }
+            $filepath = $path."/".$file;
+            if (is_dir($filepath)) {
+                echo "Directory should not exist: {$filepath}\r\n";
+            }
         }
     }
     echo "Total errors: {$errors}\r\n";
