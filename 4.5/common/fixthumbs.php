@@ -57,10 +57,10 @@ if ($emps->auth->credentials("admin")) {
                 $main_name = $x[0];
                 $x = explode("_", $main_name);
                 if (strval(intval($x[0])) != $x[0]) {
-                    echo "{$main_name} - X1 should be a string!\r\n";
+                    echo "{$main_name} - X0 should be a string!\r\n";
                 }
                 if ($x[1] != $photos->sanitize_size($x[1])) {
-                    echo "{$main_name} - X2 should be a size!\r\n";
+                    echo "{$main_name} - X1 should be a size!\r\n";
                 }
                 if (count($x) > 2) {
                     if ($x[2] != $photos->sanitize_opts($x[2])) {
