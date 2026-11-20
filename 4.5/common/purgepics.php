@@ -36,9 +36,14 @@ if ($emps->auth->credentials("admin")) {
                 } else {
                     echo "Upload does not exist: {$upload_id} ({$folder}/{$file})\r\n";
                     $nonex += filesize($photos->up->UPLOAD_PATH . $folder . "/" . $file);
-                    echo "Custom thumbnails:\r\n";
                     $thumb_path = $photos->up->UPLOAD_PATH . $folder . "/thumb/";
-                    $rv = shell_exec("find " . escapeshellarg($thumb_path) . " | grep {$upload_id}_");
+                    echo "Custom thumbnails @ {$thumb_path}:\r\n";
+                    $cmd = sprintf(
+                        'find %s -maxdepth 1 -name %s',
+                        escapeshellarg($thumb_path),
+                        escapeshellarg($upload_id . '_*')
+                    );
+                    $rv = shell_exec($cmd);
                     echo "RV:\r\n{$rv}\r\n";
                 }
             }
