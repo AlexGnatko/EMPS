@@ -26,7 +26,9 @@ if ($emps->auth->credentials("admin")) {
         }
         if ($has_error) {
             $folder = $photos->up->pick_folder($ra['upload_id'], DT_IMAGE);
-            if (!$folder) continue;
+            if (!$folder) {
+                echo "No folder {$ra['upload_id']}\r\n";
+            };
             if (!isset($folders[$folder])) {
                 $folders[$folder] = true;
             }
