@@ -24,9 +24,9 @@ if ($emps->auth->credentials("admin")) {
             $has_error = true;
         }
         if ($has_error) {
-            $folder = $this->up->pick_folder($ra['upload_id'], DT_IMAGE);
+            $folder = $photos->up->pick_folder($ra['upload_id'], DT_IMAGE);
             if (!$folder) continue;
-            $tname = $this->up->UPLOAD_PATH . $folder . "/thumb/" . $ra['upload_id'] . "_" . $ra['size'] . "_" . $ra['opts'] . ".dat";
+            $tname = $photos->up->UPLOAD_PATH . $folder . "/thumb/" . $ra['upload_id'] . "_" . $ra['size'] . "_" . $ra['opts'] . ".dat";
             if (file_exists($tname)) {
                 //unlink($tname);
                 $size = filesize($tname);
