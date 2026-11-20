@@ -35,6 +35,7 @@ if ($emps->auth->credentials("admin")) {
             if (file_exists($tname)) {
                 //unlink($tname);
                 $size = filesize($tname);
+                echo "{$tname}: {$size}\r\n";
             } else {
                 echo "File {$tname} does not exist!\r\n";
                 $emps->db->query("delete from ".TP."e_thumbs where id = {$ra['id']}");
