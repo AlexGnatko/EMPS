@@ -45,21 +45,21 @@ if ($emps->auth->credentials("admin")) {
 
         $thumb_path = $photos->up->UPLOAD_PATH . $folder . "/thumb/";
         echo "Custom thumbnails @ {$thumb_path}:\r\n";
-        $cmd = sprintf(
-            'find %s -maxdepth 1',
-            escapeshellarg($thumb_path)
-        );
-        $rv = shell_exec($cmd);
-        $x = explode("\n", $rv);
-        foreach ($x as $subfile) {
-            $subfile = trim($subfile);
-            $x = explode("_", $subfile);
-            if (isset($missing_uploads["idx_".strval(intval($x[0]))])) {
-                echo "+ {$subfile}\r\n";
-                $nonex += filesize($subfile);
-            }
-        }
 
+        $files = scandir($thumb_path);
+        foreach ($files as $file) {
+            if ($file == "." || $file == "..") {
+                continue;
+            }
+            $subfile = $file;
+            $x = explode("_", $subfile);
+            if (isset($missing_uploads["idx_".intval($x[0])])) {
+                $size = filesize($thumb_path . $subfile);
+                echo "+ {$subfile} ({$size})\r\n";
+                $nonex += $size;
+            }
+
+        }
     }
 
     echo "Non-existent uploads: {$nonex}\r\n";
