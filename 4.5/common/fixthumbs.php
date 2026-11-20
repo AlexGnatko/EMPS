@@ -28,6 +28,7 @@ if ($emps->auth->credentials("admin")) {
             $folder = $photos->up->pick_folder($ra['upload_id'], DT_IMAGE);
             if (!$folder) {
                 echo "No folder {$ra['upload_id']}\r\n";
+                $emps->db->query("delete from ".TP."e_thumbs where id = {$ra['id']}");
             };
             if (!isset($folders[$folder])) {
                 $folders[$folder] = true;
