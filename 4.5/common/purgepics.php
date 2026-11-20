@@ -8,12 +8,12 @@ if ($emps->auth->credentials("admin")) {
 
     $folders = scandir($photos->up->UPLOAD_PATH);
     foreach ($folders as $folder) {
-        if ($folder != "." && $folder != "..") {
+        if ($folder == "." || $folder == "..") {
             continue;
         }
         $files = scandir($photos->up->UPLOAD_PATH . $folder);
         foreach ($files as $file) {
-            if ($file != "." && $file != "..") {
+            if ($file == "." || $file == "..") {
                 continue;
             }
             $x = explode(".dat", $file, 2);
