@@ -9,6 +9,7 @@ if ($emps->auth->credentials("admin")) {
     $photos = new EMPS_Photos();
 
     $nonex = 0;
+    $to_delete = [];
 
     $folders = scandir($photos->up->UPLOAD_PATH);
     foreach ($folders as $folder) {
@@ -38,6 +39,7 @@ if ($emps->auth->credentials("admin")) {
                     echo "Upload does not exist: {$upload_id} ({$folder}/{$file})\r\n";
                     $nonex += filesize($photos->up->UPLOAD_PATH . $folder . "/" . $file);
                     $missing_uploads["idx_{$upload_id}"] = $upload_id;
+                    $to_delete[] = $photos->up->UPLOAD_PATH . $folder . "/" . $file;
                 }
             }
             flush();
@@ -57,12 +59,19 @@ if ($emps->auth->credentials("admin")) {
                 $size = filesize($thumb_path . $subfile);
                 echo "+ {$subfile} ({$size})\r\n";
                 $nonex += $size;
+                $to_delete[] = $thumb_path . $subfile;
             }
 
         }
     }
 
     echo "Non-existent uploads: {$nonex}\r\n";
+    if ($_GET['apply'] ?? false) {
+        foreach ($to_delete as $file) {
+            unlink($file);
+            echo "Deleted {$file}\r\n";
+        }
+    }
 
 } else {
     $emps->deny_access("AdminNeeded");
