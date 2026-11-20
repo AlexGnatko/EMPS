@@ -23,7 +23,7 @@ if ($emps->auth->credentials("admin")) {
                 $upload_id = intval($x[0]);
                 $upload = $emps->db->get_row("e_uploads", "id = {$upload_id}");
                 if ($upload) {
-
+                    echo "{$folder}{$file} - exists\r\n";
                 } else {
                     echo "Upload does not exist: {$upload_id} ({$folder})\r\n";
                 }
