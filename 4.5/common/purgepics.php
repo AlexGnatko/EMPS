@@ -3,6 +3,8 @@
 if ($emps->auth->credentials("admin")) {
     $emps->plaintext_response();
 
+    ob_end_clean();
+
     require_once $emps->common_module('photos/photos.class.php');
     $photos = new EMPS_Photos();
 
@@ -40,6 +42,7 @@ if ($emps->auth->credentials("admin")) {
                     echo "RV:\r\n{$rv}\r\n";
                 }
             }
+            flush();
         }
     }
 
