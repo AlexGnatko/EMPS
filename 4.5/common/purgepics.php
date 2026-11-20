@@ -30,10 +30,14 @@ if ($emps->auth->credentials("admin")) {
                 }
                 $upload = $emps->db->get_row("e_uploads", "id = {$upload_id}");
                 if ($upload) {
-                    echo "{$folder}{$file} - exists\r\n";
+                    echo "{$folder}/{$file} - exists\r\n";
                 } else {
                     echo "Upload does not exist: {$upload_id} ({$folder}/{$file})\r\n";
                     $nonex += filesize($photos->up->UPLOAD_PATH . $folder . "/" . $file);
+                    echo "Custom thumbnails:\r\n";
+                    $thumb_path = $photos->up->UPLOAD_PATH . $folder . "/thumb/";
+                    $rv = shell_exec("find " . escapeshellarg($thumb_path) . " | grep {$upload_id}_");
+                    echo "RV:\r\n{$rv}\r\n";
                 }
             }
         }
