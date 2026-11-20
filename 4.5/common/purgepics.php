@@ -6,6 +6,8 @@ if ($emps->auth->credentials("admin")) {
     require_once $emps->common_module('photos/photos.class.php');
     $photos = new EMPS_Photos();
 
+    $nonex = 0;
+
     $folders = scandir($photos->up->UPLOAD_PATH);
     foreach ($folders as $folder) {
         if ($folder == "." || $folder == "..") {
@@ -30,12 +32,15 @@ if ($emps->auth->credentials("admin")) {
                         echo "{$folder}{$file} - exists\r\n";
                     } else {
                         echo "Upload does not exist: {$upload_id} ({$folder}/{$file})\r\n";
+                        $nonex += filesize($photos->up->UPLOAD_PATH . $folder . "/" . $file);
                     }
                 }
 
             }
         }
     }
+
+    echo "Non-existent uploads: {$nonex}\r\n";
 
 } else {
     $emps->deny_access("AdminNeeded");
