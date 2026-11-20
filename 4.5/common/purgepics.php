@@ -15,6 +15,7 @@ if ($emps->auth->credentials("admin")) {
         if ($folder == "." || $folder == "..") {
             continue;
         }
+        $missing_uploads = [];
         $files = scandir($photos->up->UPLOAD_PATH . $folder);
         foreach ($files as $file) {
             if ($file == "." || $file == "..") {
@@ -36,24 +37,29 @@ if ($emps->auth->credentials("admin")) {
                 } else {
                     echo "Upload does not exist: {$upload_id} ({$folder}/{$file})\r\n";
                     $nonex += filesize($photos->up->UPLOAD_PATH . $folder . "/" . $file);
-                    $thumb_path = $photos->up->UPLOAD_PATH . $folder . "/thumb/";
-                    echo "Custom thumbnails @ {$thumb_path}:\r\n";
-                    $cmd = sprintf(
-                        'find %s -maxdepth 1 -name %s',
-                        escapeshellarg($thumb_path),
-                        escapeshellarg($upload_id . '_*')
-                    );
-                    $rv = shell_exec($cmd);
-                    $x = explode("\n", $rv);
-                    foreach ($x as $subfile) {
-                        $subfile = trim($subfile);
-                        echo "+ {$subfile}\r\n";
-                        $nonex += filesize($subfile);
-                    }
+                    $missing_uploads["idx_{$upload_id}"] = $upload_id;
                 }
             }
             flush();
         }
+
+        $thumb_path = $photos->up->UPLOAD_PATH . $folder . "/thumb/";
+        echo "Custom thumbnails @ {$thumb_path}:\r\n";
+        $cmd = sprintf(
+            'find %s -maxdepth 1',
+            escapeshellarg($thumb_path)
+        );
+        $rv = shell_exec($cmd);
+        $x = explode("\n", $rv);
+        foreach ($x as $subfile) {
+            $subfile = trim($subfile);
+            $x = explode("_", $subfile);
+            if (isset($missing_uploads["idx_".strval(intval($x[0]))])) {
+                echo "+ {$subfile}\r\n";
+                $nonex += filesize($subfile);
+            }
+        }
+
     }
 
     echo "Non-existent uploads: {$nonex}\r\n";
