@@ -56,16 +56,23 @@ if ($emps->auth->credentials("admin")) {
                 $x = explode(".dat", $file, 2);
                 $main_name = $x[0];
                 $x = explode("_", $main_name);
+                $has_error = false;
                 if (strval(intval($x[0])) != $x[0]) {
                     echo "{$main_name} - X0 should be a string!\r\n";
+                    $has_error = true;
                 }
                 if ($x[1] != $photos->sanitize_size($x[1])) {
                     echo "{$main_name} - X1 should be a size!\r\n";
+                    $has_error = true;
                 }
                 if (count($x) > 2) {
                     if ($x[2] != $photos->sanitize_opts($x[2])) {
                         echo "{$main_name} - X2 should be an opts!\r\n";
+                        $has_error = true;
                     }
+                }
+                if ($has_error) {
+                    unlink($filepath);
                 }
             }
         }
