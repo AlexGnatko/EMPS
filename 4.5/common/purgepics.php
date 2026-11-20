@@ -44,7 +44,12 @@ if ($emps->auth->credentials("admin")) {
                         escapeshellarg($upload_id . '_*')
                     );
                     $rv = shell_exec($cmd);
-                    echo "RV:\r\n{$rv}\r\n";
+                    $x = explode("\n", $rv);
+                    foreach ($x as $subfile) {
+                        $subfile = trim($subfile);
+                        echo "+ {$subfile}\r\n";
+                        $nonex += filesize($subfile);
+                    }
                 }
             }
             flush();
