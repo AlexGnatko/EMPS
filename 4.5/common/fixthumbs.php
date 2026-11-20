@@ -9,6 +9,7 @@ if ($emps->auth->credentials("admin")) {
     $r = $emps->db->query("select * from ".TP."e_thumbs order by id asc");
     $errors = 0;
     $size = 0;
+    $folders = [];
     while ($ra = $emps->db->fetch_named($r)) {
         $s_size = $photos->sanitize_size($ra['size']);
         $s_opts = $photos->sanitize_opts($ra['opts']);
@@ -26,7 +27,11 @@ if ($emps->auth->credentials("admin")) {
         if ($has_error) {
             $folder = $photos->up->pick_folder($ra['upload_id'], DT_IMAGE);
             if (!$folder) continue;
+            if (!isset($folders[$folder])) {
+                $folders[$folder] = true;
+            }
             $tname = $photos->up->UPLOAD_PATH . $folder . "/thumb/" . $ra['upload_id'] . "_" . $ra['size'] . "_" . $ra['opts'] . ".dat";
+
             if (file_exists($tname)) {
                 //unlink($tname);
                 $size = filesize($tname);
@@ -34,6 +39,9 @@ if ($emps->auth->credentials("admin")) {
                 echo "File {$tname} does not exist!\r\n";
             }
         }
+    }
+    foreach ($folders as $folder => $bool) {
+        echo "Check folder: {$folder}\r\n";
     }
     echo "Total errors: {$errors}\r\n";
     echo "Total file size: {$size}\r\n";
