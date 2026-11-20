@@ -24,18 +24,17 @@ if ($emps->auth->credentials("admin")) {
             if ($x[1] == "img") {
                 $xx = explode("_", $x[0]);
                 if ($xx[0] == "thumb") {
-
+                    $upload_id = intval($xx[1]);
                 } else {
                     $upload_id = intval($x[0]);
-                    $upload = $emps->db->get_row("e_uploads", "id = {$upload_id}");
-                    if ($upload) {
-                        echo "{$folder}{$file} - exists\r\n";
-                    } else {
-                        echo "Upload does not exist: {$upload_id} ({$folder}/{$file})\r\n";
-                        $nonex += filesize($photos->up->UPLOAD_PATH . $folder . "/" . $file);
-                    }
                 }
-
+                $upload = $emps->db->get_row("e_uploads", "id = {$upload_id}");
+                if ($upload) {
+                    echo "{$folder}{$file} - exists\r\n";
+                } else {
+                    echo "Upload does not exist: {$upload_id} ({$folder}/{$file})\r\n";
+                    $nonex += filesize($photos->up->UPLOAD_PATH . $folder . "/" . $file);
+                }
             }
         }
     }
