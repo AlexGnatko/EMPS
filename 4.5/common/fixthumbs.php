@@ -51,6 +51,7 @@ if ($emps->auth->credentials("admin")) {
             $filepath = $path.$file;
             if (is_dir($filepath)) {
                 echo "Directory should not exist: {$filepath}\r\n";
+                shell_exec('rm -rf ' . escapeshellarg($filepath));
             }
         }
     }
